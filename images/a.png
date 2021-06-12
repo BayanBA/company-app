@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="//www.googletagmanager.com/gtag/js?id=UA-5338292-3"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+
+		function gtag() {
+			dataLayer.push(arguments);
+		}
+		gtag('js', new Date());
+
+		gtag('config', 'UA-5338292-3');
+	</script>
+
+	
+	<style>
+		
+		.page-template-podcasts .podcasts-theme-wrap .intro h2 {
+			color: #6756e2;
+		}
+
+		.page-template-podcasts .podcasts-theme-wrap .titleline h1 {
+			color: #6756e2;	
+		}
+
+		.page-template-podcasts .podcasts-theme-wrap .additionalinfo h2,
+		.single-podcast .podcasts-theme-wrap .additionalinfo h2 {
+			border-left: 5px solid #6756e2;
+		}
+
+		.page-template-podcasts .podcasts-theme-wrap .additionalinfo h4, 
+		.page-template-podcasts .podcasts-theme-wrap .additionalinfo a,
+		.single-podcast .podcasts-theme-wrap .additionalinfo h4, 
+		.single-podcast .podcasts-theme-wrap .additionalinfo a {
+			color: #6756e2;
+		}
+		
+		.page-template-podcasts .podcasts-theme-wrap .single_research_type_article .researchinfo .title-holder h2 {
+			border-left: 5px solid #6756e2;
+		}
+
+		.page-template-podcasts .podcasts-theme-wrap .infopagebutton.watch {
+			background: #6756e2;
+		}
+
+		.page-template-podcasts .podcasts-theme-wrap .researchinfo a {
+			color: #6756e2;
+		}
+
+		.single-podcast .podcasts-theme-wrap .intro {
+			color: #6756e2;
+		}
+
+		.single-podcast .podcasts-theme-wrap .infopagebutton {
+			background: #6756e2;
+		}
+
+		.page-template-webinars .webinars-theme-wrap .intro h2 {
+			color: #51bbb7;
+		}
+
+		.page-template-webinars .webinars-theme-wrap .titleline h1 {
+			color: #51bbb7;	
+		}
+
+		.page-template-webinars .webinars-theme-wrap .additionalinfo h2,
+		.single-webinars .webinars-theme-wrap .additionalinfo h2 {
+			border-left: 5px solid #51bbb7;
+		}
+
+		.page-template-webinars .webinars-theme-wrap .additionalinfo h4, 
+		.page-template-webinars .webinars-theme-wrap .additionalinfo a,
+		.single-webinars .webinars-theme-wrap .additionalinfo h4, 
+		.single-webinars .webinars-theme-wrap .additionalinfo a {
+			color: #51bbb7;
+		}
+		
+		.page-template-webinars .webinars-theme-wrap .single_research_type_article .researchinfo .title-holder h2 {
+			border-left: 5px solid #51bbb7;
+		}
+
+		.page-template-webinars .webinars-theme-wrap .infopagebutton.watch {
+			background: #51bbb7;
+		}
+
+		.page-template-webinars .webinars-theme-wrap .researchinfo a {
+			color: #51bbb7;
+		}
+
+		.single-webinars .webinars-theme-wrap .intro {
+			color: #51bbb7;
+		}
+
+		.single-webinars .webinars-theme-wrap .infopagebutton {
+			background: #51bbb7;
+		}
+
+		.page-template-videos .videos-theme-wrap .intro h2 {
+			color: #366168;
+		}
+
+		.page-template-videos .videos-theme-wrap .titleline h1 {
+			color: #366168;	
+		}
+
+		.page-template-videos .videos-theme-wrap .additionalinfo h2,
+		.single-videos .videos-theme-wrap .additionalinfo h2 {
+			border-left: 5px solid #366168;
+		}
+
+		.page-template-videos .videos-theme-wrap .additionalinfo h4, 
+		.page-template-videos .videos-theme-wrap .additionalinfo a,
+		.single-videos .videos-theme-wrap .additionalinfo h4, 
+		.single-videos .videos-theme-wrap .additionalinfo a {
+			color: #366168;
+		}
+		
+		.page-template-videos .videos-theme-wrap .single_research_type_article .researchinfo .title-holder h2 {
+			border-left: 5px solid #366168;
+		}
+
+		.page-template-videos .videos-theme-wrap .infopagebutton.watch {
+			background: #366168;
+		}
+
+		.page-template-videos .videos-theme-wrap .researchinfo a {
+			color: #366168;
+		}
+
+		.single-videos .videos-theme-wrap .intro {
+			color: #366168;
+		}
+
+		.single-videos .videos-theme-wrap .infopagebutton {
+			background: #366168;
+		}
+
+	</style>
+
+
+
+	<meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+
+	<!-- This site is optimized with the Yoast SEO plugin v16.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+	<title>Payments Cards &amp; Mobile Jobs of the Week March 15</title>
+	<meta name="description" content="The world is getting back to normal (slowly, but still), and we honestly couldn’t be happier. It’s been a long and tough time" />
+	<link rel="canonical" href="https://www.paymentscardsandmobile.com/payments-cards-mobile-jobs-of-the-week-march-15/" />
+	<meta property="og:locale" content="en_GB" />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Payments Cards &amp; Mobile Jobs of the Week March 15" />
+	<meta property="og:description" content="The world is getting back to normal (slowly, but still), and we honestly couldn’t be happier. It’s been a long and tough time" />
+	<meta property="og:url" content="https://www.paymentscardsandmobile.com/payments-cards-mobile-jobs-of-the-week-march-15/" />
+	<meta property="og:site_name" content="Payments Cards &amp; Mobile" />
+	<meta property="article:publisher" content="https://www.facebook.com/paymentscm/" />
+	<meta property="article:published_time" content="2021-03-15T13:14:26+00:00" />
+	<meta property="article:modified_time" content="2021-03-16T09:19:17+00:00" />
+	<meta property="og:image" content="https://www.paymentscardsandmobile.com/wp-content/uploads/2021/03/Job-Search.jpg" />
+	<meta property="og:image:width" content="711" />
+	<meta property="og:image:height" content="398" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:creator" content="@PaymentsCardsM" />
+	<meta name="twitter:site" content="@PaymentsCardsM" />
+	<meta name="twitter:label1" content="Written by">
+	<meta name="twitter:data1" content="Author">
+	<meta name="twitter:label2" content="Estimated reading time">
+	<meta name="twitter:data2" content="4 minutes">
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.paymentscardsandmobile.com/#organization","name":"Payments Cards & Mobile","url":"https://www.paymentscardsandmobile.com/","sameAs":["https://www.facebook.com/paymentscm/","https://www.youtube.com/user/PaymentsCM","https://twitter.com/PaymentsCardsM"],"logo":{"@type":"ImageObject","@id":"https://www.paymentscardsandmobile.com/#logo","inLanguage":"en-GB","url":"https://www.paymentscardsandmobile.com/wp-content/uploads/2018/07/PCM-logo-web-2017.png","contentUrl":"https://www.paymentscardsandmobile.com/wp-content/uploads/2018/07/PCM-logo-web-2017.png","width":300,"height":90,"caption":"Payments Cards & Mobile"},"image":{"@id":"https://www.paymentscardsandmobile.com/#logo"}},{"@type":"WebSite","@id":"https://www.paymentscardsandmobile.com/#website","url":"https://www.paymentscardsandmobile.com/","name":"Payments Cards &amp; Mobile","description":"Mobile Payments News | Payment Technologies | E-money | Payment Solutions","publisher":{"@id":"https://www.paymentscardsandmobile.com/#organization"},"potentialAction":[{"@type":"SearchAction","target":"https://www.paymentscardsandmobile.com/?s={search_term_string}","query-input":"required name=search_term_string"}],"inLanguage":"en-GB"},{"@type":"ImageObject","@id":"https://www.paymentscardsandmobile.com/payments-cards-mobile-jobs-of-the-week-march-15/#primaryimage","inLanguage":"en-GB","url":"https://www.paymentscardsandmobile.com/wp-content/uploads/2021/03/Job-Search.jpg","contentUrl":"https://www.paymentscardsandmobile.com/wp-content/uploads/2021/03/Job-Search.jpg","width":711,"height":398,"caption":"Spring is a great time to apply for a new job"},{"@type":"WebPage","@id":"https://www.paymentscardsandmobile.com/payments-cards-mobile-jobs-of-the-week-march-15/#webpage","url":"https://www.paymentscardsandmobile.com/payments-cards-mobile-jobs-of-the-week-march-15/","name":"Payments Cards & Mobile Jobs of the Week March 15","isPartOf":{"@id":"https://www.paymentscardsandmobile.com/#website"},"primaryImageOfPage":{"@id":"https://www.paymentscardsandmobile.com/payments-cards-mobile-jobs-of-the-week-march-15/#primaryimage"},"datePublished":"2021-03-15T13:14:26+00:00","dateModified":"2021-03-16T09:19:17+00:00","description":"The world is getting back to normal (slowly, but still), and we honestly couldn\u2019t be happier. It\u2019s been a long and tough time","breadcrumb":{"@id":"https://www.paymentscardsandmobile.com/payments-cards-mobile-jobs-of-the-week-march-15/#breadcrumb"},"inLanguage":"en-GB","potentialAction":[{"@type":"ReadAction","target":["https://www.paymentscardsandmobile.com/payments-cards-mobile-jobs-of-the-week-march-15/"]}]},{"@type":"BreadcrumbList","@id":"https://www.paymentscardsandmobile.com/payments-cards-mobile-jobs-of-the-week-march-15/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"WebPage","@id":"https://www.paymentscardsandmobile.com/","url":"https://www.paymentscardsandmobile.com/","name":"Home"}},{"@type":"ListItem","position":2,"item":{"@type":"WebPage","@id":"https://www.paymentscardsandmobile.com/payments-cards-mobile-jobs-of-the-week-march-15/","url":"https://www.paymentscardsandmobile.com/payments-cards-mobile-jobs-of-the-week-march-15/","name":"Payments Cards &#038; Mobile Jobs of the Week"}}]},{"@type":"Article","@id":"https://www.paymentscardsandmobile.com/payments-cards-mobile-jobs-of-the-week-march-15/#article","isPartOf":{"@id":"https://www.paymentscardsandmobile.com/payments-cards-mobile-jobs-of-the-week-march-15/#webpage"},"author":{"@id":"https://www.paymentscardsandmobile.com/#/schema/person/3f124a44d325b63429a7a590485aef43"},"headline":"Payments Cards &#038; Mobile Jobs of the Week","datePublished":"2021-03-15T13:14:26+00:00","dateModified":"2021-03-16T09:19:17+00:00","mainEntityOfPage":{"@id":"https://www.paymentscardsandmobile.com/payments-cards-mobile-jobs-of-the-week-march-15/#webpage"},"commentCount":0,"publisher":{"@id":"https://www.paymentscardsandmobile.com/#organization"},"image":{"@id":"https://www.paymentscardsandmobile.com/payments-cards-mobile-jobs-of-the-week-march-15/#primaryimage"},"keywords":"Jobs,Job Search","articleSection":"Daily news,Job Search","inLanguage":"en-GB","potentialAction":[{"@type":"CommentAction","name":"Comment","target":["https://www.paymentscardsandmobile.com/payments-cards-mobile-jobs-of-the-week-march-15/#respond"]}]},{"@type":"Person","@id":"https://www.paymentscardsandmobile.com/#/schema/person/3f124a44d325b63429a7a590485aef43","name":"Author","image":{"@type":"ImageObject","@id":"https://www.paymentscardsandmobile.com/#personlogo","inLanguage":"en-GB","url":"https://secure.gravatar.com/avatar/c3eb49f0f55236709b3074b262acb9b2?s=96&d=mm&r=g","contentUrl":"https://secure.gravatar.com/avatar/c3eb49f0f55236709b3074b262acb9b2?s=96&d=mm&r=g","caption":"Author"}}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel="amphtml" href="https://www.paymentscardsandmobile.com/payments-cards-mobile-jobs-of-the-week-march-15/amp/" /><meta name="generator" content="AMP for WP 1.0.76.13"/><link rel='dns-prefetch' href='//www.googletagmanager.com' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title="Payments Cards &amp; Mobile &raquo; Payments Cards &#038; Mobile Jobs of the Week Comments Feed" href="https://www.paymentscardsandmobile.com/payments-cards-mobile-jobs-of-the-week-march-15/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/13.0.1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/13.0.1\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/www.paymentscardsandmobile.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=5.7.1"}};
+			!function(e,a,t){var n,r,o,i=a.createElement("canvas"),p=i.getContext&&i.getContext("2d");function s(e,t){var a=String.fromCharCode;p.clearRect(0,0,i.width,i.height),p.fillText(a.apply(this,e),0,0);e=i.toDataURL();return p.clearRect(0,0,i.width,i.height),p.fillText(a.apply(this,t),0,0),e===i.toDataURL()}function c(e){var t=a.createElement("script");t.src=e,t.defer=t.type="text/javascript",a.getElementsByTagName("head")[0].appendChild(t)}for(o=Array("flag","emoji"),t.supports={everything:!0,everythingExceptFlag:!0},r=0;r<o.length;r++)t.supports[o[r]]=function(e){if(!p||!p.fillText)return!1;switch(p.textBaseline="top",p.font="600 32px Arial",e){case"flag":return s([127987,65039,8205,9895,65039],[127987,65039,8203,9895,65039])?!1:!s([55356,56826,55356,56819],[55356,56826,8203,55356,56819])&&!s([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]);case"emoji":return!s([55357,56424,8205,55356,57212],[55357,56424,8203,55356,57212])}return!1}(o[r]),t.supports.everything=t.supports.everything&&t.supports[o[r]],"flag"!==o[r]&&(t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&t.supports[o[r]]);t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&!t.supports.flag,t.DOMReady=!1,t.readyCallback=function(){t.DOMReady=!0},t.supports.everything||(n=function(){t.readyCallback()},a.addEventListener?(a.addEventListener("DOMContentLoaded",n,!1),e.addEventListener("load",n,!1)):(e.attachEvent("onload",n),a.attachEvent("onreadystatechange",function(){"complete"===a.readyState&&t.readyCallback()})),(n=t.source||{}).concatemoji?c(n.concatemoji):n.wpemoji&&n.twemoji&&(c(n.twemoji),c(n.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='wp-block-library-css'  href='https://www.paymentscardsandmobile.com/wp-includes/css/dist/block-library/style.min.css?ver=5.7.1'  media='all' />
+<link rel='stylesheet' id='wc-block-vendors-style-css'  href='https://www.paymentscardsandmobile.com/wp-content/plugins/woocommerce/packages/woocommerce-blocks/build/vendors-style.css?ver=4.7.2'  media='all' />
+<link rel='stylesheet' id='wc-block-style-css'  href='https://www.paymentscardsandmobile.com/wp-content/plugins/woocommerce/packages/woocommerce-blocks/build/style.css?ver=4.7.2'  media='all' />
+<link rel='stylesheet' id='esdc-css-css'  href='https://www.paymentscardsandmobile.com/wp-content/plugins/electric-studio-download-counter/css/esdc-dp.css?ver=5.7.1'  media='all' />
+<link rel='stylesheet' id='esdc-css-main-css'  href='https://www.paymentscardsandmobile.com/wp-content/plugins/electric-studio-download-counter/css/esdc-custom.css?ver=5.7.1'  media='all' />
+<link rel='stylesheet' id='dashicons-css'  href='https://www.paymentscardsandmobile.com/wp-includes/css/dashicons.min.css?ver=5.7.1'  media='all' />
+<link rel='stylesheet' id='post-views-counter-frontend-css'  href='https://www.paymentscardsandmobile.com/wp-content/plugins/post-views-counter/css/frontend.css?ver=1.3.4'  media='all' />
+<link rel='stylesheet' id='woocommerce-layout-css'  href='https://www.paymentscardsandmobile.com/wp-content/plugins/woocommerce/assets/css/woocommerce-layout.css?ver=5.2.2'  media='all' />
+<link rel='stylesheet' id='woocommerce-smallscreen-css'  href='https://www.paymentscardsandmobile.com/wp-content/plugins/woocommerce/assets/css/woocommerce-smallscreen.css?ver=5.2.2'  media='only screen and (max-width: 768px)' />
+<link rel='stylesheet' id='woocommerce-general-css'  href='https://www.paymentscardsandmobile.com/wp-content/plugins/woocommerce/assets/css/woocommerce.css?ver=5.2.2'  media='all' />
+<style id='woocommerce-inline-inline-css' type='text/css'>
+.woocommerce form .form-row .required { visibility: visible; }
+</style>
+<link rel='stylesheet' id='dlm-frontend-css'  href='https://www.paymentscardsandmobile.com/wp-content/plugins/download-monitor/assets/css/frontend.css?ver=5.7.1'  media='all' />
+<link rel='stylesheet' id='forms-for-campaign-monitor-custom_cm_monitor_css-css'  href='https://www.paymentscardsandmobile.com/wp-content/plugins/forms-for-campaign-monitor/forms/views/public/css/app.css?ver=1.0.0'  media='all' />
+<link rel='stylesheet' id='wc-memberships-frontend-css'  href='https://www.paymentscardsandmobile.com/wp-content/plugins/woocommerce-memberships/assets/css/frontend/wc-memberships-frontend.min.css?ver=1.21.8'  media='all' />
+<link rel='stylesheet' id='fontawesome-css'  href='https://www.paymentscardsandmobile.com/wp-content/themes/pcm/fonts/font-awesome5/css/all.css?ver=2259'  media='all' />
+<link rel='stylesheet' id='bootstrap-css-css'  href='https://www.paymentscardsandmobile.com/wp-content/themes/pcm/css/bootstrap.min.css?ver=9709'  media='all' />
+<link rel='stylesheet' id='flexslider-css-css'  href='https://www.paymentscardsandmobile.com/wp-content/themes/pcm/flexslider/flexslider.css?ver=7646'  media='all' />
+<link rel='stylesheet' id='style-css'  href='https://www.paymentscardsandmobile.com/wp-content/themes/pcm/style.css?ver=4273'  media='all' />
+<link rel='stylesheet' id='slb_core-css'  href='https://www.paymentscardsandmobile.com/wp-content/plugins/simple-lightbox/client/css/app.css?ver=2.8.1'  media='all' />
+<link rel='stylesheet' id='addtoany-css'  href='https://www.paymentscardsandmobile.com/wp-content/plugins/add-to-any/addtoany.min.css?ver=1.15'  media='all' />
+<style id='addtoany-inline-css' type='text/css'>
+.a2a_count{color:#9a9a9a;}
+</style>
+<script  src='https://www.paymentscardsandmobile.com/wp-includes/js/jquery/jquery.min.js?ver=3.5.1' id='jquery-core-js'></script>
+<script  src='https://www.paymentscardsandmobile.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.3.2' id='jquery-migrate-js'></script>
+<script  src='https://www.paymentscardsandmobile.com/wp-content/plugins/add-to-any/addtoany.min.js?ver=1.1' id='addtoany-js'></script>
+<script type='text/javascript' id='esdc-js-js-extra'>
+/* <![CDATA[ */
+var ESDC_JS = {"ajax_url":"https:\/\/www.paymentscardsandmobile.com\/wp-admin\/admin-ajax.php","count_nonce":"707299c688","ds_nonce":"974a10c2f2","tracked":"[\"pdf\",\"doc\",\"xls\",\"docx\",\"xlsx\",\"csv\"]"};
+/* ]]> */
+</script>
+<script  src='https://www.paymentscardsandmobile.com/wp-content/plugins/electric-studio-download-counter/js/esdc.js?ver=5.7.1' id='esdc-js-js'></script>
+<script type='text/javascript' id='ajax-script-public-js-extra'>
+/* <![CDATA[ */
+var ajax_request = {"ajax_url":"https:\/\/www.paymentscardsandmobile.com\/wp-admin\/admin-ajax.php"};
+/* ]]> */
+</script>
+<script  src='https://www.paymentscardsandmobile.com/wp-content/plugins/campaign-monitor-for-woocommerce/views/public/js/app.js?ver=5.7.1' id='ajax-script-public-js'></script>
+<script  src='https://www.paymentscardsandmobile.com/wp-content/themes/pcm/js/bootstrap.min.js?ver=5.7.1' id='bootstrap-js-js'></script>
+<script  src='https://www.paymentscardsandmobile.com/wp-content/themes/pcm/js/masonry.pkgd.min.js?ver=5.7.1' id='masonry-js-js'></script>
+<script  src='https://www.paymentscardsandmobile.com/wp-content/themes/pcm/flexslider/jquery.flexslider-min.js?ver=5.7.1' id='flexslider-js-js'></script>
+<script type='text/javascript' id='ajax_comment-js-extra'>
+/* <![CDATA[ */
+var misha_ajax_comment_params = {"ajaxurl":"https:\/\/www.paymentscardsandmobile.com\/wp-admin\/admin-ajax.php"};
+/* ]]> */
+</script>
+<script  src='https://www.paymentscardsandmobile.com/wp-content/themes/pcm/js/ajax-comment.js?ver=5.7.1' id='ajax_comment-js'></script>
+<script  src='https://www.googletagmanager.com/gtag/js?id=UA-5338292-3' id='google_gtagjs-js' async></script>
+<script  id='google_gtagjs-js-after'>
+window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}
+gtag("js", new Date());
+gtag("set", "developer_id.dZTNiMT", true);
+gtag("config", "UA-5338292-3", {"anonymize_ip":true});
+</script>
+<link rel="https://api.w.org/" href="https://www.paymentscardsandmobile.com/wp-json/" /><link rel="alternate" type="application/json" href="https://www.paymentscardsandmobile.com/wp-json/wp/v2/posts/40393" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.paymentscardsandmobile.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://www.paymentscardsandmobile.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='shortlink' href='https://www.paymentscardsandmobile.com/?p=40393' />
+<link rel="alternate" type="application/json+oembed" href="https://www.paymentscardsandmobile.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.paymentscardsandmobile.com%2Fpayments-cards-mobile-jobs-of-the-week-march-15%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://www.paymentscardsandmobile.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.paymentscardsandmobile.com%2Fpayments-cards-mobile-jobs-of-the-week-march-15%2F&#038;format=xml" />
+
+<script data-cfasync="false">
+window.a2a_config=window.a2a_config||{};a2a_config.callbacks=[];a2a_config.overlays=[];a2a_config.templates={};a2a_localize = {
+	Share: "Share",
+	Save: "Save",
+	Subscribe: "Subscribe",
+	Email: "Email",
+	Bookmark: "Bookmark",
+	ShowAll: "Show All",
+	ShowLess: "Show less",
+	FindServices: "Find service(s)",
+	FindAnyServiceToAddTo: "Instantly find any service to add to",
+	PoweredBy: "Powered by",
+	ShareViaEmail: "Share via email",
+	SubscribeViaEmail: "Subscribe via email",
+	BookmarkInYourBrowser: "Bookmark in your browser",
+	BookmarkInstructions: "Press Ctrl+D or \u2318+D to bookmark this page",
+	AddToYourFavorites: "Add to your favourites",
+	SendFromWebOrProgram: "Send from any email address or email program",
+	EmailProgram: "Email program",
+	More: "More&#8230;",
+	ThanksForSharing: "Thanks for sharing!",
+	ThanksForFollowing: "Thanks for following!"
+};
+
+(function(d,s,a,b){a=d.createElement(s);b=d.getElementsByTagName(s)[0];a.async=1;a.src="https://static.addtoany.com/menu/page.js";b.parentNode.insertBefore(a,b);})(document,"script");
+</script>
+
+<!-- This site is using AdRotate v5.6.4 Professional to display their advertisements - https://ajdg.solutions/ -->
+<!-- AdRotate CSS -->
+<style type="text/css" media="screen">
+	.g { margin:0px; padding:0px; overflow:hidden; line-height:1; zoom:1; }
+	.g img { height:auto; }
+	.g-col { position:relative; float:left; }
+	.g-col:first-child { margin-left: 0; }
+	.g-col:last-child { margin-right: 0; }
+	.g-1 { margin:0px 0px 0px 0px; width:100%; max-width:728px; height:100%; max-height:90px; }
+	.g-2 { width:100%; max-width:160px; height:100%; max-height:600px; margin: 0 auto; }
+	.g-3 { width:100%; max-width:300px; height:100%; max-height:250px; margin: 0 auto; }
+	@media only screen and (max-width: 480px) {
+		.g-col, .g-dyn, .g-single { width:100%; margin-left:0; margin-right:0; }
+	}
+</style>
+<!-- /AdRotate CSS -->
+
+
+<!-- BEGIN Clicky Analytics v1.6.1 Tracking - https://deconf.com/clicky-analytics-dashboard-wordpress/ -->
+<script type="text/javascript">
+  var clicky_custom = clicky_custom || {};
+  clicky_custom.html_media_track = 1;
+</script>
+<script type="text/javascript">
+  var clicky_custom = clicky_custom || {};
+  clicky_custom.outbound_pattern = ['/go/','/out/'];
+</script>
+
+<script type="text/javascript">var clicky_site_ids = clicky_site_ids || [];clicky_site_ids.push(100996180);</script><script async src="//static.getclicky.com/js"></script>
+<script src='//static.getclicky.com/inc/javascript/video/youtube.js'></script>
+<!-- END Clicky Analytics v1.6.1 Tracking - https://deconf.com/clicky-analytics-dashboard-wordpress/ -->
+<meta name="generator" content="Site Kit by Google 1.30.0" /><script type="text/javascript">//<![CDATA[
+  function external_links_in_new_windows_loop() {
+    if (!document.links) {
+      document.links = document.getElementsByTagName('a');
+    }
+    var change_link = false;
+    var force = '';
+    var ignore = '';
+
+    for (var t=0; t<document.links.length; t++) {
+      var all_links = document.links[t];
+      change_link = false;
+      
+      if(document.links[t].hasAttribute('onClick') == false) {
+        // forced if the address starts with http (or also https), but does not link to the current domain
+        if(all_links.href.search(/^http/) != -1 && all_links.href.search('www.paymentscardsandmobile.com') == -1 && all_links.href.search(/^#/) == -1) {
+          // console.log('Changed ' + all_links.href);
+          change_link = true;
+        }
+          
+        if(force != '' && all_links.href.search(force) != -1) {
+          // forced
+          // console.log('force ' + all_links.href);
+          change_link = true;
+        }
+        
+        if(ignore != '' && all_links.href.search(ignore) != -1) {
+          // console.log('ignore ' + all_links.href);
+          // ignored
+          change_link = false;
+        }
+
+        if(change_link == true) {
+          // console.log('Changed ' + all_links.href);
+          document.links[t].setAttribute('onClick', 'javascript:window.open(\''+all_links.href+'\'); return false;');
+          document.links[t].removeAttribute('target');
+        }
+      }
+    }
+  }
+  
+  // Load
+  function external_links_in_new_windows_load(func)
+  {  
+    var oldonload = window.onload;
+    if (typeof window.onload != 'function'){
+      window.onload = func;
+    } else {
+      window.onload = function(){
+        oldonload();
+        func();
+      }
+    }
+  }
+
+  external_links_in_new_windows_load(external_links_in_new_windows_loop);
+  //]]></script>
+
+	<noscript><style>.woocommerce-product-gallery{ opacity: 1 !important; }</style></noscript>
+	<style type="text/css">.broken_link, a.broken_link {
+	text-decoration: line-through;
+}</style>
+			<style type="text/css">
+				#wp-admin-bar-pvc-post-views .pvc-graph-container { padding-top: 6px; padding-bottom: 6px; position: relative; display: block; height: 100%; box-sizing: border-box; }
+				#wp-admin-bar-pvc-post-views .pvc-line-graph {
+					display: inline-block;
+					width: 1px;
+					margin-right: 1px;
+					background-color: #ccc;
+					vertical-align: baseline;
+				}
+				#wp-admin-bar-pvc-post-views .pvc-line-graph:hover { background-color: #eee; }
+				#wp-admin-bar-pvc-post-views .pvc-line-graph-0 { height: 1% }
+				#wp-admin-bar-pvc-post-views .pvc-line-graph-1 { height: 5% }
+				#wp-admin-bar-pvc-post-views .pvc-line-graph-2 { height: 10% }
+				#wp-admin-bar-pvc-post-views .pvc-line-graph-3 { height: 15% }
+				#wp-admin-bar-pvc-post-views .pvc-line-graph-4 { height: 20% }
+				#wp-admin-bar-pvc-post-views .pvc-line-graph-5 { height: 25% }
+				#wp-admin-bar-pvc-post-views .pvc-line-graph-6 { height: 30% }
+				#wp-admin-bar-pvc-post-views .pvc-line-graph-7 { height: 35% }
+				#wp-admin-bar-pvc-post-views .pvc-line-graph-8 { height: 40% }
+				#wp-admin-bar-pvc-post-views .pvc-line-graph-9 { height: 45% }
+				#wp-admin-bar-pvc-post-views .pvc-line-graph-10 { height: 50% }
+				#wp-admin-bar-pvc-post-views .pvc-line-graph-11 { height: 55% }
+				#wp-admin-bar-pvc-post-views .pvc-line-graph-12 { height: 60% }
+				#wp-admin-bar-pvc-post-views .pvc-line-graph-13 { height: 65% }
+				#wp-admin-bar-pvc-post-views .pvc-line-graph-14 { height: 70% }
+				#wp-admin-bar-pvc-post-views .pvc-line-graph-15 { height: 75% }
+				#wp-admin-bar-pvc-post-views .pvc-line-graph-16 { height: 80% }
+				#wp-admin-bar-pvc-post-views .pvc-line-graph-17 { height: 85% }
+				#wp-admin-bar-pvc-post-views .pvc-line-graph-18 { height: 90% }
+				#wp-admin-bar-pvc-post-views .pvc-line-graph-19 { height: 95% }
+				#wp-admin-bar-pvc-post-views .pvc-line-graph-20 { height: 100% }
+			</style><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({"google_ad_client":"ca-pub-7571047325302069","enable_page_level_ads":true,"tag_partner":"site_kit"});</script><link rel="icon" href="https://www.paymentscardsandmobile.com/wp-content/uploads/2018/10/cropped-PCM_favicon-01-32x32.png" sizes="32x32" />
+<link rel="icon" href="https://www.paymentscardsandmobile.com/wp-content/uploads/2018/10/cropped-PCM_favicon-01-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://www.paymentscardsandmobile.com/wp-content/uploads/2018/10/cropped-PCM_favicon-01-180x180.png" />
+<meta name="msapplication-TileImage" content="https://www.paymentscardsandmobile.com/wp-content/uploads/2018/10/cropped-PCM_favicon-01-270x270.png" />
+</head>
+
+<body class="post-template-default single single-post postid-40393 single-format-standard theme-pcm woocommerce-no-js">
+			<style>
+		.woocommerce table.my_account_orders .order-actions .button {
+			background-color: #709be7;
+			color: #fff;
+		}
+
+		.post_content a,
+		.pagecontent a,
+		span.gform_description a,
+		.additionalinfo a,
+		.tabcontent a {
+			display: inline;
+			color: #1f499b;
+		}
+
+		.checkouth4 {
+			border-left: 5px solid #fa2b56		}
+
+		a.flex-active,
+		.flex-control-paging li a:hover {
+			background: #1f499b !important;
+		}
+
+		.flex-control-paging li a {
+			background: transparent;
+			border: 1px solid #1f499b;
+			width: 20px;
+			height: 20px;
+		}
+
+		.cnewshover:hover {
+			background-color: #e77070;
+		}
+
+		#menu-second-header .menu-item:hover {
+			background-color: #709be7;
+		}
+
+		.conferenceshover:hover {
+			background-color: #709be7;
+		}
+
+		.menu-item-37466:hover,
+		.publicationhover:hover,
+		.publicationhover.current_page_item {
+			background-color: #173d8a;
+		}
+
+		.researchhover:hover {
+			background-color: #51bb77;
+		}
+
+		.consulthover:hover {
+			background-color: #9e04c4;
+		}
+
+		.maincolor,
+		.search-live-form button,
+		.pagination li a,
+		.pagination li,
+		.gfield_radio input[type=radio]:not(old):checked+label,
+		.gfield_label,
+		.accordion_content h2 {
+			color: #1f499b		}
+
+		.maincolorbg,
+		.home .more,
+		.acordion_tabs a.active,
+		.desctopmenu.menushow,
+		.div.customorderreview,
+		.woocommerce a.maincolorbg,
+		.search-results button.alm-load-more-btn.more {
+			background-color: #1f499b		}
+
+		.secondcolor,
+		.woocommerce-checkout .woocommerce h3,
+		.woocommerce-checkout .woocommerce h3 span,
+		p.woocommerce-notice.woocommerce-notice--success.woocommerce-thankyou-order-received,
+		.woocommerce-order-overview li strong,
+		.woocommerce-order-overview li strong span,
+		.woocommerce-order h2 {
+			color: #fa2b56		}
+
+		.secondcolorbg,
+		.customwoocart a.button.wc-forward,
+		a.button.wc-backward,
+		.woocontentcust a.button {
+			background-color: #fa2b56 !important;
+		}
+
+		.woocontentcust a.button {
+			color: #fff !important;
+		}
+
+		.light_bluecolor,
+		.footermenus ul li a {
+			color: #709be7 !important
+		}
+
+		.light_bluecolorbg,
+		a.added_to_cart,
+		button#place_order,
+		button.woocommerce-Button.button {
+			background-color: #709be7		}
+
+		.wooaddtocartcustomize a.add_to_cart_button,
+		.wooaddtocartcustomize.fulladdtocart a:hover,
+		.wooaddtocartcustomize.fulladdtocart a {
+			background-color: #fa2b56		}
+
+		.cnews,
+		.archive.category .moretag,
+		.page-template-news .moretag,
+		.archive.category .titleline h2,
+		.page-template-news .titleline h2,
+		.styled_select.cnews select,
+		.archive.category .pagination li a,
+		.archive.category .pagination li,
+		.page-template-news .pagination li a,
+		.page-template-news .pagination li {
+			color: #e77070;
+		}
+
+		.archive.category .pagination li.current,
+		.page-template-news .pagination li.current {
+			border-color: #e77070;
+		}
+
+		.bgccnews,
+		.page-template-archive .current_page_item a,
+		.single-post .current-post-ancestor a,
+		.single-post .current-category-ancestor a,
+		.archive.category .pagination li.current,
+		.page-template-news .pagination li.current,
+		.archive.category .pagination li:hover,
+		.page-template-news .pagination li:hover {
+			background-color: #e77070;
+		}
+
+		.lightnavy {
+			color: #173d8a;
+		}
+
+		.lightnavybg {
+			background-color: #173d8a;
+		}
+
+		.page-template-archive .styled_select {
+			border: 1px solid #e77070;
+		}
+
+		.page-template-news .menucontainer .current-menu-item a,
+		.page-template-news .alm-load-more-btn.more,
+		.archive.category #menu-item-310 a {
+			background-color: #e77070		}
+
+		.gform_button.button {
+			background-color: #1f499b;
+		}
+
+		.form-contactus .gform_button.button {
+			background-color: #709be7;
+		}
+
+		.tabspge h3 {
+			border-left: 5px solid #1f499b;
+			padding-left: 10px;
+		}
+
+		.tabspge strong,
+		.tabspge h1 {
+			color: #1f499b;
+		}
+	</style>
+		<header class="clearfix">
+		<div class="toplineheader div maincolorbg">
+			<div class="wrap">
+				<div class="div pt10 pb10 w60 cwhite topbarleft" style="padding-top: 10px;">
+					<span class="cwhite toptext fl ttu brbold"><img src="https://www.paymentscardsandmobile.com/wp-content/themes/pcm/images/compound-shape.svg" alt="trending"> trending</span>
+					<div class="customflex flexslider" id="rotatenews">
+													<ul class="slides">
+								<li><a href='https://www.paymentscardsandmobile.com/payment-systems-regulator-names-mastercard-in-pre-paid-card-cartel/' class='cwhite slidercontentc'>Payment Systems Regulator names Mastercard in pre-paid card cartel</a></li><li><a href='https://www.paymentscardsandmobile.com/report-the-2021-identity-fraud-study/' class='cwhite slidercontentc'>Report: The 2021 Identity Fraud Study</a></li><li><a href='https://www.paymentscardsandmobile.com/visa-first-to-settle-transactions-in-usd-coin-usdc/' class='cwhite slidercontentc'>Visa first to settle transactions in USD Coin (USDC)</a></li>							</ul>
+											</div>
+				</div>
+				<div class="div w40 cwhite fr tar" style="display: flex; align-items: center; justify-content: flex-end;">
+											<a href="/subscribe/" class="headbuttons secondcolorbg cwhite" style="font-size: 14px; display: inline-block; border-radius: 0; padding: 4px 16px; margin-top: 0; ">Subscribe <img src="https://www.paymentscardsandmobile.com/wp-content/themes/pcm/images/key.png" alt="subscribe" style="float: none; display: inline; vertical-align: middle; margin-top: 0; margin-left: 4px;"></a>
+						<a href="/my-account/" class="cwhite toptext fw500 tar ttu" style="padding: 0 12px;">Login</a>
+															<div class="searchlink" style="display: flex; align-items: center; background: #2686b2; height: 43px; font-weight: bold; letter-spacing: 0.5px; padding: 4px 12px;"><a href="javascript: void(0)" style="color: #FFF; text-transform: uppercase; font-size: 14px;">Search <img src="/wp-content/themes/pcm/images/icon-search-white.png" style="width: 20px;" alt=""></a></div>
+				</div>
+				<div class="searchformtoshow" style="padding-top: 64px;">
+					<div class="customsearch"><div id="search-live-2095426076" class="search-live "><div class="search-live-form"><form role="search" id="search-live-form-2095426076" class="search-live-form" action="https://www.paymentscardsandmobile.com/" method="get"><input id="search-live-field-2095426076" name="s" type="text" class="search-live-field" placeholder="Search" autocomplete="off" title="Search for:" value="" /><input type="hidden" name="limit" value="2"/><input type="hidden" name="ixsl" value="1"/> <button type="submit">Show all</button></form></div><div id="search-live-results-2095426076" class="search-live-results"><div id="search-live-results-content-2095426076" class="search-live-results-content" style=""></div></div></div><script type="text/javascript">document.addEventListener( "DOMContentLoaded", function() {if ( typeof jQuery !== "undefined" ) {jQuery(document).ready(function(){jQuery("#search-live-field-2095426076").typeWatch( {
+				callback: function (value) { ixsl.searchLive('search-live-field-2095426076', 'search-live-2095426076', 'search-live-2095426076 div.search-live-results-content', 'https://www.paymentscardsandmobile.com/wp-admin/admin-ajax.php?order=DESC&order_by=date&title=1&excerpt=1&content=1&limit=2&thumbnails=1', value, {no_results:"No results found",dynamic_focus:true,thumbnails:true,show_description:true}); },
+				wait: 500,
+				highlight: true,
+				captureLength: 1
+			} );ixsl.navigate("search-live-field-2095426076","search-live-results-2095426076");ixsl.dynamicFocus("search-live-2095426076","search-live-results-content-2095426076");});}});</script></div>				</div>
+			</div>
+		</div>
+		<div class="header div pt10 pb10">
+			<div class="wrap">
+				<div class="logob div w30">
+					<a href="https://www.paymentscardsandmobile.com">
+						<img src="https://www.paymentscardsandmobile.com/wp-content/uploads/2020/09/pcm-weblogo.png" alt="Payments Cards &amp; Mobile" class="logo" />
+					</a>
+				</div>
+				<div class="ad-header div w70 tar">
+					<!-- <span class="advertisement_header">ADVERTISEMENT:</span> -->
+											<div class="headeradd"><h4 class="widgettitle">ADVERTISEMENT:</h4><div class="g g-1"><div class="g-dyn a-160 c-1"><a onClick="gtag('event', 'click', {'event_category': 'Adverts', 'event_label': 'Banking Circle - Paris Fintech - Leaderboard', 'value': 1.00,  'non_interaction': true});" href="https://www.bankingcircle.com/paris-fintech-forum-2021-019940?utm_source=pcm&utm_medium=banner&utm_campaign=pff21" target="_blank"><img onload="gtag('event', 'impression', {'event_category': 'Adverts', 'event_label': 'Banking Circle - Paris Fintech - Leaderboard', 'value': 2.00, 'non_interaction': true});" src="https://www.paymentscardsandmobile.com/wp-content/uploads/2021/03/banking_circle_paris728_x_90.png" /></a></div><div class="g-dyn a-161 c-2"><a onClick="gtag('event', 'click', {'event_category': 'Adverts', 'event_label': 'Truelayer - Leaderboard', 'value': 1.00,  'non_interaction': true});" href="https://bit.ly/3mxjo7g" target="_blank"><img onload="gtag('event', 'impression', {'event_category': 'Adverts', 'event_label': 'Truelayer - Leaderboard', 'value': 2.00, 'non_interaction': true});" src="https://www.paymentscardsandmobile.com/wp-content/uploads/2021/04/Truelayer_728_x_90_pixels_2.png" /></a></div><div class="g-dyn a-163 c-3"><a onClick="gtag('event', 'click', {'event_category': 'Adverts', 'event_label': 'Banking Circle - AML - Leaderboard', 'value': 1.00,  'non_interaction': true});" href="https://www.paymentscardsandmobile.com/research/better-by-design-rethinking-aml-for-the-digital-age/" target="_blank"><img onload="gtag('event', 'impression', {'event_category': 'Adverts', 'event_label': 'Banking Circle - AML - Leaderboard', 'value': 2.00, 'non_interaction': true});" src="https://www.paymentscardsandmobile.com/wp-content/uploads/2021/04/Rethinking_AML728x90-1.png" /></a></div><div class="g-dyn a-152 c-4"><a onClick="gtag('event', 'click', {'event_category': 'Adverts', 'event_label': 'Worldline - HARNESSING AI TO ACHIEVE HYPERAUTOMATION IN PAYMENTS - PODCAST - LEADER', 'value': 1.00,  'non_interaction': true});" href="https://www.paymentscardsandmobile.com/podcast/harnessing-ai-to-achieve-hyperautomation-in-payments/"><img onload="gtag('event', 'impression', {'event_category': 'Adverts', 'event_label': 'Worldline - HARNESSING AI TO ACHIEVE HYPERAUTOMATION IN PAYMENTS - PODCAST - LEADER', 'value': 2.00, 'non_interaction': true});" src="https://www.paymentscardsandmobile.com/wp-content/uploads/2021/03/Worldline-Podcast-Leader.jpg" /></a></div></div></div>														</div>
+			</div>
+		</div>
+		<div class="div menucontainer maincolorbg">
+			<div class="div mobileonly">
+				<a href="#" class="showmenumobile">
+					<img src="https://www.paymentscardsandmobile.com/wp-content/themes/pcm/images/menu.png" alt="hamburger" />
+				</a>
+				<a href="https://www.paymentscardsandmobile.com" class="pcm_logomobile"><img src="https://www.paymentscardsandmobile.com/wp-content/themes/pcm/images/PCM.png" alt="logo" /></a>
+			</div>
+			<div class="desctopmenu">
+				<div class="wrap">
+					<div class="menuc leftmenu div w40">
+						<div class="menu-main-header-container"><ul id="menu-main-header" class="menu"><li id="menu-item-310" class="cnewshover menu-item menu-item-type-post_type menu-item-object-page menu-item-310"><a href="https://www.paymentscardsandmobile.com/news/">News</a></li>
+<li id="menu-item-37466" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-37466"><a href="https://www.paymentscardsandmobile.com/publications/">Publications</a></li>
+<li id="menu-item-219" class="researchhover menu-item menu-item-type-post_type_archive menu-item-object-research menu-item-219"><a href="https://www.paymentscardsandmobile.com/research/">Research</a></li>
+<li id="menu-item-33" class="consulthover menu-item menu-item-type-post_type menu-item-object-page menu-item-33"><a href="https://www.paymentscardsandmobile.com/consulting/">Consulting</a></li>
+</ul></div>					</div>
+					<div class="menuc rightmenu div w60">
+						<div class="menu-second-header-container"><ul id="menu-second-header" class="menu"><li id="menu-item-37464" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-37464"><a href="https://www.paymentscardsandmobile.com/conferences/">Events</a></li>
+<li id="menu-item-39855" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-39855"><a href="https://www.paymentscardsandmobile.com/advertise/">Advertise</a></li>
+<li id="menu-item-36707" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-36707"><a href="https://www.paymentscardsandmobile.com/webinars/">Webinars</a></li>
+<li id="menu-item-39996" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-39996"><a href="https://www.paymentscardsandmobile.com/podcasts/">Podcasts</a></li>
+<li id="menu-item-39995" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-39995"><a href="https://www.paymentscardsandmobile.com/videos/">Videos</a></li>
+<li id="menu-item-39997" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-39997"><a href="https://www.paymentscardsandmobile.com/jobs/">Jobs</a></li>
+<li id="menu-item-39998" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-39998"><a href="https://paymentyearbooks.com">Yearbook</a></li>
+<li id="menu-item-40410" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-40410"><a href="https://www.paymentsbuyersguide.com">Buyers Guide</a></li>
+</ul></div>					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+		<div class="wrap pr fixedcartdisplay displaynone">
+		<div class="fixedcartcont">
+			<div class="customwoocart maincolorbg"><a class="closeminicart" href="#">-</a><h2 class="widgettitle">SHOPPING CART</h2>
+<div class="hide_cart_widget_if_empty"><div class="widget_shopping_cart_content"></div></div></div>		</div>
+	</div>	<div class="pt10 pb10 clearfix">
+		<div class="wrap">
+			<div class="breadcrumbs" typeof="BreadcrumbList" vocab="http://schema.org/">
+				<!-- Breadcrumb NavXT 6.6.0 -->
+<span property="itemListElement" typeof="ListItem"><a property="item" typeof="WebPage" title="Go to Payments Cards &amp; Mobile" href="https://www.paymentscardsandmobile.com" class="home"><span property="name">Home</span></a><meta property="position" content="1"></span><span class="separator"></i></span><span property="itemListElement" typeof="ListItem"><a property="item" typeof="WebPage" title="Go to the Daily news category archives." href="https://www.paymentscardsandmobile.com/category/daily-news/" class="taxonomy category"><span property="name">Daily news</span></a><meta property="position" content="2"></span><span class="separator"></i></span><span property="itemListElement" typeof="ListItem"><span property="name">Payments Cards &#038; Mobile Jobs of the Week</span><meta property="position" content="3"></span>			</div>
+		</div>
+	</div>		<section class="content clearfix pb50">
+			<div class="wrap">
+				<div class="container_wside div">
+					<h1 class="mb20">Payments Cards &#038; Mobile Jobs of the Week</h1>
+					<div class="miniinfo_aftertitle fl">
+						<span class="author">By  </span>
+						<span class="single_post_date">March 15, 2021</span>
+						<a href="https://www.paymentscardsandmobile.com/category/daily-news/" class="post_cats">Daily news</a>
+					</div>
+					<div class="fr countersblock">
+						<div class="share_buttons"><h2 class="widgettitle">Share:</h2>
+<div class="a2a_kit a2a_kit_size_ addtoany_list"><a class="a2a_button_facebook a2a_counter" href="https://www.addtoany.com/add_to/facebook?linkurl=https%3A%2F%2Fwww.paymentscardsandmobile.com%2Fpayments-cards-mobile-jobs-of-the-week-march-15%2F&amp;linkname=Payments%20Cards%20%26amp%3B%20Mobile%20Jobs%20of%20the%20Week%20March%2015" title="Facebook" rel="nofollow noopener" target="_blank"><img src="//www.paymentscardsandmobile.com/wp-content/themes/pcm/images/share-icons/facebook.png" alt="Facebook"></a><a class="a2a_button_twitter" href="https://www.addtoany.com/add_to/twitter?linkurl=https%3A%2F%2Fwww.paymentscardsandmobile.com%2Fpayments-cards-mobile-jobs-of-the-week-march-15%2F&amp;linkname=Payments%20Cards%20%26amp%3B%20Mobile%20Jobs%20of%20the%20Week%20March%2015" title="Twitter" rel="nofollow noopener" target="_blank"><img src="//www.paymentscardsandmobile.com/wp-content/themes/pcm/images/share-icons/twitter.png" alt="Twitter"></a><a class="a2a_button_linkedin" href="https://www.addtoany.com/add_to/linkedin?linkurl=https%3A%2F%2Fwww.paymentscardsandmobile.com%2Fpayments-cards-mobile-jobs-of-the-week-march-15%2F&amp;linkname=Payments%20Cards%20%26amp%3B%20Mobile%20Jobs%20of%20the%20Week%20March%2015" title="LinkedIn" rel="nofollow noopener" target="_blank"><img src="//www.paymentscardsandmobile.com/wp-content/themes/pcm/images/share-icons/linkedin.png" alt="LinkedIn"></a></div></div>						<div class="views"><img src="https://www.paymentscardsandmobile.com/wp-content/themes/pcm/images/eye.png"/><span><div class="post-views post-40393 entry-meta">
+				
+				
+				<span class="post-views-count">731</span>
+			</div> views</span></div>
+					</div>
+					<div class="div mt10 post_content">
+						<p>The world is getting back to normal (slowly, but still), and we honestly couldn’t be happier. It’s been a long and tough time, but the light is well and truly at the end of the tunnel. How can we be so sure? Well, a great sign is the fact that companies have lifted hiring freezes, and they’re recruiting again!</p>
+<div id="attachment_40254" style="width: 410px" class="wp-caption alignright"><a href="https://www.paymentscardsandmobile.com/wp-content/uploads/2021/03/Job-Search.jpg" data-slb-active="1" data-slb-asset="56684214" data-slb-internal="0" data-slb-group="40393"><img aria-describedby="caption-attachment-40254" loading="lazy" class=" wp-image-40254" src="https://www.paymentscardsandmobile.com/wp-content/uploads/2021/03/Job-Search.jpg" alt="Job Search" width="400" height="224" srcset="https://www.paymentscardsandmobile.com/wp-content/uploads/2021/03/Job-Search.jpg 711w, https://www.paymentscardsandmobile.com/wp-content/uploads/2021/03/Job-Search-300x168.jpg 300w, https://www.paymentscardsandmobile.com/wp-content/uploads/2021/03/Job-Search-263x147.jpg 263w, https://www.paymentscardsandmobile.com/wp-content/uploads/2021/03/Job-Search-600x336.jpg 600w" sizes="(max-width: 400px) 100vw, 400px" /></a><p id="caption-attachment-40254" class="wp-caption-text"><em><strong>6 amazing companies hiring in the UK right now</strong></em></p></div>
+<p>This is something we feel like shouting about, in the hopes that many of you can land yourselves in exciting new positions, with a little help from us. So, we wanted to highlight some of the businesses looking for fantastic talent all over the UK (and beyond, if you fancy a move) &#8211; <em>writes Rebecca O&#8217;Keeffe, Content Creator, <a href="http://t.signauxun.com/link?url=http%3A%2F%2Fwww.jobbio.com&amp;ukey=agxzfnNpZ25hbHNjcnhyGAsSC1VzZXJQcm9maWxlGICAgL-Yh_AJDA&amp;k=D86AA340-0A19-464C-ACF6-2BE76C9DF0D4" class="broken_link">Jobbio</a>.</em></p>
+<p><span style="text-decoration: underline;"><a href="https://www.paymentscardsandmobile.com/jobs/company?company=finastra"><strong>Finastra</strong></a></span></p>
+<p>Formed in 2017 by the combination of Misys and D+H, Finastra builds and deploys innovative, next-generation technology on an open Fusion software architecture and cloud ecosystem. Their scale and geographical reach means that they can serve customers effectively, regardless of their size or location—from global financial institutions to community banks and credit unions.</p>
+<p>They bring deep expertise and an unrivalled range of pre-integrated solutions spanning retail banking, transaction banking, lending, and treasury and capital markets. With a global footprint and the broadest set of financial software solutions available on the market, Finastra has $1.9 billion in revenues, 9,000+ employees and ~8,600 customers, including 90 of the top 100 banks globally.</p>
+<p><span style="text-decoration: underline;"><span style="color: #3366ff;"><a style="color: #3366ff;" href="https://www.paymentscardsandmobile.com/jobs/company?company=checkoutcom-1"><strong>Checkout.com</strong></a></span></span></p>
+<p>Founded in 2012, Checkout.com now has a team of 900 people across 13 international offices. They are building the connected finance businesses deserve. Their flexible payments solutions help global enterprises like Samsung, Deliveroo, and Adidas launch new products and create experiences customers love.</p>
+<p>In May 2020, they completed a $150 million Series B funding round, tripling their valuation to $5.5 billion. And it’s not just what they build that makes them different—it’s how. Checkout liberates smart, passionate people to collaborate, innovate and do their best work. That’s why they’re one of the most valuable fintech firms around.</p>
+<p><span style="text-decoration: underline;"><a href="https://jobbio.com/mckinsey-company"><strong>McKinsey &amp; Company</strong></a></span></p>
+<p>McKinsey &amp; Company help organisations across the private, public, and social sectors create the Change that Matters most to them. From the C-suite to the front line, they partner with clients to transform their organizations, embed technology into everything they do, and build enduring capabilities. With exceptional people in 65 countries, they combine global expertise and local insight to help you turn your ambitious goals into reality.</p>
+<p>The firm is designed to operate as one—a single global partnership united by a strong set of values, including a deep commitment to diversity, and making positive social impact through their work and the way they run our firm. They take a consistent approach to recruiting and skills development regardless of where people are located, so that the right team can be delivered quickly, with the right experience and expertise, to every client, anywhere in the world.</p>
+<p><span style="text-decoration: underline;"><a href="https://www.paymentscardsandmobile.com/jobs/company?company=paddy-power-betfair#section-1449"><strong>Paddy Power Betfair</strong></a></span></p>
+<p>Paddy Power Betfair was formed in 2016 following the merger of Paddy Power and Betfair. Their vision is to be a world-class sports betting and gaming operator. To do this, they focus on being online, mobile and sports-led, and using enhanced scale to build on their brands’ No.1 position in key markets across the world. More than that, they foster a collaborative environment where the quick-thinking and inventive can thrive. They need people with ideas, good ones, and the confidence to back them.</p>
+<p><span style="text-decoration: underline;"><a href="https://jobbio.com/eclerx"><strong>eClerx</strong></a></span></p>
+<p>eClerx provides business process management, automation and analytics services to a number of Fortune 2000 enterprises, including some of the world&#8217;s leading financial services, communications, retail, fashion, media &amp; entertainment, manufacturing, travel &amp; leisure, and technology companies. Incorporated in 2000, eClerx is today traded on both the Bombay and National Stock Exchanges of India. The firm employs 11,000+ people across Australia, Canada, Germany, India, Italy, Netherlands, Philippines, Singapore, Thailand, UK, and the USA.</p>
+<p><span style="text-decoration: underline;"><a href="https://www.paymentscardsandmobile.com/jobs/company?company=msci-1"><strong>MSCI</strong></a></span></p>
+<p>MSCI is at the forefront of the trends dominating the financial services landscape today and is committed to the future sustainability and transparency of the financial markets. They create innovative products and services that allow clients to make more informed investment decisions, and they also provide investors with critical performance measurement and risk management data and analytics. Their values define the working environment that they strive to create. Personal accountability and responsibility are key to success, and they always work as a team to remain client centric. They are inclusive, champion bold ideas, pursue excellence, and always act with integrity.</p>
+<p>&nbsp;</p>
+<p>For even more amazing opportunities, head over to our <a href="https://www.paymentscardsandmobile.com/jobs/">careers page</a> now!</p>
+					</div>
+					<!-- end content -->
+						<div class="div post_tags">
+		<span class="single_post_date">tags:</span>
+		<span class='author ml10'>Jobs</span><span class='author ml10'>Job Search</span>	</div>
+	<div class="greybg titleline div">
+	<h2 class="maincolor ttu div w50 cnews">Comments</h2>
+	<a href="#" class="ttu maincolor div w50 tar cnews btn btn-info btn-lg" data-toggle="modal" data-target="#comments_modal">Post comment</a>
+</div>
+<div class="div comments">
+	<p class='comment_content div mt10 mb30'>No comments found for this post</p></div>
+<div id="comments_modal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title cnews fl ttu">Comments</h4>
+				<button type="button" class="close fr" data-dismiss="modal"><img src="https://www.paymentscardsandmobile.com/wp-content/themes/pcm/images/x.png" alt="close"></button>
+			</div>
+			<div class="modal-body">
+									<div class="comments">
+						<div class="success-message">
+							<img src="https://www.paymentscardsandmobile.com/wp-content/themes/pcm/images/check.png" alt="success"/>
+							<p>Thanks! Your comment will be reviewed by our team and published soon.</p>
+						</div>
+							<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title"> <small><a rel="nofollow" id="cancel-comment-reply-link" href="/payments-cards-mobile-jobs-of-the-week-march-15/#respond" style="display:none;">Cancel reply</a></small></h3><p class="must-log-in">You must be <a href="https://www.paymentscardsandmobile.com/wp-login.php?redirect_to=https%3A%2F%2Fwww.paymentscardsandmobile.com%2Fpayments-cards-mobile-jobs-of-the-week-march-15%2F">logged in</a> to post a comment.</p>	</div><!-- #respond -->
+						</div>
+					<div class="commenterror"></div>
+											<!-- <div class="commentsloggedout">
+							<p>You must be logged in to post a comment
+							<a href="https://www.paymentscardsandmobile.com/wp-login.php?redirect_to=https%3A%2F%2Fwww.paymentscardsandmobile.com%2Fpayments-cards-mobile-jobs-of-the-week-march-15%2F" class="button light_bluecolorbg cwhite ttu tac">Login</a></p>
+						</div> -->
+									</div>
+			</div>
+		</div>
+	</div>	<div class="greybg titleline div">
+		<h2 class="maincolor ttu div w50 cnews">Related</h2>
+	</div>
+	<div class="div trendingcontainer mt20">
+					<div class="single_training div newsrel">
+				<div class="single_inside">
+					<a href="https://www.paymentscardsandmobile.com/80-of-financial-institutions-believe-ai-is-the-key-competitive-driver/" class="trending_ntitle">80% of Financial Institutions believe AI is the key competitive driver</a>
+					<p class="datetime mt10">22 Apr 21 @ 16:08</p>
+					<p class="news_excerpt mt10">According to research senior financial services executives overwhelmingly agree that implementing Artificial Intelligence (AI) will be the key competitive driv... <a class="moretag" href="https://www.paymentscardsandmobile.com/80-of-financial-institutions-believe-ai-is-the-key-competitive-driver/">more</a></p>
+				</div>
+			</div>
+						<div class="single_training div newsrel">
+				<div class="single_inside">
+					<a href="https://www.paymentscardsandmobile.com/facebook-pay-introduces-qr-code-payments/" class="trending_ntitle">Facebook Pay introduces QR Code payments &#8211; Users feedback!</a>
+					<p class="datetime mt10">22 Apr 21 @ 14:09</p>
+					<p class="news_excerpt mt10">Facebook Pay recently announced it will expand the service by launching P2P payments via QR codes, allowing users to scan a friend or family member's QR code, ... <a class="moretag" href="https://www.paymentscardsandmobile.com/facebook-pay-introduces-qr-code-payments/">more</a></p>
+				</div>
+			</div>
+				</div>
+					</div>
+				<!-- end container -->
+				<div class="sidebar div">
+		
+			<div class="sidebaradd"><h4 class="widgettitle">ADVERTISEMENT:</h4><div class="g g-2"><div class="g-dyn a-162 c-1"><a onClick="gtag('event', 'click', {'event_category': 'Adverts', 'event_label': 'Truelayer - Skyscraper', 'value': 1.00,  'non_interaction': true});" href="https://bit.ly/3mxjo7g" target="_blank"><img onload="gtag('event', 'impression', {'event_category': 'Adverts', 'event_label': 'Truelayer - Skyscraper', 'value': 2.00, 'non_interaction': true});" src="https://www.paymentscardsandmobile.com/wp-content/uploads/2021/04/Truelayer_160_x_600_pixels_2.png" /></a></div><div class="g-dyn a-164 c-2"><a onClick="gtag('event', 'click', {'event_category': 'Adverts', 'event_label': 'Banking Circle - AML - Skyscraper', 'value': 1.00,  'non_interaction': true});" href="https://www.paymentscardsandmobile.com/research/better-by-design-rethinking-aml-for-the-digital-age/" target="_blank"><img onload="gtag('event', 'impression', {'event_category': 'Adverts', 'event_label': 'Banking Circle - AML - Skyscraper', 'value': 2.00, 'non_interaction': true});" src="https://www.paymentscardsandmobile.com/wp-content/uploads/2021/04/Rethinking_AML160x600-1.png" /></a></div><div class="g-dyn a-151 c-3"><a onClick="gtag('event', 'click', {'event_category': 'Adverts', 'event_label': 'Worldline - HARNESSING AI TO ACHIEVE HYPERAUTOMATION IN PAYMENTS - PODCAST - SKY', 'value': 1.00,  'non_interaction': true});" href="https://www.paymentscardsandmobile.com/podcast/harnessing-ai-to-achieve-hyperautomation-in-payments/"><img onload="gtag('event', 'impression', {'event_category': 'Adverts', 'event_label': 'Worldline - HARNESSING AI TO ACHIEVE HYPERAUTOMATION IN PAYMENTS - PODCAST - SKY', 'value': 2.00, 'non_interaction': true});" src="https://www.paymentscardsandmobile.com/wp-content/uploads/2021/03/Worldline-Podcast-Sky.jpg" /></a></div><div class="g-dyn a-159 c-4"><a onClick="gtag('event', 'click', {'event_category': 'Adverts', 'event_label': 'Banking Circle - Paris Fintech - Skyscraper', 'value': 1.00,  'non_interaction': true});" href="https://www.bankingcircle.com/paris-fintech-forum-2021-019940?utm_source=pcm&utm_medium=banner&utm_campaign=pff21" target="_blank"><img onload="gtag('event', 'impression', {'event_category': 'Adverts', 'event_label': 'Banking Circle - Paris Fintech - Skyscraper', 'value': 2.00, 'non_interaction': true});" src="https://www.paymentscardsandmobile.com/wp-content/uploads/2021/03/banking_circle_paris160_x_600.png" /></a></div></div></div><div class="sidebaradd"><h4 class="widgettitle">ADVERTISEMENT:</h4><div class="g g-3"><div class="g-dyn a-165 c-1"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Adsense 2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-7571047325302069"
+     data-ad-slot="2492336124"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>	
+</div>			</div>
+		</section>
+		<footer class="clearfix pt80 pb80 footer" style="background-image: url(https://www.paymentscardsandmobile.com/wp-content/uploads/2018/07/bg.png)">
+	<div class="wrap">
+		<div class="footerblocks div mb20">
+			<a href="https://www.paymentscardsandmobile.com">
+				<img src="https://www.paymentscardsandmobile.com/wp-content/uploads/2020/07/PCM-logo-white-01.png" alt="Payments Cards &amp; Mobile" class="logo_footer"/>
+			</a>
+		</div>
+		<div class="footerblocks div w45">
+			<div class="div">
+				<h3 class="cwhite">Payments Industry Intelligence</h3>
+				<p class="light_bluecolor mt10">Payments Cards & Mobile is the go-to market intelligence hub for global payments news, research and consulting. Leveraging 15 years of data across 43 markets, our award-winning resources and expertise provide impartial, up to date analysis on the issues shaping the future of payments.</p>
+			</div>
+		</div>
+		<div class="footerblocks div w15">
+			<h3 class="cwhite">Links</h3>
+			<div class="footermenus mt10">
+				<div class="menu-footer-links-container"><ul id="menu-footer-links" class="menu"><li id="menu-item-74" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-74"><a href="https://www.paymentscardsandmobile.com/">Home</a></li>
+<li id="menu-item-75" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-75"><a href="https://www.paymentscardsandmobile.com/about-us/">About us</a></li>
+<li id="menu-item-40678" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-40678"><a href="https://www.paymentscardsandmobile.com/team/">Team</a></li>
+<li id="menu-item-26985" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26985"><a href="https://www.paymentscardsandmobile.com/editorial-advisory-board/">Editorial Advisory Board</a></li>
+<li id="menu-item-79" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-79"><a href="https://www.paymentscardsandmobile.com/subscribe/">Subscribe</a></li>
+</ul></div>			</div>
+		</div>
+		<div class="footerblocks div w20">
+			<h3 class="cwhite">Information</h3>
+			<div class="footermenus mt10">
+				<div class="menu-footer-info-container"><ul id="menu-footer-info" class="menu"><li id="menu-item-80" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-80"><a href="https://www.paymentscardsandmobile.com/contact/">Contact</a></li>
+<li id="menu-item-81" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-81"><a href="https://www.paymentscardsandmobile.com/terms-of-business/">Terms of Business</a></li>
+<li id="menu-item-82" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-82"><a href="https://www.paymentscardsandmobile.com/disclaimer/">Disclaimer</a></li>
+<li id="menu-item-83" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-privacy-policy menu-item-83"><a href="https://www.paymentscardsandmobile.com/privacy-policy-gdpr/">Privacy Policy / GDPR</a></li>
+</ul></div>			</div>
+		</div>
+		<div class="footerblocks div w20 toedittablet">
+			<h3 class="cwhite">Get in Touch</h3>
+			<div class="footermenus mt10">
+				<a class="light_bluecolor" href="mailto:info@paymentscm.com"><img src="https://www.paymentscardsandmobile.com/wp-content/themes/pcm/images/mailicon.png" alt="email" class="mailphonefooter"/> info@paymentscm.com</a>
+			</div>
+			<div class="footermenus mt10">
+				<a class="light_bluecolor" href="tel:01263711800"><img src="https://www.paymentscardsandmobile.com/wp-content/themes/pcm/images/phoneicon.png" alt="phone" class="mailphonefooter"/> 01263711800</a>
+			</div>
+		</div>
+		<div class="footerblocks div">
+			
+			<div class="social div mt20 mb20">
+									<a href="https://www.facebook.com/paymentscm/" class="socials"><i class="fab fa-facebook"></i></a>
+										<a href="https://twitter.com/paymentscm" class="socials"><i class="fab fa-twitter"></i></a>
+										<a href="https://www.youtube.com/user/PaymentsCM" class="socials"><i class="fab fa-youtube"></i></a>
+										<a href="https://www.linkedin.com/company/payments-cards-and-mobile/" class="socials"><i class="fab fa-linkedin"></i></a>
+										<a href="https://www.instagram.com/paymentscm/" class="socials"><i class="fab fa-instagram"></i></a>
+								</div>
+			<p class="cwhite copyright">Copyright © 2021 PaymentsCM LLP</p>
+		</div>
+	</div>
+</footer>
+
+<!-- BEGIN Clicky Analytics v1.6.1 Tracking - https://deconf.com/clicky-analytics-dashboard-wordpress/ -->
+<noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100669114ns.gif" /></p></noscript>
+<!-- END Clicky Analytics v1.6.1 Tracking - https://deconf.com/clicky-analytics-dashboard-wordpress/ -->
+
+<!-- font handler -->
+    	<script type="text/javascript">
+		(function () {
+			var c = document.body.className;
+			c = c.replace(/woocommerce-no-js/, 'woocommerce-js');
+			document.body.className = c;
+		})();
+	</script>
+	<link rel='stylesheet' id='search-live-css'  href='https://www.paymentscardsandmobile.com/wp-content/plugins/search-live/css/search-live.css?ver=1.13.0'  media='all' />
+<script  src='https://www.paymentscardsandmobile.com/wp-content/plugins/adrotate-pro/library/jquery.adrotate.dyngroup.js' id='adrotate-dyngroup-js'></script>
+<script  src='https://www.paymentscardsandmobile.com/wp-includes/js/jquery/ui/core.min.js?ver=1.12.1' id='jquery-ui-core-js'></script>
+<script  src='https://www.paymentscardsandmobile.com/wp-includes/js/jquery/ui/datepicker.min.js?ver=1.12.1' id='jquery-ui-datepicker-js'></script>
+<script  id='jquery-ui-datepicker-js-after'>
+jQuery(document).ready(function(jQuery){jQuery.datepicker.setDefaults({"closeText":"Close","currentText":"Today","monthNames":["January","February","March","April","May","June","July","August","September","October","November","December"],"monthNamesShort":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"nextText":"Next","prevText":"Previous","dayNames":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"dayNamesShort":["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],"dayNamesMin":["S","M","T","W","T","F","S"],"dateFormat":"MM d, yy","firstDay":1,"isRTL":false});});
+</script>
+<script  src='https://www.paymentscardsandmobile.com/wp-content/plugins/wc-aelia-foundation-classes/src/js/frontend/frontend.js' id='wc-aelia-foundation-classes-frontend-js'></script>
+<script  src='https://www.paymentscardsandmobile.com/wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.min.js?ver=2.70' id='jquery-blockui-js'></script>
+<script type='text/javascript' id='wc-add-to-cart-js-extra'>
+/* <![CDATA[ */
+var wc_add_to_cart_params = {"ajax_url":"\/wp-admin\/admin-ajax.php","wc_ajax_url":"\/?wc-ajax=%%endpoint%%","i18n_view_cart":"View basket","cart_url":"https:\/\/www.paymentscardsandmobile.com\/cart\/","is_cart":"","cart_redirect_after_add":"no"};
+/* ]]> */
+</script>
+<script  src='https://www.paymentscardsandmobile.com/wp-content/plugins/woocommerce/assets/js/frontend/add-to-cart.min.js?ver=5.2.2' id='wc-add-to-cart-js'></script>
+<script  src='https://www.paymentscardsandmobile.com/wp-content/plugins/woocommerce/assets/js/js-cookie/js.cookie.min.js?ver=2.1.4' id='js-cookie-js'></script>
+<script type='text/javascript' id='woocommerce-js-extra'>
+/* <![CDATA[ */
+var woocommerce_params = {"ajax_url":"\/wp-admin\/admin-ajax.php","wc_ajax_url":"\/?wc-ajax=%%endpoint%%"};
+/* ]]> */
+</script>
+<script  src='https://www.paymentscardsandmobile.com/wp-content/plugins/woocommerce/assets/js/frontend/woocommerce.min.js?ver=5.2.2' id='woocommerce-js'></script>
+<script type='text/javascript' id='wc-cart-fragments-js-extra'>
+/* <![CDATA[ */
+var wc_cart_fragments_params = {"ajax_url":"\/wp-admin\/admin-ajax.php","wc_ajax_url":"\/?wc-ajax=%%endpoint%%","cart_hash_key":"wc_cart_hash_12f73f50cf4ebc4a6d706cd7d8ed12fd","fragment_name":"wc_fragments_12f73f50cf4ebc4a6d706cd7d8ed12fd","request_timeout":"5000"};
+/* ]]> */
+</script>
+<script  src='https://www.paymentscardsandmobile.com/wp-content/plugins/woocommerce/assets/js/frontend/cart-fragments.min.js?ver=5.2.2' id='wc-cart-fragments-js'></script>
+<script type='text/javascript' id='forms-for-campaign-monitor-ajax-script-public-js-extra'>
+/* <![CDATA[ */
+var ajax_request = {"ajax_url":"https:\/\/www.paymentscardsandmobile.com\/wp-admin\/admin-ajax.php"};
+/* ]]> */
+</script>
+<script  src='https://www.paymentscardsandmobile.com/wp-content/plugins/forms-for-campaign-monitor/forms/views/public/js/app.js?ver=5.7.1' id='forms-for-campaign-monitor-ajax-script-public-js'></script>
+<script  src='https://www.paymentscardsandmobile.com/wp-content/themes/pcm/js/functions.js?ver=9704' id='functions-js'></script>
+<script type='text/javascript' id='custom-ajax-request-js-extra'>
+/* <![CDATA[ */
+var MyAjax = {"ajaxurl":"https:\/\/www.paymentscardsandmobile.com\/wp-admin\/admin-ajax.php"};
+/* ]]> */
+</script>
+<script  src='https://www.paymentscardsandmobile.com/wp-content/themes/pcm/js/ajax.js?ver=6358' id='custom-ajax-request-js'></script>
+<script  src='https://www.paymentscardsandmobile.com/wp-includes/js/wp-embed.min.js?ver=5.7.1' id='wp-embed-js'></script>
+<script  src='https://www.paymentscardsandmobile.com/wp-content/plugins/search-live/js/jquery.typewatch.min.js?ver=1.13.0' id='typewatch-js'></script>
+<script  src='https://www.paymentscardsandmobile.com/wp-content/plugins/search-live/js/search-live.min.js?ver=1.13.0' id='search-live-js'></script>
+<script  src='https://www.paymentscardsandmobile.com/wp-content/plugins/simple-lightbox/client/js/prod/lib.core.js?ver=2.8.1' id='slb_core-js'></script>
+<script  src='https://www.paymentscardsandmobile.com/wp-content/plugins/simple-lightbox/client/js/prod/lib.view.js?ver=2.8.1' id='slb_view-js'></script>
+<script  src='https://www.paymentscardsandmobile.com/wp-content/plugins/simple-lightbox/themes/baseline/js/prod/client.js?ver=2.8.1' id='slb-asset-slb_baseline-base-js'></script>
+<script  src='https://www.paymentscardsandmobile.com/wp-content/plugins/simple-lightbox/themes/default/js/prod/client.js?ver=2.8.1' id='slb-asset-slb_default-base-js'></script>
+<script  src='https://www.paymentscardsandmobile.com/wp-content/plugins/simple-lightbox/template-tags/item/js/prod/tag.item.js?ver=2.8.1' id='slb-asset-item-base-js'></script>
+<script  src='https://www.paymentscardsandmobile.com/wp-content/plugins/simple-lightbox/template-tags/ui/js/prod/tag.ui.js?ver=2.8.1' id='slb-asset-ui-base-js'></script>
+<script  src='https://www.paymentscardsandmobile.com/wp-content/plugins/simple-lightbox/content-handlers/image/js/prod/handler.image.js?ver=2.8.1' id='slb-asset-image-base-js'></script>
+<script type="text/javascript" id="slb_footer">/* <![CDATA[ */if ( !!window.jQuery ) {(function($){$(document).ready(function(){if ( !!window.SLB && SLB.has_child('View.init') ) { SLB.View.init({"ui_autofit":true,"ui_animate":true,"slideshow_autostart":true,"slideshow_duration":"6","group_loop":true,"ui_overlay_opacity":"0.8","ui_title_default":false,"theme_default":"slb_default","ui_labels":{"loading":"Loading","close":"Close","nav_next":"Next","nav_prev":"Previous","slideshow_start":"Start slideshow","slideshow_stop":"Stop slideshow","group_status":"Item %current% of %total%"}}); }
+if ( !!window.SLB && SLB.has_child('View.assets') ) { {$.extend(SLB.View.assets, {"56684214":{"id":40254,"type":"image","internal":true,"source":"https:\/\/www.paymentscardsandmobile.com\/wp-content\/uploads\/2021\/03\/Job-Search.jpg","title":"Job Search","caption":"Spring is a great time to apply for a new job","description":"Job Search"}});} }
+/* THM */
+if ( !!window.SLB && SLB.has_child('View.extend_theme') ) { SLB.View.extend_theme('slb_baseline',{"name":"Baseline","parent":"","styles":[{"handle":"base","uri":"https:\/\/www.paymentscardsandmobile.com\/wp-content\/plugins\/simple-lightbox\/themes\/baseline\/css\/style.css","deps":[]}],"layout_raw":"<div class=\"slb_container\"><div class=\"slb_content\">{{item.content}}<div class=\"slb_nav\"><span class=\"slb_prev\">{{ui.nav_prev}}<\/span><span class=\"slb_next\">{{ui.nav_next}}<\/span><\/div><div class=\"slb_controls\"><span class=\"slb_close\">{{ui.close}}<\/span><span class=\"slb_slideshow\">{{ui.slideshow_control}}<\/span><\/div><div class=\"slb_loading\">{{ui.loading}}<\/div><\/div><div class=\"slb_details\"><div class=\"inner\"><div class=\"slb_data\"><div class=\"slb_data_content\"><span class=\"slb_data_title\">{{item.title}}<\/span><span class=\"slb_group_status\">{{ui.group_status}}<\/span><div class=\"slb_data_desc\">{{item.description}}<\/div><\/div><\/div><div class=\"slb_nav\"><span class=\"slb_prev\">{{ui.nav_prev}}<\/span><span class=\"slb_next\">{{ui.nav_next}}<\/span><\/div><\/div><\/div><\/div>"}); }if ( !!window.SLB && SLB.has_child('View.extend_theme') ) { SLB.View.extend_theme('slb_default',{"name":"Default (Light)","parent":"slb_baseline","styles":[{"handle":"base","uri":"https:\/\/www.paymentscardsandmobile.com\/wp-content\/plugins\/simple-lightbox\/themes\/default\/css\/style.css","deps":[]}]}); }})})(jQuery);}/* ]]> */</script>
+<script type="text/javascript" id="slb_context">/* <![CDATA[ */if ( !!window.jQuery ) {(function($){$(document).ready(function(){if ( !!window.SLB ) { {$.extend(SLB, {"context":["public","user_guest"]});} }})})(jQuery);}/* ]]> */</script>
+<!-- AdRotate JS -->
+<script type="text/javascript">
+jQuery(document).ready(function(){if(jQuery.fn.gslider) {
+	jQuery('.g-1').gslider({groupid:1,speed:4000,repeat_impressions:'Y'});
+	jQuery('.g-2').gslider({groupid:2,speed:4000,repeat_impressions:'Y'});
+	jQuery('.g-3').gslider({groupid:3,speed:6000,repeat_impressions:'Y'});
+}});
+</script>
+<!-- /AdRotate JS -->
+
+</body>
+</html>
+<!-- Dynamic page generated in 4.660 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2021-04-23 08:46:48 -->
+
+<!-- super cache -->
