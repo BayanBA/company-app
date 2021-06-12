@@ -18,6 +18,7 @@ class _AddJopState extends State<AddJop> {
   GlobalKey<FormState>k3 = new GlobalKey<FormState>();
   GlobalKey<FormState>k4 = new GlobalKey<FormState>();
   GlobalKey<FormState>k5 = new GlobalKey<FormState>();
+  GlobalKey<FormState>k6 = new GlobalKey<FormState>();
 
 
   Map<String, dynamic> d = {
@@ -83,9 +84,9 @@ class _AddJopState extends State<AddJop> {
                 Icon(
                   Icons.money,
                 ),
-                // Icon(
-                //   Icons.account_tree,
-                // ),
+                Icon(
+                  Icons.account_tree,
+                ),
                 // Icon(
                 //   Icons.language,
                 // ),
@@ -180,6 +181,50 @@ class _AddJopState extends State<AddJop> {
       },
     );
   }
+  Widget x2(bbb, String name, String hint, Icon c) {
+    return TextFormField(
+      initialValue: bbb,
+      decoration: InputDecoration(
+        focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: BorderSide(
+              color: Colors.lightGreen,
+              width: 2,
+            )),
+        enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: BorderSide(
+              color: Colors.deepPurple,
+              width: 2,
+            )),
+        errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: BorderSide(
+              color: Colors.pink,
+              width: 2,
+            )),
+        contentPadding: EdgeInsets.all(15),
+        labelText: name,
+        labelStyle: TextStyle(fontSize: 20),
+        prefixIcon: c,
+        hintText: hint,
+      ),
+      validator: (valu) {
+        if (valu.isEmpty) {
+          return "هذا الحقل مطلوب";
+        } else if (valu.length < 5) {
+          return "الكلمة قصيرة جدا";
+        } else
+          return null;
+      },
+      keyboardType: TextInputType.text,
+      onChanged: (v) {
+        setState(() {
+          bbb=v;
+        });
+      },
+    );
+  }
 
   Widget z(var v, String name, List<dynamic> l) {
     return DropdownButton(
@@ -207,17 +252,16 @@ class _AddJopState extends State<AddJop> {
   }
 
   void uplod() {
-    var kk1=k1.currentState;
-    kk1.save();
-    var kk2=k2.currentState;
-    kk2.save();
-    var kk3=k3.currentState;
-    kk3.save();
-    var kk4=k4.currentState;
-    kk4.save();
-    var kk5=k5.currentState;
-
-    kk5.save();
+    // var kk1=k1.currentState;
+    // kk1.save();
+    // var kk2=k2.currentState;
+    // kk2.save();
+    // var kk3=k3.currentState;
+    // kk3.save();
+    // var kk4=k4.currentState;
+    // kk4.save();
+    // var kk5=k5.currentState;
+    // kk5.save();
 
 
     var v = FirebaseFirestore.instance
@@ -227,8 +271,8 @@ class _AddJopState extends State<AddJop> {
 
     stan.title = d["title"];
     stan.age = d["age"];
-    //stan.skillNum = d["skillNum"];
-    //stan.skill = list;
+    stan.skillNum = d["skillNum"];
+    stan.skill = list;
     stan.salary = d["salary"];
     stan.workTime = d["workTime"];
     //stan.langNum = d["langNum"];
@@ -248,8 +292,8 @@ class _AddJopState extends State<AddJop> {
       "workTime": stan.workTime,
       //"langNum": stan.langNum,
       //"lang": stan.lang,
-      //"skillNum": stan.skillNum,
-      //"skill": stan.skill,
+      "skillNum": stan.skillNum,
+      "skill": stan.skill,
       "expir": stan.expir,
       "gender": stan.gender,
       "degree": stan.degree,
@@ -292,33 +336,37 @@ class _AddJopState extends State<AddJop> {
             width: 300,
             child: x("salary", "الراتب:", ".......", Icon(Icons.money))),
       ),
-      // SizedBox(
-      //   width: 300,
-      //   child: Column(
-      //     children: [
-      //       Row(
-      //         children: [
-      //           Icon(Icons.account_tree),
-      //           SizedBox(
-      //             width: 10,
-      //           ),
-      //           Text("عدد المهارات المطلوبة :"),
-      //           SizedBox(
-      //             width: 10,
-      //           ),
-      //           z("skillNum", "المهارات", [1, 2, 3, 4, 5]),
-      //         ],
-      //       ),
-      //       ListView.builder(
-      //           shrinkWrap: true,
-      //           padding: EdgeInsets.all(8),
-      //           itemCount: d["skillNum"],
-      //           itemBuilder: (context, i) {
-      //             return x("skill", "المهارة", "........", Icon(Icons.api));
-      //           }),
-      //     ],
-      //   ),
-      // ),
+      Form(
+        autovalidateMode: AutovalidateMode.always,
+        key: k6,
+        child: SizedBox(
+          width: 300,
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.account_tree),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text("عدد المهارات المطلوبة :"),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  z("skillNum", "المهارات", [1, 2, 3, 4, 5]),
+                ],
+              ),
+              // ListView.builder(
+              //     shrinkWrap: true,
+              //     padding: EdgeInsets.all(8),
+              //     itemCount: d["skillNum"],
+              //     itemBuilder: (context, i) {
+              //       return x2(list[i], "المهارة", "........", Icon(Icons.api));
+              //     }),
+            ],
+          ),
+        ),
+      ),
       // SizedBox(
       //   width: 300,
       //   child: Column(
