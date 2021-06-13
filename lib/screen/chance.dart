@@ -1,4 +1,5 @@
 import 'package:b/screen/view.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:im_stepper/stepper.dart';
 import 'package:b/stand.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class _AddJopState extends State<AddJop> {
     "salary": "",
     "workTime": "",
     "langNum": "",
-    "skillNum":"",
+    "skillNum": "",
     "quizList": [],
     "expir": "",
     "quizNum": 5,
@@ -212,10 +213,11 @@ class _AddJopState extends State<AddJop> {
     stan.salary = d["salary"];
     stan.workTime = d["workTime"];
     stan.langNum = d["langNum"];
-    stan.expir = d["expir"];
+    stan.level = d["level"];
+    stan.level == "خبير" ? stan.expir = d["expir"] : stan.expir = "";
     stan.gender = d["gender"];
     stan.degree = d["degree"];
-    stan.level = d["level"];
+
     stan.Vacancies = d["Vacancies"];
     DateTime date = DateTime.now();
     stan.dateOfPublication = Jiffy(date).fromNow();
@@ -346,39 +348,82 @@ class _AddJopState extends State<AddJop> {
         width: 300,
         child: Row(
           children: [
-            Icon(Icons.account_tree),
             SizedBox(
               width: 10,
             ),
-            Text("عدد الشواغر:"),
+            IconButton(color: Colors.amber,iconSize:50,
+                onPressed: () {
+                  setState(() {
+                    d["Vacancies"] >= 30
+                        ? Fluttertoast.showToast(
+                        msg: "العدد كبير جدا",
+                        backgroundColor: Colors.black54,
+                        textColor: Colors.white,
+                        toastLength: Toast.LENGTH_LONG)
+                        : d["Vacancies"]++;
+                  });
+                },
+                icon: Icon(Icons.add)),
             SizedBox(
-              width: 10,
+              width: 30,
             ),
-            z("Vacancies", "شواغر", [
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              7,
-              8,
-              9,
-              10,
-              11,
-              12,
-              13,
-              14,
-              15,
-              16,
-              17,
-              18,
-              19,
-              20
-            ]),
+            Text("${d["Vacancies"]}",style: TextStyle(fontSize: 50),),
+            SizedBox(
+              width: 30,
+            ),
+        IconButton(color: Colors.amber,iconSize:50,
+                onPressed: () {
+                  setState(() {
+                    d["Vacancies"] <= 1
+                        ? Fluttertoast.showToast(
+                            msg: "لا يمكن ان يكون العدد اقل من 1",
+                            backgroundColor: Colors.black54,
+                    textColor: Colors.white,
+                    toastLength: Toast.LENGTH_LONG)
+                        : d["Vacancies"]--;
+                  });
+                },
+                icon: Icon(Icons.minimize_outlined)),
           ],
         ),
       ),
+      // SizedBox(
+      //   width: 300,
+      //   child: Row(
+      //     children: [
+      //       Icon(Icons.account_tree),
+      //       SizedBox(
+      //         width: 10,
+      //       ),
+      //       Text("عدد الشواغر:"),
+      //       SizedBox(
+      //         width: 10,
+      //       ),
+      //       z("Vacancies", "شواغر", [
+      //         1,
+      //         2,
+      //         3,
+      //         4,
+      //         5,
+      //         6,
+      //         7,
+      //         8,
+      //         9,
+      //         10,
+      //         11,
+      //         12,
+      //         13,
+      //         14,
+      //         15,
+      //         16,
+      //         17,
+      //         18,
+      //         19,
+      //         20
+      //       ]),
+      //     ],
+      //   ),
+      // ),
       SizedBox(
         width: 300,
         child: Column(
