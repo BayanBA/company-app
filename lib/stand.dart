@@ -1,6 +1,4 @@
-import 'dart:async';
 
-import 'package:b/quizQ.dart';
 import 'package:flutter/cupertino.dart';
 
 class Stander {
@@ -13,10 +11,8 @@ class Stander {
   String age = "";
   String salary = "";
   String workTime = "";
-  int langNum = 1;
-  var lang = new List();
-  int skillNum = 1;
-  var skill = new List();
+  String langNum = "";
+  String skillNum = "";
   var quizList=new List();
   String expir = "";
   String gender = "لا يهم";
@@ -34,10 +30,8 @@ class MyProvider with ChangeNotifier{
     "age": "",
     "salary": "",
     "workTime": "",
-    "langNum": 1,
-    "lang": [],
-    "skillNum": 1,
-    "skill": [],
+    "langNum": "",
+    "skillNum": "",
     "quizList":[],
     "expir": "",
     "quizNum":5,

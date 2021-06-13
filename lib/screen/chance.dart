@@ -1,4 +1,3 @@
-
 import 'package:b/screen/view.dart';
 import 'package:im_stepper/stepper.dart';
 import 'package:b/stand.dart';
@@ -13,13 +12,13 @@ class AddJop extends StatefulWidget {
 }
 
 class _AddJopState extends State<AddJop> {
-  GlobalKey<FormState>k1 = new GlobalKey<FormState>();
-  GlobalKey<FormState>k2 = new GlobalKey<FormState>();
-  GlobalKey<FormState>k3 = new GlobalKey<FormState>();
-  GlobalKey<FormState>k4 = new GlobalKey<FormState>();
-  GlobalKey<FormState>k5 = new GlobalKey<FormState>();
-  GlobalKey<FormState>k6 = new GlobalKey<FormState>();
-
+  GlobalKey<FormState> k1 = new GlobalKey<FormState>();
+  GlobalKey<FormState> k2 = new GlobalKey<FormState>();
+  GlobalKey<FormState> k3 = new GlobalKey<FormState>();
+  GlobalKey<FormState> k4 = new GlobalKey<FormState>();
+  GlobalKey<FormState> k5 = new GlobalKey<FormState>();
+  GlobalKey<FormState> k6 = new GlobalKey<FormState>();
+  GlobalKey<FormState> k7 = new GlobalKey<FormState>();
 
   Map<String, dynamic> d = {
     "id": "",
@@ -28,10 +27,8 @@ class _AddJopState extends State<AddJop> {
     "age": "",
     "salary": "",
     "workTime": "",
-    "langNum": 1,
-    "lang": [],
-    "skillNum": 1,
-    "skill": [],
+    "langNum": "",
+    "skillNum":"",
     "quizList": [],
     "expir": "",
     "quizNum": 5,
@@ -42,9 +39,6 @@ class _AddJopState extends State<AddJop> {
     "dateOfPublication": "",
   };
 
-  var list = new List();
-  var list1 = new List();
-  var total = new List();
   var aa = new List();
   Stander stan = new Stander();
 
@@ -87,9 +81,9 @@ class _AddJopState extends State<AddJop> {
                 Icon(
                   Icons.account_tree,
                 ),
-                // Icon(
-                //   Icons.language,
-                // ),
+                Icon(
+                  Icons.language,
+                ),
                 Icon(
                   Icons.wc,
                 ),
@@ -110,10 +104,10 @@ class _AddJopState extends State<AddJop> {
             )),
         Expanded(
             child: FittedBox(
-              child: Center(
-                child: getStep(),
-              ),
-            ))
+          child: Center(
+            child: getStep(),
+          ),
+        ))
       ],
     );
   }
@@ -170,58 +164,13 @@ class _AddJopState extends State<AddJop> {
           return null;
       },
       keyboardType: TextInputType.text,
-      onChanged: (v){
+      onChanged: (v) {
         setState(() {
           d[bbb] = v;
         });
       },
       onSaved: (valu) {
-
-          d[bbb] = valu;
-      },
-    );
-  }
-  Widget x2(bbb, String name, String hint, Icon c) {
-    return TextFormField(
-      initialValue: bbb,
-      decoration: InputDecoration(
-        focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide: BorderSide(
-              color: Colors.lightGreen,
-              width: 2,
-            )),
-        enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide: BorderSide(
-              color: Colors.deepPurple,
-              width: 2,
-            )),
-        errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide: BorderSide(
-              color: Colors.pink,
-              width: 2,
-            )),
-        contentPadding: EdgeInsets.all(15),
-        labelText: name,
-        labelStyle: TextStyle(fontSize: 20),
-        prefixIcon: c,
-        hintText: hint,
-      ),
-      validator: (valu) {
-        if (valu.isEmpty) {
-          return "هذا الحقل مطلوب";
-        } else if (valu.length < 5) {
-          return "الكلمة قصيرة جدا";
-        } else
-          return null;
-      },
-      keyboardType: TextInputType.text,
-      onChanged: (v) {
-        setState(() {
-          bbb=v;
-        });
+        d[bbb] = valu;
       },
     );
   }
@@ -231,9 +180,9 @@ class _AddJopState extends State<AddJop> {
       hint: Text(name),
       items: l
           .map((e) => DropdownMenuItem(
-        child: Text("$e"),
-        value: e,
-      ))
+                child: Text("$e"),
+                value: e,
+              ))
           .toList(),
       onChanged: (valu) {
         setState(() {
@@ -241,7 +190,6 @@ class _AddJopState extends State<AddJop> {
         });
       },
       value: d[v],
-
     );
   }
 
@@ -253,18 +201,6 @@ class _AddJopState extends State<AddJop> {
   }
 
   void uplod() {
-    // var kk1=k1.currentState;
-    // kk1.save();
-    // var kk2=k2.currentState;
-    // kk2.save();
-    // var kk3=k3.currentState;
-    // kk3.save();
-    // var kk4=k4.currentState;
-    // kk4.save();
-    // var kk5=k5.currentState;
-    // kk5.save();
-
-
     var v = FirebaseFirestore.instance
         .collection("companies")
         .doc(Provider.of<MyProvider>(context, listen: false).company_id)
@@ -273,16 +209,14 @@ class _AddJopState extends State<AddJop> {
     stan.title = d["title"];
     stan.age = d["age"];
     stan.skillNum = d["skillNum"];
-    stan.skill = list;
     stan.salary = d["salary"];
     stan.workTime = d["workTime"];
-    //stan.langNum = d["langNum"];
+    stan.langNum = d["langNum"];
     stan.expir = d["expir"];
     stan.gender = d["gender"];
     stan.degree = d["degree"];
     stan.level = d["level"];
     stan.Vacancies = d["Vacancies"];
-    //stan.lang = list1;
     DateTime date = DateTime.now();
     stan.dateOfPublication = Jiffy(date).fromNow();
     v.add({
@@ -291,10 +225,8 @@ class _AddJopState extends State<AddJop> {
       "age": stan.age,
       "salary": stan.salary,
       "workTime": stan.workTime,
-      //"langNum": stan.langNum,
-      //"lang": stan.lang,
+      "langNum": stan.langNum,
       "skillNum": stan.skillNum,
-      "skill": stan.skill,
       "expir": stan.expir,
       "gender": stan.gender,
       "degree": stan.degree,
@@ -341,60 +273,17 @@ class _AddJopState extends State<AddJop> {
         autovalidateMode: AutovalidateMode.always,
         key: k6,
         child: SizedBox(
-          width: 300,
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Icon(Icons.account_tree),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text("عدد المهارات المطلوبة :"),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  z("skillNum", "المهارات", [1, 2, 3, 4, 5]),
-                ],
-              ),
-              // ListView.builder(
-              //     shrinkWrap: true,
-              //     padding: EdgeInsets.all(8),
-              //     itemCount: d["skillNum"],
-              //     itemBuilder: (context, i) {
-              //       return x2(list[i], "المهارة", "........", Icon(Icons.api));
-              //     }),
-            ],
-          ),
-        ),
+            width: 300,
+            child: x(
+                "skillNum", "المهارات:", ".......", Icon(Icons.account_tree))),
       ),
-      // SizedBox(
-      //   width: 300,
-      //   child: Column(
-      //     children: [
-      //       Row(
-      //         children: [
-      //           Icon(Icons.language),
-      //           SizedBox(
-      //             width: 10,
-      //           ),
-      //           Text("اللغات المطلوبة :"),
-      //           SizedBox(
-      //             width: 10,
-      //           ),
-      //           z("langNum", "اللغات", [1, 2, 3, 4]),
-      //         ],
-      //       ),
-      //       ListView.builder(
-      //           shrinkWrap: true,
-      //           itemCount: d["langNum"],
-      //           itemBuilder: (context, i) {
-      //             return x("lang", "اللغة", "........",
-      //                 Icon(Icons.leak_add_rounded));
-      //           }),
-      //     ],
-      //   ),
-      // ),
+      Form(
+        autovalidateMode: AutovalidateMode.always,
+        key: k7,
+        child: SizedBox(
+            width: 300,
+            child: x("langNum", "اللغات:", ".......", Icon(Icons.language))),
+      ),
       SizedBox(
         width: 300,
         child: Row(

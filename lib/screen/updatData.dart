@@ -1,6 +1,8 @@
+import 'package:b/screen/view.dart';
 import 'package:b/stand.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:im_stepper/stepper.dart';
 import 'package:provider/provider.dart';
 
 import 'detals.dart';
@@ -12,8 +14,13 @@ class UpdatData extends StatefulWidget {
 }
 
 class _UpdatDataState extends State<UpdatData> {
-  GlobalKey<FormState> ff = new GlobalKey<FormState>();
-  CollectionReference comp = FirebaseFirestore.instance.collection("company");
+  GlobalKey<FormState> k1 = new GlobalKey<FormState>();
+  GlobalKey<FormState> k2 = new GlobalKey<FormState>();
+  GlobalKey<FormState> k3 = new GlobalKey<FormState>();
+  GlobalKey<FormState> k4 = new GlobalKey<FormState>();
+  GlobalKey<FormState> k5 = new GlobalKey<FormState>();
+  GlobalKey<FormState> k6 = new GlobalKey<FormState>();
+  GlobalKey<FormState> k7 = new GlobalKey<FormState>();
   var data;
   Map<String, dynamic> d;
 
@@ -23,147 +30,237 @@ class _UpdatDataState extends State<UpdatData> {
   }
 
 
-  var total = new List();
+  var aa = new List();
+  Stander stan = new Stander();
+
   double val = 0;
   var r = 0;
   var unik = 0;
 
-  my() {
-    if (unik == 0) {
-      total.add(x("title", "العنوان:", ".......", Icon(Icons.title), 0,data["title"]));
-      total.add(x("age", "العمر:", ".......", Icon(Icons.person), 0,data["age"]));
-      total.add(x("workTime", "عدد ساعات العمل:", ".......", Icon(Icons.alarm_on_sharp), 0,data["workTime"]));
-      total.add(x("salary", "الراتب:", ".......", Icon(Icons.money), 0,data["salary"]));
-      total.add(Column(children: [
-        Row(
+  int _index = 0;
+
+  des() {
+    return Row(
+      children: [
+        Container(
+            decoration: BoxDecoration(
+              color: Colors.blueGrey,
+              borderRadius: BorderRadius.circular(15.8),
+            ),
+            child: IconStepper(
+              activeStep: _index,
+              steppingEnabled: true,
+              stepRadius: 25.0,
+              stepColor: Colors.white,
+              activeStepBorderColor: Colors.green,
+              activeStepColor: Colors.amber,
+              lineColor: Colors.amberAccent,
+              direction: Axis.vertical,
+              icons: [
+                Icon(
+                  Icons.title,
+                ),
+                Icon(
+                  Icons.person,
+                ),
+                Icon(
+                  Icons.alarm_on_sharp,
+                ),
+                Icon(
+                  Icons.money,
+                ),
+                Icon(
+                  Icons.account_tree,
+                ),
+                Icon(
+                  Icons.language,
+                ),
+                Icon(
+                  Icons.wc,
+                ),
+                Icon(
+                  Icons.edit,
+                ),
+                Icon(
+                  Icons.local_florist,
+                ),
+                Icon(Icons.people_alt),
+                Icon(Icons.logout),
+              ],
+              onStepReached: (value) {
+                setState(() {
+                  _index = value;
+                });
+              },
+            )),
+        Expanded(
+            child: FittedBox(
+              child: Center(
+                child: getStep(),
+              ),
+            ))
+      ],
+    );
+  }
+
+  Widget getStep() {
+    aa = [
+      Form(
+        autovalidateMode: AutovalidateMode.always,
+        key: k1,
+        child: SizedBox(
+            width: 300,
+            child: x("title", "العنوان:", ".......", Icon(Icons.title),data["title"])),
+      ),
+      Form(
+        autovalidateMode: AutovalidateMode.always,
+        key: k2,
+        child: SizedBox(
+            width: 300,
+            child: x("age", "العمر:", ".......", Icon(Icons.person),data["age"])),
+      ),
+      Form(
+        autovalidateMode: AutovalidateMode.always,
+        key: k3,
+        child: SizedBox(
+            width: 300,
+            child: x("workTime", "عدد ساعات العمل:", ".......",
+                Icon(Icons.alarm_on_sharp),data["workTime"])),
+      ),
+      Form(
+        autovalidateMode: AutovalidateMode.always,
+        key: k4,
+        child: SizedBox(
+            width: 300,
+            child: x("salary", "الراتب:", ".......", Icon(Icons.money),data["salary"])),
+      ),
+      Form(
+        autovalidateMode: AutovalidateMode.always,
+        key: k6,
+        child: SizedBox(
+            width: 300,
+            child: x(
+                "skillNum", "المهارات:", ".......", Icon(Icons.account_tree),data["skillNum"])),
+      ),
+      Form(
+        autovalidateMode: AutovalidateMode.always,
+        key: k7,
+        child: SizedBox(
+            width: 300,
+            child: x("langNum", "اللغات:", ".......", Icon(Icons.language),data["langNum"])),
+      ),
+      SizedBox(
+        width: 300,
+        child: Row(
+          children: [
+            Icon(Icons.wc),
+            SizedBox(
+              width: 10,
+            ),
+            Text("الجنس :"),
+            SizedBox(
+              width: 10,
+            ),
+            z("gender", "الجنس", ["ذكر", "أنثى", "لا يهم"])
+          ],
+        ),
+      ),
+      SizedBox(
+        width: 300,
+        child: Row(
+          children: [
+            Icon(Icons.edit),
+            SizedBox(
+              width: 10,
+            ),
+            Text("المستوى لبعلمي :"),
+            SizedBox(
+              width: 10,
+            ),
+            z("degree", "شهادة",
+                ["لا يهم", "اعدادي", "ثانوي", "جامعي", "ماستر", "دوكتورا"])
+          ],
+        ),
+      ),
+      Form(
+        autovalidateMode: AutovalidateMode.always,
+        key: k5,
+        child: SizedBox(
+          width: 300,
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.local_florist),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text("المستوى الوظيفي :"),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  z("level", "المستوى", ["مبتدأ", "متمرس", "خبير"])
+                ],
+              ),
+              q(d["level"]),
+            ],
+          ),
+        ),
+      ),
+      SizedBox(
+        width: 300,
+        child: Row(
           children: [
             Icon(Icons.account_tree),
             SizedBox(
               width: 10,
             ),
-            Text("عدد المهارات المطلوبة :"),
+            Text("عدد الشواغر:"),
             SizedBox(
               width: 10,
             ),
-            z("skillNum", "المهارات", [1, 2, 3, 4, 5]),
+            z("Vacancies", "شواغر", [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20
+            ]),
           ],
         ),
-        ListView.builder(
-            shrinkWrap: true,
-            padding: EdgeInsets.all(8),
-            itemCount: d["skillNum"],
-            itemBuilder: (context, i) {
-              return x("skill", "المهارة", "........", Icon(Icons.api), 1,data["skill"]);
-            })
-      ]));
-      total.add(Column(children: [
-        Row(
+      ),
+      SizedBox(
+        width: 300,
+        child: Column(
           children: [
-            Icon(Icons.language),
-            SizedBox(
-              width: 10,
-            ),
-            Text("اللغات المطلوبة :"),
-            SizedBox(
-              width: 10,
-            ),
-            z("langNum", "اللغات", [1, 2, 3, 4]),
+            IconButton(icon: Icon(Icons.add), onPressed: uplod),
+            IconButton(
+                icon: Icon(Icons.logout),
+                onPressed: () {
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => ShowingData()));
+                }),
           ],
         ),
-        ListView.builder(
-            shrinkWrap: true,
-            itemCount: d["langNum"],
-            itemBuilder: (context, i) {
-              return x(
-                  "lang", "اللغة", "........", Icon(Icons.leak_add_rounded), 2,data["lang"]);
-            })
-      ]));
-      total.add(Row(
-        children: [
-          Icon(Icons.wc),
-          SizedBox(
-            width: 10,
-          ),
-          Text("الجنس :"),
-          SizedBox(
-            width: 10,
-          ),
-          z("gender", "الجنس", ["ذكر", "أنثى", "لا يهم"])
-        ],
-      ));
-      total.add(Row(
-        children: [
-          Icon(Icons.edit),
-          SizedBox(
-            width: 10,
-          ),
-          Text("المستوى لبعلمي :"),
-          SizedBox(
-            width: 10,
-          ),
-          z("degree", "شهادة",
-              ["لا يهم", "اعدادي", "ثانوي", "جامعي", "ماستر", "دوكتورا"])
-        ],
-      ));
-      total.add(Column(children: [
-        Row(
-          children: [
-            Icon(Icons.local_florist),
-            SizedBox(
-              width: 10,
-            ),
-            Text("المستوى الوظيفي :"),
-            SizedBox(
-              width: 10,
-            ),
-            z("level", "المستوى", ["مبتدأ", "متمرس", "خبير"])
-          ],
-        ),
-        q(d["level"])
-      ]));
-      total.add(Row(
-        children: [
-          Icon(Icons.account_tree),
-          SizedBox(
-            width: 10,
-          ),
-          Text("عدد الشواغر:"),
-          SizedBox(
-            width: 10,
-          ),
-          z("Vacancies", "شواغر", [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10,
-            11,
-            12,
-            13,
-            14,
-            15,
-            16,
-            17,
-            18,
-            19,
-            20
-          ]),
-        ],
-      ));
-      total.add(IconButton(icon: Icon(Icons.add), onPressed: uplod),);
-
-      unik = 1;
-    }
-
-    r = total.length - 1;
-    return total[val as int];
+      ),
+    ];
+    return aa[_index];
   }
-
 
 
   @override
@@ -175,7 +272,6 @@ class _UpdatDataState extends State<UpdatData> {
   var list = new List();
   var list1 = new List();
 
-  Stander stan = new Stander();
 
   @override
   Widget build(BuildContext context) {
@@ -184,155 +280,12 @@ class _UpdatDataState extends State<UpdatData> {
         title: Text("معلومات فرصة العمل"),
       ),
       body: data == null
-          ? Text("hyhyhyhhy")
-          : SingleChildScrollView(
-              child: Form(
-                autovalidateMode: AutovalidateMode.always,
-                key: ff,
-                child:
-                Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    x("title", "العنوان:", ".......", Icon(Icons.title), 0,
-                        data["title"]),
-                    x("age", "العمر:", ".......", Icon(Icons.person), 0,
-                        data["age"]),
-                    x("workTime", "عدد ساعات العمل:", ".......",
-                        Icon(Icons.alarm_on_sharp), 0, data["workTime"]),
-                    x("salary", "الراتب:", ".......", Icon(Icons.money), 0,
-                        data["salary"]),
-                    Row(
-                      children: [
-                        Icon(Icons.account_tree),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text("عدد المهارات المطلوبة :"),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        z("skillNum", "المهارات", [1, 2, 3, 4, 5]),
-                      ],
-                    ),
-                    ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: data["skillNum"],
-                        itemBuilder: (context, i) {
-                          return x("skill", "المهارة", "........",
-                              Icon(Icons.api), 1, data["skill"][i]);
-                        }),
-                    Row(
-                      children: [
-                        Icon(Icons.language),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text("اللغات المطلوبة :"),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        z("langNum", "اللغات", [1, 2, 3, 4]),
-                      ],
-                    ),
-                    ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: data["langNum"],
-                        itemBuilder: (context, i) {
-                          return x("lang", "اللغة", "........",
-                              Icon(Icons.leak_add_rounded), 2, data["lang"][i]);
-                        }),
-                    Row(
-                      children: [
-                        Icon(Icons.wc),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text("الجنس :"),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        z("gender", "الجنس", ["ذكر", "أنثى", "لا يهم"])
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Icon(Icons.edit),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text("المستوى لبعلمي :"),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        z("degree", "شهادة", [
-                          "لا يهم",
-                          "اعدادي",
-                          "ثانوي",
-                          "جامعي",
-                          "ماستر",
-                          "دوكتورا"
-                        ])
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Icon(Icons.account_tree),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text("عدد الشواغر:"),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        z("Vacancies", "شواغر", [
-                          1,
-                          2,
-                          3,
-                          4,
-                          5,
-                          6,
-                          7,
-                          8,
-                          9,
-                          10,
-                          11,
-                          12,
-                          13,
-                          14,
-                          15,
-                          16,
-                          17,
-                          18,
-                          19,
-                          20
-                        ]),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Icon(Icons.local_florist),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text("المستوى الوظيفي :"),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        z("level", "المستوى", ["مبتدأ", "متمرس", "خبير"])
-                      ],
-                    ),
-                    q(d["level"]),
-                    IconButton(icon: Icon(Icons.add), onPressed: uplod),
-                  ],
-                ),
-              ),
-            ),
+          ? CircularProgressIndicator()
+          : des()
     );
   }
 
-  Widget x(bbb, String name, String hint, Icon c, int i, var sav) {
+  Widget x(bbb, String name, String hint, Icon c, var sav) {
     return TextFormField(
       initialValue: sav,
       decoration: InputDecoration(
@@ -369,12 +322,10 @@ class _UpdatDataState extends State<UpdatData> {
           return null;
       },
       keyboardType: TextInputType.text,
+      onChanged: (e){
+        d[bbb] = e;
+      },
       onSaved: (val) {
-        if (i == 1)
-          list.add(val);
-        else if (i == 2)
-          list1.add(val);
-        else
           d[bbb] = val;
       },
     );
@@ -401,19 +352,16 @@ class _UpdatDataState extends State<UpdatData> {
   Widget q(String name) {
     if (name == "خبير")
       return x("expir", "عدد سنوات الخبرة:", ".......",
-          Icon(Icons.auto_awesome), 0, data["expir"]);
+          Icon(Icons.auto_awesome), data["expir"]);
     return Text("");
   }
 
   void uplod() {
-    var fo = ff.currentState;
-    fo.save();
     var v = FirebaseFirestore.instance.collection("companies").doc(Provider.of<MyProvider>(context, listen: false).company_id).collection("chance");
 
     stan.title = d["title"];
     stan.age = d["age"];
     stan.skillNum = d["skillNum"];
-    stan.skill = list;
     stan.salary = d["salary"];
     stan.workTime = d["workTime"];
     stan.langNum = d["langNum"];
@@ -422,7 +370,6 @@ class _UpdatDataState extends State<UpdatData> {
     stan.degree = d["degree"];
     stan.level = d["level"];
     stan.Vacancies = d["Vacancies"];
-    stan.lang = list1;
     //DateTime date = DateTime.now();
     //stan.dateOfPublication = Jiffy(date).fromNow();
     v.doc(data["id"]).update({
@@ -431,9 +378,7 @@ class _UpdatDataState extends State<UpdatData> {
       "salary": stan.salary,
       "workTime": stan.workTime,
       "langNum": stan.langNum,
-      "lang": stan.lang,
       "skillNum": stan.skillNum,
-      "skill": stan.skill,
       "expir": stan.expir,
       "gender": stan.gender,
       "degree": stan.degree,
