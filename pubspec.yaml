@@ -40,6 +40,7 @@ dependencies:
   #url_launcher: ^6.0.3
   flutter_spinkit:
   fluttertoast:
+  charts_flutter:
   #firebase_storage:
 
   #flutter_swiper:
