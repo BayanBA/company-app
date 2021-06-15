@@ -30,18 +30,17 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   firebase_auth:
-  #firebase_core: "^1.0.4"
+  firebase_core: "^1.0.4"
   cloud_firestore: "^1.0.7"
   jiffy: ^4.0.0
   im_stepper: ^0.1.3
   provider:
-  ##image_picker_for_web:
-  #image_picker: ^0.7.4
-  #url_launcher: ^6.0.3
+  image_picker: ^0.7.4
+  url_launcher: ^6.0.3
   flutter_spinkit:
   fluttertoast:
   charts_flutter:
-  #firebase_storage:
+  firebase_storage:
 
   #flutter_swiper:
   #flutter_staggered_grid_view:
@@ -54,7 +53,7 @@ dependencies:
   #numberpicker:
   #flare_splash_screen:
   #flutter_svg:
-  #curved_navigation_bar:
+  curved_navigation_bar:
   #vertical_card_pager:
   #side_menu_animation:
   #fancy_drawer:

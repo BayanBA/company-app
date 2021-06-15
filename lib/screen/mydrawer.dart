@@ -138,7 +138,7 @@ class _mydrawerState extends State<mydrawer> {
     });
     await user.delete();
     Navigator.push(
-        context, new MaterialPageRoute(builder: (context) => new signup()));
+        context, new MaterialPageRoute(builder: (context) => new SignUp()));
   }
 
   deletAlart() async {

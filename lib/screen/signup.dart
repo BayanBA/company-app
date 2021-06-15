@@ -1,14 +1,14 @@
-
-import 'package:b/screen/job_screen.dart';
 import 'package:flutter/material.dart';
-import 'My_profile.dart';
 
-class signup extends StatefulWidget {
+import 'job_screen.dart';
+import 'login.dart';
+
+class SignUp extends StatefulWidget {
   @override
-  _signupState createState() => new _signupState();
+  _SignUpState createState() => new _SignUpState();
 }
 
-class _signupState extends State<signup> {
+class _SignUpState extends State<SignUp> {
 
   JobScreen jobScreen = new JobScreen();
 
@@ -91,7 +91,7 @@ class _signupState extends State<signup> {
                       child: Column(
                         children: [
                           jobScreen.fill_text(
-                            'name_job',
+                            'اسم الشركه',
                             '...',
                             Icon(
                               Icons.dashboard,
@@ -100,28 +100,42 @@ class _signupState extends State<signup> {
                           ),
                           SizedBox(height: 24.0),
                           jobScreen.fill_text(
-                            'region',
+                            'المقر الرئيسي',
                             '...',
                             Icon(Icons.add_location),
                             TextInputType.name,
                           ),
                           SizedBox(height: 24.0),
+
                           jobScreen.fill_text(
-                            'name_advance',
+                              'المدينه', '...',
+                              Icon(Icons.add_location),
+                              TextInputType.name),
+
+                          SizedBox(height: 24.0),
+                          jobScreen.fill_text(
+                            'حجم الشركه',
                             '...',
                             Icon(Icons.nature),
                             TextInputType.name,
                           ),
                           SizedBox(height: 24.0),
                           jobScreen.fill_text(
-                            'description',
+                            'الوصف',
                             '...',
                             Icon(Icons.ac_unit_sharp),
                             TextInputType.name,
                           ),
                           SizedBox(height: 24.0),
                           jobScreen.fill_text(
-                            'phone',
+                              'التخصص', '...',
+                              Icon(Icons.add_location),
+                              TextInputType.name),
+
+                          SizedBox(height: 24.0),
+                          SizedBox(height: 24.0),
+                          jobScreen.fill_text(
+                            'الهاتف',
                             '...',
                             Icon(Icons.phone),
                             TextInputType.phone,
@@ -140,7 +154,8 @@ class _signupState extends State<signup> {
                             ),
                             InkWell(
                               onTap: () {
-                                Navigator.of(context).pushNamed("login");
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(builder: (context) => new login()));
                               },
                               child: Text(
                                 "اضغط هنا",

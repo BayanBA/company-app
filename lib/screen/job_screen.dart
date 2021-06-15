@@ -1,27 +1,30 @@
 import 'dart:math';
+
 import 'package:b/screen/My_profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:path/path.dart';
+
+//import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 final jobReference = FirebaseFirestore.instance.collection("companies");
 
 class JobScreen {
-
   var formdata;
-  GlobalKey<FormState> formstate=new GlobalKey<FormState>();
-  var  mypassword, myemail;
+  GlobalKey<FormState> formstate = new GlobalKey<FormState>();
+  var mypassword, myemail;
 
   File file;
   String urlk;
-  List<String> data_save=new List();
-  //var image = ImagePicker();
+  List<String> data_save = new List();
+  var image = ImagePicker();
   var imagename;
   int h = 0;
-  List<String> text= new List();
+  List<String> text = new List();
 
   Widget fill_text(String name, String hint, Icon, keyboardType) {
     return TextFormField(
@@ -39,7 +42,7 @@ class JobScreen {
         labelText: name,
         prefixIcon: Icon,
       ),
-      validator:validateName,
+      validator: validateName,
     );
   }
 
@@ -48,7 +51,6 @@ class JobScreen {
     final RegExp nameExp = RegExp(r'^[A-Za-z ]+$');
     return null;
   }
-
 
   signupo(context) async {
     formdata = formstate.currentState;
@@ -74,112 +76,20 @@ class JobScreen {
       var user = await FirebaseAuth.instance.currentUser;
       //CircularProgressIndicator();
       await jobReference.add({
-        'name_job':text.elementAt(0),
+        'company': text.elementAt(0),
         'region': text.elementAt(1),
+        'city': text.elementAt(2),
+        'specialization': text.elementAt(3),
         'email_advance': user.email,
-        'name_advance': text.elementAt(2),
-        'description': text.elementAt(3),
-        'phone': text.elementAt(4),
-        //'type_image': imagename,
+        'description': text.elementAt(4),
+        'size_company': text.elementAt(5),
+
+        'phone': text.elementAt(6),
+        'link_image': "link of image",
       });
 
-      Navigator.push(
-          context,
-          new MaterialPageRoute(
-              builder: (context) =>
-              new ListViewjobs()));
-
+      Navigator.push(context,
+          new MaterialPageRoute(builder: (context) => new HomePage()));
     }
-
   }
-
-  // showBottomSheet(context) {
-  //   return showModalBottomSheet(
-  //       context: context,
-  //       builder: (context) {
-  //         return Container(
-  //           padding: EdgeInsets.all(20),
-  //           height: 180,
-  //           child: Column(
-  //             crossAxisAlignment: CrossAxisAlignment.start,
-  //             children: [
-  //               Text(
-  //                 "Please Choose Image",
-  //                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-  //               ),
-  //               InkWell(
-  //                 onTap: () async {
-  //                   var picked = await ImagePicker()
-  //                       .getImage(source: ImageSource.gallery);
-  //                   if (picked != null) {
-  //                     file = File(picked.path);
-  //                     var rand = Random().nextInt(100000);
-  //                     var imagename = "$rand" + basename(picked.path);
-  //                     var ref =
-  //                     FirebaseStorage.instance.ref("images/$imagename");
-  //                     await ref.putFile(file);
-  //                     urlk = await ref.getDownloadURL();
-  //                     print(url);
-  //                     print(
-  //                         "==================================================");
-  //
-  //                     Navigator.of(context).pop();
-  //                   }
-  //                 },
-  //                 child: Container(
-  //                     width: double.infinity,
-  //                     padding: EdgeInsets.all(10),
-  //                     child: Row(
-  //                       children: [
-  //                         Icon(
-  //                           Icons.photo_outlined,
-  //                           size: 30,
-  //                         ),
-  //                         SizedBox(width: 20),
-  //                         Text(
-  //                           "From Gallery",
-  //                           style: TextStyle(fontSize: 20),
-  //                         )
-  //                       ],
-  //                     )),
-  //               ),
-  //               InkWell(
-  //                 onTap: () async {
-  //                   var picked = await ImagePicker()
-  //                       .getImage(source: ImageSource.camera);
-  //                   if (picked != null) {
-  //                     file = File(picked.path);
-  //                     var rand = Random().nextInt(100000);
-  //                     var imagename = "$rand" + basename(picked.path);
-  //                     var ref =
-  //                     FirebaseStorage.instance.ref("images/$imagename");
-  //                     await ref.putFile(file);
-  //                     var url = await ref.getDownloadURL();
-  //                     Navigator.of(context).pop();
-  //                   }
-  //                 },
-  //                 child: Container(
-  //                     width: double.infinity,
-  //                     padding: EdgeInsets.all(10),
-  //                     child: Row(
-  //                       children: [
-  //                         Icon(
-  //                           Icons.camera,
-  //                           size: 30,
-  //                         ),
-  //                         SizedBox(width: 20),
-  //                         Text(
-  //                           "From Camera",
-  //                           style: TextStyle(fontSize: 20),
-  //                         )
-  //                       ],
-  //                     )),
-  //               ),
-  //             ],
-  //           ),
-  //         );
-  //       });
-  // }
-
 }
-
