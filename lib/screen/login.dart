@@ -1,5 +1,7 @@
+import 'package:b/screen/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 
 class login extends StatefulWidget {
   @override
@@ -57,7 +59,6 @@ class _loginState extends State<login> {
                         top: 30, left: 15, bottom: 10, right: 15),
                     // padding: EdgeInsets.all(40),
                     child: TextFormField(
-
                         onSaved: (val) {
                           myemail = val;
                         },
@@ -115,7 +116,8 @@ class _loginState extends State<login> {
                           Text("if you haven’t Account "),
                           InkWell(
                             onTap: () {
-                              Navigator.of(context).pushNamed("signup");
+                              Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(builder: (context) =>  new SignUp()));
                             },
                             child: Text(
                               "Click Here",

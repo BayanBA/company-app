@@ -242,6 +242,7 @@ class _JobsScreenEditState extends State<JobScreenEdit>
       value.docs.forEach(
             (element) {
           setState(() {
+            print("44444444444");
             String k2 = element.data()['size_company'];
             String k3 = element.data()['email_advance'];
             String k4 = element.data()['company'];
@@ -252,7 +253,7 @@ class _JobsScreenEditState extends State<JobScreenEdit>
             String k8 = element.data()['phone'];
             String k222= element.data()['link_image'];
             link_image= element.data()['link_image'];
-            jobk = new jobs('', k5,k888,k111, k4, k6, k3, k2, k8,k222);
+            jobk = new jobs('', k5,k888,k111, k4, k6, k3, k2, k222,k8);
           });
         },
       );
@@ -264,8 +265,19 @@ class _JobsScreenEditState extends State<JobScreenEdit>
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-            backgroundColor: Colors.white,
-
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(100.0),
+            child: AppBar(
+              title: Center(
+                child: Text(" "),
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(60.0),
+                ),
+              ),
+            ),
+          ),
             body: ListView(children:
             [Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -362,11 +374,11 @@ class _JobsScreenEditState extends State<JobScreenEdit>
                               //showBottomSheet(context),
                               child: CircleAvatar(
                                 radius: 100,
-                                backgroundImage:
-                                     NetworkImage(
-                                          link_image==null?  CircularProgressIndicator(): link_image,
-
-                                        ),
+                                // backgroundImage:
+                                //      NetworkImage(
+                                //            link_image,
+                                //
+                                //         ),
                                     )
 
                             )),

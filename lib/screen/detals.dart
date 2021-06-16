@@ -11,9 +11,9 @@ class Detals extends StatelessWidget {
   Widget build(BuildContext context) {
     var data =Provider.of<MyProvider>(context,listen: false).data;
     return Scaffold(
-      appBar: AppBar(
-        title: Text(data["title"]),
-      ),
+      // appBar: AppBar(
+      //   title: Text(data["title"]),
+      // ),
       body: Column(
         children: [
           Center(

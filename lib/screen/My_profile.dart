@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
             String k8 = element.data()['phone'];
             String k222 = element.data()['link_image'];
 
-            jobk = new jobs('', k5, k888, k111, k4, k6, k3, k2, k8, k222);
+            jobk = new jobs('', k5, k888, k111, k4, k6, k3, k2, k222, k8);
             link_image = element.data()['link_image'];
           });
         },
@@ -100,16 +100,19 @@ class _HomePageState extends State<HomePage> {
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: 300,
-                  decoration: BoxDecoration(
-                    //  borderRadius: BorderRadius.circular(30.0),
-                    image: DecorationImage(
-                        image: NetworkImage(
-                          link_image==null?  CircularProgressIndicator(): link_image,
+                  // decoration: BoxDecoration(
+                  //
+                  //   //  borderRadius: BorderRadius.circular(30.0),
+                  //   image: DecorationImage(
+                  //       image: NetworkImage(
+                  //        link_image
+                  //
+                  //
+                  //       ),  fit: BoxFit.fitWidth
+                  //   ),),
+                ),
 
-                        ),  fit: BoxFit.fitWidth
-                    ),),),
-
-                _formUI(jobk),
+               _formUI(jobk),
 
 
               ],
@@ -125,8 +128,7 @@ class _HomePageState extends State<HomePage> {
 
 
           floatingActionButton: Row(
-            // crossAxisAlignment: CrossAxisAlignment.end,
-            //  mainAxisAlignment: MainAxisAlignment.start,
+
             children: [
               SizedBox(
                 width: 30,
@@ -164,6 +166,7 @@ class _HomePageState extends State<HomePage> {
                 backgroundColor: Colors.white,
                 onPressed: () {},
               ),
+
             ],
           ),
           // bottomNavigationBar: CurvedNavigationBar(

@@ -1,14 +1,20 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:b/screen/My_profile.dart';
+import 'package:b/screen/chance.dart';
 import 'package:b/screen/edit.dart';
+import 'package:b/screen/job_screen.dart';
 import 'package:b/screen/login.dart';
+import 'package:b/screen/post.dart';
 import 'package:b/screen/signup.dart';
+import 'package:b/screen/view.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,8 +28,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Navigation Basics',
-        theme: ThemeData.light()
-            .copyWith(primaryColor: Colors.amber, accentColor: Colors.black),
+        theme: ThemeData.light().copyWith(
+            primaryColor: Colors.indigo[300], accentColor: Colors.indigo[300]),
         debugShowCheckedModeBanner: false,
         home: towRoute(),
         routes: {
@@ -94,12 +100,12 @@ class _FirstRouteState extends State<FirstRoute> {
 
 
 
-  List< dynamic> k= [  HomePage(),login(),JobScreenEdit()
-  ];
+
   int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
     bool islogin;
+    JobScreen jobScreen = new JobScreen();
 
 
     var user = FirebaseAuth.instance.currentUser;
@@ -109,15 +115,21 @@ class _FirstRouteState extends State<FirstRoute> {
       islogin = true;
     }
     return MaterialApp(
+      theme: ThemeData.light().copyWith(
+          primaryColor: Colors.indigo[300], accentColor: Colors.indigo[300]),
       debugShowCheckedModeBanner: false,
       home: Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-          body:IndexedStack( index: _currentIndex,
-              children: [
-                for (final i in k) i,
 
-              ]),
+          body:
+          islogin == false ? login() :
+          IndexedStack( index: _currentIndex,
+              children: [
+                for (final i in koko) i,
+
+              ],
+          ),
           bottomNavigationBar: CurvedNavigationBar(
             color: Colors.indigo[300],
             buttonBackgroundColor: Colors.indigo[300],

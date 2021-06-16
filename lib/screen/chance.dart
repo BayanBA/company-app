@@ -459,9 +459,19 @@ class _AddJopState extends State<AddJop> {
     final _colorPalettes =
     charts.MaterialPalette.getOrderedPalettes(this.data.length);
     return Scaffold(
-        appBar: AppBar(
-              title: Text("معلومات فرصة العمل"),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(100.0),
+          child: AppBar(
+            title: Center(
+              child: Text(" "),
             ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                bottom: Radius.circular(60.0),
+              ),
+            ),
+          ),
+        ),
       body: ListView(
         padding: const EdgeInsets.all(8),
         children: <Widget>[
