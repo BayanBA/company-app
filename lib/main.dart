@@ -128,8 +128,8 @@ class _FirstRouteState extends State<FirstRoute> {
             body: Container(
               child: TabBarView(
                   children: <Widget>[
-                      islogin == false ? login() :
-                    AddJop()
+                    //   islogin == false ? login() :
+                     AddJop()
                     //Quiz(),
                     //VerticalCardPagerUI(),
                     //SideMenuAnimationUI()
