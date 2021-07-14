@@ -1,50 +1,48 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:b/screen/My_profile.dart';
 import 'package:b/screen/chance.dart';
+import 'package:b/screen/edit.dart';
+import 'package:b/screen/job_screen.dart';
 import 'package:b/screen/login.dart';
+import 'package:b/screen/post.dart';
 import 'package:b/screen/signup.dart';
-import 'package:b/stand.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:b/screen/view.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:provider/provider.dart';
 
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(ChangeNotifierProvider(
-    create: (_) => MyProvider(),
-    child: MyApp(),
-  ));
+  runApp(MyApp());
+
 }
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Navigation Basics',
-        theme: ThemeData.light()
-            .copyWith(primaryColor: Colors.
-        amber, accentColor: Colors.black),
+        theme: ThemeData.light().copyWith(
+            primaryColor: Colors.indigo[300], accentColor: Colors.indigo[300]),
         debugShowCheckedModeBanner: false,
         home: towRoute(),
         routes: {
-          // 'signup': (context) {
-          //   return signup();
-          // },
+          'signup': (context) {
+            return SignUp();
+          },
           'login': (context) {
             return login();
           },
           'listview': (context) {
-            return ListViewjobs();
+            return HomePage();
           },
-
-       }
-        );
+        });
   }
 }
 
@@ -59,7 +57,7 @@ class _towRouteState extends State<towRoute> {
     super.initState();
 
     Timer(
-      Duration(seconds: 5),
+      Duration(seconds: 3),
           () => Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => FirstRoute()),
@@ -71,19 +69,21 @@ class _towRouteState extends State<towRoute> {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        home:Directionality(textDirection: TextDirection.rtl,child:
-        Scaffold(
-            body: Container(
-                child: Center(
-                  child: Container(
-                    decoration: BoxDecoration(
-                        image: DecorationImage(image: new AssetImage("images/4.png"))),
-                    child: SpinKitRipple(
-                      color: Colors.red,
-                      size: 80,
+        home: Directionality(
+          textDirection: TextDirection.rtl,
+          child: Scaffold(
+              body: Container(
+                  child: Center(
+                    child: Container(
+                      decoration: BoxDecoration(
+                          image:
+                          DecorationImage(image: new AssetImage("images/4.png"))),
+                      child: SpinKitRipple(
+                        color: Colors.red,
+                        size: 80,
+                      ),
                     ),
-                  ),
-                ))),
+                  ))),
         ));
   }
 }
@@ -95,71 +95,82 @@ class FirstRoute extends StatefulWidget {
 
 class _FirstRouteState extends State<FirstRoute> {
   TextEditingController myController = TextEditingController();
-  //UserCredential userCredential;
+  UserCredential userCredential;
   List<String> messages = List();
 
-  getCompanyId() async {
-    CollectionReference t = FirebaseFirestore.instance.collection("companies");
-    var user = FirebaseAuth.instance.currentUser;
-    await t.where("email_advance", isEqualTo: user.email).get().then((value) {
-      value.docs.forEach((element) {
-        Provider.of<MyProvider>(context, listen: false).setCompId(element.id);
-      });
-    });
-  }
 
+
+
+  int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
     bool islogin;
+    JobScreen jobScreen = new JobScreen();
+
+
     var user = FirebaseAuth.instance.currentUser;
-    if (user == null) {
+    if (user == null)
       islogin = false;
-    } else {
+    else {
       islogin = true;
-      getCompanyId();
     }
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: DefaultTabController(
-          length: 1,
-          child:Directionality(textDirection: TextDirection.rtl,child:
-          Scaffold(
+      theme: ThemeData.light().copyWith(
+          primaryColor: Colors.indigo[300], accentColor: Colors.indigo[300]),
+      debugShowCheckedModeBanner: false,
+      home: Directionality(
+        textDirection: TextDirection.rtl,
+        child: Scaffold(
 
-            body: Container(
-              child: TabBarView(
-                  children: <Widget>[
-                      islogin == false ? login() :
-                    AddJop()
-                    //Quiz(),
-                    //VerticalCardPagerUI(),
-                    //SideMenuAnimationUI()
-                    //AddJop(),
-                    //VerticalCardPagerUI()
-                   // CurvedNavigationDrawer()
-                   // signup()
+          body:
+          islogin == false ? login() :
+          IndexedStack( index: _currentIndex,
+            children: [
+              for (final i in koko) i,
 
-                  ],
-                  //carusol
-                  physics: new NeverScrollableScrollPhysics(),
-                ),
+            ],
+          ),
+          bottomNavigationBar: CurvedNavigationBar(
+            color: Colors.indigo[300],
+            buttonBackgroundColor: Colors.indigo[300],
+            backgroundColor: Colors.white,
+            animationDuration: Duration(seconds: 1),
+            animationCurve: Curves.bounceOut,
+            items: <Widget>[
+              Icon(
+                Icons.home,
+                color: Colors.white,
               ),
+              Icon(
+                Icons.shopping_cart,
+                color: Colors.white,
+              ),
+              Icon(
+                Icons.restaurant_menu,
+                color: Colors.white,
+              ),
+              Icon(
+                Icons.settings,
+                color: Colors.white,
+              ),
+              Icon(
+                Icons.favorite,
+                color: Colors.white,
+              ),
+            ],
+            onTap: (index) {
+              setState(() {
+                _currentIndex = index;
+              }
 
-          ),),
+              );
+            },
+          ),
         ),
-        routes: {
-          // 'signup': (context) {
-          //   return signup();
-          // },
-
-          'login': (context) {
-            return login();
-          },
-          'listview': (context) {
-            return ListViewjobs();
-          },
-
-        }
+      ),
     );
-  }
-}
 
+  }
+
+
+}

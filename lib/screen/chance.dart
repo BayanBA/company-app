@@ -1,4 +1,3 @@
-
 import 'package:b/screen/view.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:im_stepper/stepper.dart';
@@ -42,7 +41,6 @@ class _AddJopState extends State<AddJop> {
     "dateOfPublication": "",
   };
 
-
   var aa = new List();
   Stander stan = new Stander();
 
@@ -57,7 +55,11 @@ class _AddJopState extends State<AddJop> {
       children: [
         Container(
             decoration: BoxDecoration(
-              color: Colors.blueGrey,
+              //color: Colors.blueGrey,
+              border: Border.all(
+                color: Colors.deepPurpleAccent,
+                width: 2,
+              ),
               borderRadius: BorderRadius.circular(15.8),
             ),
             child: IconStepper(
@@ -108,38 +110,15 @@ class _AddJopState extends State<AddJop> {
             )),
         Expanded(
             child: FittedBox(
-          child: Center(
-            child: getStep(),
-          ),
-        ))
+              child: Center(
+                child: getStep(),
+              ),
+            ))
       ],
     );
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     appBar: AppBar(
-  //       title: Text("معلومات فرصة العمل"),
-  //     ),
-  //     body:
-  //       ListView(
-  //         children: [
-  //           Container(
-  //             height: 400,
-  //             decoration: BoxDecoration(
-  //                 borderRadius: BorderRadius.circular(15.8),
-  //                 color: Colors.black12
-  //             ),
-  //             child: des(),
-  //           ),
-  //           ppp
-  //         ],
-  //     ),
-  //   );
-  // }
-
-  Widget x(bbb, String name, String hint, Icon c,var k,int i) {
+  Widget x(bbb, String name, String hint, Icon c, var k, int i) {
     return TextFormField(
       initialValue: d[bbb],
       decoration: InputDecoration(
@@ -184,18 +163,16 @@ class _AddJopState extends State<AddJop> {
       onSaved: (valu) {
         d[bbb] = valu;
       },
-      onEditingComplete: (){
+      onEditingComplete: () {
         _index++;
-        drow(k,i);
+        drow(k, i);
       },
     );
   }
 
-
-  drow(var k,int i){
-    var kk=k.currentState;
-    if(kk.validate() )
-      edit(i);
+  drow(var k, int i) {
+    var kk = k.currentState;
+    if (kk.validate()) edit(i);
   }
 
   Widget z(var v, String name, List<dynamic> l) {
@@ -203,9 +180,9 @@ class _AddJopState extends State<AddJop> {
       hint: Text(name),
       items: l
           .map((e) => DropdownMenuItem(
-                child: Text("$e"),
-                value: e,
-              ))
+        child: Text("$e"),
+        value: e,
+      ))
           .toList(),
       onChanged: (valu) {
         setState(() {
@@ -216,10 +193,10 @@ class _AddJopState extends State<AddJop> {
     );
   }
 
-  Widget q(String name,var k,int i) {
+  Widget q(String name, var k, int i) {
     if (name == "خبير")
-      return x(
-          "expir", "عدد سنوات الخبرة:", ".......", Icon(Icons.auto_awesome),k,i);
+      return x("expir", "عدد سنوات الخبرة:", ".......",
+          Icon(Icons.auto_awesome), k, i);
     return Text("");
   }
 
@@ -257,7 +234,7 @@ class _AddJopState extends State<AddJop> {
       "level": stan.level,
       "Vacancies": stan.Vacancies,
       "dateOfPublication": Jiffy(date).fromNow(),
-      "list":""
+      "list": ""
     });
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => ShowingData()));
@@ -271,10 +248,13 @@ class _AddJopState extends State<AddJop> {
         child: Column(
           children: [
             Text("عنوان الفرصة:"),
-            SizedBox(height: 100,),
+            SizedBox(
+              height: 100,
+            ),
             SizedBox(
                 width: 300,
-                child: x("title", "العنوان:", ".......", Icon(Icons.title),k1,_index)),
+                child: x("title", "العنوان:", ".......", Icon(Icons.title), k1,
+                    _index)),
           ],
         ),
       ),
@@ -283,7 +263,8 @@ class _AddJopState extends State<AddJop> {
         key: k2,
         child: SizedBox(
             width: 300,
-            child: x("age", "العمر:", ".......", Icon(Icons.person),k2,_index)),
+            child:
+            x("age", "العمر:", ".......", Icon(Icons.person), k2, _index)),
       ),
       Form(
         autovalidateMode: AutovalidateMode.always,
@@ -291,29 +272,31 @@ class _AddJopState extends State<AddJop> {
         child: SizedBox(
             width: 300,
             child: x("workTime", "عدد ساعات العمل:", ".......",
-                Icon(Icons.alarm_on_sharp),k3,_index)),
+                Icon(Icons.alarm_on_sharp), k3, _index)),
       ),
       Form(
         autovalidateMode: AutovalidateMode.always,
         key: k4,
         child: SizedBox(
             width: 300,
-            child: x("salary", "الراتب:", ".......", Icon(Icons.money),k4,_index)),
+            child: x(
+                "salary", "الراتب:", ".......", Icon(Icons.money), k4, _index)),
       ),
       Form(
         autovalidateMode: AutovalidateMode.always,
         key: k6,
         child: SizedBox(
             width: 300,
-            child: x(
-                "skillNum", "المهارات:", ".......", Icon(Icons.account_tree),k6,_index)),
+            child: x("skillNum", "المهارات:", ".......",
+                Icon(Icons.account_tree), k6, _index)),
       ),
       Form(
         autovalidateMode: AutovalidateMode.always,
         key: k7,
         child: SizedBox(
             width: 300,
-            child: x("langNum", "اللغات:", ".......", Icon(Icons.language),k7,_index)),
+            child: x("langNum", "اللغات:", ".......", Icon(Icons.language), k7,
+                _index)),
       ),
       SizedBox(
         width: 300,
@@ -368,7 +351,7 @@ class _AddJopState extends State<AddJop> {
                   z("level", "المستوى", ["مبتدأ", "متمرس", "خبير"])
                 ],
               ),
-              q(d["level"],k5,_index),
+              q(d["level"], k5, _index),
             ],
           ),
         ),
@@ -380,7 +363,9 @@ class _AddJopState extends State<AddJop> {
             SizedBox(
               width: 10,
             ),
-            IconButton(color: Colors.amber,iconSize:50,
+            IconButton(
+                color: Colors.amber,
+                iconSize: 50,
                 onPressed: () {
                   setState(() {
                     d["Vacancies"] >= 30
@@ -396,19 +381,24 @@ class _AddJopState extends State<AddJop> {
             SizedBox(
               width: 30,
             ),
-            Text("${d["Vacancies"]}",style: TextStyle(fontSize: 50),),
+            Text(
+              "${d["Vacancies"]}",
+              style: TextStyle(fontSize: 50),
+            ),
             SizedBox(
               width: 30,
             ),
-        IconButton(color: Colors.amber,iconSize:50,
+            IconButton(
+                color: Colors.amber,
+                iconSize: 50,
                 onPressed: () {
                   setState(() {
                     d["Vacancies"] <= 1
                         ? Fluttertoast.showToast(
-                            msg: "لا يمكن ان يكون العدد اقل من 1",
-                            backgroundColor: Colors.black54,
-                    textColor: Colors.white,
-                    toastLength: Toast.LENGTH_LONG)
+                        msg: "لا يمكن ان يكون العدد اقل من 1",
+                        backgroundColor: Colors.black54,
+                        textColor: Colors.white,
+                        toastLength: Toast.LENGTH_LONG)
                         : d["Vacancies"]--;
                   });
                 },
@@ -434,8 +424,6 @@ class _AddJopState extends State<AddJop> {
     return aa[_index];
   }
 
-
-
   bool _animate = true;
   bool _defaultInteractions = true;
   double _arcRatio = 0.5;
@@ -445,13 +433,13 @@ class _AddJopState extends State<AddJop> {
 
   // Data to render.
   List<_CostsData> data = [
-    _CostsData('العنوان', 0),
-    _CostsData('العمر', 0),
-    _CostsData('الساعات', 0),
-    _CostsData('الراتب', 0),
-    _CostsData('المهارات', 0),
-    _CostsData('اللغات', 0),
-    _CostsData('المستوى', 0),
+    _CostsData('العنوان', 10),
+    _CostsData('العمر', 10),
+    _CostsData('الساعات', 10),
+    _CostsData('الراتب', 10),
+    _CostsData('المهارات', 10),
+    _CostsData('اللغات', 10),
+    _CostsData('المستوى', 10),
   ];
 
   @override
@@ -459,74 +447,161 @@ class _AddJopState extends State<AddJop> {
     final _colorPalettes =
     charts.MaterialPalette.getOrderedPalettes(this.data.length);
     return Scaffold(
-        appBar: AppBar(
-              title: Text("معلومات فرصة العمل"),
-            ),
-      body: ListView(
-        padding: const EdgeInsets.all(8),
-        children: <Widget>[
-          Container(
-            height: 400,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(topRight: Radius.circular(15.8),topLeft:Radius.circular(15.8) ),
-                color: Colors.black12
-            ),
-            child: des(),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(100.0),
+        child: AppBar(
+          title: Center(
+            child: Text(" "),
           ),
-          Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15.8),bottomRight:Radius.circular(15.8) ),
-                color: Colors.black12
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(60.0),
             ),
-            height: 300,
-            child: charts.PieChart(
-              [
-                charts.Series<_CostsData, String>(
-                  id: 'Sales-1',
-                  colorFn: (_, idx) => _colorPalettes[idx].shadeDefault,
-                  domainFn: (_CostsData sales, _) => sales.category,
-                  measureFn: (_CostsData sales, _) => sales.cost,
-                  data: this.data,
-                  // Set a label accessor to control the text of the arc label.
-                  labelAccessorFn: (_CostsData row, _) =>
-                  '${row.category}: ${row.cost}',
+          ),
+        ),
+      ),
+      body: Stack(
+        children: [
+          Opacity(
+            opacity: 0.4,
+            child: Container(
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: new AssetImage("images/55.jpeg"),
+                      fit: BoxFit.cover,
+                      colorFilter: ColorFilter.mode(
+                          Color(0xFF5C6BC0), BlendMode.overlay))),
+            ),
+          ),
+
+          // ListView(
+          //     padding: const EdgeInsets.all(8),
+          //     children: <Widget>[
+          //       Container(
+          //         height: 400,
+          //         decoration: BoxDecoration(
+          //             borderRadius: BorderRadius.only(topRight: Radius.circular(15.8),topLeft:Radius.circular(15.8) ),
+          //             color: Colors.black12
+          //         ),
+          //         child: des(),
+          //       ),
+          //       Container(
+          //         decoration: BoxDecoration(
+          //             borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15.8),bottomRight:Radius.circular(15.8) ),
+          //             color: Colors.black12
+          //         ),
+          ListView(
+            padding: const EdgeInsets.all(8),
+            children: <Widget>[
+              Container(
+                height: 400,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(15.8),
+                      topLeft: Radius.circular(15.8)),
                 ),
-              ],
-              animate: this._animate,
-              defaultRenderer: new charts.ArcRendererConfig(
-                arcRatio: this._arcRatio,
-                arcRendererDecorators: [
-                  charts.ArcLabelDecorator(labelPosition: this._arcLabelPosition)
-                ],
+                child: des(),
               ),
-              behaviors: [
-                // Add title.
-                // charts.ChartTitle(
-                //   'Dummy costs breakup',
-                //   behaviorPosition: this._titlePosition,
-                // ),
-                // Add legend. ("Datum" means the "X-axis" of each data point.)
-                charts.DatumLegend(
-                  position: this._legendPosition,
-                  desiredMaxRows: 4,
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(15.8),
+                      bottomRight: Radius.circular(15.8)),
+                  //color: Colors.black12
                 ),
-              ],
-            ),
+                height: 300,
+                child: charts.PieChart(
+                  [
+                    charts.Series<_CostsData, String>(
+                      id: 'Sales-1',
+                      colorFn: (_, idx) => _colorPalettes[idx].shadeDefault,
+                      domainFn: (_CostsData sales, _) => sales.category,
+                      measureFn: (_CostsData sales, _) => sales.cost,
+                      data: this.data,
+                      // Set a label accessor to control the text of the arc label.
+                      labelAccessorFn: (_CostsData row, _) =>
+                      '${row.category}: ${row.cost}',
+                    ),
+                  ],
+                  animate: this._animate,
+                  defaultRenderer: new charts.ArcRendererConfig(
+                    arcRatio: this._arcRatio,
+                    arcRendererDecorators: [
+                      charts.ArcLabelDecorator(
+                          labelPosition: this._arcLabelPosition)
+                    ],
+                  ),
+                  behaviors: [
+                    // Add title.
+                    // charts.ChartTitle(
+                    //   'Dummy costs breakup',
+                    //   behaviorPosition: this._titlePosition,
+                    // ),
+                    // Add legend. ("Datum" means the "X-axis" of each data point.)
+                    charts.DatumLegend(
+                      position: this._legendPosition,
+                      desiredMaxRows: 4,
+                    ),
+                  ],
+                ),
+              ),
+
+              //..._controlWidgets(),
+            ],
           ),
-
-
-          //..._controlWidgets(),
+        ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterTop,
+      floatingActionButton: Row(
+        children: [
+          SizedBox(
+            width: 30,
+          ),
+          FloatingActionButton(
+            child: Icon(
+              Icons.account_balance,
+              color: Colors.indigo[300],
+              size: 30,
+            ),
+            backgroundColor: Colors.white,
+            onPressed: () {},
+          ),
+          SizedBox(
+            width: 70,
+          ),
+          FloatingActionButton(
+            child: Icon(
+              Icons.accessibility,
+              color: Colors.indigo[300],
+              size: 30,
+            ),
+            backgroundColor: Colors.white,
+            onPressed: () {},
+          ),
+          SizedBox(
+            width: 70,
+          ),
+          FloatingActionButton(
+            child: Icon(
+              Icons.account_circle_rounded,
+              color: Colors.indigo[300],
+              size: 30,
+            ),
+            backgroundColor: Colors.white,
+            onPressed: () {},
+          ),
         ],
       ),
     );
   }
 
-  edit(int i){
+  edit(int i) {
     setState(() {
-      data[i].cost=100;
+      data[i].cost = 100;
     });
   }
 }
+
 class _CostsData {
   final String category;
   int cost;
