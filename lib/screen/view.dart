@@ -84,20 +84,20 @@ class _ShowingDataState extends State<ShowingData> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text("Shoooo"),
 
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(
-                  Icons.search,
-                ),
-                onPressed: () {
-                  showSearch(
-                      context: context, delegate: datasearch(list));
-                }),
-          ],
+    return Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(100.0),
+          child: AppBar(
+            title: Center(
+              child: Text(" "),
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                bottom: Radius.circular(60.0),
+              ),
+            ),
+          ),
         ),
         body: Center(
           child: lis.isEmpty

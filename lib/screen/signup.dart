@@ -1,16 +1,42 @@
 
-import 'package:b/screen/job_screen.dart';
 import 'package:flutter/material.dart';
-import 'My_profile.dart';
 
-class signup extends StatefulWidget {
+import 'job_screen.dart';
+import 'login.dart';
+
+class SignUp extends StatefulWidget {
   @override
-  _signupState createState() => new _signupState();
+  _SignUpState createState() => new _SignUpState();
 }
 
-class _signupState extends State<signup> {
+class _SignUpState extends State<SignUp> {
 
   JobScreen jobScreen = new JobScreen();
+  Widget fill_text(String b,String name, String hint, Icon, keyboardType) {
+    return TextFormField(
+        initialValue:jobScreen.d[b],
+
+        keyboardType: keyboardType,
+        onSaved: (val) {
+          jobScreen.text.add(val);
+        },
+        decoration: InputDecoration(
+          fillColor: Colors.brown.withOpacity(0.3),
+          filled: true,
+          border: OutlineInputBorder(
+            borderSide: BorderSide(style: BorderStyle.solid),
+          ),
+          hintText: hint,
+          labelText: name,
+          prefixIcon: Icon,
+        ),
+        validator: jobScreen.validateName,
+        onChanged: (val){
+          setState(() {
+            jobScreen.d[b]=val;
+          });}
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,16 +49,13 @@ class _signupState extends State<signup> {
         textDirection: TextDirection.rtl,
         child: Scaffold(
           body: Center(
-            child: Container(
-              //constraints: BoxConstraints.expand(),
-              child: Form(
-                key: jobScreen.formstate,
-                child: ListView(
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(
-                          top: 30, left: 15, bottom: 10, right: 15),
+            child: ListView(
+              children:<Widget>
+               [
+                    Form(
+                  key: jobScreen.formstate,
                       child: TextFormField(
+                          initialValue: jobScreen.d["email"],
                           onSaved: (val) {
                             jobScreen.myemail = val;
                           },
@@ -55,12 +78,22 @@ class _signupState extends State<signup> {
                               return "لا يمكن ان يكون اقل من حرفين";
 
                             return null;
-                          }),
+                          },
+                                onChanged: (val){
+                                  setState(() {
+                                    jobScreen.d["email"]=val;
+                                  });
+                                  }
+
+                              ),
+
                     ),
-                    Container(
-                      margin: EdgeInsets.only(
-                          top: 30, left: 15, bottom: 10, right: 15),
-                      child: TextFormField(
+                    SizedBox(height: 30,),
+                    Form( key: jobScreen.formstate2,
+                      child:
+                      TextFormField(
+                          initialValue: jobScreen.d["password"],
+
                           onSaved: (val) {
                             jobScreen.mypassword = val;
                           },
@@ -83,53 +116,81 @@ class _signupState extends State<signup> {
                               return "لا يمكن ان تكون اقل من حرفين";
 
                             return null;
-                          }),
+                          },
+                          onChanged: (val)
+                         {
+                              setState(() {
+                                jobScreen.d["password"]=val;
+                              });
+                            }),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(
-                          top: 30, left: 15, bottom: 10, right: 15),
-                      child: Column(
-                        children: [
-                          jobScreen.fill_text(
-                            'name_job',
+                    SizedBox(height: 30,),
+                    Form(
+                        key: jobScreen.formstate3,
+                        child: fill_text("company",
+                            'اسم الشركه',
                             '...',
                             Icon(
                               Icons.dashboard,
                             ),
                             TextInputType.name,
-                          ),
-                          SizedBox(height: 24.0),
-                          jobScreen.fill_text(
-                            'region',
+                          ),),
+                    SizedBox(height: 30,),
+                    Form(
+                  key: jobScreen.formstate4,
+                  child: fill_text("region",
+                            'المقر الرئيسي',
                             '...',
                             Icon(Icons.add_location),
                             TextInputType.name,
-                          ),
-                          SizedBox(height: 24.0),
-                          jobScreen.fill_text(
-                            'name_advance',
+                          ),),
+                    SizedBox(height: 30,),
+                    Form(
+              key: jobScreen.formstate5,
+              child:
+                      fill_text("city",
+                              'المدينه', '...',
+                              Icon(Icons.add_location),
+                              TextInputType.name),),
+                    SizedBox(height: 24.0),
+                    Form(
+              key: jobScreen.formstate6,
+              child: fill_text("size",
+                            'حجم الشركه',
                             '...',
                             Icon(Icons.nature),
                             TextInputType.name,
-                          ),
-                          SizedBox(height: 24.0),
-                          jobScreen.fill_text(
-                            'description',
+                          ),),
+                    SizedBox(height: 30,),
+                    Form(
+              key: jobScreen.formstate7,
+              child:fill_text("des",
+                            'الوصف',
                             '...',
                             Icon(Icons.ac_unit_sharp),
                             TextInputType.name,
-                          ),
-                          SizedBox(height: 24.0),
-                          jobScreen.fill_text(
-                            'phone',
+                          ),),
+                    SizedBox(height: 30,),
+                    Form(
+              key: jobScreen.formstate8,
+              child:fill_text("spe",
+                              'التخصص', '...',
+                              Icon(Icons.add_location),
+                              TextInputType.name),),
+                    SizedBox(height: 30,),
+                    Form(
+              key: jobScreen.formstate9,
+              child:
+                          fill_text("phone",
+                            'الهاتف',
                             '...',
                             Icon(Icons.phone),
                             TextInputType.phone,
-                          ),
-                          SizedBox(height: 24.0),
-                        ],
-                      ),
-                    ),
+                          ),),
+                    SizedBox(height: 30,),
+
+
+
                     Container(
                         margin: EdgeInsets.all(15),
                         child: Row(
@@ -140,7 +201,8 @@ class _signupState extends State<signup> {
                             ),
                             InkWell(
                               onTap: () {
-                                Navigator.of(context).pushNamed("login");
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(builder: (context) => new login()));
                               },
                               child: Text(
                                 "اضغط هنا",
@@ -157,7 +219,7 @@ class _signupState extends State<signup> {
                           child: Text("تسجيل الدخول",
                               style: TextStyle(fontSize: 18)),
                           onPressed: () async {
-
+                             print(jobScreen.d);
                             var response = await jobScreen.signupo(context);
 
                           }),
@@ -167,8 +229,6 @@ class _signupState extends State<signup> {
               ),
             ),
           ),
-        ),
-      ),
+
     );
-  }
-}
+}}
