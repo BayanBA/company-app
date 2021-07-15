@@ -1,7 +1,9 @@
+import 'package:b/stand.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../jobs.dart';
 
@@ -24,7 +26,7 @@ class _HomePageState extends State<HomePage> {
       value.docs.forEach(
             (element) {
           setState(() {
-
+            Provider.of<MyProvider>(context, listen: false).setCompId(element.id);
             String k2 = element.data()['size_company'];
             String k3 = element.data()['email_advance'];
             String k4 = element.data()['company'];

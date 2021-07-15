@@ -8,19 +8,24 @@ import 'package:b/screen/login.dart';
 import 'package:b/screen/post.dart';
 import 'package:b/screen/signup.dart';
 import 'package:b/screen/view.dart';
+import 'package:b/stand.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
 
 import 'teest.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(ChangeNotifierProvider(
+    create: (_) => MyProvider(),
+    child: MyApp(),
+  ));
 
 }
 
