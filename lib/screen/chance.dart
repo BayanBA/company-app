@@ -26,10 +26,10 @@ class _AddJopState extends State<AddJop> {
     "id": "",
     "title": "",
     "quiz": false,
-    "age": "",
-    "salary": "",
-    "workTime": "",
-    "langNum": "",
+    "age": "لا يهم",
+    "salary": "أقل من 100000",
+    "workTime": "3 - 5",
+    "langNum": "لا يهم",
     "skillNum": "",
     "quizList": [],
     "expir": "",
@@ -211,7 +211,7 @@ class _AddJopState extends State<AddJop> {
     stan.skillNum = d["skillNum"];
     stan.salary = d["salary"];
     stan.workTime = d["workTime"];
-    stan.langNum = d["langNum"];
+    stan.langNum = _filters;
     stan.level = d["level"];
     stan.level == "خبير" ? stan.expir = d["expir"] : stan.expir = "";
     stan.gender = d["gender"];
@@ -258,30 +258,78 @@ class _AddJopState extends State<AddJop> {
           ],
         ),
       ),
-      Form(
-        autovalidateMode: AutovalidateMode.always,
-        key: k2,
-        child: SizedBox(
-            width: 300,
-            child:
-            x("age", "العمر:", ".......", Icon(Icons.person), k2, _index)),
+      SizedBox(
+        width: 300,
+        child: Row(
+          children: [
+            Icon(Icons.person),
+            SizedBox(
+              width: 10,
+            ),
+            Text("العمر :"),
+            SizedBox(
+              width: 10,
+            ),
+            z("age", "العمر", ["أقل من 20", "20 - 25", "25 - 30", "30 - 35", "35 - 40", "40 - 45", "45 - 50", "أكبر من 50", "لا يهم"])
+          ],
+        ),
       ),
-      Form(
-        autovalidateMode: AutovalidateMode.always,
-        key: k3,
-        child: SizedBox(
-            width: 300,
-            child: x("workTime", "عدد ساعات العمل:", ".......",
-                Icon(Icons.alarm_on_sharp), k3, _index)),
+      // Form(
+      //   autovalidateMode: AutovalidateMode.always,
+      //   key: k2,
+      //   child: SizedBox(
+      //       width: 300,
+      //       child:
+      //       x("age", "العمر:", ".......", Icon(Icons.person), k2, _index)),
+      // ),
+      SizedBox(
+        width: 300,
+        child: Row(
+          children: [
+            Icon(Icons.alarm_on_sharp),
+            SizedBox(
+              width: 10,
+            ),
+            Text("عدد ساعات العمل :"),
+            SizedBox(
+              width: 10,
+            ),
+            z("workTime", "عدد ساعات العمل", ["3 - 5", "5 - 8", "8 -10", "10 -12","غير ذلك"])
+          ],
+        ),
       ),
-      Form(
-        autovalidateMode: AutovalidateMode.always,
-        key: k4,
-        child: SizedBox(
-            width: 300,
-            child: x(
-                "salary", "الراتب:", ".......", Icon(Icons.money), k4, _index)),
+      // Form(
+      //   autovalidateMode: AutovalidateMode.always,
+      //   key: k3,
+      //   child: SizedBox(
+      //       width: 300,
+      //       child: x("workTime", "عدد ساعات العمل:", ".......",
+      //           Icon(Icons.alarm_on_sharp), k3, _index)),
+      // ),
+      SizedBox(
+        width: 300,
+        child: Row(
+          children: [
+            Icon(Icons.money),
+            SizedBox(
+              width: 10,
+            ),
+            Text("الراتب :"),
+            SizedBox(
+              width: 10,
+            ),
+            z("salary", "الراتب", ["أقل من 100000", "100000 - 300000", "300000 - 500000", "500000 - 700000", "700000 - 1000000", "1000000 - 1500000", "1500000 - 2000000", "أكبر من ذلك"])
+          ],
+        ),
       ),
+      // Form(
+      //   autovalidateMode: AutovalidateMode.always,
+      //   key: k4,
+      //   child: SizedBox(
+      //       width: 300,
+      //       child: x(
+      //           "salary", "الراتب:", ".......", Icon(Icons.money), k4, _index)),
+      // ),
       Form(
         autovalidateMode: AutovalidateMode.always,
         key: k6,
@@ -290,14 +338,18 @@ class _AddJopState extends State<AddJop> {
             child: x("skillNum", "المهارات:", ".......",
                 Icon(Icons.account_tree), k6, _index)),
       ),
-      Form(
-        autovalidateMode: AutovalidateMode.always,
-        key: k7,
-        child: SizedBox(
-            width: 300,
-            child: x("langNum", "اللغات:", ".......", Icon(Icons.language), k7,
-                _index)),
+      SizedBox(
+        width: 300,
+          child:chipList(),
       ),
+      // Form(
+      //   autovalidateMode: AutovalidateMode.always,
+      //   key: k7,
+      //   child: SizedBox(
+      //       width: 300,
+      //       child: x("langNum", "اللغات:", ".......", Icon(Icons.language), k7,
+      //           _index)),
+      // ),
       SizedBox(
         width: 300,
         child: Row(
@@ -424,7 +476,7 @@ class _AddJopState extends State<AddJop> {
     return aa[_index];
   }
 
-  bool _animate = true;
+  bool _animate = false;
   bool _defaultInteractions = true;
   double _arcRatio = 0.5;
   charts.ArcLabelPosition _arcLabelPosition = charts.ArcLabelPosition.auto;
@@ -473,23 +525,6 @@ class _AddJopState extends State<AddJop> {
                           Color(0xFF5C6BC0), BlendMode.overlay))),
             ),
           ),
-
-          // ListView(
-          //     padding: const EdgeInsets.all(8),
-          //     children: <Widget>[
-          //       Container(
-          //         height: 400,
-          //         decoration: BoxDecoration(
-          //             borderRadius: BorderRadius.only(topRight: Radius.circular(15.8),topLeft:Radius.circular(15.8) ),
-          //             color: Colors.black12
-          //         ),
-          //         child: des(),
-          //       ),
-          //       Container(
-          //         decoration: BoxDecoration(
-          //             borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15.8),bottomRight:Radius.circular(15.8) ),
-          //             color: Colors.black12
-          //         ),
           ListView(
             padding: const EdgeInsets.all(8),
             children: <Widget>[
@@ -600,6 +635,51 @@ class _AddJopState extends State<AddJop> {
       data[i].cost = 100;
     });
   }
+
+  chipList() {
+    return Wrap(
+      spacing: 6.0,
+      runSpacing: 6.0,
+      children: <Widget>[
+        chip_desgin('العربية', "A"),
+        chip_desgin('الانكليزية', "E"),
+        chip_desgin('الفرنسية', "F"),
+        chip_desgin('الروسية', "R"),
+        chip_desgin('الصينية', "CH"),
+        chip_desgin('الألمانية', "AL"),
+        chip_desgin('يابانية', "JA"),
+        chip_desgin('غير ذلك', "h"),
+
+      ],
+    );
+  }
+
+  var _filters = [''];
+
+  chip_desgin(lan1,lan){
+    return FilterChip(
+      backgroundColor: Colors.purple,
+      avatar: CircleAvatar(
+        backgroundColor: Colors.cyan,
+        child: Text(lan.toUpperCase(),style: TextStyle(color: Colors.white),),
+      ),
+      label: Text(lan1,),
+      selected: _filters.contains(lan1),
+      selectedColor: Colors.purpleAccent,
+      onSelected: (bool selected) {
+        setState(() {
+          if (selected) {
+            _filters.add(lan1);
+          } else {
+            _filters.removeWhere((String name) {
+              return name == lan1;
+            });
+          }
+        });
+      },
+    );
+  }
+
 }
 
 class _CostsData {
@@ -608,3 +688,4 @@ class _CostsData {
 
   _CostsData(this.category, this.cost);
 }
+

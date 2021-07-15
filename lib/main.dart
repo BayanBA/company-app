@@ -15,6 +15,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import 'teest.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -123,11 +124,10 @@ class _FirstRouteState extends State<FirstRoute> {
         child: Scaffold(
 
           body:
-          islogin == false ? login() :
+          islogin == false ? SignUp() :
           IndexedStack( index: _currentIndex,
             children: [
               for (final i in koko) i,
-
             ],
           ),
           bottomNavigationBar: CurvedNavigationBar(

@@ -11,7 +11,7 @@ class Stander {
   String age = "";
   String salary = "";
   String workTime = "";
-  String langNum = "";
+  var langNum = new List();
   String skillNum = "";
   var quizList=new List();
   String expir = "";
@@ -30,7 +30,7 @@ class MyProvider with ChangeNotifier{
     "age": "",
     "salary": "",
     "workTime": "",
-    "langNum": "",
+    "langNum": [],
     "skillNum": "",
     "quizList":[],
     "expir": "",
