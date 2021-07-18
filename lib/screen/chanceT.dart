@@ -1,4 +1,4 @@
-import 'package:b/screen/chanceT.dart';
+import 'package:b/screen/chance.dart';
 import 'package:b/screen/chanceV.dart';
 import 'package:b/screen/view.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -10,12 +10,12 @@ import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
-class AddJop extends StatefulWidget {
+class ChanceT extends StatefulWidget {
   @override
-  _AddJopState createState() => _AddJopState();
+  _ChanceTState createState() => _ChanceTState();
 }
 
-class _AddJopState extends State<AddJop> {
+class _ChanceTState extends State<ChanceT> {
   GlobalKey<FormState> k1 = new GlobalKey<FormState>();
   GlobalKey<FormState> k2 = new GlobalKey<FormState>();
   GlobalKey<FormState> k3 = new GlobalKey<FormState>();
@@ -342,7 +342,7 @@ class _AddJopState extends State<AddJop> {
       ),
       SizedBox(
         width: 300,
-          child:chipList(),
+        child:chipList(),
       ),
       // Form(
       //   autovalidateMode: AutovalidateMode.always,
@@ -526,7 +526,7 @@ class _AddJopState extends State<AddJop> {
                         image: new AssetImage("images/55.jpeg"),
                         fit: BoxFit.cover,
                         colorFilter: ColorFilter.mode(
-                            Color(0xFF5C6BC0), BlendMode.overlay))),
+                            Color(0xFF5C6000), BlendMode.overlay))),
               ),
             ),
             ListView(

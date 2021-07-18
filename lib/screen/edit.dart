@@ -1,4 +1,6 @@
 import 'dart:math';
+import 'package:b/screen/login.dart';
+import 'package:b/screen/myuser.dart';
 import 'package:path/path.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -9,19 +11,13 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import '../jobs.dart';
-import 'My_profile.dart';
-
+import '../main.dart';
 
 class JobScreenEdit extends StatefulWidget {
-
-
-
   State<StatefulWidget> createState() => new _JobsScreenEditState();
 }
 
-class _JobsScreenEditState extends State<JobScreenEdit>
-  with SingleTickerProviderStateMixin {
-  jobs jobk;
+class _JobsScreenEditState extends State<JobScreenEdit> {
   var dym;
   File image;
   File file;
@@ -32,7 +28,7 @@ class _JobsScreenEditState extends State<JobScreenEdit>
   String link_image;
   final jobReference = FirebaseFirestore.instance.collection("companies");
   GlobalKey<FormState> formstate = new GlobalKey<FormState>();
-  List<String> text;
+
   showBottomSheet(context) async {
     var imagepicker = await ImagePicker();
     return showModalBottomSheet(
@@ -51,7 +47,7 @@ class _JobsScreenEditState extends State<JobScreenEdit>
                 InkWell(
                   onTap: () async {
                     var picked =
-                    await imagepicker.getImage(source: ImageSource.gallery);
+                        await imagepicker.getImage(source: ImageSource.gallery);
                     if (picked != null) {
                       file = File(picked.path);
 
@@ -62,7 +58,7 @@ class _JobsScreenEditState extends State<JobScreenEdit>
                       var rand = Random().nextInt(100000);
                       var imagename = "$rand" + basename(picked.path);
                       var ref =
-                      FirebaseStorage.instance.ref("images/$imagename");
+                          FirebaseStorage.instance.ref("images/$imagename");
                       await ref.putFile(file);
                       var urlk = await ref.getDownloadURL();
                       var user = FirebaseAuth.instance.currentUser;
@@ -80,10 +76,6 @@ class _JobsScreenEditState extends State<JobScreenEdit>
                           });
                         });
                       });
-
-                      // setState(() {
-                      //   dym = file;
-                      // });
 
                       Navigator.of(context).pop();
                     }
@@ -108,13 +100,13 @@ class _JobsScreenEditState extends State<JobScreenEdit>
                 InkWell(
                   onTap: () async {
                     var picked =
-                    await imagepicker.getImage(source: ImageSource.camera);
+                        await imagepicker.getImage(source: ImageSource.camera);
                     if (picked != null) {
                       file = File(picked.path);
                       var rand = Random().nextInt(100000);
                       var imagename = "$rand" + basename(picked.path);
                       var ref =
-                      FirebaseStorage.instance.ref("images/$imagename");
+                          FirebaseStorage.instance.ref("images/$imagename");
                       await ref.putFile(file);
                       var url = await ref.getDownloadURL();
                       var user = FirebaseAuth.instance.currentUser;
@@ -161,47 +153,340 @@ class _JobsScreenEditState extends State<JobScreenEdit>
           );
         });
   }
-  AnimationController _controller;
+
+  Widget z(var v, String name, List<String> l) {
+    return DropdownButton(
+      hint: Text(
+        name,
+        style: TextStyle(
+            color: Colors.black, fontSize: 5, backgroundColor: Colors.black),
+      ),
+      items: l
+          .map((e) => DropdownMenuItem(
+                child: Text(
+                  "$e",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                  ),
+                ),
+                value: e,
+              ))
+          .toList(),
+      onChanged: (valu) {
+        setState(() {
+          jobScreen.d[v] = valu;
+          if (v == "region")
+            jobScreen.d['region'] = homePageData['region'];
+          else if (v == "city") jobScreen.d['city'] = valu;
+          print(valu);
+        });
+      },
+      elevation: 20,
+      style: TextStyle(color: Colors.green, fontSize: 16),
+      icon: Icon(Icons.arrow_drop_down_circle),
+      iconDisabledColor: Colors.black,
+      iconSize: 20,
+      value: jobScreen.d[v],
+    );
+  }
 
   @override
   void initState() {
     super.initState();
-    text = new List();
-    date();
+    getdata1();
     SystemChrome.setEnabledSystemUIOverlays([]);
-    _controller = AnimationController(vsync: this);
+  }
+ var user;
+  getdata1() async {
+    CollectionReference t = FirebaseFirestore.instance.collection("companies");
+    user = await FirebaseAuth.instance.currentUser;
+
+    await t.where("email_advance", isEqualTo: user.email).get().then((value) {
+      value.docs.forEach((element) {
+        setState(() {
+          homePageData = element.data();
+        });
+      });
+    });
   }
 
-  Widget fill_text(String name, String hint, Icon, keyboardType, String sav) {
-    return
+  deletedata(context) async {
+    CollectionReference t = FirebaseFirestore.instance.collection("companies");
+    var user = FirebaseAuth.instance.currentUser;
+    await t.where("email_advance", isEqualTo: user.email).get().then((value) {
+      value.docs.forEach((element) {
+        setState(() {
+          DocumentReference d = FirebaseFirestore.instance
+              .collection("companies")
+              .doc(element.id);
+          d.delete();
+        });
+      });
+    });
+    await user.delete();
+    Navigator.push(
+        context, new MaterialPageRoute(builder: (context) => new Login()));
+  }
 
-      TextFormField(
-        initialValue: sav,
+  deletAlart(context) async {
+    await showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+              shape: BeveledRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              title: Container(
+                  margin: EdgeInsets.only(right: 20),
+                  child: Column(
+                    children: [
+                      Text(
+                        "هل انت متاكد من حذف الحساب",
+                        style: TextStyle(
+                            color: Colors.black, fontStyle: FontStyle.italic),
+                      ),
+                    ],
+                  )),
+              content: Container(
+                height: 20,
+              ),
+              actions: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(right: 30),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.teal[50],
+                      onPrimary: Colors.black,
+                      shape: const BeveledRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(3))),
+                    ),
+                    onPressed: () => setState(() {
+                      Navigator.of(context).pop();
+                    }),
+                    child: Text(
+                      "لا",
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(right: 30),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.teal[50],
+                      onPrimary: Colors.black,
+                      shape: const BeveledRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(3))),
+                    ),
+                    onPressed: () => setState(() {
+                      deletedata(context);
+
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (context) => new Login()));
+                    }),
+                    child: Text(
+                      '  نعم',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                )
+              ]);
+        });
+  }
+
+  sign_out_Alart(context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+              shape: BeveledRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              title: Container(
+                  margin: EdgeInsets.only(right: 20),
+                  child: Column(
+                    children: [
+                      Text(
+                        "هل انت متاكد من تسجيل الخروج",
+                        style: TextStyle(
+                            color: Colors.black, fontStyle: FontStyle.italic),
+                      ),
+                    ],
+                  )),
+              content: Container(
+                height: 20,
+              ),
+              actions: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(right: 30),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.teal[50],
+                      onPrimary: Colors.black,
+                      shape: const BeveledRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(3))),
+                    ),
+                    onPressed: () => setState(() {
+                      Navigator.of(context).pop();
+                    }),
+                    child: Text(
+                      "لا",
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(right: 30),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.teal[50],
+                      onPrimary: Colors.black,
+                      shape: const BeveledRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(3))),
+                    ),
+                    onPressed: () {
+                      //  await _signOut();
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (context) => new Login()));
+                    },
+                    child: Text(
+                      '  نعم',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                )
+              ]);
+        });
+  }
+
+  edit_Alart(context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+              shape: BeveledRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              title: Container(
+                  margin: EdgeInsets.only(right: 20),
+                  child: Column(
+                    children: [
+                      Text(
+                        "هل انت متأكد من التعديلات",
+                        style: TextStyle(
+                            color: Colors.black, fontStyle: FontStyle.italic),
+                      ),
+                    ],
+                  )),
+              content: Container(
+                height: 20,
+              ),
+              actions: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(right: 30),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.teal[50],
+                      onPrimary: Colors.black,
+                      shape: const BeveledRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(3))),
+                    ),
+                    onPressed: () => setState(() {
+                      Navigator.of(context).pop();
+                    }),
+                    child: Text(
+                      "لا",
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(right: 30),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.teal[50],
+                      onPrimary: Colors.black,
+                      shape: const BeveledRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(3))),
+                    ),
+                    onPressed: () async {
+                      Navigator.of(context).pop();
+                      prog(context);
+
+                      await share(context);
+
+                    },
+                    child: Text(
+                      '  نعم',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                )
+              ]);
+        });
+  }
+
+  prog(context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+              shape: BeveledRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              title: Container(
+                  margin: EdgeInsets.only(right: 20),
+                  child: Column(
+                    children: [
+                      Text(
+                        "الرجاء الانتظار",
+                        style: TextStyle(
+                            color: Colors.black, fontStyle: FontStyle.italic),
+                      ),
+                    ],
+                  )),
+              actions: <Widget>[
+              Container(
+                child:finsh==0? CircularProgressIndicator():FloatingActionButton(child: Text("تم التعديل"),onPressed: (){Navigator.of(context).pop();})
+              ),
+          ]
+
+             );
+        });
+  }
+
+  Widget fill_text(String name, Icon, keyboardType, String v) {
+    return TextFormField(
+        initialValue:homePageData[v],
         keyboardType: keyboardType,
         onSaved: (val) {
-          text.add(val);
+          homePageData[v] = val;
         },
         decoration: InputDecoration(
-          fillColor: Colors.brown.withOpacity(0.3),
+          fillColor: Colors.teal[50],
           filled: true,
           border: OutlineInputBorder(
-            borderSide: BorderSide(style: BorderStyle.solid),
+            borderSide: BorderSide(
+              style: BorderStyle.solid,
+              color: Colors.black,
+            ),
           ),
-          hintText: hint,
           labelText: name,
           prefixIcon: Icon,
         ),
         validator: _validateName);
   }
+  var finsh=0;
 
-  share() async {
+  share(context) async {
     var formdata = formstate.currentState;
 
     if (formdata.validate()) {
       formdata.save();
 
-
       var user = FirebaseAuth.instance.currentUser;
+
       await jobReference
           .where("email_advance", isEqualTo: user.email)
           .get()
@@ -212,330 +497,367 @@ class _JobsScreenEditState extends State<JobScreenEdit>
               .doc(element.id);
 
           d.update({
-            'company': text.elementAt(0),
-            'region': text.elementAt(1),
-            'city': text.elementAt(2),
-            'specialization': text.elementAt(3),
-            'email_advance': user.email,
-            'size_company': text.elementAt(4),
-            'description': text.elementAt(5),
-            'phone': text.elementAt(6),
-            'link_image': "link of image",
-          }).then(
-                (value) {
-              Navigator.push(
-                  this.context,
-                  new MaterialPageRoute(
-                      builder: (context) => new HomePage()));
-            },
-          );
+            'company': homePageData["company"],
+            'region': homePageData["region"],
+            'city': homePageData["city"],
+            'followers':[],
+            'size_company': homePageData["size_company"],
+            'description': homePageData["description"],
+            'specialization': homePageData["specialization"],
+            'phone': homePageData["phone"],
+            'link_image': "not",
+          }).then((value) => {finsh=1});
         });
       });
     }
+
   }
 
-  date() async {
-    CollectionReference t = await FirebaseFirestore.instance.collection("companies");
-    var user = await FirebaseAuth.instance.currentUser;
-
-    await t.where("email_advance", isEqualTo: user.email).get().then((value) {
-      value.docs.forEach(
-            (element) {
-          setState(() {
-            print("44444444444");
-            String k2 = element.data()['size_company'];
-            String k3 = element.data()['email_advance'];
-            String k4 = element.data()['company'];
-            String k888 = element.data()['city'];
-            String k111 = element.data()['specialization'];
-            String k5 = element.data()['region'];
-            String k6 = element.data()['description'];
-            String k8 = element.data()['phone'];
-            String k222= element.data()['link_image'];
-            link_image= element.data()['link_image'];
-            jobk = new jobs('', k5,k888,k111, k4, k6, k3, k2, k222,k8);
-          });
-        },
-      );
-    });
+  Future<void> _signOut() async {
+    await FirebaseAuth.instance.signOut();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-        textDirection: TextDirection.rtl,
-        child: Scaffold(
-          appBar: PreferredSize(
-            preferredSize: Size.fromHeight(100.0),
-            child: AppBar(
-              title: Center(
-                child: Text(" "),
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(60.0),
-                ),
+   return homePageData.isEmpty
+       ? CircularProgressIndicator()
+       :ListView(
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  CustomPaint(
+                    // painter: ArcPainter(type: PaintType.right),
+                    child: IconButton(
+                        icon: Icon(
+                          Icons.add_a_photo_sharp,
+                          size: 52,
+                        ),
+                        color: Colors.black,
+                        onPressed: () {
+                          showBottomSheet(context);
+                        }),
+                  )
+                ],
               ),
             ),
-          ),
-            body: ListView(children:
-            [Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      CustomPaint(
-                          painter: ArcPainter(type: PaintType.right),
-                          child: FloatingActionButton(
-                              child: Icon(
-                                Icons.add_a_photo_sharp,
-                                size: 50,
-                                color: Colors.black,
-                              ),
-                              backgroundColor: Color(0xffA562FF),
-                              onPressed: () {
-                                showBottomSheet(context);
-                              })),
-                    ],
-                  ),
-                ),
-
-                Align(
+            Align(
+              alignment: Alignment.center,
+              child: SizedBox(
+                height: 300,
+                width: 300,
+                child: Stack(
                   alignment: Alignment.center,
-                  child: SizedBox(
-                    height: 300,
-                    width: 300,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: <Widget>[
-                        Positioned(
-                          height: 100,
-                          width: 100,
-                          top: 10,
-                          right: 10,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Color(0xffFE7227),
-                                shape: BoxShape.circle,
-                                gradient: LinearGradient(
-                                    colors: [Color(0xffFE7227), Color(0xffFEA120)],
-                                    begin: Alignment.bottomCenter,
-                                    end: Alignment.topCenter),
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Color(0xffFE7227),
-                                      offset: Offset(0, 10),
-                                      blurRadius: 20)
-                                ]),
-                          ),
+                  children: <Widget>[
+                    Positioned(
+                      height: 100,
+                      width: 100,
+                      top: 10,
+                      right: 10,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Color(0xffFE7227),
+                            shape: BoxShape.circle,
+                            gradient: LinearGradient(
+                                colors: [Color(0xffFE7227), Color(0xffFEA120)],
+                                begin: Alignment.bottomCenter,
+                                end: Alignment.topCenter),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Color(0xffFE7227),
+                                  offset: Offset(0, 10),
+                                  blurRadius: 20)
+                            ]),
+                      ),
+                    ),
+                    Positioned(
+                      height: 100,
+                      width: 100,
+                      bottom: 10,
+                      left: 10,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            gradient: LinearGradient(
+                                colors: [Color(0xffB767FC), Color(0xffD765FB)],
+                                begin: Alignment.bottomCenter,
+                                end: Alignment.topCenter),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Color(0xffB767FC),
+                                  offset: Offset(0, 10),
+                                  blurRadius: 20)
+                            ]),
+                      ),
+                    ),
+                    Container(
+                        height: 200,
+                        width: 200,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: LinearGradient(
+                              end: Alignment.topCenter,
+                              begin: Alignment.bottomCenter,
+                              colors: [Color(0xff3DD92E), Color(0xff8BFB6B)]),
+                          boxShadow: [
+                            BoxShadow(
+                                offset: Offset(0, 30),
+                                color: Color(0xFF3DD92E).withAlpha(100),
+                                blurRadius: 40)
+                          ],
                         ),
-                        Positioned(
-                          height: 100,
-                          width: 100,
-                          bottom: 10,
-                          left: 10,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                gradient: LinearGradient(
-                                    colors: [Color(0xffB767FC), Color(0xffD765FB)],
-                                    begin: Alignment.bottomCenter,
-                                    end: Alignment.topCenter),
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Color(0xffB767FC),
-                                      offset: Offset(0, 10),
-                                      blurRadius: 20)
-                                ]),
-                          ),
-                        ),
-                        Container(
-                            height: 200,
-                            width: 200,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              gradient: LinearGradient(
-                                  end: Alignment.topCenter,
-                                  begin: Alignment.bottomCenter,
-                                  colors: [Color(0xff3DD92E), Color(0xff8BFB6B)]),
-                              boxShadow: [
-                                BoxShadow(
-                                    offset: Offset(0, 30),
-                                    color: Color(0xFF3DD92E).withAlpha(100),
-                                    blurRadius: 40)
-                              ],
-                            ),
-                            child: InkWell(
-                              //showBottomSheet(context),
-                              child: CircleAvatar(
+                        child: InkWell(
+                            //showBottomSheet(context),
+                            child: CircleAvatar(
                                 radius: 100,
-                                // backgroundImage:
-                                //      NetworkImage(
-                                //            link_image,
+                                backgroundImage:
+                                    //link_image==Null?
+                                    AssetImage("images/bb.jpg")
+                                // :
+                                //  NetworkImage(
+                                //        link_image,
                                 //
-                                //         ),
-                                    )
-
-                            )),
-                        Positioned(
-                          height: 35,
-                          width: 35,
-                          top: 40,
-                          left: 40,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                gradient: LinearGradient(
-                                    colors: [Color(0xff0894FF), Color(0xff05BFFA)],
-                                    begin: Alignment.bottomCenter,
-                                    end: Alignment.topCenter),
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Color(0xff0894FF),
-                                      offset: Offset(0, 5),
-                                      blurRadius: 10)
-                                ]),
-                          ),
-                        ),
-                        Positioned(
-                          height: 15,
-                          width: 15,
-                          bottom: 40,
-                          right: 40,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Color(0xffFF3443),
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Color(0xffFF3443),
-                                      offset: Offset(0, 2),
-                                      blurRadius: 5)
-                                ]),
-                          ),
-                        ),
-                        Positioned(
-                          height: 15,
-                          width: 15,
-                          bottom: 40,
-                          right: 40,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Color(0xffFF3443),
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Color(0xffFF3443),
-                                      offset: Offset(0, 2),
-                                      blurRadius: 5)
-                                ]),
-                          ),
-                        ),
-                        Positioned(
-                          height: 50,
-                          width: 30,
-                          bottom: 5,
-                          left: 170,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.black,
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.black12,
-                                      offset: Offset(0, 10),
-                                      blurRadius: 10)
-                                ]),
-                          ),
-                        ),
-
-                      ],
+                                //     ),
+                                ))),
+                    Positioned(
+                      height: 35,
+                      width: 35,
+                      top: 40,
+                      left: 40,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            gradient: LinearGradient(
+                                colors: [Color(0xff0894FF), Color(0xff05BFFA)],
+                                begin: Alignment.bottomCenter,
+                                end: Alignment.topCenter),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Color(0xff0894FF),
+                                  offset: Offset(0, 5),
+                                  blurRadius: 10)
+                            ]),
+                      ),
                     ),
-                  ),
-                ),
-
-              ],
-            ),
-
-
-         Center(
-            child: Container(
-              child: SingleChildScrollView(
-                child: Form(
-                  key: formstate,
-                  child: Container(
-                    margin: EdgeInsets.only(
-                        top: 30, left: 15, bottom: 10, right: 15),
-                    // padding: EdgeInsets.all(40),
-                    child: Column(
-                      //heightFactor: 1000,
-
-                      children: [
-                        fill_text(
-                            'اسم الشركه',
-                            '...',
-                            Icon(
-                              Icons.dashboard,
-                            ),
-                            TextInputType.name,
-                            jobk.company),
-                        SizedBox(height: 24.0),
-
-
-                        fill_text('المقر الرئيسي', '...', Icon(Icons.add_location),
-                            TextInputType.name, jobk.region),
-
-                        SizedBox(height: 24.0),
-
-                        fill_text('المدينه', '...', Icon(Icons.add_location),
-                            TextInputType.name, jobk.city),
-
-                        SizedBox(height: 24.0),
-                        fill_text('الايميل', '...', Icon(Icons.email),
-                            TextInputType.emailAddress, jobk.email_advance),
-                        SizedBox(height: 24.0),
-
-
-                        fill_text('حجم الشركه', '...', Icon(Icons.nature),
-                            TextInputType.name, jobk.size_company),
-                        SizedBox(height: 24.0),
-
-                        fill_text('الوصف', '...', Icon(Icons.ac_unit_sharp),
-                            TextInputType.name,
-                            jobk.description),
-
-                        SizedBox(height: 24.0),
-
-                        fill_text('التخصص', '...', Icon(Icons.ac_unit_sharp),
-                            TextInputType.name,
-                            jobk.specialization),
-
-                        SizedBox(height: 24.0),
-                        fill_text('phone', '...', Icon(Icons.phone),
-                            TextInputType.phone, jobk.phone),
-                        SizedBox(height: 24.0),
-                        Container(
-                          padding: const EdgeInsets.only(
-                              left: 150.0, top: 40.0, right: 150),
-                          child: RaisedButton(
-                            child: Text('تعديل'),
-                            onPressed: () async => share(),
-                          ),
-                        ),
-                      ],
+                    Positioned(
+                      height: 15,
+                      width: 15,
+                      bottom: 40,
+                      right: 40,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Color(0xffFF3443),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Color(0xffFF3443),
+                                  offset: Offset(0, 2),
+                                  blurRadius: 5)
+                            ]),
+                      ),
                     ),
-                  ),
+                    Positioned(
+                      height: 15,
+                      width: 15,
+                      bottom: 40,
+                      right: 40,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Color(0xffFF3443),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Color(0xffFF3443),
+                                  offset: Offset(0, 2),
+                                  blurRadius: 5)
+                            ]),
+                      ),
+                    ),
+                    Positioned(
+                      height: 50,
+                      width: 30,
+                      bottom: 5,
+                      left: 170,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.black,
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black12,
+                                  offset: Offset(0, 10),
+                                  blurRadius: 10)
+                            ]),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
+          ],
+        ),
+        Center(
+          child: Form(
+            key: formstate,
+            child: Container(
+              margin: EdgeInsets.only(top: 30, left: 15, bottom: 10, right: 15),
+              child: Column(
+                children: [
+                  fill_text(
+                      'اسم الشركه',
+                      Icon(
+                        Icons.dashboard,
+                        color: Colors.black,
+                      ),
+                      TextInputType.name,
+                      "company"),
+                  SizedBox(height: 24.0),
+                  Positioned(
+                      top: 600,
+                      child: Container(
+                        width: 300,
+                        child: SizedBox(
+                          width: 300,
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.add_location_alt_rounded,
+                                    color: Colors.black,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    "المقر الرئيسي * :",
+                                    style: TextStyle(
+                                        color: Colors.black87, fontSize: 20),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  z("region", "المدينه", nn),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      )),
+                  SizedBox(height: 24.0),
+                  Positioned(
+                      top: 780,
+                      child: Container(
+                        width: 300,
+                        child: SizedBox(
+                          width: 300,
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.add_location_alt_rounded,
+                                    color: Colors.black,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    "المدينه *:",
+                                    style: TextStyle(
+                                        color: Colors.black87, fontSize: 20),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  z("city", "المدينه",
+                                      kk[jobScreen.d['region']]),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      )),
+                  SizedBox(height: 24.0),
+                  fill_text(
+                      'حجم الشركه',
+                      Icon(
+                        Icons.nature,
+                        color: Colors.black,
+                      ),
+                      TextInputType.name,
+                      "size_company"),
+                  SizedBox(height: 24.0),
+                  fill_text(
+                      'الوصف',
+                      Icon(
+                        Icons.ac_unit_sharp,
+                        color: Colors.black,
+                      ),
+                      TextInputType.name,
+                      "description"),
+                  SizedBox(height: 24.0),
+                  fill_text(
+                      'التخصص',
+                      Icon(
+                        Icons.ac_unit_sharp,
+                        color: Colors.black,
+                      ),
+                      TextInputType.name,
+                      "specialization"),
+                  SizedBox(height: 24.0),
+                  fill_text(
+                      'الهاتف',
+                      Icon(
+                        Icons.phone,
+                        color: Colors.black,
+                      ),
+                      TextInputType.phone,
+                      "phone"),
+                  SizedBox(height: 24.0),
+                  Container(
+                    child: Row(children: [
+                      IconButton(
+                        color: Colors.black,
+                        icon: Icon(
+                          Icons.edit,
+                          size: 40,
+                        ),
+                        onPressed: () async => await edit_Alart(context),
+                      ),
+                      IconButton(
+                          color: Colors.black,
+                          icon: Icon(
+                            Icons.delete,
+                            size: 40,
+                          ),
+                          onPressed: () async {
+                            await deletAlart(context);
+                          }),
+                      IconButton(
+                          color: Colors.black,
+                          icon: Icon(
+                            Icons.exit_to_app,
+                            size: 40,
+                          ),
+                          onPressed: () async {
+                            await sign_out_Alart(context);
+                          }),
+                    ]),
+                  ),
+                ],
+              ),
+            ),
           ),
-        ],),
-      ),
+        ),
+      ],
     );
   }
 
@@ -592,4 +914,3 @@ class ArcPainter extends CustomPainter {
     return false;
   }
 }
-

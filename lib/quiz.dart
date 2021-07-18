@@ -21,9 +21,6 @@ class _QuizState extends State<Quiz> {
   Widget build(BuildContext context) {
     data = Provider.of<MyProvider>(context, listen: true).data;
     dataB=Provider.of<MyProvider>(context, listen: false);
-    print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-    print(data["id"]);
-
     return Scaffold(
       appBar: AppBar(
         title: Text(""),

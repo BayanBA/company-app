@@ -35,7 +35,7 @@ dependencies:
   jiffy: ^4.0.0
   im_stepper: ^0.1.3
   provider:
-  image_picker: ^0.7.4
+  image_picker:
   url_launcher: ^6.0.3
   flutter_spinkit:
   fluttertoast:
@@ -84,6 +84,7 @@ flutter:
     - images/3.png
     - images/2.png
     - images/55.jpeg
+    - images/bb.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

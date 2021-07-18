@@ -1,14 +1,14 @@
 import 'dart:async';
-import 'dart:math';
 import 'package:b/screen/My_profile.dart';
 import 'package:b/screen/chance.dart';
 import 'package:b/screen/edit.dart';
 import 'package:b/screen/job_screen.dart';
 import 'package:b/screen/login.dart';
 import 'package:b/screen/post.dart';
-import 'package:b/screen/signup.dart';
-import 'package:b/screen/view.dart';
+import 'package:b/screen/savedUser.dart';
+import 'package:b/screen/users.dart';
 import 'package:b/stand.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
-import 'teest.dart';
+List<String> nn = new List();
+Map<String, List> kk = new Map();
+List<String> nn2 = new List();
+JobScreen jobScreen = new JobScreen();
+
+List<dynamic> koko = [
+  AddJop(),
+  Post(),
+  HomePage(),
+  show_user(),
+  JobScreenEdit(),
+];
+  Map<String,dynamic> homePageData=new Map<String,dynamic>();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,29 +38,18 @@ Future<void> main() async {
     create: (_) => MyProvider(),
     child: MyApp(),
   ));
-
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Navigation Basics',
-        theme: ThemeData.light().copyWith(
-            primaryColor: Colors.indigo[300], accentColor: Colors.indigo[300]),
-        debugShowCheckedModeBanner: false,
-        home: towRoute(),
-        routes: {
-          'signup': (context) {
-            return SignUp();
-          },
-          'login': (context) {
-            return login();
-          },
-          'listview': (context) {
-            return HomePage();
-          },
-        });
+      title: 'Navigation Basics',
+      theme: ThemeData.light().copyWith(
+          primaryColor: Colors.indigo[300], accentColor: Colors.indigo[300]),
+      debugShowCheckedModeBanner: false,
+      home: towRoute(),
+    );
   }
 }
 
@@ -59,19 +60,50 @@ class towRoute extends StatefulWidget {
 
 class _towRouteState extends State<towRoute> {
   @override
+  getdata() async {
+    CollectionReference t =
+        await FirebaseFirestore.instance.collection("location");
+    await t.doc("Pju9ofIYjWDZF86czL75").get().then((value) {
+      for (int i = 0; i < 5; i++) nn.add(value.data()['array'][i]);
+      bbb();
+    });
+  }
+
+  bbb() async {
+    await getdata2();
+  }
+
+  getdata2() async {
+    CollectionReference t =
+        await FirebaseFirestore.instance.collection("location");
+    await t.doc("zgmM6DkhtzXh1S4F4Atd").get().then((value) {
+
+      for (int j = 0; j < nn.length; j++) {
+        nn2 = new List();
+        for (int i = 0; i < 5; i++)
+          nn2.add(value.data()['map'][nn.elementAt(j)][i]);
+
+        kk[nn.elementAt(j)] = nn2;
+      }
+    });
+  }
+
   void initState() {
     super.initState();
-
+    nn = new List();
+    nn2 = new List();
+    getdata();
     Timer(
       Duration(seconds: 3),
-          () => Navigator.push(
+      () => Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => FirstRoute()),
+        MaterialPageRoute(
+          builder: (context) => FirstRoute(),
+        ),
       ),
     );
   }
 
-  @override
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -80,16 +112,16 @@ class _towRouteState extends State<towRoute> {
           child: Scaffold(
               body: Container(
                   child: Center(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          image:
-                          DecorationImage(image: new AssetImage("images/4.png"))),
-                      child: SpinKitRipple(
-                        color: Colors.red,
-                        size: 80,
-                      ),
-                    ),
-                  ))),
+            child: Container(
+              decoration: BoxDecoration(
+                  image:
+                      DecorationImage(image: new AssetImage("images/4.png"))),
+              child: SpinKitRipple(
+                color: Colors.red,
+                size: 80,
+              ),
+            ),
+          ))),
         ));
   }
 }
@@ -100,26 +132,24 @@ class FirstRoute extends StatefulWidget {
 }
 
 class _FirstRouteState extends State<FirstRoute> {
-  TextEditingController myController = TextEditingController();
-  UserCredential userCredential;
-  List<String> messages = List();
 
 
 
-
-  int _currentIndex = 0;
-  @override
-  Widget build(BuildContext context) {
-    bool islogin;
-    JobScreen jobScreen = new JobScreen();
-
-
-    var user = FirebaseAuth.instance.currentUser;
+  void initState() {
+    super.initState();
+    user = FirebaseAuth.instance.currentUser;
     if (user == null)
       islogin = false;
     else {
       islogin = true;
     }
+  }
+
+  int _currentIndex = 0;
+  bool islogin=false;
+  var user;
+  @override
+  Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData.light().copyWith(
           primaryColor: Colors.indigo[300], accentColor: Colors.indigo[300]),
@@ -127,14 +157,27 @@ class _FirstRouteState extends State<FirstRoute> {
       home: Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-
-          body:
-          islogin == false ? SignUp() :
-          IndexedStack( index: _currentIndex,
-            children: [
-              for (final i in koko) i,
-            ],
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(80.0),
+            child: AppBar(
+              title: Center(
+                child: Text(" "),
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(60.0),
+                ),
+              ),
+            ),
           ),
+          body: islogin == false
+              ? Login()
+              : IndexedStack(
+                  index: _currentIndex,
+                  children: [
+                    for (final i in koko) i,
+                  ],
+                ),
           bottomNavigationBar: CurvedNavigationBar(
             color: Colors.indigo[300],
             buttonBackgroundColor: Colors.indigo[300],
@@ -143,39 +186,36 @@ class _FirstRouteState extends State<FirstRoute> {
             animationCurve: Curves.bounceOut,
             items: <Widget>[
               Icon(
+                Icons.work,
+                color: Colors.white,
+              ),
+              Icon(
+                Icons.post_add,
+                color: Colors.white,
+              ),
+              Icon(
                 Icons.home,
                 color: Colors.white,
               ),
               Icon(
-                Icons.shopping_cart,
-                color: Colors.white,
-              ),
-              Icon(
-                Icons.restaurant_menu,
+                Icons.supervised_user_circle_sharp,
                 color: Colors.white,
               ),
               Icon(
                 Icons.settings,
                 color: Colors.white,
               ),
-              Icon(
-                Icons.favorite,
-                color: Colors.white,
-              ),
             ],
             onTap: (index) {
               setState(() {
                 _currentIndex = index;
-              }
-
-              );
+               // if(_currentIndex==2 || _currentIndex==4)
+                  //homePageData=null;
+              });
             },
           ),
         ),
       ),
     );
-
   }
-
-
 }
