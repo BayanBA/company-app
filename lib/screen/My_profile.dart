@@ -1,3 +1,4 @@
+import 'package:b/chanceScreen/viewPost.dart';
 import 'package:b/main.dart';
 import 'package:b/chanceScreen/view.dart';
 import 'package:b/stand.dart';
@@ -71,12 +72,15 @@ class _HomePageState extends State<HomePage> {
                   FloatingActionButton(
                     heroTag:"tag2",
                     child: Icon(
-                      Icons.accessibility,
+                      Icons.padding,
                       color: Colors.indigo[300],
                       size: 30,
                     ),
                     backgroundColor: Colors.white,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(context,
+                          new MaterialPageRoute(builder: (context) => ShowingPost()));
+                    },
                   ),
                   SizedBox(
                     width: 70,

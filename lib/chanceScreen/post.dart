@@ -1,8 +1,10 @@
+import 'package:b/chanceScreen/viewPost.dart';
 import 'package:b/main.dart';
 import 'package:b/screen/My_profile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
 
 import '../stand.dart';
@@ -14,14 +16,42 @@ class Post extends StatefulWidget {
 
 class _PostState extends State<Post> {
   var save;
+  var title;
   GlobalKey<FormState> ff = new GlobalKey<FormState>();
+  GlobalKey<FormState> ff1 = new GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return ListView(children: [
       Padding(
           padding: EdgeInsets.all(10),
-          child: Form(
+          child:
+            Form(
+              key: ff1,
+              child: Container(
+                child: TextFormField(
+                  onSaved: (val) {
+                    title = val;
+                  },
+                  onChanged: (val) {
+                    title = val;
+                  },
+                  decoration: InputDecoration(
+                    fillColor: Colors.teal[50],
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(style: BorderStyle.solid),
+                    ),
+                    hintText: 'العنوان',
+                  ),
+                ),
+              ),
+            ),
+          ),
+      Padding(
+          padding: EdgeInsets.all(10),
+          child:
+          Form(
             key: ff,
             child: Container(
               child: TextFormField(
@@ -39,7 +69,8 @@ class _PostState extends State<Post> {
                 maxLines: 30,
               ),
             ),
-          )),
+          )
+      ),
       FloatingActionButton(
         onPressed: () {
           addpost(context);
@@ -52,13 +83,20 @@ class _PostState extends State<Post> {
 
   saving() {
     var fo = ff.currentState;
+    var fo1 = ff1.currentState;
     fo.save();
+    fo1.save();
     var user = FirebaseAuth.instance.currentUser;
     var v = FirebaseFirestore.instance
         .collection("companies")
         .doc(Provider.of<MyProvider>(context, listen: false).company_id)
         .collection("Post");
-    v.add({"myPost": save});
+    v.add({
+      "myPost": save,
+      "id": "",
+      "title": title,
+      "dateOfPublication": Jiffy(DateTime.now()).fromNow()
+    });
   }
 
   addpost(context) {
@@ -111,11 +149,11 @@ class _PostState extends State<Post> {
                           borderRadius: BorderRadius.all(Radius.circular(3))),
                     ),
                     onPressed: () {
-                     saving();
+                      saving();
                       Navigator.pushReplacement(
                           context,
                           new MaterialPageRoute(
-                              builder: (context) => koko.elementAt(2)));
+                              builder: (context) => ShowingPost()));
                     },
                     child: Text(
                       '  نعم',
