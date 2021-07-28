@@ -486,20 +486,7 @@ class _AddJopState extends State<AddJop> {
   Widget build(BuildContext context) {
     final _colorPalettes =
     charts.MaterialPalette.getOrderedPalettes(this.data.length);
-    return  Stack(
-          children: [
-            Opacity(
-              opacity: 0.4,
-              child: Container(
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: new AssetImage("images/55.jpeg"),
-                        fit: BoxFit.cover,
-                        colorFilter: ColorFilter.mode(
-                            Color(0xFF5C6BC0), BlendMode.overlay))),
-              ),
-            ),
-            ListView(
+    return ListView(
               padding: const EdgeInsets.all(8),
               children: <Widget>[
                 Container(
@@ -557,9 +544,7 @@ class _AddJopState extends State<AddJop> {
 
                 //..._controlWidgets(),
               ],
-            ),
-          ],
-        );
+            );
         // floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterTop,
         // floatingActionButton: Row(
         //   children: [

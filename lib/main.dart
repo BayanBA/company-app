@@ -169,10 +169,25 @@ class _FirstRouteState extends State<FirstRoute> {
               ),
             ),
           ),
-          body: IndexedStack(
-            index: _currentIndex,
+          body: Stack(
             children: [
-              for (final i in koko) i,
+              Opacity(
+                opacity: 0.4,
+                child: Container(
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: new AssetImage("images/55.jpeg"),
+                          fit: BoxFit.cover,
+                          colorFilter: ColorFilter.mode(
+                              Color(0xFF5C6BC0), BlendMode.overlay))),
+                ),
+              ),
+              IndexedStack(
+                index: _currentIndex,
+                children: [
+                  for (final i in koko) i,
+                ],
+              ),
             ],
           ),
           bottomNavigationBar: CurvedNavigationBar(

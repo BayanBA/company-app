@@ -11,9 +11,19 @@ class Detals extends StatelessWidget {
   Widget build(BuildContext context) {
     var data =Provider.of<MyProvider>(context,listen: false).data;
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text(data["title"]),
-      // ),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(100.0),
+        child: AppBar(
+          title: Center(
+            child: Text(" "),
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(60.0),
+            ),
+          ),
+        ),
+      ),
       body: Column(
         children: [
           Center(
