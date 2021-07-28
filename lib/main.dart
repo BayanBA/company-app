@@ -53,14 +53,12 @@ class MyApp extends StatelessWidget {
   }
 }
 
-
 class towRoute extends StatefulWidget {
   @override
   _towRouteState createState() => new _towRouteState();
 }
 
 class _towRouteState extends State<towRoute> {
-
   bool islogin = false;
   var user;
 
@@ -102,23 +100,24 @@ class _towRouteState extends State<towRoute> {
     if (user == null)
       islogin = false;
     else {
-      islogin = true;}
+      islogin = true;
+    }
 
     Timer(
       Duration(seconds: 3),
       () => islogin == false
           ? Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => Login(),
-        ),
-      ):
-          Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => FirstRoute(),
-        ),
-      ),
+              context,
+              MaterialPageRoute(
+                builder: (context) => Login(),
+              ),
+            )
+          : Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => FirstRoute(),
+              ),
+            ),
     );
   }
 
@@ -178,16 +177,12 @@ class _FirstRouteState extends State<FirstRoute> {
               ),
             ),
           ),
-          body:
-          // islogin == false
-          //     ? Login()
-              //:
-          IndexedStack(
-                  index: _currentIndex,
-                  children: [
-                    for (final i in koko) i,
-                  ],
-                ),
+          body: IndexedStack(
+            index: _currentIndex,
+            children: [
+              for (final i in koko) i,
+            ],
+          ),
           bottomNavigationBar: CurvedNavigationBar(
             color: Colors.indigo[300],
             buttonBackgroundColor: Colors.indigo[300],
@@ -219,8 +214,6 @@ class _FirstRouteState extends State<FirstRoute> {
             onTap: (index) {
               setState(() {
                 _currentIndex = index;
-                // if(_currentIndex==2 || _currentIndex==4)
-                //homePageData=null;
               });
             },
           ),
