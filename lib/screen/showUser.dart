@@ -62,11 +62,11 @@ class _show_detalsState extends State<show_detals> {
                                               context,
                                               new MaterialPageRoute(
                                                   builder: (context) =>
-                                                      new saves(widget.items
-                                                              .elementAt(0)[
-                                                          'firstname'])));
+                                                  new saves(widget.items
+                                                      .elementAt(0)[
+                                                  'firstname'])));
                                           print(
-                                              "__________________________________________________________");
+                                              "____________________");
                                           print(
                                               "${widget.items.elementAt(0)['firstname']}");
                                         }),
@@ -81,7 +81,7 @@ class _show_detalsState extends State<show_detals> {
                                           context,
                                           new MaterialPageRoute(
                                               builder: (context) =>
-                                                  new show_user())),
+                                              new show_user())),
                                     ),
                                   ],
                                 ),
@@ -118,7 +118,7 @@ class _show_detalsState extends State<show_detals> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                  MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Row(children: [
                                       Text(
@@ -198,7 +198,7 @@ class _show_detalsState extends State<show_detals> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                  MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Text(
                                       "${widget.items.elementAt(0)['skill']}",
