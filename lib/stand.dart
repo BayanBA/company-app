@@ -1,11 +1,8 @@
-
 import 'package:flutter/cupertino.dart';
 
 class Stander {
   String id = "";
   String dateOfPublication = "";
-  bool quiz=false;
-  int quizNum=1;
   int Vacancies = 1;
   String title = "";
   String age = "";
@@ -26,7 +23,6 @@ class MyProvider with ChangeNotifier{
   Map<String,dynamic> data={
     "id": "",
     "title": "",
-    "quiz":false,
     "age": "",
     "salary": "",
     "workTime": "",
@@ -42,8 +38,26 @@ class MyProvider with ChangeNotifier{
     "dateOfPublication": "",
   };
   String company_id="";
+  List<String> Q=[""];
+  List<String> A=[""];
+  List<String> Z=[""];
   int page = 0;
+  int quiz=0;
 
+  setListQA(var qu,var ans,var ans11){
+    Q=qu;
+    A=ans;
+    Z=ans11;
+    quiz=1;
+    notifyListeners();
+  }
+
+  setListTF(var qu,var ans){
+    Q=qu;
+    A=ans;
+    quiz=2;
+    notifyListeners();
+  }
 
   setPage(int num){
     page=num;
@@ -52,22 +66,6 @@ class MyProvider with ChangeNotifier{
 
   setDAta1(String name,var val){
     data[name]=val;
-    notifyListeners();
-  }
-
-  setList (var val,int i,var typ){
-    print("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
-    if(typ==1)
-    data["quizList"].elementAt(i).Q=val;
-    else if(typ==2)
-      data["quizList"].elementAt(i).ans.add(val);
-    else if(typ==3)
-      data["quizList"].elementAt(i).trueAns=val;
-    else{
-      data["quizList"].elementAt(i).num=val;
-      print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-      print("${data["quizList"].elementAt(i).num}");}
-
     notifyListeners();
   }
 

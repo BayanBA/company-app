@@ -1,5 +1,7 @@
 import 'package:b/screen/chanceT.dart';
 import 'package:b/screen/chanceV.dart';
+import 'package:b/screen/questionAnswere.dart';
+import 'package:b/screen/truefalse.dart';
 import 'package:b/screen/view.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:im_stepper/stepper.dart';
@@ -224,6 +226,10 @@ class _AddJopState extends State<AddJop> {
     stan.dateOfPublication = Jiffy(date).fromNow();
     v.add({
       "id": "",
+      "Q":Provider.of<MyProvider>(context, listen: false).Q,
+      "A":Provider.of<MyProvider>(context, listen: false).A,
+      "Z":Provider.of<MyProvider>(context, listen: false).Z,
+      "quiz":Provider.of<MyProvider>(context, listen: false).quiz,
       "title": stan.title,
       "age": stan.age,
       "salary": stan.salary,
@@ -276,14 +282,6 @@ class _AddJopState extends State<AddJop> {
           ],
         ),
       ),
-      // Form(
-      //   autovalidateMode: AutovalidateMode.always,
-      //   key: k2,
-      //   child: SizedBox(
-      //       width: 300,
-      //       child:
-      //       x("age", "العمر:", ".......", Icon(Icons.person), k2, _index)),
-      // ),
       SizedBox(
         width: 300,
         child: Row(
@@ -300,14 +298,6 @@ class _AddJopState extends State<AddJop> {
           ],
         ),
       ),
-      // Form(
-      //   autovalidateMode: AutovalidateMode.always,
-      //   key: k3,
-      //   child: SizedBox(
-      //       width: 300,
-      //       child: x("workTime", "عدد ساعات العمل:", ".......",
-      //           Icon(Icons.alarm_on_sharp), k3, _index)),
-      // ),
       SizedBox(
         width: 300,
         child: Row(
@@ -324,14 +314,6 @@ class _AddJopState extends State<AddJop> {
           ],
         ),
       ),
-      // Form(
-      //   autovalidateMode: AutovalidateMode.always,
-      //   key: k4,
-      //   child: SizedBox(
-      //       width: 300,
-      //       child: x(
-      //           "salary", "الراتب:", ".......", Icon(Icons.money), k4, _index)),
-      // ),
       Form(
         autovalidateMode: AutovalidateMode.always,
         key: k6,
@@ -344,14 +326,6 @@ class _AddJopState extends State<AddJop> {
         width: 300,
           child:chipList(),
       ),
-      // Form(
-      //   autovalidateMode: AutovalidateMode.always,
-      //   key: k7,
-      //   child: SizedBox(
-      //       width: 300,
-      //       child: x("langNum", "اللغات:", ".......", Icon(Icons.language), k7,
-      //           _index)),
-      // ),
       SizedBox(
         width: 300,
         child: Row(
@@ -466,6 +440,18 @@ class _AddJopState extends State<AddJop> {
           children: [
             IconButton(icon: Icon(Icons.add), onPressed: uplod),
             IconButton(
+                icon: Icon(Icons.post_add),
+                onPressed: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => QuestionAnswer()));
+                }),
+            IconButton(
+                icon: Icon(Icons.dangerous),
+                onPressed: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => TrueFalse()));
+                }),
+            IconButton(
                 icon: Icon(Icons.logout),
                 onPressed: () {
                   Navigator.of(context).pushReplacement(
@@ -500,23 +486,7 @@ class _AddJopState extends State<AddJop> {
   Widget build(BuildContext context) {
     final _colorPalettes =
     charts.MaterialPalette.getOrderedPalettes(this.data.length);
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(80.0),
-          child: AppBar(
-            title: Center(
-              child: Text(" "),
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(
-                bottom: Radius.circular(60.0),
-              ),
-            ),
-          ),
-        ),
-        body: Stack(
+    return  Stack(
           children: [
             Opacity(
               opacity: 0.4,
@@ -589,7 +559,7 @@ class _AddJopState extends State<AddJop> {
               ],
             ),
           ],
-        ),
+        );
         // floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterTop,
         // floatingActionButton: Row(
         //   children: [
@@ -634,8 +604,7 @@ class _AddJopState extends State<AddJop> {
         //     ),
         //   ],
         // ),
-      ),
-    );
+
   }
 
   edit(int i) {
