@@ -8,6 +8,8 @@ import 'package:b/screen/post.dart';
 import 'package:b/screen/savedUser.dart';
 import 'package:b/screen/users.dart';
 import 'package:b/stand.dart';
+import 'package:b/teest.dart';
+import 'package:b/ytyt.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
@@ -29,7 +31,7 @@ List<dynamic> koko = [
   show_user(),
   JobScreenEdit(),
 ];
-  Map<String,dynamic> homePageData=new Map<String,dynamic>();
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -170,14 +172,16 @@ class _FirstRouteState extends State<FirstRoute> {
               ),
             ),
           ),
-          body: islogin == false
-              ? Login()
-              : IndexedStack(
-                  index: _currentIndex,
-                  children: [
-                    for (final i in koko) i,
-                  ],
-                ),
+          body:
+          ProgressButtonWidget(),
+          // islogin == false
+          //     ? Login()
+          //     : IndexedStack(
+          //         index: _currentIndex,
+          //         children: [
+          //           for (final i in koko) i,
+          //         ],
+          //       ),
           bottomNavigationBar: CurvedNavigationBar(
             color: Colors.indigo[300],
             buttonBackgroundColor: Colors.indigo[300],
@@ -209,8 +213,6 @@ class _FirstRouteState extends State<FirstRoute> {
             onTap: (index) {
               setState(() {
                 _currentIndex = index;
-               // if(_currentIndex==2 || _currentIndex==4)
-                  //homePageData=null;
               });
             },
           ),

@@ -299,9 +299,10 @@ class _SignUpState extends State<SignUp> {
                                     borderRadius: BorderRadius.circular(5)),
                               ),
                             ),
-                            Positioned(
-                                top: 600,
-                                child: Container(
+                            SizedBox(
+                              height: 100,
+                            ),
+                            Container(
                                   width: 300,
                                   child: Form(
                                     autovalidateMode: AutovalidateMode.always,
@@ -335,7 +336,7 @@ class _SignUpState extends State<SignUp> {
                                       ),
                                     ),
                                   ),
-                                )),
+                                ),
                             Positioned(
                               top: 740,
                               child: Card(
@@ -352,9 +353,10 @@ class _SignUpState extends State<SignUp> {
                                     borderRadius: BorderRadius.circular(5)),
                               ),
                             ),
-                            Positioned(
-                                top: 780,
-                                child: Container(
+                            SizedBox(
+                              height: 100,
+                            ),
+                             Container(
                                   width: 300,
                                   child: Form(
                                     autovalidateMode: AutovalidateMode.always,
@@ -389,7 +391,7 @@ class _SignUpState extends State<SignUp> {
                                       ),
                                     ),
                                   ),
-                                )),
+                                ),
                             Positioned(
                               top: 910,
                               child: Card(

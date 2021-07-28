@@ -11,12 +11,12 @@ class _AnimatedListWidgetState extends State<AnimatedListWidget> {
   final GlobalKey<AnimatedListState> _listKey1 = GlobalKey();
 
   // backing data
-  List<String> _data = [
-    'Item 1',
-    'Item 2',
-    'Item 3',
-    'Item 4',
-  ];
+  // List<String> _data = [
+  //   'Item 1',
+  //   'Item 2',
+  //   'Item 3',
+  //   'Item 4',
+  // ];
   Map<int, GlobalKey<FormState>> keymap = new Map<int, GlobalKey<FormState>>();
   Map<int, GlobalKey<FormState>> keymap1 = new Map<int, GlobalKey<FormState>>();
   int itemno = 4;
@@ -32,7 +32,7 @@ class _AnimatedListWidgetState extends State<AnimatedListWidget> {
         Expanded(
           child: AnimatedList(
             key: _listKey,
-            initialItemCount: _data.length,
+            initialItemCount: sol.length,
             itemBuilder: (context, index, animation) {
               if (keymap[sol.elementAt(index)] == null) {
                 keymap[index] = new GlobalKey<FormState>();
@@ -46,31 +46,31 @@ class _AnimatedListWidgetState extends State<AnimatedListWidget> {
                   SizedBox(
                     height: 15,
                   ),
-                  SizedBox(
-                    height: 10,
-                    child: ListView.builder(
-                      itemCount: 3,
-                      itemBuilder: (context, index1) {
-                        if (keymap1[(sol.elementAt(index))*3] == null) {
-                          keymap1[(sol.elementAt(index))*3] = new GlobalKey<FormState>();
-                          keymap1[((sol.elementAt(index))*3)+1] = new GlobalKey<FormState>();
-                          keymap1[((sol.elementAt(index))*3)+2] = new GlobalKey<FormState>();
-                        }
-                        return Column(
-                          children: [
-                            Form(
-                              autovalidateMode: AutovalidateMode.always,
-                              key: keymap1[((sol.elementAt(index))*3)+index1],
-                              child: _buildItem1(((sol.elementAt(index))*3)+index1),
-                            ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                  ),
+                  // SizedBox(
+                  //   height: 10,
+                  //   child: ListView.builder(
+                  //     itemCount: 3,
+                  //     itemBuilder: (context, index1) {
+                  //       if (keymap1[(sol.elementAt(index))*3] == null) {
+                  //         keymap1[(sol.elementAt(index))*3] = new GlobalKey<FormState>();
+                  //         keymap1[((sol.elementAt(index))*3)+1] = new GlobalKey<FormState>();
+                  //         keymap1[((sol.elementAt(index))*3)+2] = new GlobalKey<FormState>();
+                  //       }
+                  //       return Column(
+                  //         children: [
+                  //           Form(
+                  //             autovalidateMode: AutovalidateMode.always,
+                  //             key: keymap1[((sol.elementAt(index))*3)+index1],
+                  //             child: _buildItem1(((sol.elementAt(index))*3)+index1),
+                  //           ),
+                  //           SizedBox(
+                  //             height: 15,
+                  //           ),
+                  //         ],
+                  //       );
+                  //     },
+                  //   ),
+                  // ),
                 ],
               );
             },
@@ -222,13 +222,13 @@ class _AnimatedListWidgetState extends State<AnimatedListWidget> {
   void _removeSingleItems(int removeAt) {
     int removeIndex = removeAt;
     if (map[removeIndex]!=null){ map.remove(removeIndex);keymap.remove(removeIndex);}
-    if (map1[removeIndex * 3]!=null) {map1.remove(removeIndex * 3);keymap1.remove(removeIndex * 3);}
-    if (map1[(removeIndex * 3) + 1]!=null){
-      map1.remove((removeIndex * 3) + 1);
-      keymap1.remove((removeIndex * 3) + 1);}
-    if (map1[(removeIndex * 3) + 2]!=null){
-      map1.remove((removeIndex * 3) + 2);
-      keymap1.remove((removeIndex * 3) + 2);}
+    // if (map1[removeIndex * 3]!=null) {map1.remove(removeIndex * 3);keymap1.remove(removeIndex * 3);}
+    // if (map1[(removeIndex * 3) + 1]!=null){
+    //   map1.remove((removeIndex * 3) + 1);
+    //   keymap1.remove((removeIndex * 3) + 1);}
+    // if (map1[(removeIndex * 3) + 2]!=null){
+    //   map1.remove((removeIndex * 3) + 2);
+    //   keymap1.remove((removeIndex * 3) + 2);}
 
     sol.removeAt(removeIndex);
     //String removedItem = _data.removeAt(removeIndex);
@@ -237,11 +237,11 @@ class _AnimatedListWidgetState extends State<AnimatedListWidget> {
     // has already been deleted.
     AnimatedListRemovedItemBuilder builder = (context, animation) {
       // A method to build the Card widget.
-      return _buildItem( animation, removeAt);
+      return Text("kii");
     };
     _listKey.currentState.removeItem(removeIndex, builder);
     print(map.values);
     print("\n\n\n");
-    print(map1.values);
+    // print(map1.values);
   }
 }

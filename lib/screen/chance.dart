@@ -590,50 +590,50 @@ class _AddJopState extends State<AddJop> {
             ),
           ],
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterTop,
-        floatingActionButton: Row(
-          children: [
-            SizedBox(
-              width: 30,
-            ),
-            FloatingActionButton(
-              child: Icon(
-                Icons.shopping_bag_outlined,
-                color: Colors.indigo[300],
-                size: 30,
-              ),
-              backgroundColor: Colors.white,
-              onPressed: () {Navigator.push(context,
-                  new MaterialPageRoute(builder: (context) => new AddJop()));},
-            ),
-            SizedBox(
-              width: 70,
-            ),
-            FloatingActionButton(
-              child: Icon(
-                Icons.attribution_outlined,
-                color: Colors.indigo[300],
-                size: 30,
-              ),
-              backgroundColor: Colors.white,
-              onPressed: () {Navigator.push(context,
-                  new MaterialPageRoute(builder: (context) => new ChanceT()));},
-            ),
-            SizedBox(
-              width: 70,
-            ),
-            FloatingActionButton(
-              child: Icon(
-                Icons.volunteer_activism,
-                color: Colors.indigo[300],
-                size: 30,
-              ),
-              backgroundColor: Colors.white,
-              onPressed: () {Navigator.push(context,
-                  new MaterialPageRoute(builder: (context) => new ChanceV()));},
-            ),
-          ],
-        ),
+        // floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterTop,
+        // floatingActionButton: Row(
+        //   children: [
+        //     SizedBox(
+        //       width: 30,
+        //     ),
+        //     FloatingActionButton(
+        //       child: Icon(
+        //         Icons.shopping_bag_outlined,
+        //         color: Colors.indigo[300],
+        //         size: 30,
+        //       ),
+        //       backgroundColor: Colors.white,
+        //       onPressed: () {Navigator.push(context,
+        //           new MaterialPageRoute(builder: (context) => new AddJop()));},
+        //     ),
+        //     SizedBox(
+        //       width: 70,
+        //     ),
+        //     FloatingActionButton(
+        //       child: Icon(
+        //         Icons.attribution_outlined,
+        //         color: Colors.indigo[300],
+        //         size: 30,
+        //       ),
+        //       backgroundColor: Colors.white,
+        //       onPressed: () {Navigator.push(context,
+        //           new MaterialPageRoute(builder: (context) => new ChanceT()));},
+        //     ),
+        //     SizedBox(
+        //       width: 70,
+        //     ),
+        //     FloatingActionButton(
+        //       child: Icon(
+        //         Icons.volunteer_activism,
+        //         color: Colors.indigo[300],
+        //         size: 30,
+        //       ),
+        //       backgroundColor: Colors.white,
+        //       onPressed: () {Navigator.push(context,
+        //           new MaterialPageRoute(builder: (context) => new ChanceV()));},
+        //     ),
+        //   ],
+        // ),
       ),
     );
   }

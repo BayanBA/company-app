@@ -1,4 +1,5 @@
 import 'package:b/main.dart';
+import 'package:b/screen/view.dart';
 import 'package:b/stand.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -17,6 +18,7 @@ class _HomePageState extends State<HomePage> {
   String link_image;
   jobs jobk;
   var user;
+  Map<String,dynamic> homePageData=new Map<String,dynamic>();
 
   getdata1() async {
     CollectionReference t = FirebaseFirestore.instance.collection("companies");
@@ -35,34 +37,39 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    getdata1();
+   // getdata1();
   }
 
+
+
+  nnn()async{await getdata1() ;}
   @override
   Widget build(BuildContext context) {
+    nnn();
     return homePageData.isEmpty
         ? CircularProgressIndicator()
         : ListView(children: [
-            Positioned(
-              top: 100,
-              child: Row(
+            Row(
                 children: [
                   SizedBox(
                     width: 30,
                   ),
                   FloatingActionButton(
+                    heroTag:"tag1",
                     child: Icon(
                       Icons.account_balance,
                       color: Colors.indigo[300],
                       size: 30,
                     ),
                     backgroundColor: Colors.white,
-                    onPressed: () {},
+                    onPressed: () {Navigator.push(context,
+                        new MaterialPageRoute(builder: (context) => ShowingData()));},
                   ),
                   SizedBox(
                     width: 70,
                   ),
                   FloatingActionButton(
+                    heroTag:"tag2",
                     child: Icon(
                       Icons.accessibility,
                       color: Colors.indigo[300],
@@ -75,6 +82,7 @@ class _HomePageState extends State<HomePage> {
                     width: 70,
                   ),
                   FloatingActionButton(
+                    heroTag:"tag3",
                     child: Icon(
                       Icons.account_circle_rounded,
                       color: Colors.indigo[300],
@@ -85,7 +93,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-            ),
+
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Card(

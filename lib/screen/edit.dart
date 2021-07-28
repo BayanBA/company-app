@@ -28,6 +28,7 @@ class _JobsScreenEditState extends State<JobScreenEdit> {
   String link_image;
   final jobReference = FirebaseFirestore.instance.collection("companies");
   GlobalKey<FormState> formstate = new GlobalKey<FormState>();
+  Map<String,dynamic> homePageData=new Map<String,dynamic>();
 
   showBottomSheet(context) async {
     var imagepicker = await ImagePicker();
@@ -411,11 +412,21 @@ class _JobsScreenEditState extends State<JobScreenEdit> {
                       shape: const BeveledRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(3))),
                     ),
-                    onPressed: () async {
+                    onPressed: () {
                       Navigator.of(context).pop();
-                      prog(context);
 
-                      await share(context);
+                      print("((((((((((((((((((((((((((((((((((");
+                      print(finsh);
+                      setState(() {
+                        share(context);
+                        prog(context);
+
+                      });
+
+
+
+                      //finsh=1;
+
 
                     },
                     child: Text(
@@ -427,6 +438,7 @@ class _JobsScreenEditState extends State<JobScreenEdit> {
               ]);
         });
   }
+
 
   prog(context) {
     showDialog(
@@ -448,8 +460,12 @@ class _JobsScreenEditState extends State<JobScreenEdit> {
                   )),
               actions: <Widget>[
               Container(
-                child:finsh==0? CircularProgressIndicator():FloatingActionButton(child: Text("تم التعديل"),onPressed: (){Navigator.of(context).pop();})
-              ),
+                 child: finsh==0? CircularProgressIndicator():
+          FloatingActionButton(child: Text("تم التعديل"),onPressed: (){
+          //finsh=0;
+          Navigator.of(context).pop();},
+
+              ),)
           ]
 
              );
@@ -496,7 +512,7 @@ class _JobsScreenEditState extends State<JobScreenEdit> {
               .collection("companies")
               .doc(element.id);
 
-          d.update({
+           d.update({
             'company': homePageData["company"],
             'region': homePageData["region"],
             'city': homePageData["city"],
@@ -506,10 +522,13 @@ class _JobsScreenEditState extends State<JobScreenEdit> {
             'specialization': homePageData["specialization"],
             'phone': homePageData["phone"],
             'link_image': "not",
-          }).then((value) => {finsh=1});
+          }).then((value) => finsh=1);
+
+
         });
       });
     }
+    finsh=1;
 
   }
 
@@ -718,10 +737,8 @@ class _JobsScreenEditState extends State<JobScreenEdit> {
                       ),
                       TextInputType.name,
                       "company"),
-                  SizedBox(height: 24.0),
-                  Positioned(
-                      top: 600,
-                      child: Container(
+                  SizedBox(height: 240.0),
+                 Container(
                         width: 300,
                         child: SizedBox(
                           width: 300,
@@ -750,11 +767,9 @@ class _JobsScreenEditState extends State<JobScreenEdit> {
                             ],
                           ),
                         ),
-                      )),
-                  SizedBox(height: 24.0),
-                  Positioned(
-                      top: 780,
-                      child: Container(
+                      ),
+                  SizedBox(height: 240.0),
+                 Container(
                         width: 300,
                         child: SizedBox(
                           width: 300,
@@ -784,7 +799,7 @@ class _JobsScreenEditState extends State<JobScreenEdit> {
                             ],
                           ),
                         ),
-                      )),
+                      ),
                   SizedBox(height: 24.0),
                   fill_text(
                       'حجم الشركه',
