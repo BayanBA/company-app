@@ -104,21 +104,13 @@ class _towRouteState extends State<towRoute> {
     }
 
     Timer(
-      Duration(seconds: 3),
-      () => islogin == false
-          ? Navigator.push(
+        Duration(seconds: 3),
+        () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => Login(),
+                builder: (context) => islogin == false ? Login() : FirstRoute(),
               ),
-            )
-          : Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => FirstRoute(),
-              ),
-            ),
-    );
+            ));
   }
 
   Widget build(BuildContext context) {
@@ -153,7 +145,7 @@ class _FirstRouteState extends State<FirstRoute> {
     super.initState();
   }
 
-  int _currentIndex = 0;
+  int _currentIndex = 2;
 
   @override
   Widget build(BuildContext context) {
@@ -184,6 +176,7 @@ class _FirstRouteState extends State<FirstRoute> {
             ],
           ),
           bottomNavigationBar: CurvedNavigationBar(
+            index: _currentIndex,
             color: Colors.indigo[300],
             buttonBackgroundColor: Colors.indigo[300],
             backgroundColor: Colors.white,

@@ -105,7 +105,7 @@ class JobScreen {
     });
 
     Navigator.push(context,
-        new MaterialPageRoute(builder: (context) => koko.elementAt(2)));
+        new MaterialPageRoute(builder: (context) => FirstRoute()));
 
 
   }
