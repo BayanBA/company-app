@@ -59,6 +59,10 @@ class towRoute extends StatefulWidget {
 }
 
 class _towRouteState extends State<towRoute> {
+
+  bool islogin = false;
+  var user;
+
   @override
   getdata() async {
     CollectionReference t =
@@ -92,9 +96,23 @@ class _towRouteState extends State<towRoute> {
     nn = new List();
     nn2 = new List();
     getdata();
+
+    user = FirebaseAuth.instance.currentUser;
+    if (user == null)
+      islogin = false;
+    else {
+      islogin = true;}
+
     Timer(
       Duration(seconds: 3),
-      () => Navigator.push(
+      () => islogin == false
+          ? Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Login(),
+        ),
+      ):
+          Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => FirstRoute(),
@@ -133,18 +151,9 @@ class FirstRoute extends StatefulWidget {
 class _FirstRouteState extends State<FirstRoute> {
   void initState() {
     super.initState();
-    user = FirebaseAuth.instance.currentUser;
-    if (user == null)
-      islogin = false;
-    else {
-      islogin = true;
-    }
   }
 
   int _currentIndex = 0;
-  bool islogin = false;
-  var user;
-
 
   @override
   Widget build(BuildContext context) {
@@ -168,9 +177,11 @@ class _FirstRouteState extends State<FirstRoute> {
               ),
             ),
           ),
-          body: islogin == false
-              ? Login()
-              : IndexedStack(
+          body:
+          // islogin == false
+          //     ? Login()
+              //:
+          IndexedStack(
                   index: _currentIndex,
                   children: [
                     for (final i in koko) i,
