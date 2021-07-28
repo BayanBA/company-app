@@ -303,40 +303,40 @@ class _SignUpState extends State<SignUp> {
                               height: 100,
                             ),
                             Container(
+                              width: 300,
+                              child: Form(
+                                autovalidateMode: AutovalidateMode.always,
+                                key: jobScreen.formstate4,
+                                child: SizedBox(
                                   width: 300,
-                                  child: Form(
-                                    autovalidateMode: AutovalidateMode.always,
-                                    key: jobScreen.formstate4,
-                                    child: SizedBox(
-                                      width: 300,
-                                      child: Column(
+                                  child: Column(
+                                    children: [
+                                      Row(
                                         children: [
-                                          Row(
-                                            children: [
-                                              Icon(
-                                                Icons.add_location_alt_rounded,
-                                                color: Colors.black,
-                                              ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              Text(
-                                                "المقر الرئيسي * :",
-                                                style: TextStyle(
-                                                    color: Colors.black87,
-                                                    fontSize: 20),
-                                              ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              z("region", "المدينه", nn),
-                                            ],
+                                          Icon(
+                                            Icons.add_location_alt_rounded,
+                                            color: Colors.black,
                                           ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(
+                                            "المقر الرئيسي * :",
+                                            style: TextStyle(
+                                                color: Colors.black87,
+                                                fontSize: 20),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          z("region", "المدينه", nn),
                                         ],
                                       ),
-                                    ),
+                                    ],
                                   ),
                                 ),
+                              ),
+                            ),
                             Positioned(
                               top: 740,
                               child: Card(
@@ -356,42 +356,42 @@ class _SignUpState extends State<SignUp> {
                             SizedBox(
                               height: 100,
                             ),
-                             Container(
+                            Container(
+                              width: 300,
+                              child: Form(
+                                autovalidateMode: AutovalidateMode.always,
+                                key: jobScreen.formstate5,
+                                child: SizedBox(
                                   width: 300,
-                                  child: Form(
-                                    autovalidateMode: AutovalidateMode.always,
-                                    key: jobScreen.formstate5,
-                                    child: SizedBox(
-                                      width: 300,
-                                      child: Column(
+                                  child: Column(
+                                    children: [
+                                      Row(
                                         children: [
-                                          Row(
-                                            children: [
-                                              Icon(
-                                                Icons.add_location_alt_rounded,
-                                                color: Colors.black,
-                                              ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              Text(
-                                                "المدينه *:",
-                                                style: TextStyle(
-                                                    color: Colors.black87,
-                                                    fontSize: 20),
-                                              ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              z("city", "المدينه",
-                                                  kk[jobScreen.d['region']]),
-                                            ],
+                                          Icon(
+                                            Icons.add_location_alt_rounded,
+                                            color: Colors.black,
                                           ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(
+                                            "المدينه *:",
+                                            style: TextStyle(
+                                                color: Colors.black87,
+                                                fontSize: 20),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          z("city", "المدينه",
+                                              kk[jobScreen.d['region']]),
                                         ],
                                       ),
-                                    ),
+                                    ],
                                   ),
                                 ),
+                              ),
+                            ),
                             Positioned(
                               top: 910,
                               child: Card(
@@ -562,8 +562,7 @@ class _SignUpState extends State<SignUp> {
                                     child: Text("انشاء حساب",
                                         style: TextStyle(fontSize: 30)),
                                     onPressed: () async {
-                                          await jobScreen.signupo(context);
-
+                                      await jobScreen.signupo(context);
                                     }),
                               ),
                             ),
