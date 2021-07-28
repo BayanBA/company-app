@@ -30,6 +30,7 @@ class _PostState extends State<Post> {
               key: ff1,
               child: Container(
                 child: TextFormField(
+                  initialValue: title,
                   onSaved: (val) {
                     title = val;
                   },
@@ -55,7 +56,11 @@ class _PostState extends State<Post> {
             key: ff,
             child: Container(
               child: TextFormField(
+                initialValue: save,
                 onSaved: (val) {
+                  save = val;
+                },
+                onChanged: (val) {
                   save = val;
                 },
                 decoration: InputDecoration(
@@ -82,10 +87,10 @@ class _PostState extends State<Post> {
   }
 
   saving() {
-    var fo = ff.currentState;
-    var fo1 = ff1.currentState;
-    fo.save();
-    fo1.save();
+    // var fo = ff.currentState;
+    // var fo1 = ff1.currentState;
+    // fo.save();
+    // fo1.save();
     var user = FirebaseAuth.instance.currentUser;
     var v = FirebaseFirestore.instance
         .collection("companies")

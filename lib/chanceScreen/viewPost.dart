@@ -57,10 +57,10 @@ class _ShowingPostState extends State<ShowingPost> {
             key: UniqueKey(),
             child: InkWell(
               onTap: () {
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) {
-                      Provider.of<MyProvider>(context,listen: false).data=lis[i];
-                      return Detals();}));
+                // Navigator.of(context).pushReplacement(
+                //     MaterialPageRoute(builder: (context) {
+                //       Provider.of<MyProvider>(context,listen: false).data=lis[i];
+                //       return Detals();}));
               },
               child: ListTile(
                 title: Text(lis[i]["title"]),
