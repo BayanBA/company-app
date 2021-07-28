@@ -1,8 +1,8 @@
-import 'package:b/screen/chanceT.dart';
-import 'package:b/screen/chanceV.dart';
-import 'package:b/screen/questionAnswere.dart';
-import 'package:b/screen/truefalse.dart';
-import 'package:b/screen/view.dart';
+import 'package:b/chanceScreen/chanceT.dart';
+import 'package:b/chanceScreen/chanceV.dart';
+import 'package:b/chanceScreen/questionAnswere.dart';
+import 'package:b/chanceScreen/truefalse.dart';
+import 'package:b/chanceScreen/view.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:im_stepper/stepper.dart';
 import 'package:b/stand.dart';

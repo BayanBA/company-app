@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:b/stand.dart';
-import 'package:b/screen/updatData.dart';
+import 'package:b/chanceScreen/updatData.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

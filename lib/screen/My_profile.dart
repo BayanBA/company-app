@@ -1,5 +1,5 @@
 import 'package:b/main.dart';
-import 'package:b/screen/view.dart';
+import 'package:b/chanceScreen/view.dart';
 import 'package:b/stand.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';

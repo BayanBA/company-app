@@ -1,8 +1,8 @@
 
-import 'package:b/screen/chance.dart';
-import 'package:b/screen/post.dart';
+import 'package:b/chanceScreen/chance.dart';
+import 'package:b/chanceScreen/post.dart';
 import 'package:b/screen/signup.dart';
-import 'package:b/screen/view.dart';
+import 'package:b/chanceScreen/view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

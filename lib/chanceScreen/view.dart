@@ -1,4 +1,4 @@
-import 'package:b/screen/detals.dart';
+import 'package:b/chanceScreen/detals.dart';
 import 'package:b/search.dart';
 import 'package:b/stand.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

@@ -2,15 +2,15 @@ import 'dart:math';
 
 import 'package:b/main.dart';
 import 'package:b/screen/My_profile.dart';
-import 'package:b/screen/post.dart';
-import 'package:b/screen/view.dart';
+import 'package:b/chanceScreen/post.dart';
+import 'package:b/chanceScreen/view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:io';
 
-import 'chance.dart';
+import '../chanceScreen/chance.dart';
 import 'edit.dart';
 
 final jobReference = FirebaseFirestore.instance.collection("companies");
