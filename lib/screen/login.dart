@@ -1,7 +1,7 @@
+import 'package:b/main.dart';
 import 'package:b/screen/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 
 class Login extends StatefulWidget {
   @override
@@ -9,18 +9,20 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  var myusername, mypassword, myemail;
+  var mypassword, myemail;
   bool login, signup;
+  var response;
+  var formdata;
 
   GlobalKey<FormState> formstate = new GlobalKey<FormState>();
 
   signIn() async {
-    var formdata = formstate.currentState;
-    if (formdata.validate()) {
-      formdata.save();
+    formdata = formstate.currentState;
+    //if (formdata.validate()) {
+      //formdata.save();
       try {
         UserCredential userCredential =
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
+            await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: myemail,
           password: mypassword,
         );
@@ -32,7 +34,7 @@ class _LoginState extends State<Login> {
           print('Wrong password provided for that user.');
         }
       }
-    }
+   // }
   }
 
   @override
@@ -57,9 +59,7 @@ class _LoginState extends State<Login> {
                         children: <Widget>[
                           Positioned(
                             top: -150,
-                            child:
-
-                            CircleAvatar(
+                            child: CircleAvatar(
                               radius: 110,
                               backgroundColor: Colors.green,
                             ),
@@ -71,7 +71,6 @@ class _LoginState extends State<Login> {
                               backgroundColor: Colors.black87,
                             ),
                           ),
-
 
                           Positioned(
                             top: 60,
@@ -91,12 +90,14 @@ class _LoginState extends State<Login> {
                           ),
                           Positioned(
                             top: 100,
-                            child:
-                            Container(
+                            child: Container(
                               width: 300,
                               // padding: EdgeInsets.all(40),
                               child: TextFormField(
                                   onSaved: (val) {
+                                    myemail = val;
+                                  },
+                                  onChanged: (val){
                                     myemail = val;
                                   },
                                   decoration: InputDecoration(
@@ -120,7 +121,8 @@ class _LoginState extends State<Login> {
 
                                     return null;
                                   }),
-                            ),),
+                            ),
+                          ),
                           Positioned(
                             top: 230,
                             child: Card(
@@ -141,10 +143,11 @@ class _LoginState extends State<Login> {
                             top: 270,
                             child: Container(
                               width: 300,
-                              child:
-
-                              TextFormField(
+                              child: TextFormField(
                                 onSaved: (val) {
+                                  mypassword = val;
+                                },
+                                onChanged: (val){
                                   mypassword = val;
                                 },
                                 decoration: InputDecoration(
@@ -152,8 +155,8 @@ class _LoginState extends State<Login> {
                                   filled: true,
                                   hintText: "كلمه المرور* ",
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide:
-                                    const BorderSide(color: Colors.white, width: 2.0),
+                                    borderSide: const BorderSide(
+                                        color: Colors.white, width: 2.0),
                                     borderRadius: BorderRadius.circular(25.0),
                                   ),
                                 ),
@@ -163,25 +166,30 @@ class _LoginState extends State<Login> {
                                   }
                                   return null;
                                 },
-                              ),),
+                              ),
+                            ),
                           ),
 
-
-
                           Container(
-                              height:800 ,
+                              height: 800,
                               margin: EdgeInsets.all(15),
                               child: Row(
                                 children: [
-                                  Text("اذا لم يكن لديك حساب ",style: TextStyle(fontSize: 20),),
+                                  Text(
+                                    "اذا لم يكن لديك حساب ",
+                                    style: TextStyle(fontSize: 20),
+                                  ),
                                   InkWell(
                                     onTap: () {
                                       Navigator.of(context).pushReplacement(
-                                          MaterialPageRoute(builder: (context) =>  new SignUp()));
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  new SignUp()));
                                     },
                                     child: Text(
                                       "اضغط هنا",
-                                      style: TextStyle(color: Colors.blue,fontSize: 20),
+                                      style: TextStyle(
+                                          color: Colors.blue, fontSize: 20),
                                     ),
                                   )
                                 ],
@@ -192,12 +200,17 @@ class _LoginState extends State<Login> {
                             padding: const EdgeInsets.only(
                                 left: 150.0, top: 450.0, right: 150),
                             child: RaisedButton(
-                                child: Text("انشاء حساب",style: TextStyle(fontSize: 15,color:Colors.black45),),
+                                child: Text(
+                                  "تسجيل دخول",
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.black45),
+                                ),
                                 onPressed: () async {
-                                  var response = await signIn();
+                                  response = await signIn();
                                   if (response != null) {
                                     {
-
+                                      Navigator.push(context,
+                                          new MaterialPageRoute(builder: (context) => koko.elementAt(2)));
                                       login = true;
                                       print("yes**********");
                                       print(response);
@@ -212,7 +225,7 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                 ),
-              ] ),
+              ]),
             )));
   }
 }
