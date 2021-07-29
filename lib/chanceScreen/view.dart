@@ -59,7 +59,7 @@ class _ShowingDataState extends State<ShowingData> {
             key: UniqueKey(),
             child: InkWell(
               onTap: () {
-                Navigator.of(context).pushReplacement(
+                Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) {
                       Provider.of<MyProvider>(context,listen: false).data=lis[i];
                      return Detals();}));

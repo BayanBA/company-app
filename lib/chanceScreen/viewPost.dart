@@ -1,4 +1,5 @@
 import 'package:b/chanceScreen/detals.dart';
+import 'package:b/chanceScreen/postDetals.dart';
 import 'package:b/search.dart';
 import 'package:b/stand.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,8 +14,6 @@ class ShowingPost extends StatefulWidget {
 
 class _ShowingPostState extends State<ShowingPost> {
   var lis = new List();
-  //var list = new List();
-
 
   CollectionReference comp;
 
@@ -57,10 +56,10 @@ class _ShowingPostState extends State<ShowingPost> {
             key: UniqueKey(),
             child: InkWell(
               onTap: () {
-                // Navigator.of(context).pushReplacement(
-                //     MaterialPageRoute(builder: (context) {
-                //       Provider.of<MyProvider>(context,listen: false).data=lis[i];
-                //       return Detals();}));
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) {
+                      Provider.of<MyProvider>(context,listen: false).data=lis[i];
+                      return PostDetals();}));
               },
               child: ListTile(
                 title: Text(lis[i]["title"]),
