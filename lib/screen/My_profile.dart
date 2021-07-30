@@ -1,6 +1,7 @@
 import 'package:b/chanceScreen/viewPost.dart';
 import 'package:b/main.dart';
 import 'package:b/chanceScreen/view.dart';
+import 'package:b/screen/users.dart';
 import 'package:b/stand.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -43,11 +44,30 @@ class _HomePageState extends State<HomePage> {
 
 
 
-  nnn()async{await getdata1() ;}
+  nnn() async{
+    await getdata1() ;
+  }
   @override
   Widget build(BuildContext context) {
     nnn();
-    return homePageData.isEmpty
+    return  Directionality(
+        textDirection: TextDirection.rtl,
+        child: Scaffold(
+        appBar: PreferredSize(
+        preferredSize: Size.fromHeight(100.0),
+    child: AppBar(
+
+    title: Center(
+    child: Text(" "),
+    ),
+    shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.vertical(
+    bottom: Radius.circular(60.0),
+    ),
+    ),
+    ),
+    ),
+    body:homePageData.isEmpty
         ? CircularProgressIndicator()
         : ListView(children: [
             Row(
@@ -93,7 +113,8 @@ class _HomePageState extends State<HomePage> {
                       size: 30,
                     ),
                     backgroundColor: Colors.white,
-                    onPressed: () {},
+                    onPressed: () { Navigator.push(context,
+                        new MaterialPageRoute(builder: (context) => show_user()));},
                   ),
                 ],
               ),
@@ -153,7 +174,7 @@ class _HomePageState extends State<HomePage> {
                     borderRadius: BorderRadius.circular(15)),
               ),
             ),
-          ]);
+          ])));
   }
 
   _formUI(position) {

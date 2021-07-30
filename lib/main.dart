@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'package:b/screen/My_profile.dart';
-import 'package:b/chanceScreen/chance.dart';
 import 'package:b/screen/edit.dart';
 import 'package:b/screen/job_screen.dart';
 import 'package:b/screen/login.dart';
-import 'package:b/chanceScreen/post.dart';
 import 'package:b/screen/savedUser.dart';
 import 'package:b/screen/users.dart';
 import 'package:b/stand.dart';
@@ -17,6 +15,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
+import 'chanceScreen/chance.dart';
+import 'chanceScreen/post.dart';
+
 List<String> nn = new List();
 Map<String, List> kk = new Map();
 List<String> nn2 = new List();
@@ -26,7 +27,7 @@ List<dynamic> koko = [
   AddJop(),
   Post(),
   HomePage(),
-  show_user(),
+  saves(),
   JobScreenEdit(),
 ];
 Map<String, dynamic> homePageData = new Map<String, dynamic>();
@@ -104,13 +105,21 @@ class _towRouteState extends State<towRoute> {
     }
 
     Timer(
-        Duration(seconds: 3),
-        () => Navigator.push(
+      Duration(seconds: 3),
+      () => islogin == false
+          ? Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => islogin == false ? Login() : FirstRoute(),
+                builder: (context) => Login(),
               ),
-            ));
+            )
+          : Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => FirstRoute(),
+              ),
+            ),
+    );
   }
 
   Widget build(BuildContext context) {
@@ -145,7 +154,7 @@ class _FirstRouteState extends State<FirstRoute> {
     super.initState();
   }
 
-  int _currentIndex = 2;
+  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -156,42 +165,14 @@ class _FirstRouteState extends State<FirstRoute> {
       home: Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-          appBar: PreferredSize(
-            preferredSize: Size.fromHeight(80.0),
-            child: AppBar(
-              title: Center(
-                child: Text(" "),
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(60.0),
-                ),
-              ),
-            ),
-          ),
-          body: Stack(
+
+          body: IndexedStack(
+            index: _currentIndex,
             children: [
-              Opacity(
-                opacity: 0.4,
-                child: Container(
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: new AssetImage("images/55.jpeg"),
-                          fit: BoxFit.cover,
-                          colorFilter: ColorFilter.mode(
-                              Color(0xFF5C6BC0), BlendMode.overlay))),
-                ),
-              ),
-              IndexedStack(
-                index: _currentIndex,
-                children: [
-                  for (final i in koko) i,
-                ],
-              ),
+              for (final i in koko) i,
             ],
           ),
           bottomNavigationBar: CurvedNavigationBar(
-            index: _currentIndex,
             color: Colors.indigo[300],
             buttonBackgroundColor: Colors.indigo[300],
             backgroundColor: Colors.white,
@@ -211,9 +192,10 @@ class _FirstRouteState extends State<FirstRoute> {
                 color: Colors.white,
               ),
               Icon(
-                Icons.supervised_user_circle_sharp,
+                Icons.favorite,
                 color: Colors.white,
               ),
+
               Icon(
                 Icons.settings,
                 color: Colors.white,
