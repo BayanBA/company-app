@@ -6,18 +6,29 @@ class show_user extends StatefulWidget {
   @override
   _show_userState createState() => _show_userState();
 }
-
 var item;
 var item_id;
-CollectionReference t = FirebaseFirestore.instance.collection("users");
+var batool;
 
 class _show_userState extends State<show_user> {
-  @override
   @override
   void initState() {
     item = new List();
     item_id = new List();
+    batool=new List();
+    getData();
     super.initState();
+  }
+  getData() async {CollectionReference t = FirebaseFirestore.instance.collection("users");
+  await t.get().then((value) {
+  if (value != null) {
+  value.docs.forEach((element) {
+  setState(() {
+  batool.add(element.data());
+  });
+  });
+  }
+  });
   }
 
   @override
@@ -39,11 +50,13 @@ class _show_userState extends State<show_user> {
                   ),
                 ),
               ),
-              body: StreamBuilder<QuerySnapshot>(
-                stream:
+              body:  batool.isEmpty
+                  ? CircularProgressIndicator()
+                  : StreamBuilder<QuerySnapshot>(
+                    stream:
                     FirebaseFirestore.instance.collection('users').snapshots(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
+                   builder: (context, snapshot) {
+                   if (snapshot.hasData) {
                     var doc = snapshot.data.docs;
                     return new ListView.builder(
                         itemCount: doc.length,

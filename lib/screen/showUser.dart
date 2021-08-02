@@ -1,16 +1,21 @@
-import 'package:b/screen/My_profile.dart';
-import 'package:b/screen/savedUser.dart';
-import 'package:b/screen/users.dart';
+import 'package:b/chanceScreen/saved.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import '../main.dart';
 import '../stand.dart';
+
+
+
+
+
 
 class show_detals extends StatefulWidget {
   var items;
   var items_id;
 
+
+  String u;
   show_detals(this.items,this.items_id);
 
   @override
@@ -83,8 +88,12 @@ class _show_detalsState extends State<show_detals> {
                                 .collection("favorite");
                            v.add({
                              'id':widget.items_id.elementAt(0),
+                             'idb':"",
 
-                           });
+                           }).then((value) =>   Navigator.pushReplacement(
+                               context,
+                               new MaterialPageRoute(
+                                   builder: (context) => saves())));
 
 
                           }
