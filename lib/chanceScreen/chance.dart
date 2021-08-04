@@ -4,6 +4,7 @@ import 'package:b/chanceScreen/questionAnswere.dart';
 import 'package:b/chanceScreen/truefalse.dart';
 import 'package:b/chanceScreen/view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:im_stepper/stepper.dart';
 import 'package:b/stand.dart';
@@ -11,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:charts_flutter/flutter.dart' as charts;
 
 class AddJop extends StatefulWidget {
