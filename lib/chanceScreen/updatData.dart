@@ -3,6 +3,8 @@ import 'package:b/chanceScreen/chanceV.dart';
 import 'package:b/chanceScreen/questionAnswere.dart';
 import 'package:b/chanceScreen/truefalse.dart';
 import 'package:b/chanceScreen/view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:im_stepper/stepper.dart';
 import 'package:b/stand.dart';
@@ -11,7 +13,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
-
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 class UpdatData extends StatefulWidget {
   @override
   _UpdatDataState createState() => _UpdatDataState();
@@ -37,9 +40,65 @@ class _UpdatDataState extends State<UpdatData> {
     d = data11;
   }
 
+  String u;
+  var token;
+  var userr;
+  var follow=new List();
+  var my_lis=new List();
+  CollectionReference comp;
+  getdata1() async {
+    CollectionReference t = FirebaseFirestore.instance.collection("companies");
+    CollectionReference users = FirebaseFirestore.instance.collection("users");
+    userr = await FirebaseAuth.instance.currentUser;
+
+    await t.where("email_advance", isEqualTo: userr.email).get().then((value) {
+      value.docs.forEach((element) {
+        setState(() {
+          u = element.id;
+          follow = element.data()['followers'];
+        });
+      });
+    });
+
+    await FirebaseMessaging.instance.getToken().then((value) {
+      token = value;
+    });
+
+    await t.doc(u).update({'token': token}).then((value) {});
+    // print(my_lis.length);
+  }
+  sendMessage(String title,String body ,int i,String u,String c) async {
+    var serverToken =
+        "AAAAUnOn5ZE:APA91bGSkIL6DLpOfbulM_K3Yp5W1mlcp8F0IWu2mcKWloc4eQcF8C230XaHhXBfBYphuyp2P92dc_Js19rBEuU6UqPBGYOSjJfXsBJVmIu9TsLe44jaSOLDAovPTspwePb1gw7-1GNZ";
+    await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': 'key=$serverToken',
+        },
+        body: jsonEncode(<String, dynamic>{
+
+          'notification': {
+            'title': title.toString(),
+            'body': body.toString(),
+          },
+          'priority': 'high',
+          'data': <String, dynamic>{
+            'click_action': 'flutter notifcation_click',
+            'id_company' : 'iWHfsiUuasdPyC5BZqoY',
+            'id_chance' :'7P6zCtRB4jSlQljzTuS',
+
+          },
+          'to':await my_lis[i],
+
+        }));
+
+  }
+
+
   @override
   void initState() {
     editData();
+    getdata1();
     super.initState();
   }
 
@@ -220,7 +279,11 @@ class _UpdatDataState extends State<UpdatData> {
     return Text("");
   }
 
-  void uplod() {
+  void uplod() async{
+
+    var users_noti;
+    CollectionReference users = FirebaseFirestore.instance.collection("users");
+
     var v = FirebaseFirestore.instance
         .collection("companies")
         .doc(Provider.of<MyProvider>(context, listen: false).company_id)
@@ -260,6 +323,28 @@ class _UpdatDataState extends State<UpdatData> {
     });
     Provider.of<MyProvider>(context, listen: false).data = d;
     Navigator.of(context).pop();
+    await users.get().then((value) {
+      value.docs.forEach((element) {
+        setState(() {
+          for (int i = 0; i < follow.length; i++) {
+            if (element.id == follow.elementAt(i)) {
+              users_noti = FirebaseFirestore.instance
+                  .collection("users")
+                  .doc(follow.elementAt(i))
+                  .collection("notifcation");
+              users_noti.add({
+                "id_chance_edit": d['id'],
+                "id_company":u,
+              });
+            }
+          }
+        });
+      });
+    });
+
+    for (int i = 0; i < my_lis.length; i++)
+      sendMessage("فرصه", "تم تعديل الفرصه", i, u, d['id']);
+
   }
 
   Widget getStep() {

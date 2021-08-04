@@ -11,6 +11,7 @@ class ApplicantsDetals extends StatefulWidget {
   var items;
   var items_id;
 
+
   ApplicantsDetals(this.items, this.items_id);
 
   @override
@@ -18,6 +19,27 @@ class ApplicantsDetals extends StatefulWidget {
 }
 
 class _ApplicantsDetalsState extends State<ApplicantsDetals> {
+
+  var base=new List();
+  var v;
+
+  getData()async{
+    v =await FirebaseFirestore.instance
+        .collection("companies")
+        .doc(Provider.of<MyProvider>(context,
+        listen: false)
+        .company_id)
+        .collection("chance");
+    v.doc(Provider.of<MyProvider>(context,listen: false).data["id"]).get().then((value) async{
+       base=await value.data()["accepted"];
+
+    });
+  }
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -88,14 +110,9 @@ class _ApplicantsDetalsState extends State<ApplicantsDetals> {
                             ],
                           ),
                           onTap: () {
-                            var v = FirebaseFirestore.instance
-                                .collection("companies")
-                                .doc(Provider.of<MyProvider>(context,
-                                listen: false)
-                                .company_id)
-                                .collection("favorite");
-                            v.add({
-                              'id': widget.items_id.elementAt(0),
+                            base.add(widget.items_id.elementAt(0));
+                            v.doc(Provider.of<MyProvider>(context,listen: false).data["id"]).update({
+                              'accepted': base,
                             });
                           })
                     ],

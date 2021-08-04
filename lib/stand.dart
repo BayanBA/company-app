@@ -39,6 +39,7 @@ class MyProvider with ChangeNotifier{
     "Vacancies": 1,
     "dateOfPublication": "",
   };
+  String chanceName="";
   String company_id="";
   List<String> Q=[""];
   List<String> A=[""];
@@ -73,6 +74,11 @@ class MyProvider with ChangeNotifier{
 
   setCompId(var val){
     company_id=val;
+    notifyListeners();
+  }
+
+  setChanceName(var val){
+    chanceName=val;
     notifyListeners();
   }
 

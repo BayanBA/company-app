@@ -181,10 +181,10 @@ class _AddJopState extends State<AddJop> {
             )),
         Expanded(
             child: FittedBox(
-          child: Center(
-            child: getStep(),
-          ),
-        ))
+              child: Center(
+                child: getStep(),
+              ),
+            ))
       ],
     );
   }
@@ -251,9 +251,9 @@ class _AddJopState extends State<AddJop> {
       hint: Text(name),
       items: l
           .map((e) => DropdownMenuItem(
-                child: Text("$e"),
-                value: e,
-              ))
+        child: Text("$e"),
+        value: e,
+      ))
           .toList(),
       onChanged: (valu) {
         setState(() {
@@ -330,7 +330,10 @@ class _AddJopState extends State<AddJop> {
       "Vacancies": stan.Vacancies,
       "dateOfPublication": Jiffy(date).fromNow(),
       "list": "",
+      "accepted":[]
     });
+
+    Provider.of<MyProvider>(context, listen: false).setChanceName(stan.title);
 
     await v.get().then((value) {
       if (value != null) {
@@ -348,14 +351,14 @@ class _AddJopState extends State<AddJop> {
         setState(() {
           for (int i = 0; i < follow.length; i++) {
             if (element.id == follow.elementAt(i)) {
-               users_noti = FirebaseFirestore.instance
+              users_noti = FirebaseFirestore.instance
                   .collection("users")
                   .doc(follow.elementAt(i))
                   .collection("notifcation");
-               users_noti.add({
-                 "id_chance":id_chance,
-                 "id_company":u,
-               });
+              users_noti.add({
+                "id_chance":id_chance,
+                "id_company":u,
+              });
             }
           }
         });
@@ -364,6 +367,8 @@ class _AddJopState extends State<AddJop> {
 
     for (int i = 0; i < my_lis.length; i++)
       sendMessage("فرصه", "تم نشر فرصه", i, u, id_chance);
+
+
   }
 
   Widget getStep() {
@@ -563,10 +568,10 @@ class _AddJopState extends State<AddJop> {
                   setState(() {
                     d["Vacancies"] >= 30
                         ? Fluttertoast.showToast(
-                            msg: "العدد كبير جدا",
-                            backgroundColor: Colors.black54,
-                            textColor: Colors.white,
-                            toastLength: Toast.LENGTH_LONG)
+                        msg: "العدد كبير جدا",
+                        backgroundColor: Colors.black54,
+                        textColor: Colors.white,
+                        toastLength: Toast.LENGTH_LONG)
                         : d["Vacancies"]++;
                   });
                 },
@@ -588,10 +593,10 @@ class _AddJopState extends State<AddJop> {
                   setState(() {
                     d["Vacancies"] <= 1
                         ? Fluttertoast.showToast(
-                            msg: "لا يمكن ان يكون العدد اقل من 1",
-                            backgroundColor: Colors.black54,
-                            textColor: Colors.white,
-                            toastLength: Toast.LENGTH_LONG)
+                        msg: "لا يمكن ان يكون العدد اقل من 1",
+                        backgroundColor: Colors.black54,
+                        textColor: Colors.white,
+                        toastLength: Toast.LENGTH_LONG)
                         : d["Vacancies"]--;
                   });
                 },
@@ -650,7 +655,7 @@ class _AddJopState extends State<AddJop> {
   @override
   Widget build(BuildContext context) {
     final _colorPalettes =
-        charts.MaterialPalette.getOrderedPalettes(this.data.length);
+    charts.MaterialPalette.getOrderedPalettes(this.data.length);
     return ListView(
       padding: const EdgeInsets.all(8),
       children: <Widget>[
@@ -681,7 +686,7 @@ class _AddJopState extends State<AddJop> {
                 data: this.data,
                 // Set a label accessor to control the text of the arc label.
                 labelAccessorFn: (_CostsData row, _) =>
-                    '${row.category}: ${row.cost}',
+                '${row.category}: ${row.cost}',
               ),
             ],
             animate: this._animate,
