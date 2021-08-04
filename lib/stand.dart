@@ -5,9 +5,10 @@ class Stander {
   String dateOfPublication = "";
   int Vacancies = 1;
   String title = "";
-  String age = "";
   String salary = "";
   String workTime = "";
+  String describsion="";
+  String specialties="ترجمة";
   var langNum = new List();
   String skillNum = "";
   var quizList=new List();
@@ -23,9 +24,10 @@ class MyProvider with ChangeNotifier{
   Map<String,dynamic> data={
     "id": "",
     "title": "",
-    "age": "",
     "salary": "",
     "workTime": "",
+    "specialties":"ترجمة",
+    "describsion":"",
     "langNum": [],
     "skillNum": "",
     "quizList":[],

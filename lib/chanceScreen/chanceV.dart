@@ -209,7 +209,6 @@ class _ChanceVState extends State<ChanceV> {
         .collection("chance");
 
     stan.title = d["title"];
-    stan.age = d["age"];
     stan.skillNum = d["skillNum"];
     stan.salary = d["salary"];
     stan.workTime = d["workTime"];
@@ -225,7 +224,6 @@ class _ChanceVState extends State<ChanceV> {
     v.add({
       "id": "",
       "title": stan.title,
-      "age": stan.age,
       "salary": stan.salary,
       "workTime": stan.workTime,
       "langNum": stan.langNum,

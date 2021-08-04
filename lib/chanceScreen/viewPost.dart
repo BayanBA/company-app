@@ -18,7 +18,10 @@ class _ShowingPostState extends State<ShowingPost> {
   CollectionReference comp;
 
   getData() async {
-    comp = FirebaseFirestore.instance.collection("companies").doc(Provider.of<MyProvider>(context, listen: false).company_id).collection("Post");
+    comp = FirebaseFirestore.instance
+        .collection("companies")
+        .doc(Provider.of<MyProvider>(context, listen: false).company_id)
+        .collection("Post");
     await comp.get().then((value) {
       if (value != null) {
         value.docs.forEach((element) {
@@ -36,7 +39,6 @@ class _ShowingPostState extends State<ShowingPost> {
         });
       }
     });
-
   }
 
   @override
@@ -46,7 +48,6 @@ class _ShowingPostState extends State<ShowingPost> {
   }
 
   Widget done() {
-
     return ListView.separated(
         itemBuilder: (context, i) {
           return Dismissible(
@@ -54,16 +55,43 @@ class _ShowingPostState extends State<ShowingPost> {
               await comp.doc(lis[i]["id"]).delete();
             },
             key: UniqueKey(),
-            child: InkWell(
-              onTap: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) {
-                      Provider.of<MyProvider>(context,listen: false).data=lis[i];
-                      return PostDetals();}));
-              },
-              child: ListTile(
-                title: Text(lis[i]["title"]),
-                subtitle: Text(lis[i]["dateOfPublication"]),
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+              color: Colors.black38,
+              elevation: 10,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  ListTile(
+                    leading: Icon(
+                      Icons.apartment,
+                      size: 50,
+                      color: Colors.white,
+                    ),
+                    title: Text(lis[i]["title"],
+                        style: TextStyle(color: Colors.white)),
+                    subtitle: Text(lis[i]["dateOfPublication"],
+                        style: TextStyle(color: Colors.white)),
+                  ),
+                  ButtonBar(
+                    children: <Widget>[
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                            Provider.of<MyProvider>(context, listen: false)
+                                .data = lis[i];
+                            return PostDetals();
+                          }));
+                        },
+                        child: Text("تعديل",
+                            style: TextStyle(color: Colors.white)),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           );
@@ -76,39 +104,53 @@ class _ShowingPostState extends State<ShowingPost> {
           );
         },
         itemCount: lis.length);
-
   }
 
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(100.0),
-          child: AppBar(
-            title: Center(
-              child: Text(" "),
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(
-                bottom: Radius.circular(60.0),
+    return Directionality(
+        textDirection: TextDirection.rtl,
+        child: Scaffold(
+            appBar: PreferredSize(
+              preferredSize: Size.fromHeight(100.0),
+              child: AppBar(
+                title: Center(
+                  child: Text(" "),
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                    bottom: Radius.circular(60.0),
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
-        body: Center(
-          child: lis.isEmpty
-              ? CircularProgressIndicator()
-              : StreamBuilder(
-              stream: comp.snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasError)
-                  return Text(("Errorrrrrrrrr"));
-                else if (snapshot.connectionState == ConnectionState.waiting)
-                  return CircularProgressIndicator();
-                else
-                  return done();
-              }),
-        ));
+            body: Stack(children: [
+              Opacity(
+                opacity: 0.4,
+                child: Container(
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: new AssetImage("images/55.jpeg"),
+                          fit: BoxFit.cover,
+                          colorFilter: ColorFilter.mode(
+                              Color(0xFF5C6BC0), BlendMode.overlay))),
+                ),
+              ),
+              Center(
+                child: lis.isEmpty
+                    ? CircularProgressIndicator()
+                    : StreamBuilder(
+                        stream: comp.snapshots(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasError)
+                            return Text(("Errorrrrrrrrr"));
+                          else if (snapshot.connectionState ==
+                              ConnectionState.waiting)
+                            return CircularProgressIndicator();
+                          else
+                            return done();
+                        }),
+              )
+            ])));
   }
 }

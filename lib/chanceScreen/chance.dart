@@ -3,6 +3,7 @@ import 'package:b/chanceScreen/chanceV.dart';
 import 'package:b/chanceScreen/questionAnswere.dart';
 import 'package:b/chanceScreen/truefalse.dart';
 import 'package:b/chanceScreen/view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:im_stepper/stepper.dart';
 import 'package:b/stand.dart';
@@ -25,26 +26,110 @@ class _AddJopState extends State<AddJop> {
   GlobalKey<FormState> k5 = new GlobalKey<FormState>();
   GlobalKey<FormState> k6 = new GlobalKey<FormState>();
   GlobalKey<FormState> k7 = new GlobalKey<FormState>();
+  GlobalKey<FormState> k8 = new GlobalKey<FormState>();
 
   Map<String, dynamic> d = {
     "id": "",
     "title": "",
     "quiz": false,
-    "age": "لا يهم",
     "salary": "أقل من 100000",
-    "workTime": "3 - 5",
-    "langNum": "لا يهم",
+    "workTime": "دوام جزئي",
+    "specialties":"ترجمة",
+    "langNum":[],
     "skillNum": "",
     "quizList": [],
-    "expir": "",
+    "describsion":"",
+    "expir": "1",
     "quizNum": 5,
     "gender": "لا يهم",
     "degree": "لا يهم",
     "level": "مبتدأ",
     "Vacancies": 1,
     "dateOfPublication": "",
-  };
+  };String u;
+  String id_chance;
+  var token;
+  var userr;
+  var follow=new List();
+  var my_lis=new List();
+  CollectionReference comp;
+  getdata1() async {
+    CollectionReference t = FirebaseFirestore.instance.collection("companies");
+    CollectionReference users = FirebaseFirestore.instance.collection("users");
+    userr = await FirebaseAuth.instance.currentUser;
 
+    await t.where("email_advance", isEqualTo: userr.email).get().then((value) {
+      value.docs.forEach((element) {
+        setState(() {
+          Provider.of<MyProvider>(context, listen: false).setCompId(element.id);
+          u = element.id;
+          follow=element.data()['followers'];
+        });
+      });
+    });
+
+    await FirebaseMessaging.instance.getToken().then((value) {
+      token = value;
+    });
+
+    await t.doc(u).update({'token': token}).then((value) {
+    });
+
+
+    await users.get().then((value) {
+
+      value.docs.forEach((element) {
+        setState(() {
+          for (int i = 0; i < follow.length; i++) {
+
+
+            if (element.id == follow.elementAt(i)) {
+              CollectionReference users_noti = FirebaseFirestore.instance.collection("users")
+                  .doc(follow.elementAt(i)).collection("notifcation");
+              users_noti.add({
+                'id_company':u,
+                'id_chance':id_chance,
+              });
+              my_lis.add(element.data()['token']);
+            }
+
+          }
+        });
+      });
+
+
+    });
+    // print(my_lis.length);
+
+
+
+  }
+  sendMessage(String title,String body ,int i,String u,String c) async {
+    var serverToken =
+        "AAAAUnOn5ZE:APA91bGSkIL6DLpOfbulM_K3Yp5W1mlcp8F0IWu2mcKWloc4eQcF8C230XaHhXBfBYphuyp2P92dc_Js19rBEuU6UqPBGYOSjJfXsBJVmIu9TsLe44jaSOLDAovPTspwePb1gw7-1GNZ";
+    await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': 'key=$serverToken',
+        },
+        body: jsonEncode(<String, dynamic>{
+
+          'notification': {
+            'title': title.toString(),
+            'body': body.toString(),
+          },
+          'priority': 'high',
+          'data': <String, dynamic>{
+            'click_action': 'flutter notifcation_click',
+            'id_company' : 'iWHfsiUuasdPyC5BZqoY',
+            'id_chance' :'7P6zCtRB4jSlQljzTuS',
+
+          },
+          'to':await my_lis[i],
+
+        }));
+
+  }
   var aa = new List();
   Stander stan = new Stander();
 
@@ -80,7 +165,7 @@ class _AddJopState extends State<AddJop> {
                   Icons.title,
                 ),
                 Icon(
-                  Icons.person,
+                  Icons.wb_incandescent_outlined,
                 ),
                 Icon(
                   Icons.alarm_on_sharp,
@@ -93,6 +178,9 @@ class _AddJopState extends State<AddJop> {
                 ),
                 Icon(
                   Icons.language,
+                ),
+                Icon(
+                  Icons.star_purple500_outlined,
                 ),
                 Icon(
                   Icons.wc,
@@ -199,28 +287,52 @@ class _AddJopState extends State<AddJop> {
 
   Widget q(String name, var k, int i) {
     if (name == "خبير")
-      return x("expir", "عدد سنوات الخبرة:", ".......",
-          Icon(Icons.auto_awesome), k, i);
+      return SizedBox(
+        width: 300,
+        child: Row(
+          children: [
+            Icon(Icons.auto_awesome),
+            SizedBox(
+              width: 10,
+            ),
+            Text("ععدد سنوات الخبرة:"),
+            SizedBox(
+              width: 10,
+            ),
+            z("expir", "عدد سنوات الخبرة", [
+              '1',
+              '2',
+              '3',
+              '4',
+              '5',
+              '6',
+              '7',
+              '8',
+              'اكثر من ذلك'
+            ])
+          ],
+        ),
+      );
     return Text("");
   }
 
-  void uplod() {
+  void uplod() async{
     var v = FirebaseFirestore.instance
         .collection("companies")
         .doc(Provider.of<MyProvider>(context, listen: false).company_id)
         .collection("chance");
 
     stan.title = d["title"];
-    stan.age = d["age"];
     stan.skillNum = d["skillNum"];
     stan.salary = d["salary"];
     stan.workTime = d["workTime"];
     stan.langNum = _filters;
+    stan.specialties = d["specialties"];
     stan.level = d["level"];
     stan.level == "خبير" ? stan.expir = d["expir"] : stan.expir = "";
     stan.gender = d["gender"];
     stan.degree = d["degree"];
-
+    stan.describsion=d["describsion"];
     stan.Vacancies = d["Vacancies"];
     DateTime date = DateTime.now();
     stan.dateOfPublication = Jiffy(date).fromNow();
@@ -231,11 +343,13 @@ class _AddJopState extends State<AddJop> {
       "Z":Provider.of<MyProvider>(context, listen: false).Z,
       "quiz":Provider.of<MyProvider>(context, listen: false).quiz,
       "title": stan.title,
-      "age": stan.age,
+      "Presenting_A_Job":[],
       "salary": stan.salary,
       "workTime": stan.workTime,
+      "specialties":stan.specialties,
       "langNum": stan.langNum,
       "skillNum": stan.skillNum,
+      "describsion":stan.describsion,
       "expir": stan.expir,
       "gender": stan.gender,
       "degree": stan.degree,
@@ -244,8 +358,20 @@ class _AddJopState extends State<AddJop> {
       "dateOfPublication": Jiffy(date).fromNow(),
       "list": ""
     });
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => ShowingData()));
+
+    await v.get().then((value) {
+      if (value != null) {
+        value.docs.forEach((element) {
+          v.doc(element.id).update({"id": element.id});
+        });
+      }
+    });
+
+    for (int i = 0; i < my_lis.length; i++)
+      sendMessage("title", "body", i, u, id_chance);
+
+    // Navigator.of(context).pushReplacement(
+    //     MaterialPageRoute(builder: (context) => ShowingData()));
   }
 
   Widget getStep() {
@@ -266,19 +392,19 @@ class _AddJopState extends State<AddJop> {
           ],
         ),
       ),
-      SizedBox(
-        width: 300,
-        child: Row(
+      Form(
+        autovalidateMode: AutovalidateMode.always,
+        key: k8,
+        child: Column(
           children: [
-            Icon(Icons.person),
+            Text("الوصف"),
             SizedBox(
-              width: 10,
+              height: 100,
             ),
-            Text("العمر :"),
             SizedBox(
-              width: 10,
-            ),
-            z("age", "العمر", ["أقل من 20", "20 - 25", "25 - 30", "30 - 35", "35 - 40", "40 - 45", "45 - 50", "أكبر من 50", "لا يهم"])
+                width: 300,
+                child: x("describsion", "الوصف:", ".......", Icon(Icons.wb_incandescent_outlined), k8,
+                    _index)),
           ],
         ),
       ),
@@ -294,7 +420,7 @@ class _AddJopState extends State<AddJop> {
             SizedBox(
               width: 10,
             ),
-            z("workTime", "عدد ساعات العمل", ["3 - 5", "5 - 8", "8 -10", "10 -12","غير ذلك"])
+            z("workTime", "عدد ساعات العمل", ["دوام جزئي", "دوام كامل"])
           ],
         ),
       ),
@@ -330,6 +456,36 @@ class _AddJopState extends State<AddJop> {
         width: 300,
         child: Row(
           children: [
+            Icon(Icons.star_purple500_outlined),
+            SizedBox(
+              width: 10,
+            ),
+            Text("التخصص المطلوب :"),
+            SizedBox(
+              width: 10,
+            ),
+            z("specialties", "التخصص المطلوب", [
+              'تكنولوجيا المعلومات',
+              'علوم طبيعية',
+              'تدريس',
+              'ترجمة',
+              'تصيم غرافيكي وتحريك',
+              "سكرتاريا",
+              "صحافة",
+              "مدير مشاريع",
+              "محاسبة",
+              "كيمياء ومخابر",
+              "طبيب",
+              "صيدلة وأدوية",
+              "غير ذلك"
+            ])
+          ],
+        ),
+      ),
+      SizedBox(
+        width: 300,
+        child: Row(
+          children: [
             Icon(Icons.wc),
             SizedBox(
               width: 10,
@@ -355,7 +511,16 @@ class _AddJopState extends State<AddJop> {
               width: 10,
             ),
             z("degree", "شهادة",
-                ["لا يهم", "اعدادي", "ثانوي", "جامعي", "ماستر", "دوكتورا"])
+                [
+                  'تعليم ابتدائي',
+                  'تعليم اعدادي',
+                  'تعليم ثانوي',
+                  'شهادة جامعية',
+                  'شهادة دبلوم',
+                  'شهادة ماجستير',
+                  'شهادة دكتوراه',
+                  'لا يهم'
+                ])
           ],
         ),
       ),
@@ -474,7 +639,7 @@ class _AddJopState extends State<AddJop> {
   // Data to render.
   List<_CostsData> data = [
     _CostsData('العنوان', 10),
-    _CostsData('العمر', 10),
+    _CostsData('الوصف', 10),
     _CostsData('الساعات', 10),
     _CostsData('الراتب', 10),
     _CostsData('المهارات', 10),
@@ -618,6 +783,7 @@ class _AddJopState extends State<AddJop> {
 
   var _filters = [''];
 
+
   chip_desgin(lan1,lan){
     return FilterChip(
       backgroundColor: Colors.purple,
@@ -642,6 +808,9 @@ class _AddJopState extends State<AddJop> {
     );
   }
 
+}
+
+class Fireba {
 }
 
 class _CostsData {

@@ -7,17 +7,17 @@ import 'package:provider/provider.dart';
 
 import '../stand.dart';
 
-class show_detals extends StatefulWidget {
+class ApplicantsDetals extends StatefulWidget {
   var items;
   var items_id;
 
-  show_detals(this.items, this.items_id);
+  ApplicantsDetals(this.items, this.items_id);
 
   @override
-  _show_detalsState createState() => _show_detalsState();
+  _ApplicantsDetalsState createState() => _ApplicantsDetalsState();
 }
 
-class _show_detalsState extends State<show_detals> {
+class _ApplicantsDetalsState extends State<ApplicantsDetals> {
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -36,14 +36,15 @@ class _show_detalsState extends State<show_detals> {
                 ),
               ),
             ),
-            body: Column(children: [
+            body:
+            SingleChildScrollView(child: Column(children: [
               Container(
                 height: 100.0,
                 width: MediaQuery.of(context).size.width,
                 color: Colors.amber[50],
                 child: Material(
                   borderRadius:
-                      BorderRadius.only(bottomRight: Radius.circular(50.0)),
+                  BorderRadius.only(bottomRight: Radius.circular(50.0)),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -78,11 +79,11 @@ class _show_detalsState extends State<show_detals> {
                                   child: Padding(
                                     padding: EdgeInsets.all(8.0),
                                     child: Icon(
-                                      Icons.favorite_border,
+                                      Icons.contacts_outlined,
                                       size: 30,
                                     ),
                                   )),
-                              Text("للحفظ",
+                              Text("للتأكيد",
                                   style: TextStyle(color: Colors.black))
                             ],
                           ),
@@ -90,8 +91,8 @@ class _show_detalsState extends State<show_detals> {
                             var v = FirebaseFirestore.instance
                                 .collection("companies")
                                 .doc(Provider.of<MyProvider>(context,
-                                        listen: false)
-                                    .company_id)
+                                listen: false)
+                                .company_id)
                                 .collection("favorite");
                             v.add({
                               'id': widget.items_id.elementAt(0),
@@ -111,7 +112,7 @@ class _show_detalsState extends State<show_detals> {
                 child: Material(
                   //  border:Border.all(color:Colors.black)
                   borderRadius:
-                      BorderRadius.only(bottomRight: Radius.circular(50.0)),
+                  BorderRadius.only(bottomRight: Radius.circular(50.0)),
 
                   child: Container(
                     margin: EdgeInsets.only(top: 20, right: 10),
@@ -174,24 +175,24 @@ class _show_detalsState extends State<show_detals> {
                               " " +
                                   "${widget.items.elementAt(0)['date']['month']}",
                               style:
-                                  TextStyle(fontSize: 20, color: Colors.black),
+                              TextStyle(fontSize: 20, color: Colors.black),
                             ),
                             Text(
                               "/" +
                                   "${widget.items.elementAt(0)['date']['day']}",
                               style:
-                                  TextStyle(fontSize: 20, color: Colors.black),
+                              TextStyle(fontSize: 20, color: Colors.black),
                             ),
                             Text(
                               "/" +
                                   "${widget.items.elementAt(0)['date']['year']}",
                               style:
-                                  TextStyle(fontSize: 20, color: Colors.black),
+                              TextStyle(fontSize: 20, color: Colors.black),
                             ),
                             Text(
                               "${widget.items.elementAt(0)['gender']}",
                               style:
-                                  TextStyle(fontSize: 20, color: Colors.black),
+                              TextStyle(fontSize: 20, color: Colors.black),
                             ),
                           ],
                         ),
@@ -432,7 +433,7 @@ class _show_detalsState extends State<show_detals> {
                 color: Colors.amber[50],
                 child: Material(
                   borderRadius:
-                      BorderRadius.only(bottomRight: Radius.circular(50.0)),
+                  BorderRadius.only(bottomRight: Radius.circular(50.0)),
                   color: Colors.black,
                 ),
               ),
@@ -445,7 +446,7 @@ class _show_detalsState extends State<show_detals> {
                 child: Material(
                   //  border:Border.all(color:Colors.black)
                   borderRadius:
-                      BorderRadius.only(bottomRight: Radius.circular(50.0)),
+                  BorderRadius.only(bottomRight: Radius.circular(50.0)),
                   child: Container(
                     margin: EdgeInsets.only(top: 10, right: 10),
                     child: Column(
@@ -464,13 +465,13 @@ class _show_detalsState extends State<show_detals> {
                               " , " +
                                   "${widget.items.elementAt(0)['originalhome']}",
                               style:
-                                  TextStyle(fontSize: 20, color: Colors.black),
+                              TextStyle(fontSize: 20, color: Colors.black),
                             ),
                             Text(
                               ",  " +
                                   "${widget.items.elementAt(0)['worksite']}",
                               style:
-                                  TextStyle(fontSize: 20, color: Colors.black),
+                              TextStyle(fontSize: 20, color: Colors.black),
                             ),
                           ],
                         ),
@@ -486,7 +487,7 @@ class _show_detalsState extends State<show_detals> {
                             Text(
                               "${widget.items.elementAt(0)['skill']}",
                               style:
-                                  TextStyle(fontSize: 20, color: Colors.black),
+                              TextStyle(fontSize: 20, color: Colors.black),
                             ),
                           ],
                         ),
@@ -503,7 +504,7 @@ class _show_detalsState extends State<show_detals> {
                               " , " +
                                   "${widget.items.elementAt(0)['scientific_level']}",
                               style:
-                                  TextStyle(fontSize: 20, color: Colors.black),
+                              TextStyle(fontSize: 20, color: Colors.black),
                             ),
                           ],
                         ),
@@ -520,7 +521,7 @@ class _show_detalsState extends State<show_detals> {
                               " , " +
                                   "${widget.items.elementAt(0)['work_field']}",
                               style:
-                                  TextStyle(fontSize: 20, color: Colors.black),
+                              TextStyle(fontSize: 20, color: Colors.black),
                             ),
                           ],
                         ),
@@ -537,7 +538,7 @@ class _show_detalsState extends State<show_detals> {
                               " , " +
                                   "${widget.items.elementAt(0)['language']}",
                               style:
-                                  TextStyle(fontSize: 20, color: Colors.black),
+                              TextStyle(fontSize: 20, color: Colors.black),
                             ),
                           ],
                         ),
@@ -554,7 +555,7 @@ class _show_detalsState extends State<show_detals> {
                               " , " +
                                   "${widget.items.elementAt(0)['experience_year']}",
                               style:
-                                  TextStyle(fontSize: 20, color: Colors.black),
+                              TextStyle(fontSize: 20, color: Colors.black),
                             ),
                           ],
                         ),
@@ -788,15 +789,16 @@ class _show_detalsState extends State<show_detals> {
                 // )
               ),
               Container(
-                height: 5.0,
+                //height: 5.0,
                 width: MediaQuery.of(context).size.width,
                 color: Colors.amber[50],
                 child: Material(
                   borderRadius:
-                      BorderRadius.only(bottomRight: Radius.circular(50.0)),
+                  BorderRadius.only(bottomRight: Radius.circular(50.0)),
                   color: Colors.black,
                 ),
               ),
-            ])));
+            ]),)
+            ));
   }
 }

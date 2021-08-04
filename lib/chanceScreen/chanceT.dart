@@ -36,6 +36,7 @@ class _ChanceTState extends State<ChanceT> {
     "quizList": [],
     "expir": "",
     "quizNum": 5,
+    "describsion":"",
     "gender": "لا يهم",
     "degree": "لا يهم",
     "level": "مبتدأ",
@@ -209,7 +210,6 @@ class _ChanceTState extends State<ChanceT> {
         .collection("chance");
 
     stan.title = d["title"];
-    stan.age = d["age"];
     stan.skillNum = d["skillNum"];
     stan.salary = d["salary"];
     stan.workTime = d["workTime"];
@@ -225,7 +225,6 @@ class _ChanceTState extends State<ChanceT> {
     v.add({
       "id": "",
       "title": stan.title,
-      "age": stan.age,
       "salary": stan.salary,
       "workTime": stan.workTime,
       "langNum": stan.langNum,

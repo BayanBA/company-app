@@ -54,6 +54,7 @@ dependencies:
   #flare_splash_screen:
   #flutter_svg:
   curved_navigation_bar:
+  flutter_messaging:
   #vertical_card_pager:
   #side_menu_animation:
   #fancy_drawer:

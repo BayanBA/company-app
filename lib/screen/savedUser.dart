@@ -16,14 +16,18 @@ class _savesState extends State<saves> {
   var id = new List();
   var lis=new List();
 
+  CollectionReference favor;
   CollectionReference user;
+
+
   dd() async {
-    CollectionReference favor = FirebaseFirestore.instance.collection("companies").doc(Provider.of<MyProvider>(context, listen: false).company_id).collection("favorite");
+    favor = FirebaseFirestore.instance.collection("companies").doc("iWHfsiUuasdPyC5BZqoY").collection("favorite");
     user = FirebaseFirestore.instance.collection("users");
     await favor.get().then((value) {
       value.docs.forEach((element) {
         setState(() {
           my.add(element.data());
+          favor.doc(element.id).update({"idb": element.id});
         });
       });
     });
@@ -32,8 +36,11 @@ class _savesState extends State<saves> {
         setState(() {
           for (int i = 0; i < my.length; i++) {
             if (element.id == my.elementAt(i)['id']) {
-               id.add(element.id);
-               lis.add(element.data());
+              setState(() {
+                id.add(element.id);
+                lis.add(element.data());
+              });
+
             }
 
           }
@@ -41,9 +48,6 @@ class _savesState extends State<saves> {
       });
     });
   }
-
-
-
 
   void initState() {
     dd();
@@ -56,7 +60,7 @@ class _savesState extends State<saves> {
         itemBuilder: (context, i) {
           return Dismissible(
             onDismissed: (direction) async {
-              await user.doc(id[i]["id"]).delete();
+              await favor.doc(my[i]["idb"]).delete();
             },
             key: UniqueKey(),
             child: InkWell(
@@ -92,24 +96,7 @@ class _savesState extends State<saves> {
 
   Widget build(BuildContext context) {
 
-    return Directionality(
-        textDirection: TextDirection.rtl,
-        child:Scaffold(
-            appBar: PreferredSize(
-              preferredSize: Size.fromHeight(100.0),
-              child: AppBar(
-                title: Center(
-                  child: Text(" "),
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(
-                    bottom: Radius.circular(60.0),
-                  ),
-                ),
-              ),
-            ),
-            body: Center(
-              child: id.isEmpty
+    return  lis.isEmpty
                   ? CircularProgressIndicator()
                   : StreamBuilder(
                   stream: user.snapshots(),
@@ -120,8 +107,7 @@ class _savesState extends State<saves> {
                       return CircularProgressIndicator();
                     else
                       return done();
-                  }),
-            )));
+                  });
   }
 
 

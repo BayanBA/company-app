@@ -1,3 +1,4 @@
+import 'package:b/chanceScreen/saved.dart';
 import 'package:b/chanceScreen/viewPost.dart';
 import 'package:b/main.dart';
 import 'package:b/chanceScreen/view.dart';
@@ -39,165 +40,163 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-   // getdata1();
+    // getdata1();
   }
 
 
 
-  nnn() async{
-    await getdata1() ;
-  }
+  nnn()async{await getdata1() ;}
   @override
   Widget build(BuildContext context) {
     nnn();
-    return  Directionality(
-        textDirection: TextDirection.rtl,
-        child: Scaffold(
-        appBar: PreferredSize(
-        preferredSize: Size.fromHeight(100.0),
-    child: AppBar(
-
-    title: Center(
-    child: Text(" "),
-    ),
-    shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.vertical(
-    bottom: Radius.circular(60.0),
-    ),
-    ),
-    ),
-    ),
-    body:homePageData.isEmpty
+    return homePageData.isEmpty
         ? CircularProgressIndicator()
         : ListView(children: [
-            Row(
-                children: [
-                  SizedBox(
-                    width: 30,
-                  ),
-                  FloatingActionButton(
-                    heroTag:"tag1",
-                    child: Icon(
-                      Icons.account_balance,
-                      color: Colors.indigo[300],
-                      size: 30,
-                    ),
-                    backgroundColor: Colors.white,
-                    onPressed: () {Navigator.push(context,
-                        new MaterialPageRoute(builder: (context) => ShowingData()));},
-                  ),
-                  SizedBox(
-                    width: 70,
-                  ),
-                  FloatingActionButton(
-                    heroTag:"tag2",
-                    child: Icon(
-                      Icons.padding,
-                      color: Colors.indigo[300],
-                      size: 30,
-                    ),
-                    backgroundColor: Colors.white,
-                    onPressed: () {
-                      Navigator.push(context,
-                          new MaterialPageRoute(builder: (context) => ShowingPost()));
-                    },
-                  ),
-                  SizedBox(
-                    width: 70,
-                  ),
-                  FloatingActionButton(
-                    heroTag:"tag3",
-                    child: Icon(
-                      Icons.account_circle_rounded,
-                      color: Colors.indigo[300],
-                      size: 30,
-                    ),
-                    backgroundColor: Colors.white,
-                    onPressed: () { Navigator.push(context,
-                        new MaterialPageRoute(builder: (context) => show_user()));},
-                  ),
-                ],
-              ),
-
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Card(
-                child: Container(
-                  margin: EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(children: <Widget>[
-                        _prefixIcon(Icons.account_balance),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text('   الوصف العام:',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20.0,
-                                    color: Colors.deepPurple)),
-                            SizedBox(height: 1),
-                            Text("     " + homePageData['description'],
-                                style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 18.0,
-                                    color: Colors.black))
-                          ],
-                        )
-                      ]),
-                      Row(children: <Widget>[
-                        _prefixIcon(Icons.account_circle_sharp),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text('   اسم الشركه:  ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20.0,
-                                    color: Colors.deepPurple)),
-                            SizedBox(height: 1),
-                            Text("     " + homePageData['company'],
-                                style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 18.0,
-                                    color: Colors.black))
-                          ],
-                        )
-                      ]),
-                    ],
-                  ),
-                ),
-                elevation: 8,
-                shadowColor: Colors.green,
-                shape: BeveledRectangleBorder(
-                    borderRadius: BorderRadius.circular(15)),
-              ),
+      Row(
+        children: [
+          SizedBox(
+            width: 30,
+          ),
+          FloatingActionButton(
+            heroTag:"tag1",
+            child: Icon(
+              Icons.account_balance,
+              color: Colors.indigo[300],
+              size: 30,
             ),
-          ])));
+            backgroundColor: Colors.white,
+            onPressed: () {Navigator.push(context,
+                new MaterialPageRoute(builder: (context) => ShowingData()));},
+          ),
+          SizedBox(
+            width: 70,
+          ),
+          FloatingActionButton(
+            heroTag:"tag2",
+            child: Icon(
+              Icons.padding,
+              color: Colors.indigo[300],
+              size: 30,
+            ),
+            backgroundColor: Colors.white,
+            onPressed: () {
+              Navigator.push(context,
+                  new MaterialPageRoute(builder: (context) => ShowingPost()));
+            },
+          ),
+          SizedBox(
+            width: 70,
+          ),
+          FloatingActionButton(
+            heroTag:"tag3",
+            child: Icon(
+              Icons.account_circle_rounded,
+              color: Colors.indigo[300],
+              size: 30,
+            ),
+            backgroundColor: Colors.white,
+            onPressed: () {
+              Navigator.push(context,
+                  new MaterialPageRoute(builder: (context) => show_user()));
+            },
+          ),
+          FloatingActionButton(
+            heroTag: "tag4",
+            child: Icon(
+              Icons.favorite,
+              color: Colors.indigo[300],
+              size: 30,
+            ),
+            backgroundColor: Colors.white,
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => saves()));
+            },
+          ),
+        ],
+      ),
+
+      Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Card(
+          child: Container(
+            margin: EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(children: <Widget>[
+                  _prefixIcon(Icons.account_balance),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text('   الوصف العام:',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                              color: Colors.deepPurple)),
+                      SizedBox(height: 1),
+                      Text("     " + homePageData['description'],
+                          style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 18.0,
+                              color: Colors.black))
+                    ],
+                  )
+                ]),
+                Row(children: <Widget>[
+                  _prefixIcon(Icons.account_circle_sharp),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text('   اسم الشركه:  ',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                              color: Colors.deepPurple)),
+                      SizedBox(height: 1),
+                      Text("     " + homePageData['company'],
+                          style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 18.0,
+                              color: Colors.black))
+                    ],
+                  )
+                ]),
+              ],
+            ),
+          ),
+          elevation: 8,
+          shadowColor: Colors.green,
+          shape: BeveledRectangleBorder(
+              borderRadius: BorderRadius.circular(15)),
+        ),
+      ),
+    ]);
   }
 
   _formUI(position) {
     return new Container(
         child: Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(30.0),
-      ),
-      color: Colors.black.withOpacity(0.009999),
-      shadowColor: Colors.blueAccent.withOpacity(0.09),
-      semanticContainer: true,
-      borderOnForeground: true,
-      elevation: 50,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          SizedBox(height: 20.0),
-          _company(position),
-          SizedBox(height: 12.0),
-          _description(position),
-        ],
-      ),
-    ));
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+          color: Colors.black.withOpacity(0.009999),
+          shadowColor: Colors.blueAccent.withOpacity(0.09),
+          semanticContainer: true,
+          borderOnForeground: true,
+          elevation: 50,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              SizedBox(height: 20.0),
+              _company(position),
+              SizedBox(height: 12.0),
+              _description(position),
+            ],
+          ),
+        ));
   }
 
   _size(position) {
