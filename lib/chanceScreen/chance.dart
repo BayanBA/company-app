@@ -36,6 +36,7 @@ class _AddJopState extends State<AddJop> {
     super.initState();
   }
 
+
   Map<String, dynamic> d = {
     "id": "",
     "title": "",

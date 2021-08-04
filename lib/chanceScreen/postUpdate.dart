@@ -64,7 +64,7 @@ class _PostUpdateState extends State<PostUpdate> {
           'Content-Type': 'application/json',
           'Authorization': 'key=$serverToken',
         },
-        body: jsonEncode(<String, dynamic>{
+        body: jsonEncode(<String, dynamic> {
           'notification': {
             'title': title.toString(),
             'body': body.toString(),
