@@ -53,6 +53,7 @@ class JobScreen {
     "region": "سوريا",
     "city": "دمشق",
     "size": "",
+    "token":"",
     "des": "",
     "spe": "",
     "phone": "",

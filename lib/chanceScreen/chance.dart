@@ -31,17 +31,22 @@ class _AddJopState extends State<AddJop> {
   GlobalKey<FormState> k7 = new GlobalKey<FormState>();
   GlobalKey<FormState> k8 = new GlobalKey<FormState>();
 
+  void initState() {
+    getdata1();
+    super.initState();
+  }
+
   Map<String, dynamic> d = {
     "id": "",
     "title": "",
     "quiz": false,
     "salary": "أقل من 100000",
     "workTime": "دوام جزئي",
-    "specialties":"ترجمة",
-    "langNum":[],
+    "specialties": "ترجمة",
+    "langNum": [],
     "skillNum": "",
     "quizList": [],
-    "describsion":"",
+    "describsion": "",
     "expir": "1",
     "quizNum": 5,
     "gender": "لا يهم",
@@ -49,13 +54,15 @@ class _AddJopState extends State<AddJop> {
     "level": "مبتدأ",
     "Vacancies": 1,
     "dateOfPublication": "",
-  };String u;
+  };
+  String u;
   String id_chance;
   var token;
   var userr;
-  var follow=new List();
-  var my_lis=new List();
+  var follow = new List();
+  var my_lis = new List();
   CollectionReference comp;
+
   getdata1() async {
     CollectionReference t = FirebaseFirestore.instance.collection("companies");
     CollectionReference users = FirebaseFirestore.instance.collection("users");
@@ -64,9 +71,8 @@ class _AddJopState extends State<AddJop> {
     await t.where("email_advance", isEqualTo: userr.email).get().then((value) {
       value.docs.forEach((element) {
         setState(() {
-          Provider.of<MyProvider>(context, listen: false).setCompId(element.id);
           u = element.id;
-          follow=element.data()['followers'];
+          follow = element.data()['followers'];
         });
       });
     });
@@ -75,39 +81,11 @@ class _AddJopState extends State<AddJop> {
       token = value;
     });
 
-    await t.doc(u).update({'token': token}).then((value) {
-    });
-
-
-    await users.get().then((value) {
-
-      value.docs.forEach((element) {
-        setState(() {
-          for (int i = 0; i < follow.length; i++) {
-
-
-            if (element.id == follow.elementAt(i)) {
-              CollectionReference users_noti = FirebaseFirestore.instance.collection("users")
-                  .doc(follow.elementAt(i)).collection("notifcation");
-              users_noti.add({
-                'id_company':u,
-                'id_chance':id_chance,
-              });
-              my_lis.add(element.data()['token']);
-            }
-
-          }
-        });
-      });
-
-
-    });
+    await t.doc(u).update({'token': token}).then((value) {});
     // print(my_lis.length);
-
-
-
   }
-  sendMessage(String title,String body ,int i,String u,String c) async {
+
+  sendMessage(String title, String body, int i, String u, String c) async {
     var serverToken =
         "AAAAUnOn5ZE:APA91bGSkIL6DLpOfbulM_K3Yp5W1mlcp8F0IWu2mcKWloc4eQcF8C230XaHhXBfBYphuyp2P92dc_Js19rBEuU6UqPBGYOSjJfXsBJVmIu9TsLe44jaSOLDAovPTspwePb1gw7-1GNZ";
     await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
@@ -116,7 +94,6 @@ class _AddJopState extends State<AddJop> {
           'Authorization': 'key=$serverToken',
         },
         body: jsonEncode(<String, dynamic>{
-
           'notification': {
             'title': title.toString(),
             'body': body.toString(),
@@ -124,15 +101,13 @@ class _AddJopState extends State<AddJop> {
           'priority': 'high',
           'data': <String, dynamic>{
             'click_action': 'flutter notifcation_click',
-            'id_company' : 'iWHfsiUuasdPyC5BZqoY',
-            'id_chance' :'7P6zCtRB4jSlQljzTuS',
-
+            'id_company': u,
+            'id_chance': id_chance,
           },
-          'to':await my_lis[i],
-
+          'to': await my_lis[i],
         }));
-
   }
+
   var aa = new List();
   Stander stan = new Stander();
 
@@ -205,10 +180,10 @@ class _AddJopState extends State<AddJop> {
             )),
         Expanded(
             child: FittedBox(
-              child: Center(
-                child: getStep(),
-              ),
-            ))
+          child: Center(
+            child: getStep(),
+          ),
+        ))
       ],
     );
   }
@@ -275,9 +250,9 @@ class _AddJopState extends State<AddJop> {
       hint: Text(name),
       items: l
           .map((e) => DropdownMenuItem(
-        child: Text("$e"),
-        value: e,
-      ))
+                child: Text("$e"),
+                value: e,
+              ))
           .toList(),
       onChanged: (valu) {
         setState(() {
@@ -302,24 +277,18 @@ class _AddJopState extends State<AddJop> {
             SizedBox(
               width: 10,
             ),
-            z("expir", "عدد سنوات الخبرة", [
-              '1',
-              '2',
-              '3',
-              '4',
-              '5',
-              '6',
-              '7',
-              '8',
-              'اكثر من ذلك'
-            ])
+            z("expir", "عدد سنوات الخبرة",
+                ['1', '2', '3', '4', '5', '6', '7', '8', 'اكثر من ذلك'])
           ],
         ),
       );
     return Text("");
   }
 
-  void uplod() async{
+  var users_noti;
+  void uplod() async {
+    CollectionReference users = FirebaseFirestore.instance.collection("users");
+
     var v = FirebaseFirestore.instance
         .collection("companies")
         .doc(Provider.of<MyProvider>(context, listen: false).company_id)
@@ -335,46 +304,65 @@ class _AddJopState extends State<AddJop> {
     stan.level == "خبير" ? stan.expir = d["expir"] : stan.expir = "";
     stan.gender = d["gender"];
     stan.degree = d["degree"];
-    stan.describsion=d["describsion"];
+    stan.describsion = d["describsion"];
     stan.Vacancies = d["Vacancies"];
     DateTime date = DateTime.now();
     stan.dateOfPublication = Jiffy(date).fromNow();
     v.add({
       "id": "",
-      "Q":Provider.of<MyProvider>(context, listen: false).Q,
-      "A":Provider.of<MyProvider>(context, listen: false).A,
-      "Z":Provider.of<MyProvider>(context, listen: false).Z,
-      "quiz":Provider.of<MyProvider>(context, listen: false).quiz,
+      "Q": Provider.of<MyProvider>(context, listen: false).Q,
+      "A": Provider.of<MyProvider>(context, listen: false).A,
+      "Z": Provider.of<MyProvider>(context, listen: false).Z,
+      "quiz": Provider.of<MyProvider>(context, listen: false).quiz,
       "title": stan.title,
-      "Presenting_A_Job":[],
+      "Presenting_A_Job": [],
       "salary": stan.salary,
       "workTime": stan.workTime,
-      "specialties":stan.specialties,
+      "specialties": stan.specialties,
       "langNum": stan.langNum,
       "skillNum": stan.skillNum,
-      "describsion":stan.describsion,
+      "describsion": stan.describsion,
       "expir": stan.expir,
       "gender": stan.gender,
       "degree": stan.degree,
       "level": stan.level,
       "Vacancies": stan.Vacancies,
       "dateOfPublication": Jiffy(date).fromNow(),
-      "list": ""
+      "list": "",
     });
 
     await v.get().then((value) {
       if (value != null) {
         value.docs.forEach((element) {
           v.doc(element.id).update({"id": element.id});
+          if (element.data()["title"] == stan.title) id_chance = element.id;
+
         });
+
       }
     });
 
-    for (int i = 0; i < my_lis.length; i++)
-      sendMessage("title", "body", i, u, id_chance);
+    await users.get().then((value) {
+      value.docs.forEach((element) {
+        setState(() {
+          for (int i = 0; i < follow.length; i++) {
+            if (element.id == follow.elementAt(i)) {
+               users_noti = FirebaseFirestore.instance
+                  .collection("users")
+                  .doc(follow.elementAt(i))
+                  .collection("notifcation");
+               users_noti.add({
+                 "id_chance":id_chance,
+                 "id_company":u,
+               });
+            }
+          }
+        });
+      });
+    });
 
-    // Navigator.of(context).pushReplacement(
-    //     MaterialPageRoute(builder: (context) => ShowingData()));
+    for (int i = 0; i < my_lis.length; i++)
+      sendMessage("فرصه", "تم نشر فرصه", i, u, id_chance);
   }
 
   Widget getStep() {
@@ -406,8 +394,8 @@ class _AddJopState extends State<AddJop> {
             ),
             SizedBox(
                 width: 300,
-                child: x("describsion", "الوصف:", ".......", Icon(Icons.wb_incandescent_outlined), k8,
-                    _index)),
+                child: x("describsion", "الوصف:", ".......",
+                    Icon(Icons.wb_incandescent_outlined), k8, _index)),
           ],
         ),
       ),
@@ -439,7 +427,16 @@ class _AddJopState extends State<AddJop> {
             SizedBox(
               width: 10,
             ),
-            z("salary", "الراتب", ["أقل من 100000", "100000 - 300000", "300000 - 500000", "500000 - 700000", "700000 - 1000000", "1000000 - 1500000", "1500000 - 2000000", "أكبر من ذلك"])
+            z("salary", "الراتب", [
+              "أقل من 100000",
+              "100000 - 300000",
+              "300000 - 500000",
+              "500000 - 700000",
+              "700000 - 1000000",
+              "1000000 - 1500000",
+              "1500000 - 2000000",
+              "أكبر من ذلك"
+            ])
           ],
         ),
       ),
@@ -453,7 +450,7 @@ class _AddJopState extends State<AddJop> {
       ),
       SizedBox(
         width: 300,
-          child:chipList(),
+        child: chipList(),
       ),
       SizedBox(
         width: 300,
@@ -513,17 +510,16 @@ class _AddJopState extends State<AddJop> {
             SizedBox(
               width: 10,
             ),
-            z("degree", "شهادة",
-                [
-                  'تعليم ابتدائي',
-                  'تعليم اعدادي',
-                  'تعليم ثانوي',
-                  'شهادة جامعية',
-                  'شهادة دبلوم',
-                  'شهادة ماجستير',
-                  'شهادة دكتوراه',
-                  'لا يهم'
-                ])
+            z("degree", "شهادة", [
+              'تعليم ابتدائي',
+              'تعليم اعدادي',
+              'تعليم ثانوي',
+              'شهادة جامعية',
+              'شهادة دبلوم',
+              'شهادة ماجستير',
+              'شهادة دكتوراه',
+              'لا يهم'
+            ])
           ],
         ),
       ),
@@ -566,10 +562,10 @@ class _AddJopState extends State<AddJop> {
                   setState(() {
                     d["Vacancies"] >= 30
                         ? Fluttertoast.showToast(
-                        msg: "العدد كبير جدا",
-                        backgroundColor: Colors.black54,
-                        textColor: Colors.white,
-                        toastLength: Toast.LENGTH_LONG)
+                            msg: "العدد كبير جدا",
+                            backgroundColor: Colors.black54,
+                            textColor: Colors.white,
+                            toastLength: Toast.LENGTH_LONG)
                         : d["Vacancies"]++;
                   });
                 },
@@ -591,10 +587,10 @@ class _AddJopState extends State<AddJop> {
                   setState(() {
                     d["Vacancies"] <= 1
                         ? Fluttertoast.showToast(
-                        msg: "لا يمكن ان يكون العدد اقل من 1",
-                        backgroundColor: Colors.black54,
-                        textColor: Colors.white,
-                        toastLength: Toast.LENGTH_LONG)
+                            msg: "لا يمكن ان يكون العدد اقل من 1",
+                            backgroundColor: Colors.black54,
+                            textColor: Colors.white,
+                            toastLength: Toast.LENGTH_LONG)
                         : d["Vacancies"]--;
                   });
                 },
@@ -610,8 +606,8 @@ class _AddJopState extends State<AddJop> {
             IconButton(
                 icon: Icon(Icons.post_add),
                 onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => QuestionAnswer()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => QuestionAnswer()));
                 }),
             IconButton(
                 icon: Icon(Icons.dangerous),
@@ -653,111 +649,109 @@ class _AddJopState extends State<AddJop> {
   @override
   Widget build(BuildContext context) {
     final _colorPalettes =
-    charts.MaterialPalette.getOrderedPalettes(this.data.length);
+        charts.MaterialPalette.getOrderedPalettes(this.data.length);
     return ListView(
-              padding: const EdgeInsets.all(8),
-              children: <Widget>[
-                Container(
-                  height: 400,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(15.8),
-                        topLeft: Radius.circular(15.8)),
-                  ),
-                  child: des(),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(15.8),
-                        bottomRight: Radius.circular(15.8)),
-                    //color: Colors.black12
-                  ),
-                  height: 300,
-                  child: charts.PieChart(
-                    [
-                      charts.Series<_CostsData, String>(
-                        id: 'Sales-1',
-                        colorFn: (_, idx) => _colorPalettes[idx].shadeDefault,
-                        domainFn: (_CostsData sales, _) => sales.category,
-                        measureFn: (_CostsData sales, _) => sales.cost,
-                        data: this.data,
-                        // Set a label accessor to control the text of the arc label.
-                        labelAccessorFn: (_CostsData row, _) =>
-                        '${row.category}: ${row.cost}',
-                      ),
-                    ],
-                    animate: this._animate,
-                    defaultRenderer: new charts.ArcRendererConfig(
-                      arcRatio: this._arcRatio,
-                      arcRendererDecorators: [
-                        charts.ArcLabelDecorator(
-                            labelPosition: this._arcLabelPosition)
-                      ],
-                    ),
-                    behaviors: [
-                      // Add title.
-                      // charts.ChartTitle(
-                      //   'Dummy costs breakup',
-                      //   behaviorPosition: this._titlePosition,
-                      // ),
-                      // Add legend. ("Datum" means the "X-axis" of each data point.)
-                      charts.DatumLegend(
-                        position: this._legendPosition,
-                        desiredMaxRows: 4,
-                      ),
-                    ],
-                  ),
-                ),
-
-                //..._controlWidgets(),
+      padding: const EdgeInsets.all(8),
+      children: <Widget>[
+        Container(
+          height: 400,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(15.8),
+                topLeft: Radius.circular(15.8)),
+          ),
+          child: des(),
+        ),
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(15.8),
+                bottomRight: Radius.circular(15.8)),
+            //color: Colors.black12
+          ),
+          height: 300,
+          child: charts.PieChart(
+            [
+              charts.Series<_CostsData, String>(
+                id: 'Sales-1',
+                colorFn: (_, idx) => _colorPalettes[idx].shadeDefault,
+                domainFn: (_CostsData sales, _) => sales.category,
+                measureFn: (_CostsData sales, _) => sales.cost,
+                data: this.data,
+                // Set a label accessor to control the text of the arc label.
+                labelAccessorFn: (_CostsData row, _) =>
+                    '${row.category}: ${row.cost}',
+              ),
+            ],
+            animate: this._animate,
+            defaultRenderer: new charts.ArcRendererConfig(
+              arcRatio: this._arcRatio,
+              arcRendererDecorators: [
+                charts.ArcLabelDecorator(labelPosition: this._arcLabelPosition)
               ],
-            );
-        // floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterTop,
-        // floatingActionButton: Row(
-        //   children: [
-        //     SizedBox(
-        //       width: 30,
-        //     ),
-        //     FloatingActionButton(
-        //       child: Icon(
-        //         Icons.shopping_bag_outlined,
-        //         color: Colors.indigo[300],
-        //         size: 30,
-        //       ),
-        //       backgroundColor: Colors.white,
-        //       onPressed: () {Navigator.push(context,
-        //           new MaterialPageRoute(builder: (context) => new AddJop()));},
-        //     ),
-        //     SizedBox(
-        //       width: 70,
-        //     ),
-        //     FloatingActionButton(
-        //       child: Icon(
-        //         Icons.attribution_outlined,
-        //         color: Colors.indigo[300],
-        //         size: 30,
-        //       ),
-        //       backgroundColor: Colors.white,
-        //       onPressed: () {Navigator.push(context,
-        //           new MaterialPageRoute(builder: (context) => new ChanceT()));},
-        //     ),
-        //     SizedBox(
-        //       width: 70,
-        //     ),
-        //     FloatingActionButton(
-        //       child: Icon(
-        //         Icons.volunteer_activism,
-        //         color: Colors.indigo[300],
-        //         size: 30,
-        //       ),
-        //       backgroundColor: Colors.white,
-        //       onPressed: () {Navigator.push(context,
-        //           new MaterialPageRoute(builder: (context) => new ChanceV()));},
-        //     ),
-        //   ],
-        // ),
+            ),
+            behaviors: [
+              // Add title.
+              // charts.ChartTitle(
+              //   'Dummy costs breakup',
+              //   behaviorPosition: this._titlePosition,
+              // ),
+              // Add legend. ("Datum" means the "X-axis" of each data point.)
+              charts.DatumLegend(
+                position: this._legendPosition,
+                desiredMaxRows: 4,
+              ),
+            ],
+          ),
+        ),
 
+        //..._controlWidgets(),
+      ],
+    );
+    // floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterTop,
+    // floatingActionButton: Row(
+    //   children: [
+    //     SizedBox(
+    //       width: 30,
+    //     ),
+    //     FloatingActionButton(
+    //       child: Icon(
+    //         Icons.shopping_bag_outlined,
+    //         color: Colors.indigo[300],
+    //         size: 30,
+    //       ),
+    //       backgroundColor: Colors.white,
+    //       onPressed: () {Navigator.push(context,
+    //           new MaterialPageRoute(builder: (context) => new AddJop()));},
+    //     ),
+    //     SizedBox(
+    //       width: 70,
+    //     ),
+    //     FloatingActionButton(
+    //       child: Icon(
+    //         Icons.attribution_outlined,
+    //         color: Colors.indigo[300],
+    //         size: 30,
+    //       ),
+    //       backgroundColor: Colors.white,
+    //       onPressed: () {Navigator.push(context,
+    //           new MaterialPageRoute(builder: (context) => new ChanceT()));},
+    //     ),
+    //     SizedBox(
+    //       width: 70,
+    //     ),
+    //     FloatingActionButton(
+    //       child: Icon(
+    //         Icons.volunteer_activism,
+    //         color: Colors.indigo[300],
+    //         size: 30,
+    //       ),
+    //       backgroundColor: Colors.white,
+    //       onPressed: () {Navigator.push(context,
+    //           new MaterialPageRoute(builder: (context) => new ChanceV()));},
+    //     ),
+    //   ],
+    // ),
   }
 
   edit(int i) {
@@ -779,22 +773,25 @@ class _AddJopState extends State<AddJop> {
         chip_desgin('الألمانية', "AL"),
         chip_desgin('يابانية', "JA"),
         chip_desgin('غير ذلك', "h"),
-
       ],
     );
   }
 
   var _filters = [''];
 
-
-  chip_desgin(lan1,lan){
+  chip_desgin(lan1, lan) {
     return FilterChip(
       backgroundColor: Colors.purple,
       avatar: CircleAvatar(
         backgroundColor: Colors.cyan,
-        child: Text(lan.toUpperCase(),style: TextStyle(color: Colors.white),),
+        child: Text(
+          lan.toUpperCase(),
+          style: TextStyle(color: Colors.white),
+        ),
       ),
-      label: Text(lan1,),
+      label: Text(
+        lan1,
+      ),
       selected: _filters.contains(lan1),
       selectedColor: Colors.purpleAccent,
       onSelected: (bool selected) {
@@ -810,11 +807,9 @@ class _AddJopState extends State<AddJop> {
       },
     );
   }
-
 }
 
-class Fireba {
-}
+class Fireba {}
 
 class _CostsData {
   final String category;
@@ -822,4 +817,3 @@ class _CostsData {
 
   _CostsData(this.category, this.cost);
 }
-
