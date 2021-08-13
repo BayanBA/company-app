@@ -17,6 +17,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
+import 'chanceScreen/Initial_acceptance.dart';
+
 List<String> nn = new List();
 Map<String, List> kk = new Map();
 List<String> nn2 = new List();
@@ -26,7 +28,7 @@ List<dynamic> koko = [
   AddJop(),
   Post(),
   HomePage(),
-  saves(),
+  InitialAcceptance(),
   JobScreenEdit(),
 ];
 Map<String, dynamic> homePageData = new Map<String, dynamic>();
@@ -65,7 +67,7 @@ class _towRouteState extends State<towRoute> {
   @override
   getdata() async {
     CollectionReference t =
-    await FirebaseFirestore.instance.collection("location");
+        await FirebaseFirestore.instance.collection("location");
     await t.doc("Pju9ofIYjWDZF86czL75").get().then((value) {
       for (int i = 0; i < 5; i++) nn.add(value.data()['array'][i]);
       bbb();
@@ -78,7 +80,7 @@ class _towRouteState extends State<towRoute> {
 
   getdata2() async {
     CollectionReference t =
-    await FirebaseFirestore.instance.collection("location");
+        await FirebaseFirestore.instance.collection("location");
     await t.doc("zgmM6DkhtzXh1S4F4Atd").get().then((value) {
       for (int j = 0; j < nn.length; j++) {
         nn2 = new List();
@@ -105,12 +107,12 @@ class _towRouteState extends State<towRoute> {
 
     Timer(
         Duration(seconds: 3),
-            () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => islogin == false ? Login() : FirstRoute(),
-          ),
-        ));
+        () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => islogin == false ? Login() : FirstRoute(),
+              ),
+            ));
   }
 
   Widget build(BuildContext context) {
@@ -121,16 +123,16 @@ class _towRouteState extends State<towRoute> {
           child: Scaffold(
               body: Container(
                   child: Center(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          image:
-                          DecorationImage(image: new AssetImage("images/4.png"))),
-                      child: SpinKitRipple(
-                        color: Colors.red,
-                        size: 80,
-                      ),
-                    ),
-                  ))),
+            child: Container(
+              decoration: BoxDecoration(
+                  image:
+                      DecorationImage(image: new AssetImage("images/4.png"))),
+              child: SpinKitRipple(
+                color: Colors.red,
+                size: 80,
+              ),
+            ),
+          ))),
         ));
   }
 }
@@ -156,19 +158,6 @@ class _FirstRouteState extends State<FirstRoute> {
       home: Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-          appBar: PreferredSize(
-            preferredSize: Size.fromHeight(80.0),
-            child: AppBar(
-              title: Center(
-                child: Text(" "),
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(60.0),
-                ),
-              ),
-            ),
-          ),
           body: Stack(
             children: [
               Opacity(

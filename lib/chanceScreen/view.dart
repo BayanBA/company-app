@@ -93,7 +93,12 @@ class _ShowingDataState extends State<ShowingData> {
                   ),
                   ButtonBar(
                     children: <Widget>[
-                      Text(lis[i]["dateOfPublication"],
+                      Text(
+                          lis[i]["date_publication"]['day'].toString() +
+                              "/" +
+                              lis[i]["date_publication"]['month'].toString() +
+                              "/" +
+                              lis[i]["date_publication"]['year'].toString(),
                           style: TextStyle(color: Colors.white)),
                     ],
                   ),
@@ -160,3 +165,5 @@ class _ShowingDataState extends State<ShowingData> {
             ])));
   }
 }
+
+

@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+
 class UpdatData extends StatefulWidget {
   @override
   _UpdatDataState createState() => _UpdatDataState();
@@ -33,7 +34,7 @@ class _UpdatDataState extends State<UpdatData> {
   Map<String, dynamic> d;
 
   var data11;
-  var _filters ;
+  var _filters;
 
   editData() async {
     data11 = Provider.of<MyProvider>(context, listen: false).data;
@@ -43,9 +44,11 @@ class _UpdatDataState extends State<UpdatData> {
   String u;
   var token;
   var userr;
-  var follow=new List();
-  var my_lis=new List();
+  var follow = new List();
+  var my_lis = new List();
   CollectionReference comp;
+  String name_comp;
+
   getdata1() async {
     CollectionReference t = FirebaseFirestore.instance.collection("companies");
     CollectionReference users = FirebaseFirestore.instance.collection("users");
@@ -55,6 +58,7 @@ class _UpdatDataState extends State<UpdatData> {
       value.docs.forEach((element) {
         setState(() {
           u = element.id;
+          name_comp = element.data()['company'];
           follow = element.data()['followers'];
         });
       });
@@ -67,7 +71,9 @@ class _UpdatDataState extends State<UpdatData> {
     await t.doc(u).update({'token': token}).then((value) {});
     // print(my_lis.length);
   }
-  sendMessage(String title,String body ,int i,String u,String c) async {
+
+  sendMessage(
+      String title, String body, int i, String u, String c, String num) async {
     var serverToken =
         "AAAAUnOn5ZE:APA91bGSkIL6DLpOfbulM_K3Yp5W1mlcp8F0IWu2mcKWloc4eQcF8C230XaHhXBfBYphuyp2P92dc_Js19rBEuU6UqPBGYOSjJfXsBJVmIu9TsLe44jaSOLDAovPTspwePb1gw7-1GNZ";
     await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
@@ -76,7 +82,6 @@ class _UpdatDataState extends State<UpdatData> {
           'Authorization': 'key=$serverToken',
         },
         body: jsonEncode(<String, dynamic>{
-
           'notification': {
             'title': title.toString(),
             'body': body.toString(),
@@ -84,16 +89,13 @@ class _UpdatDataState extends State<UpdatData> {
           'priority': 'high',
           'data': <String, dynamic>{
             'click_action': 'flutter notifcation_click',
-            'id_company' : 'iWHfsiUuasdPyC5BZqoY',
-            'id_chance' :'7P6zCtRB4jSlQljzTuS',
-
+            'id_company': u,
+            'id': c,
+            'num': num,
           },
-          'to':await my_lis[i],
-
+          'to': await my_lis[i],
         }));
-
   }
-
 
   @override
   void initState() {
@@ -279,8 +281,7 @@ class _UpdatDataState extends State<UpdatData> {
     return Text("");
   }
 
-  void uplod() async{
-
+  void uplod() async {
     var users_noti;
     CollectionReference users = FirebaseFirestore.instance.collection("users");
 
@@ -319,7 +320,12 @@ class _UpdatDataState extends State<UpdatData> {
       "degree": stan.degree,
       "level": stan.level,
       "Vacancies": stan.Vacancies,
-      "list": ""
+      "list": "",
+      "date_publication": {
+        'day': DateTime.now().day,
+        'month': DateTime.now().month,
+        'year': DateTime.now().year,
+      },
     });
     Provider.of<MyProvider>(context, listen: false).data = d;
     Navigator.of(context).pop();
@@ -333,9 +339,18 @@ class _UpdatDataState extends State<UpdatData> {
                   .doc(follow.elementAt(i))
                   .collection("notifcation");
               users_noti.add({
-                "id_chance_edit": d['id'],
-                "id_company":u,
+                "id": d['id'],
+                "id_company": u,
+                "title": 'فرصه',
+                "body": "تم تعديل فرصه من قبل الشركه  ${name_comp} ",
+                'date_publication': {
+                  'day': DateTime.now().day,
+                  'month': DateTime.now().month,
+                  'year': DateTime.now().year,
+                },
+                'num': 2,
               });
+              my_lis.add(element.data()['token']);
             }
           }
         });
@@ -343,8 +358,8 @@ class _UpdatDataState extends State<UpdatData> {
     });
 
     for (int i = 0; i < my_lis.length; i++)
-      sendMessage("فرصه", "تم تعديل الفرصه", i, u, d['id']);
-
+      sendMessage("فرصه", "تم تعديل فرصه من قبل الشركه  ${name_comp} ", i, u,
+          d['id'], "2");
   }
 
   Widget getStep() {
@@ -430,12 +445,10 @@ class _UpdatDataState extends State<UpdatData> {
             child: x("skillNum", "المهارات:", ".......",
                 Icon(Icons.account_tree), k6, _index)),
       ),
-
       SizedBox(
         width: 300,
         child: chipList(),
       ),
-
       SizedBox(
         width: 300,
         child: Row(
@@ -748,8 +761,6 @@ class _UpdatDataState extends State<UpdatData> {
     );
   }
 
-
-
   chip_desgin(lan1, lan) {
     return FilterChip(
       backgroundColor: Colors.purple,
@@ -763,7 +774,6 @@ class _UpdatDataState extends State<UpdatData> {
       label: Text(
         lan1,
       ),
-
       selected: _filters.contains(lan1),
       selectedColor: Colors.purpleAccent,
       onSelected: (bool selected) {

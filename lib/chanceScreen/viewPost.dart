@@ -72,7 +72,12 @@ class _ShowingPostState extends State<ShowingPost> {
                     ),
                     title: Text(lis[i]["title"],
                         style: TextStyle(color: Colors.white)),
-                    subtitle: Text(lis[i]["dateOfPublication"],
+                    subtitle: Text(
+                        lis[i]["date_publication"]['day'].toString() +
+                            "/" +
+                            lis[i]["date_publication"]['month'].toString() +
+                            "/" +
+                            lis[i]["date_publication"]['year'].toString(),
                         style: TextStyle(color: Colors.white)),
                   ),
                   ButtonBar(

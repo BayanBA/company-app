@@ -1,3 +1,4 @@
+import 'package:b/chanceScreen/chat.dart';
 import 'package:b/screen/My_profile.dart';
 import 'package:b/screen/savedUser.dart';
 import 'package:b/screen/users.dart';
@@ -33,6 +34,15 @@ class _ApplicantsDetalsState extends State<ApplicantsDetals> {
     v.doc(Provider.of<MyProvider>(context,listen: false).data["id"]).get().then((value) async{
        base=await value.data()["accepted"];
 
+    });
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(widget.items_id.elementAt(0))
+        .collection("chat").get().then((value){
+      value.docs.forEach((element) {
+        if(element.data()["comp_id"]==Provider.of<MyProvider>(context, listen: false).company_id)
+          Provider.of<MyProvider>(context, listen: false).setDocUser(element.id);
+      });
     });
   }
   @override
@@ -89,7 +99,16 @@ class _ApplicantsDetalsState extends State<ApplicantsDetals> {
                                   style: TextStyle(color: Colors.black))
                             ],
                           ),
-                          onTap: () {}),
+                          onTap: (){
+
+                            Provider.of<MyProvider>(context, listen: false).setUserId(widget.items_id.elementAt(0));
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (context) {
+                              return Chat();
+
+                            }));
+
+                          }),
                       InkWell(
                           child: Column(
                             children: [

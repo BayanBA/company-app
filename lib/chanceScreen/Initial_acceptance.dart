@@ -1,4 +1,6 @@
+import 'package:b/chanceScreen/proGamer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,20 +12,35 @@ class InitialAcceptance extends StatefulWidget {
 }
 
 class _InitialAcceptanceState extends State<InitialAcceptance> {
+  var list = new List();
 
-  var list=new List();
-  var map=new Map();
+  //var listOfDate = new List();
+  var map = new Map();
   CollectionReference comp;
 
-  getdata()async{
-    comp =await FirebaseFirestore.instance
+  getdata() async {
+    CollectionReference t = FirebaseFirestore.instance.collection("companies");
+    var user = await FirebaseAuth.instance.currentUser;
+
+    await t.where("email_advance", isEqualTo: user.email).get().then((value) {
+      value.docs.forEach((element) {
+        setState(() {
+          Provider.of<MyProvider>(context, listen: false).setCompId(element.id);
+        });
+      });
+    });
+
+    comp = await FirebaseFirestore.instance
         .collection("companies")
         .doc(Provider.of<MyProvider>(context, listen: false).company_id)
         .collection("chance");
-    await comp.get().then((value){
+    comp.get().then((value) {
       value.docs.forEach((element) {
-        list.add(element.data()["title"]);
-        map[element.data()["title"]]= element.data()["accepted"];
+        setState(() {
+          list.add(element.data());
+          //listOfDate.add(element.data()["dateOfPublication"]);
+          map[element.data()["title"]] = element.data()["accepted"];
+        });
       });
     });
   }
@@ -39,7 +56,7 @@ class _InitialAcceptanceState extends State<InitialAcceptance> {
         itemBuilder: (context, i) {
           return Dismissible(
             onDismissed: (direction) async {
-             // await comp.doc(lis[i]["id"]).delete();
+              // await comp.doc(lis[i]["id"]).delete();
             },
             key: UniqueKey(),
             child: Card(
@@ -53,24 +70,37 @@ class _InitialAcceptanceState extends State<InitialAcceptance> {
                 children: <Widget>[
                   ListTile(
                     leading:
-                    Icon(Icons.apartment, size: 50, color: Colors.white),
-                    title: Text(list[i]["title"],
+                        Icon(Icons.apartment, size: 50, color: Colors.white),
+                    title: Text(list.elementAt(i)["title"],
                         style: TextStyle(color: Colors.white)),
-                    subtitle: Text(list[i]["dateOfPublication"],
+                    subtitle: Text(
+                        list
+                                .elementAt(i)["date_publication"]['day']
+                                .toString() +
+                            "/" +
+                            list
+                                .elementAt(i)["date_publication"]['month']
+                                .toString() +
+                            "/" +
+                            list
+                                .elementAt(i)["date_publication"]['year']
+                                .toString(),
                         style: TextStyle(color: Colors.white)),
                   ),
-
                   ButtonBar(
                     children: <Widget>[
                       InkWell(
                         onTap: () {
-                          Provider.of<MyProvider>(context, listen: false).data=map;
-                          // Navigator.of(context)
-                          //     .push(MaterialPageRoute(builder: (context) {
-                          //   Provider.of<MyProvider>(context, listen: false).data =
-                          //   lis[i];
-                          //   return Detals();
-                          // }));
+                          Provider.of<MyProvider>(context, listen: false)
+                              .data1 = map[list.elementAt(i)["title"]];
+                          Provider.of<MyProvider>(context, listen: false).data =
+                              list.elementAt(i);
+                          Provider.of<MyProvider>(context, listen: false)
+                              .setChanceName(list.elementAt(i)["title"]);
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                            return ProGamer();
+                          }));
                         },
                         child: Text(
                           "تفاصيل",
@@ -103,16 +133,15 @@ class _InitialAcceptanceState extends State<InitialAcceptance> {
       child: list.isEmpty
           ? CircularProgressIndicator()
           : StreamBuilder(
-          stream: comp.snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError)
-              return Text(("Errorrrrrrrrr"));
-            else if (snapshot.connectionState ==
-                ConnectionState.waiting)
-              return CircularProgressIndicator();
-            else
-              return done();
-          }),
+              stream: comp.snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError)
+                  return Text(("Errorrrrrrrrr"));
+                else if (snapshot.connectionState == ConnectionState.waiting)
+                  return CircularProgressIndicator();
+                else
+                  return done();
+              }),
     );
   }
 }

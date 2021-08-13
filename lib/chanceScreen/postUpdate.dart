@@ -17,7 +17,6 @@ class PostUpdate extends StatefulWidget {
 }
 
 class _PostUpdateState extends State<PostUpdate> {
-
   GlobalKey<FormState> ff = new GlobalKey<FormState>();
   GlobalKey<FormState> ff1 = new GlobalKey<FormState>();
 
@@ -27,15 +26,15 @@ class _PostUpdateState extends State<PostUpdate> {
   String id_edit;
   var token;
   var userr;
+  String name_comp;
   var follow = new List();
   var my_lis = new List();
   CollectionReference users = FirebaseFirestore.instance.collection("users");
+
   editData() async {
     data = Provider.of<MyProvider>(context, listen: false).data;
     d = data;
   }
-
-
 
   getdata1() async {
     CollectionReference t = FirebaseFirestore.instance.collection("companies");
@@ -45,6 +44,7 @@ class _PostUpdateState extends State<PostUpdate> {
       value.docs.forEach((element) {
         setState(() {
           u = element.id;
+          name_comp = element.data()["company"];
           follow = element.data()['followers'];
         });
       });
@@ -56,7 +56,9 @@ class _PostUpdateState extends State<PostUpdate> {
 
     await t.doc(u).update({'token': token}).then((value) {});
   }
-  sendMessage(String title, String body, int i, String u, String c) async {
+
+  sendMessage(
+      String title, String body, int i, String u, String c, String num) async {
     var serverToken =
         "AAAAUnOn5ZE:APA91bGSkIL6DLpOfbulM_K3Yp5W1mlcp8F0IWu2mcKWloc4eQcF8C230XaHhXBfBYphuyp2P92dc_Js19rBEuU6UqPBGYOSjJfXsBJVmIu9TsLe44jaSOLDAovPTspwePb1gw7-1GNZ";
     await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
@@ -64,7 +66,7 @@ class _PostUpdateState extends State<PostUpdate> {
           'Content-Type': 'application/json',
           'Authorization': 'key=$serverToken',
         },
-        body: jsonEncode(<String, dynamic> {
+        body: jsonEncode(<String, dynamic>{
           'notification': {
             'title': title.toString(),
             'body': body.toString(),
@@ -73,13 +75,12 @@ class _PostUpdateState extends State<PostUpdate> {
           'data': <String, dynamic>{
             'click_action': 'flutter notifcation_click',
             'id_company': u,
-            'id_post': c,
+            'id': c,
+            'num': num,
           },
           'to': await my_lis[i],
         }));
   }
-
-
 
   @override
   void initState() {
@@ -180,7 +181,7 @@ class _PostUpdateState extends State<PostUpdate> {
             ])));
   }
 
-  saving() async{
+  saving() async {
     var user = FirebaseAuth.instance.currentUser;
     var users_noti;
     var v = FirebaseFirestore.instance
@@ -203,9 +204,18 @@ class _PostUpdateState extends State<PostUpdate> {
                   .doc(follow.elementAt(i))
                   .collection("notifcation");
               users_noti.add({
-                "id_post_edit":data['id'],
-                "id_company":u,
+                "id": data['id'],
+                "id_company": u,
+                "title": 'تعديل بوست ',
+                "body": "تم تعديل بوست من قبل الشركه  ${name_comp} ",
+                'date_publication': {
+                  'day': DateTime.now().day,
+                  'month': DateTime.now().month,
+                  'year': DateTime.now().year,
+                },
+                'num': 1,
               });
+              my_lis.add(element.data()['token']);
             }
           }
         });
@@ -213,11 +223,14 @@ class _PostUpdateState extends State<PostUpdate> {
     });
 
     for (int i = 0; i < my_lis.length; i++)
-      sendMessage("بوست", "تم تعديل بوست", i, u, data['id']);
-
+      sendMessage(
+          "تعديل بوست",
+          "تم تعديل بوست من قبل الشركه  ${data['company']} ",
+          i,
+          u,
+          data['id'],
+          "1");
   }
-
-
 
   addpost(context) {
     showDialog(
@@ -271,13 +284,12 @@ class _PostUpdateState extends State<PostUpdate> {
                     onPressed: () {
                       setState(() {
                         saving();
-                        Provider.of<MyProvider>(context, listen: false)
-                            .data = data;
+                        Provider.of<MyProvider>(context, listen: false).data =
+                            data;
                         print(Provider.of<MyProvider>(context, listen: false)
                             .data);
                         Navigator.of(context).pop();
                       });
-
                     },
                     child: Text(
                       '  نعم',
