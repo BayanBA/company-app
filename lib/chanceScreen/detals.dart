@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:b/chanceScreen/applicants.dart';
+import 'package:b/employeeSecreen/applicants.dart';
 import 'package:b/chanceScreen/updatChanceT.dart';
 import 'package:b/chanceScreen/updatChanceV.dart';
 import 'package:b/stand.dart';

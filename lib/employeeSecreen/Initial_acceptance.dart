@@ -1,4 +1,5 @@
-import 'package:b/chanceScreen/proGamer.dart';
+
+import 'package:b/employeeSecreen/acceptable.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -99,7 +100,7 @@ class _InitialAcceptanceState extends State<InitialAcceptance> {
                               .setChanceName(list.elementAt(i)["title"]);
                           Navigator.of(context)
                               .push(MaterialPageRoute(builder: (context) {
-                            return ProGamer();
+                            return Acceptable();
                           }));
                         },
                         child: Text(

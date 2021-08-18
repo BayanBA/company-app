@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:b/chanceScreen/chance.dart';
-import 'package:b/chanceScreen/saved.dart';
+import 'package:b/employeeSecreen/saved.dart';
 import 'package:b/postSecreen/viewPost.dart';
 import 'package:b/chanceScreen/view.dart';
 import 'package:b/screen/showUser.dart';

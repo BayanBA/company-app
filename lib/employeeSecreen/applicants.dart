@@ -1,4 +1,4 @@
-import 'package:b/chanceScreen/applicantsDetals.dart';
+import 'package:b/employeeSecreen/applicantsDetals.dart';
 import 'package:b/screen/showUser.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
