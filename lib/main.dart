@@ -4,7 +4,7 @@ import 'package:b/chanceScreen/chance.dart';
 import 'package:b/screen/edit.dart';
 import 'package:b/screen/job_screen.dart';
 import 'package:b/screen/login.dart';
-import 'package:b/chanceScreen/post.dart';
+import 'package:b/postSecreen/post.dart';
 import 'package:b/screen/savedUser.dart';
 import 'package:b/screen/users.dart';
 import 'package:b/stand.dart';

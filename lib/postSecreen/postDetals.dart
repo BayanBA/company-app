@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:b/chanceScreen/postUpdate.dart';
+import 'package:b/postSecreen/postUpdate.dart';
 import 'package:b/stand.dart';
 import 'package:b/chanceScreen/updatData.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

@@ -1,5 +1,5 @@
-import 'package:b/chanceScreen/massege.dart';
-import 'package:b/chanceScreen/newMassage.dart';
+import 'package:b/chatSecreen/massege.dart';
+import 'package:b/chatSecreen/newMassage.dart';
 import 'package:flutter/material.dart';
 
 class Chat extends StatelessWidget {

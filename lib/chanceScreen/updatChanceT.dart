@@ -1,7 +1,7 @@
 import 'package:b/chanceScreen/chanceT.dart';
 import 'package:b/chanceScreen/chanceV.dart';
-import 'package:b/chanceScreen/questionAnswere.dart';
-import 'package:b/chanceScreen/truefalse.dart';
+import 'package:b/quizSecreen/questionAnswere.dart';
+import 'package:b/quizSecreen/truefalse.dart';
 import 'package:b/chanceScreen/view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';

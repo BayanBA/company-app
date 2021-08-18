@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:b/main.dart';
 import 'package:b/screen/My_profile.dart';
-import 'package:b/chanceScreen/post.dart';
+import 'package:b/postSecreen/post.dart';
 import 'package:b/chanceScreen/view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';

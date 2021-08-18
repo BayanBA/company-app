@@ -1,4 +1,4 @@
-import 'package:b/chanceScreen/chat.dart';
+import 'package:b/chatSecreen/chat.dart';
 import 'package:b/screen/My_profile.dart';
 import 'package:b/screen/savedUser.dart';
 import 'package:b/screen/users.dart';

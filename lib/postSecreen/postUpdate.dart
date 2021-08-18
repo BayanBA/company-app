@@ -1,4 +1,4 @@
-import 'package:b/chanceScreen/viewPost.dart';
+import 'package:b/postSecreen/viewPost.dart';
 import 'package:b/main.dart';
 import 'package:b/screen/My_profile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,33 +11,30 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../stand.dart';
 
-class Post extends StatefulWidget {
+class PostUpdate extends StatefulWidget {
   @override
-  _PostState createState() => _PostState();
+  _PostUpdateState createState() => _PostUpdateState();
 }
 
-class _PostState extends State<Post> {
-  var save;
-  var title;
-  var users_noti;
+class _PostUpdateState extends State<PostUpdate> {
   GlobalKey<FormState> ff = new GlobalKey<FormState>();
   GlobalKey<FormState> ff1 = new GlobalKey<FormState>();
 
-  @override
-  void initState() {
-    getdata1();
-
-    super.initState();
-  }
-
+  var data;
+  Map<String, dynamic> d;
   String u;
-  String id_post;
+  String id_edit;
   var token;
-  String name_comp;
   var userr;
+  String name_comp;
   var follow = new List();
   var my_lis = new List();
   CollectionReference users = FirebaseFirestore.instance.collection("users");
+
+  editData() async {
+    data = Provider.of<MyProvider>(context, listen: false).data;
+    d = data;
+  }
 
   getdata1() async {
     CollectionReference t = FirebaseFirestore.instance.collection("companies");
@@ -47,7 +44,7 @@ class _PostState extends State<Post> {
       value.docs.forEach((element) {
         setState(() {
           u = element.id;
-          name_comp = element.data()['company'];
+          name_comp = element.data()["company"];
           follow = element.data()['followers'];
         });
       });
@@ -58,11 +55,10 @@ class _PostState extends State<Post> {
     });
 
     await t.doc(u).update({'token': token}).then((value) {});
-
-    // await t.doc(u).update({'token': token}).then((value) {});
   }
 
-  sendMessage(String title, String body, int i, String u, String c) async {
+  sendMessage(
+      String title, String body, int i, String u, String c, String num) async {
     var serverToken =
         "AAAAUnOn5ZE:APA91bGSkIL6DLpOfbulM_K3Yp5W1mlcp8F0IWu2mcKWloc4eQcF8C230XaHhXBfBYphuyp2P92dc_Js19rBEuU6UqPBGYOSjJfXsBJVmIu9TsLe44jaSOLDAovPTspwePb1gw7-1GNZ";
     await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
@@ -80,10 +76,17 @@ class _PostState extends State<Post> {
             'click_action': 'flutter notifcation_click',
             'id_company': u,
             'id': c,
-            'num': "1",
+            'num': num,
           },
-          'to': await my_lis.elementAt(i),
+          'to': await my_lis[i],
         }));
+  }
+
+  @override
+  void initState() {
+    editData();
+    getdata1();
+    super.initState();
   }
 
   @override
@@ -92,7 +95,7 @@ class _PostState extends State<Post> {
         textDirection: TextDirection.rtl,
         child: Scaffold(
             appBar: PreferredSize(
-              preferredSize: Size.fromHeight(120.0),
+              preferredSize: Size.fromHeight(100.0),
               child: AppBar(
                 title: Center(
                   child: Text(" "),
@@ -123,12 +126,12 @@ class _PostState extends State<Post> {
                     key: ff1,
                     child: Container(
                       child: TextFormField(
-                        initialValue: title,
+                        initialValue: data["title"],
                         onSaved: (val) {
-                          title = val;
+                          data["title"] = val;
                         },
                         onChanged: (val) {
-                          title = val;
+                          data["title"] = val;
                         },
                         decoration: InputDecoration(
                           fillColor: Colors.teal[50],
@@ -148,12 +151,12 @@ class _PostState extends State<Post> {
                       key: ff,
                       child: Container(
                         child: TextFormField(
-                          initialValue: save,
+                          initialValue: data["myPost"],
                           onSaved: (val) {
-                            save = val;
+                            data["myPost"] = val;
                           },
                           onChanged: (val) {
-                            save = val;
+                            data["myPost"] = val;
                           },
                           decoration: InputDecoration(
                             fillColor: Colors.teal[50],
@@ -179,29 +182,16 @@ class _PostState extends State<Post> {
   }
 
   saving() async {
-    my_lis = new List();
+    var user = FirebaseAuth.instance.currentUser;
+    var users_noti;
     var v = FirebaseFirestore.instance
         .collection("companies")
         .doc(Provider.of<MyProvider>(context, listen: false).company_id)
         .collection("Post");
-    v.add({
-      "myPost": save,
-      "id": "",
-      "title": title,
-      'date_publication': {
-        'day': DateTime.now().day,
-        'month': DateTime.now().month,
-        'year': DateTime.now().year
-      }
-    });
 
-    await v.get().then((value) {
-      if (value != null) {
-        value.docs.forEach((element) {
-          v.doc(element.id).update({"id": element.id});
-          if (element.data()["title"] == title) id_post = element.id;
-        });
-      }
+    v.doc(data["id"]).update({
+      "myPost": data["myPost"],
+      "title": data["title"],
     });
 
     await users.get().then((value) {
@@ -214,10 +204,10 @@ class _PostState extends State<Post> {
                   .doc(follow.elementAt(i))
                   .collection("notifcation");
               users_noti.add({
-                "id": id_post,
+                "id": data['id'],
                 "id_company": u,
-                "title": 'بوست',
-                "body": "تم نشر بوست من قبل الشركه  ${name_comp} ",
+                "title": 'تعديل بوست ',
+                "body": "تم تعديل بوست من قبل الشركه  ${name_comp} ",
                 'date_publication': {
                   'day': DateTime.now().day,
                   'month': DateTime.now().month,
@@ -231,9 +221,15 @@ class _PostState extends State<Post> {
         });
       });
     });
+
     for (int i = 0; i < my_lis.length; i++)
       sendMessage(
-          "بوست", "تم نشر بوست من قبل الشركه  ${name_comp}", i, u, id_post);
+          "تعديل بوست",
+          "تم تعديل بوست من قبل الشركه  ${data['company']} ",
+          i,
+          u,
+          data['id'],
+          "1");
   }
 
   addpost(context) {
@@ -248,7 +244,7 @@ class _PostState extends State<Post> {
                   child: Column(
                     children: [
                       Text(
-                        "هل تريد نشر المنشور ",
+                        "هل تريد تعديل المنشور ",
                         style: TextStyle(
                             color: Colors.black, fontStyle: FontStyle.italic),
                       ),
@@ -286,11 +282,14 @@ class _PostState extends State<Post> {
                           borderRadius: BorderRadius.all(Radius.circular(3))),
                     ),
                     onPressed: () {
-                      saving();
-                      Navigator.pushReplacement(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (context) => ShowingPost()));
+                      setState(() {
+                        saving();
+                        Provider.of<MyProvider>(context, listen: false).data =
+                            data;
+                        print(Provider.of<MyProvider>(context, listen: false)
+                            .data);
+                        Navigator.of(context).pop();
+                      });
                     },
                     child: Text(
                       '  نعم',

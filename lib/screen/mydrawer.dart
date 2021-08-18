@@ -1,6 +1,6 @@
 
 import 'package:b/chanceScreen/chance.dart';
-import 'package:b/chanceScreen/post.dart';
+import 'package:b/postSecreen/post.dart';
 import 'package:b/screen/signup.dart';
 import 'package:b/chanceScreen/view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
