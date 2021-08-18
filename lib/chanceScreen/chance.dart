@@ -74,7 +74,7 @@ class _AddJopState extends State<AddJop> {
     "quiz": false,
     "salary": "أقل من 100000",
     "workTime": "دوام جزئي",
-    "specialties": "ترجمة",
+    "specialties": "الترجمة",
     "langNum": [],
     "skillNum": "",
     "quizList": [],
@@ -301,6 +301,8 @@ class _AddJopState extends State<AddJop> {
     return Text("");
   }
 
+  var num;
+
   void uplod() async {
     my_lis = new List();
     CollectionReference users = FirebaseFirestore.instance.collection("users");
@@ -309,6 +311,17 @@ class _AddJopState extends State<AddJop> {
         .collection("companies")
         .doc(Provider.of<MyProvider>(context, listen: false).company_id)
         .collection("chance");
+
+
+    var n =  await FirebaseFirestore.instance
+        .collection("number")
+        .doc("aLOUXiw8hVsNqdzEsjF5").get().then((value) { num=value.data()["num"];});
+    num=num+1;
+
+    FirebaseFirestore.instance
+        .collection("number")
+        .doc("aLOUXiw8hVsNqdzEsjF5").update({"num":num});
+
 
     stan.title = d["title"];
     stan.skillNum = d["skillNum"];
@@ -323,7 +336,6 @@ class _AddJopState extends State<AddJop> {
     stan.describsion = d["describsion"];
     stan.Vacancies = d["Vacancies"];
     DateTime date = DateTime.now();
-    // stan.dateOfPublication = Jiffy(date).fromNow();
     v.add({
       "id": "",
       "Q": Provider.of<MyProvider>(context, listen: false).Q,
@@ -344,18 +356,21 @@ class _AddJopState extends State<AddJop> {
       "level": stan.level,
       "Vacancies": stan.Vacancies,
       "date_publication": {
+        'hour': DateTime.now().hour,
         'day': DateTime.now().day,
         'month': DateTime.now().month,
         'year': DateTime.now().year
       },
       "list": "",
+      "chanceId": 0,
+      "num":num
     });
 
-    await v.get().then((value) {
+    await v.where("num",isEqualTo:num).get().then((value) {
       if (value != null) {
         value.docs.forEach((element) {
           v.doc(element.id).update({"id": element.id});
-          if (element.data()["title"] == stan.title) id_chance = element.id;
+          id_chance = element.id;
         });
       }
     });
@@ -463,7 +478,7 @@ class _AddJopState extends State<AddJop> {
               "700000 - 1000000",
               "1000000 - 1500000",
               "1500000 - 2000000",
-              "أكبر من ذلك"
+              "أكبر من 2000000"
             ])
           ],
         ),
@@ -494,18 +509,18 @@ class _AddJopState extends State<AddJop> {
             ),
             z("specialties", "التخصص المطلوب", [
               'تكنولوجيا المعلومات',
-              'علوم طبيعية',
-              'تدريس',
-              'ترجمة',
+              'العلوم طبيعية',
+              'التعليم',
+              'الترجمة',
               'تصيم غرافيكي وتحريك',
               "سكرتاريا",
               "صحافة",
-              "مدير مشاريع",
-              "محاسبة",
-              "كيمياء ومخابر",
-              "طبيب",
-              "صيدلة وأدوية",
-              "غير ذلك"
+              "ادارة مشاريع",
+              "المحاسبة",
+              "الكيمياء والمخابر",
+              "الطب",
+              "الصيدلة",
+              "مجالات مختلفة"
             ])
           ],
         ),
@@ -738,7 +753,54 @@ class _AddJopState extends State<AddJop> {
                   ),
                 ],
               )
-            ])));
+            ]),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerTop,
+            floatingActionButton: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      SizedBox(
+                        width: 20,
+                      ),
+                      FloatingActionButton(
+                        heroTag: "tag1",
+                        child: Icon(
+                          Icons.track_changes,
+                          color: Colors.indigo[300],
+                          size: 30,
+                        ),
+                        backgroundColor: Colors.white,
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (context) => ChanceT()));
+                        },
+                      ),
+                      SizedBox(
+                        width: 40,
+                      ),
+                      FloatingActionButton(
+                        heroTag: "tag2",
+                        child: Icon(
+                          Icons.verified_outlined,
+                          color: Colors.indigo[300],
+                          size: 30,
+                        ),
+                        backgroundColor: Colors.white,
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (context) => ChanceV()));
+                        },
+                      ),
+                      SizedBox(
+                        width: 40,
+                      ),
+                    ]))));
   }
 
   edit(int i) {
@@ -759,7 +821,6 @@ class _AddJopState extends State<AddJop> {
         chip_desgin('الصينية', "CH"),
         chip_desgin('الألمانية', "AL"),
         chip_desgin('يابانية', "JA"),
-        chip_desgin('غير ذلك', "h"),
       ],
     );
   }

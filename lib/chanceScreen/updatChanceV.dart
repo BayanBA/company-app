@@ -12,18 +12,16 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:charts_flutter/flutter.dart' as charts;
 
-import 'chance.dart';
-
-class ChanceV extends StatefulWidget {
+class UpdatDataV extends StatefulWidget {
   @override
-  _ChanceVState createState() => _ChanceVState();
+  _UpdatDataState createState() => _UpdatDataState();
 }
 
-class _ChanceVState extends State<ChanceV> {
+class _UpdatDataState extends State<UpdatDataV> {
   GlobalKey<FormState> k1 = new GlobalKey<FormState>();
   GlobalKey<FormState> k2 = new GlobalKey<FormState>();
   GlobalKey<FormState> k3 = new GlobalKey<FormState>();
@@ -32,63 +30,24 @@ class _ChanceVState extends State<ChanceV> {
   GlobalKey<FormState> k6 = new GlobalKey<FormState>();
   GlobalKey<FormState> k7 = new GlobalKey<FormState>();
   GlobalKey<FormState> k8 = new GlobalKey<FormState>();
-  String u;
-  String id_chance;
-  var token;
-  var userr;
-  String name_comp;
-  var follow = new List();
-  var my_lis = new List();
 
-  var aa = new List();
-  Stander stan = new Stander();
-  double val = 0;
-  var r = 0;
-  var unik = 0;
-  int _index = 0;
-  CollectionReference comp;
-  var users_noti;
-  bool _animate = false;
-  bool _defaultInteractions = true;
-  double _arcRatio = 0.5;
-  charts.ArcLabelPosition _arcLabelPosition = charts.ArcLabelPosition.auto;
-  charts.BehaviorPosition _titlePosition = charts.BehaviorPosition.bottom;
-  charts.BehaviorPosition _legendPosition = charts.BehaviorPosition.start;
-  var _filters = [''];
-  List<_CostsData> data = [
-    _CostsData('العنوان', 10),
-    _CostsData('الوصف', 10),
-    _CostsData('الساعات', 10),
-    _CostsData('الراتب', 10),
-    _CostsData('المهارات', 10),
-    _CostsData('اللغات', 10),
-    _CostsData('المستوى', 10),
-  ];
+  Map<String, dynamic> d;
 
-  void initState() {
-    getdata1();
-    super.initState();
+  var data11;
+  var _filters;
+
+  editData() async {
+    data11 = Provider.of<MyProvider>(context, listen: false).data;
+    d = data11;
   }
 
-  Map<String, dynamic> d = {
-    "id": "",
-    "title": "",
-    "quiz": false,
-    "salary": "أقل من 100000",
-    "workTime": "دوام جزئي",
-    "specialties": "ترجمة",
-    "langNum": [],
-    "skillNum": "",
-    "quizList": [],
-    "describsion": "",
-    "expir": "1",
-    "quizNum": 5,
-    "gender": "لا يهم",
-    "degree": "لا يهم",
-    "level": "مبتدأ",
-    "Vacancies": 1,
-    "date_publication": "",
-  };
+  String u;
+  var token;
+  var userr;
+  var follow = new List();
+  var my_lis = new List();
+  CollectionReference comp;
+  String name_comp;
 
   getdata1() async {
     CollectionReference t = FirebaseFirestore.instance.collection("companies");
@@ -108,10 +67,12 @@ class _ChanceVState extends State<ChanceV> {
     await FirebaseMessaging.instance.getToken().then((value) {
       token = value;
     });
+
+    await t.doc(u).update({'token': token}).then((value) {});
+    // print(my_lis.length);
   }
 
-  sendMessage(
-      String title, String body, int i, String u, String c, String num) async {
+  sendMessage(String title, String body, int i, String u, String c, String num) async {
     var serverToken =
         "AAAAUnOn5ZE:APA91bGSkIL6DLpOfbulM_K3Yp5W1mlcp8F0IWu2mcKWloc4eQcF8C230XaHhXBfBYphuyp2P92dc_Js19rBEuU6UqPBGYOSjJfXsBJVmIu9TsLe44jaSOLDAovPTspwePb1gw7-1GNZ";
     await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
@@ -134,6 +95,22 @@ class _ChanceVState extends State<ChanceV> {
           'to': await my_lis[i],
         }));
   }
+
+  @override
+  void initState() {
+    editData();
+    getdata1();
+    super.initState();
+  }
+
+  var aa = new List();
+  Stander stan = new Stander();
+
+  double val = 0;
+  var r = 0;
+  var unik = 0;
+
+  int _index = 0;
 
   des() {
     return Row(
@@ -183,10 +160,10 @@ class _ChanceVState extends State<ChanceV> {
             )),
         Expanded(
             child: FittedBox(
-          child: Center(
-            child: getStep(),
-          ),
-        ))
+              child: Center(
+                child: getStep(),
+              ),
+            ))
       ],
     );
   }
@@ -253,9 +230,9 @@ class _ChanceVState extends State<ChanceV> {
       hint: Text(name),
       items: l
           .map((e) => DropdownMenuItem(
-                child: Text("$e"),
-                value: e,
-              ))
+        child: Text("$e"),
+        value: e,
+      ))
           .toList(),
       onChanged: (valu) {
         setState(() {
@@ -266,10 +243,9 @@ class _ChanceVState extends State<ChanceV> {
     );
   }
 
-  var num;
 
   void uplod() async {
-    my_lis = new List();
+    var users_noti;
     CollectionReference users = FirebaseFirestore.instance.collection("users");
 
     var v = FirebaseFirestore.instance
@@ -277,53 +253,29 @@ class _ChanceVState extends State<ChanceV> {
         .doc(Provider.of<MyProvider>(context, listen: false).company_id)
         .collection("chance");
 
-    var n =  await FirebaseFirestore.instance
-        .collection("number")
-        .doc("aLOUXiw8hVsNqdzEsjF5").get().then((value) { num=value.data()["num"];});
-    num=num+1;
-
-    FirebaseFirestore.instance
-        .collection("number")
-        .doc("aLOUXiw8hVsNqdzEsjF5").update({"num":num});
-
-
-
     stan.title = d["title"];
     stan.skillNum = d["skillNum"];
     stan.workTime = d["workTime"];
     stan.langNum = _filters;
     stan.describsion = d["describsion"];
     stan.Vacancies = d["Vacancies"];
-    v.add({
-      "num":num,
-      "quiz": 0,
-      "id": "",
+
+    v.doc(d["id"]).update({
+
       "title": stan.title,
-      "Presenting_A_Job": [],
       "workTime": stan.workTime,
       "langNum": stan.langNum,
       "skillNum": stan.skillNum,
       "describsion": stan.describsion,
       "Vacancies": stan.Vacancies,
       "date_publication": {
-        'hour': DateTime.now().hour,
         'day': DateTime.now().day,
         'month': DateTime.now().month,
-        'year': DateTime.now().year
+        'year': DateTime.now().year,
       },
-      "list": "",
-      "chanceId": 1
     });
-
-    await v.where("num",isEqualTo:num).get().then((value) {
-      if (value != null) {
-        value.docs.forEach((element) {
-          v.doc(element.id).update({"id": element.id});
-            id_chance = element.id;
-        });
-      }
-    });
-
+    Provider.of<MyProvider>(context, listen: false).data = d;
+    Navigator.of(context).pop();
     await users.get().then((value) {
       value.docs.forEach((element) {
         setState(() {
@@ -334,10 +286,10 @@ class _ChanceVState extends State<ChanceV> {
                   .doc(follow.elementAt(i))
                   .collection("notifcation");
               users_noti.add({
-                "id": id_chance,
+                "id": d['id'],
                 "id_company": u,
-                "title": 'فرصه ',
-                "body": "تم نشر فرصه من قبل الشركه  ${name_comp} ",
+                "title": 'فرصه',
+                "body": "تم تعديل فرصه من قبل الشركه  ${name_comp} ",
                 'date_publication': {
                   'day': DateTime.now().day,
                   'month': DateTime.now().month,
@@ -353,8 +305,8 @@ class _ChanceVState extends State<ChanceV> {
     });
 
     for (int i = 0; i < my_lis.length; i++)
-      sendMessage("فرصه", "تم نشر فرصه من قبل الشركه  ${name_comp} ", i, u,
-          id_chance, "2");
+      sendMessage("فرصه", "تم تعديل فرصه من قبل الشركه  ${name_comp} ", i, u,
+          d['id'], "2");
   }
 
   Widget getStep() {
@@ -433,10 +385,10 @@ class _ChanceVState extends State<ChanceV> {
                   setState(() {
                     d["Vacancies"] >= 30
                         ? Fluttertoast.showToast(
-                            msg: "العدد كبير جدا",
-                            backgroundColor: Colors.black54,
-                            textColor: Colors.white,
-                            toastLength: Toast.LENGTH_LONG)
+                        msg: "العدد كبير جدا",
+                        backgroundColor: Colors.black54,
+                        textColor: Colors.white,
+                        toastLength: Toast.LENGTH_LONG)
                         : d["Vacancies"]++;
                   });
                 },
@@ -458,10 +410,10 @@ class _ChanceVState extends State<ChanceV> {
                   setState(() {
                     d["Vacancies"] <= 1
                         ? Fluttertoast.showToast(
-                            msg: "لا يمكن ان يكون العدد اقل من 1",
-                            backgroundColor: Colors.black54,
-                            textColor: Colors.white,
-                            toastLength: Toast.LENGTH_LONG)
+                        msg: "لا يمكن ان يكون العدد اقل من 1",
+                        backgroundColor: Colors.black54,
+                        textColor: Colors.white,
+                        toastLength: Toast.LENGTH_LONG)
                         : d["Vacancies"]--;
                   });
                 },
@@ -481,90 +433,117 @@ class _ChanceVState extends State<ChanceV> {
     return aa[_index];
   }
 
+  bool _animate = false;
+  bool _defaultInteractions = true;
+  double _arcRatio = 0.5;
+  charts.ArcLabelPosition _arcLabelPosition = charts.ArcLabelPosition.auto;
+  charts.BehaviorPosition _titlePosition = charts.BehaviorPosition.bottom;
+  charts.BehaviorPosition _legendPosition = charts.BehaviorPosition.start;
+
+  // Data to render.
+  List<_CostsData> data = [
+    _CostsData('العنوان', 10),
+    _CostsData('الوصف', 10),
+    _CostsData('الساعات', 10),
+    _CostsData('الراتب', 10),
+    _CostsData('المهارات', 10),
+    _CostsData('اللغات', 10),
+    _CostsData('المستوى', 10),
+  ];
+
+  @override
   Widget build(BuildContext context) {
+    _filters = d["langNum"];
     final _colorPalettes =
-        charts.MaterialPalette.getOrderedPalettes(this.data.length);
+    charts.MaterialPalette.getOrderedPalettes(this.data.length);
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-          appBar: PreferredSize(
-            preferredSize: Size.fromHeight(120.0),
-            child: AppBar(
-              title: Center(
-                child: Text(" "),
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(60.0),
+            appBar: PreferredSize(
+              preferredSize: Size.fromHeight(100.0),
+              child: AppBar(
+                title: Center(
+                  child: Text(" "),
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                    bottom: Radius.circular(60.0),
+                  ),
                 ),
               ),
             ),
-          ),
-          body: Stack(children: [
-            Opacity(
-              opacity: 0.4,
-              child: Container(
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: new AssetImage("images/55.jpeg"),
-                        fit: BoxFit.cover,
-                        colorFilter: ColorFilter.mode(
-                            Color(0x3A5CAB20), BlendMode.overlay))),
-              ),
-            ),
-            ListView(
-              padding: const EdgeInsets.all(8),
-              children: <Widget>[
-                Container(
-                  height: 400,
+            body: Stack(children: [
+              Opacity(
+                opacity: 0.4,
+                child: Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(15.8),
-                        topLeft: Radius.circular(15.8)),
-                  ),
-                  child: des(),
+                      image: DecorationImage(
+                          image: new AssetImage("images/55.jpeg"),
+                          fit: BoxFit.cover,
+                          colorFilter: ColorFilter.mode(
+                              Color(0xFF5C6BC0), BlendMode.overlay))),
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(15.8),
-                        bottomRight: Radius.circular(15.8)),
-                    //color: Colors.black12
+              ),
+              ListView(
+                padding: const EdgeInsets.all(8),
+                children: <Widget>[
+                  Container(
+                    height: 400,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(15.8),
+                          topLeft: Radius.circular(15.8)),
+                    ),
+                    child: des(),
                   ),
-                  height: 300,
-                  child: charts.PieChart(
-                    [
-                      charts.Series<_CostsData, String>(
-                        id: 'Sales-1',
-                        colorFn: (_, idx) => _colorPalettes[idx].shadeDefault,
-                        domainFn: (_CostsData sales, _) => sales.category,
-                        measureFn: (_CostsData sales, _) => sales.cost,
-                        data: this.data,
-                        // Set a label accessor to control the text of the arc label.
-                        labelAccessorFn: (_CostsData row, _) =>
-                            '${row.category}: ${row.cost}',
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(15.8),
+                          bottomRight: Radius.circular(15.8)),
+                      //color: Colors.black12
+                    ),
+                    height: 300,
+                    child: charts.PieChart(
+                      [
+                        charts.Series<_CostsData, String>(
+                          id: 'Sales-1',
+                          colorFn: (_, idx) => _colorPalettes[idx].shadeDefault,
+                          domainFn: (_CostsData sales, _) => sales.category,
+                          measureFn: (_CostsData sales, _) => sales.cost,
+                          data: this.data,
+                          // Set a label accessor to control the text of the arc label.
+                          labelAccessorFn: (_CostsData row, _) =>
+                          '${row.category}: ${row.cost}',
+                        ),
+                      ],
+                      animate: this._animate,
+                      defaultRenderer: new charts.ArcRendererConfig(
+                        arcRatio: this._arcRatio,
+                        arcRendererDecorators: [
+                          charts.ArcLabelDecorator(
+                              labelPosition: this._arcLabelPosition)
+                        ],
                       ),
-                    ],
-                    animate: this._animate,
-                    defaultRenderer: new charts.ArcRendererConfig(
-                      arcRatio: this._arcRatio,
-                      arcRendererDecorators: [
-                        charts.ArcLabelDecorator(
-                            labelPosition: this._arcLabelPosition)
+                      behaviors: [
+                        // Add title.
+                        // charts.ChartTitle(
+                        //   'Dummy costs breakup',
+                        //   behaviorPosition: this._titlePosition,
+                        // ),
+                        // Add legend. ("Datum" means the "X-axis" of each data point.)
+                        charts.DatumLegend(
+                          position: this._legendPosition,
+                          desiredMaxRows: 4,
+                        ),
                       ],
                     ),
-                    behaviors: [
-                      charts.DatumLegend(
-                        position: this._legendPosition,
-                        desiredMaxRows: 4,
-                      ),
-                    ],
                   ),
-                ),
-              ],
-            )
-          ]),
-        ));
+
+                  //..._controlWidgets(),
+                ],
+              )
+            ])));
   }
 
   edit(int i) {
@@ -585,6 +564,7 @@ class _ChanceVState extends State<ChanceV> {
         chip_desgin('الصينية', "CH"),
         chip_desgin('الألمانية', "AL"),
         chip_desgin('يابانية', "JA"),
+        chip_desgin('غير ذلك', "h"),
       ],
     );
   }
@@ -618,8 +598,6 @@ class _ChanceVState extends State<ChanceV> {
     );
   }
 }
-
-class Fireba {}
 
 class _CostsData {
   final String category;

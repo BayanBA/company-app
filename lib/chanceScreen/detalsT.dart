@@ -9,12 +9,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class Detals extends StatefulWidget {
+class DetalsT extends StatefulWidget {
   @override
   _DetalsState createState() => _DetalsState();
 }
 
-class _DetalsState extends State<Detals> {
+class _DetalsState extends State<DetalsT> {
 
   @override
   Widget build(BuildContext context) {
@@ -83,37 +83,25 @@ class _DetalsState extends State<Detals> {
                             Text("معلومات عن الفرصة",style: TextStyle(fontSize: 25,color: Colors.white),),
                             SizedBox(
                               height: 10,),
-                             Row(
-                                children: [
-                                  Icon(Icons.wb_incandescent_outlined),
-                                  SizedBox(width: 30,),
-                                  Text(data["describsion"],style: TextStyle(fontSize: 20,color: Colors.white),),
-                                ],
-                              ),
+                            Row(
+                              children: [
+                                Icon(Icons.wb_incandescent_outlined),
+                                SizedBox(width: 30,),
+                                Text(data["describsion"],style: TextStyle(fontSize: 20,color: Colors.white),),
+                              ],
+                            ),
                             SizedBox(
                               height: 20,),
                             Text("نوع العمل",style: TextStyle(fontSize: 25,color: Colors.white),),
                             SizedBox(
                               height: 10,),
                             Row(
-                                children: [
-                                  Icon(Icons.access_time),
-                                  SizedBox(width: 30,),
-                                  Text(data["workTime"],style: TextStyle(fontSize: 20,color: Colors.white),),
-                                ],
-                              ),
-                            SizedBox(
-                              height: 20,),
-                            Text("الراتب",style: TextStyle(fontSize: 25,color: Colors.white),),
-                            SizedBox(
-                              height: 20),
-                               Row(
-                                children: [
-                                  Icon(Icons.monetization_on_outlined),
-                                  SizedBox(width: 30,),
-                                  Text(data["salary"],style: TextStyle(fontSize: 20,color: Colors.white),),
-                                ],
-                              ),
+                              children: [
+                                Icon(Icons.access_time),
+                                SizedBox(width: 30,),
+                                Text(data["workTime"],style: TextStyle(fontSize: 20,color: Colors.white),),
+                              ],
+                            ),
                           ],
                         ),
                       ),
@@ -135,10 +123,6 @@ class _DetalsState extends State<Detals> {
                             Text(data["specialties"]),
                             for (int i = 0; i < data["langNum"].length; i++)
                               Text(data["langNum"].elementAt(i)),
-                            Text(data["level"]),
-                            data["level"] == "خبير"
-                                ? Text(data["expir"])
-                                : Text(""),
                           ],
                         ),
                       ),
@@ -176,7 +160,7 @@ class _DetalsState extends State<Detals> {
                         onPressed: () {
                           Navigator.of(context)
                               .push(MaterialPageRoute(builder: (context) {
-                            return data["chanceId"]==0? UpdatData():data["chanceId"]==1?UpdatDataV():UpdatDataT();
+                            return UpdatDataT();
 
                           }));
                           setState(() {

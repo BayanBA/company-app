@@ -1,10 +1,13 @@
 import 'package:b/chanceScreen/detals.dart';
+import 'package:b/chanceScreen/detalsV.dart';
 import 'package:b/search.dart';
 import 'package:b/stand.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'detalsT.dart';
 
 class ShowingData extends StatefulWidget {
   @override
@@ -14,6 +17,7 @@ class ShowingData extends StatefulWidget {
 class _ShowingDataState extends State<ShowingData> {
   var lis = new List();
   var list = new List();
+  int f=0;
 
   CollectionReference comp;
 
@@ -41,6 +45,8 @@ class _ShowingDataState extends State<ShowingData> {
     });
     for (int i = 0; i < lis.length; i++)
       this.list.add(lis.elementAt(i)["title"]);
+
+    f=1;
   }
 
   @override
@@ -71,8 +77,6 @@ class _ShowingDataState extends State<ShowingData> {
                         Icon(Icons.apartment, size: 50, color: Colors.white),
                     title: Text(lis[i]["title"],
                         style: TextStyle(color: Colors.white)),
-                    // subtitle: Text(lis[i]["dateOfPublication"],
-                    //     style: TextStyle(color: Colors.white)),
                   ),
                   InkWell(
                     onTap: () {
@@ -80,7 +84,7 @@ class _ShowingDataState extends State<ShowingData> {
                           .push(MaterialPageRoute(builder: (context) {
                         Provider.of<MyProvider>(context, listen: false).data =
                             lis[i];
-                        return Detals();
+                        return lis[i]["chanceId"]==0?Detals():lis[i]["chanceId"]==1?DetalsV():DetalsT();
                       }));
                     },
                     child: Text(
@@ -149,8 +153,8 @@ class _ShowingDataState extends State<ShowingData> {
               ),
               Center(
                 child: lis.isEmpty
-                    ? CircularProgressIndicator()
-                    : StreamBuilder(
+                    ? CircularProgressIndicator():
+                     StreamBuilder(
                         stream: comp.snapshots(),
                         builder: (context, snapshot) {
                           if (snapshot.hasError)

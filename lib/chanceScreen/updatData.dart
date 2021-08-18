@@ -72,8 +72,7 @@ class _UpdatDataState extends State<UpdatData> {
     // print(my_lis.length);
   }
 
-  sendMessage(
-      String title, String body, int i, String u, String c, String num) async {
+  sendMessage(String title, String body, int i, String u, String c, String num) async {
     var serverToken =
         "AAAAUnOn5ZE:APA91bGSkIL6DLpOfbulM_K3Yp5W1mlcp8F0IWu2mcKWloc4eQcF8C230XaHhXBfBYphuyp2P92dc_Js19rBEuU6UqPBGYOSjJfXsBJVmIu9TsLe44jaSOLDAovPTspwePb1gw7-1GNZ";
     await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
@@ -304,10 +303,6 @@ class _UpdatDataState extends State<UpdatData> {
     stan.Vacancies = d["Vacancies"];
 
     v.doc(d["id"]).update({
-      // "Q":Provider.of<MyProvider>(context, listen: false).Q,
-      // "A":Provider.of<MyProvider>(context, listen: false).A,
-      // "Z":Provider.of<MyProvider>(context, listen: false).Z,
-      "quiz": Provider.of<MyProvider>(context, listen: false).quiz,
       "title": stan.title,
       "salary": stan.salary,
       "workTime": stan.workTime,
@@ -320,7 +315,6 @@ class _UpdatDataState extends State<UpdatData> {
       "degree": stan.degree,
       "level": stan.level,
       "Vacancies": stan.Vacancies,
-      "list": "",
       "date_publication": {
         'day': DateTime.now().day,
         'month': DateTime.now().month,

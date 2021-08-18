@@ -1,6 +1,10 @@
-import 'package:b/chanceScreen/chance.dart';
+import 'package:b/chanceScreen/chanceT.dart';
 import 'package:b/chanceScreen/chanceV.dart';
+import 'package:b/chanceScreen/questionAnswere.dart';
+import 'package:b/chanceScreen/truefalse.dart';
 import 'package:b/chanceScreen/view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:im_stepper/stepper.dart';
 import 'package:b/stand.dart';
@@ -8,7 +12,11 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:charts_flutter/flutter.dart' as charts;
+
+import 'chance.dart';
 
 class ChanceT extends StatefulWidget {
   @override
@@ -23,35 +31,108 @@ class _ChanceTState extends State<ChanceT> {
   GlobalKey<FormState> k5 = new GlobalKey<FormState>();
   GlobalKey<FormState> k6 = new GlobalKey<FormState>();
   GlobalKey<FormState> k7 = new GlobalKey<FormState>();
+  GlobalKey<FormState> k8 = new GlobalKey<FormState>();
+  String u;
+  String id_chance;
+  var token;
+  var userr;
+  String name_comp;
+  var follow = new List();
+  var my_lis = new List();
+
+  var aa = new List();
+  Stander stan = new Stander();
+  double val = 0;
+  var r = 0;
+  var unik = 0;
+  int _index = 0;
+  CollectionReference comp;
+  var users_noti;
+  bool _animate = false;
+  bool _defaultInteractions = true;
+  double _arcRatio = 0.5;
+  charts.ArcLabelPosition _arcLabelPosition = charts.ArcLabelPosition.auto;
+  charts.BehaviorPosition _titlePosition = charts.BehaviorPosition.bottom;
+  charts.BehaviorPosition _legendPosition = charts.BehaviorPosition.start;
+  var _filters = [''];
+  List<_CostsData> data = [
+    _CostsData('العنوان', 10),
+    _CostsData('الوصف', 10),
+    _CostsData('الساعات', 10),
+    _CostsData('الراتب', 10),
+    _CostsData('المهارات', 10),
+    _CostsData('اللغات', 10),
+    _CostsData('المستوى', 10),
+  ];
+
+  void initState() {
+    getdata1();
+    super.initState();
+  }
 
   Map<String, dynamic> d = {
     "id": "",
     "title": "",
     "quiz": false,
-    "age": "لا يهم",
     "salary": "أقل من 100000",
-    "workTime": "3 - 5",
-    "langNum": "لا يهم",
+    "specialties": "الترجمة",
+    "langNum": [],
     "skillNum": "",
     "quizList": [],
-    "expir": "",
+    "describsion": "",
+    "expir": "1",
     "quizNum": 5,
-    "describsion":"",
     "gender": "لا يهم",
     "degree": "لا يهم",
     "level": "مبتدأ",
     "Vacancies": 1,
-    "dateOfPublication": "",
+    "date_publication": "",
+    "workTime": "أقل من ساعتين"
   };
 
-  var aa = new List();
-  Stander stan = new Stander();
+  getdata1() async {
+    CollectionReference t = FirebaseFirestore.instance.collection("companies");
+    CollectionReference users = FirebaseFirestore.instance.collection("users");
+    userr = await FirebaseAuth.instance.currentUser;
 
-  double val = 0;
-  var r = 0;
-  var unik = 0;
+    await t.where("email_advance", isEqualTo: userr.email).get().then((value) {
+      value.docs.forEach((element) {
+        setState(() {
+          u = element.id;
+          name_comp = element.data()['company'];
+          follow = element.data()['followers'];
+        });
+      });
+    });
 
-  int _index = 0;
+    await FirebaseMessaging.instance.getToken().then((value) {
+      token = value;
+    });
+  }
+
+  sendMessage(String title, String body, int i, String u, String c, String num) async {
+    var serverToken =
+        "AAAAUnOn5ZE:APA91bGSkIL6DLpOfbulM_K3Yp5W1mlcp8F0IWu2mcKWloc4eQcF8C230XaHhXBfBYphuyp2P92dc_Js19rBEuU6UqPBGYOSjJfXsBJVmIu9TsLe44jaSOLDAovPTspwePb1gw7-1GNZ";
+    await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': 'key=$serverToken',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'notification': {
+            'title': title.toString(),
+            'body': body.toString(),
+          },
+          'priority': 'high',
+          'data': <String, dynamic>{
+            'click_action': 'flutter notifcation_click',
+            'id_company': u,
+            'id': c,
+            'num': num,
+          },
+          'to': await my_lis[i],
+        }));
+  }
 
   des() {
     return Row(
@@ -79,13 +160,10 @@ class _ChanceTState extends State<ChanceT> {
                   Icons.title,
                 ),
                 Icon(
-                  Icons.person,
+                  Icons.wb_incandescent_outlined,
                 ),
                 Icon(
                   Icons.alarm_on_sharp,
-                ),
-                Icon(
-                  Icons.money,
                 ),
                 Icon(
                   Icons.account_tree,
@@ -94,13 +172,13 @@ class _ChanceTState extends State<ChanceT> {
                   Icons.language,
                 ),
                 Icon(
+                  Icons.star_purple500_outlined,
+                ),
+                Icon(
                   Icons.wc,
                 ),
                 Icon(
                   Icons.edit,
-                ),
-                Icon(
-                  Icons.local_florist,
                 ),
                 Icon(Icons.people_alt),
                 Icon(Icons.logout),
@@ -113,10 +191,10 @@ class _ChanceTState extends State<ChanceT> {
             )),
         Expanded(
             child: FittedBox(
-              child: Center(
-                child: getStep(),
-              ),
-            ))
+          child: Center(
+            child: getStep(),
+          ),
+        ))
       ],
     );
   }
@@ -183,9 +261,9 @@ class _ChanceTState extends State<ChanceT> {
       hint: Text(name),
       items: l
           .map((e) => DropdownMenuItem(
-        child: Text("$e"),
-        value: e,
-      ))
+                child: Text("$e"),
+                value: e,
+              ))
           .toList(),
       onChanged: (valu) {
         setState(() {
@@ -196,49 +274,103 @@ class _ChanceTState extends State<ChanceT> {
     );
   }
 
-  Widget q(String name, var k, int i) {
-    if (name == "خبير")
-      return x("expir", "عدد سنوات الخبرة:", ".......",
-          Icon(Icons.auto_awesome), k, i);
-    return Text("");
-  }
+  var num;
 
-  void uplod() {
+  void uplod() async {
+    my_lis = new List();
+    CollectionReference users = FirebaseFirestore.instance.collection("users");
+
     var v = FirebaseFirestore.instance
         .collection("companies")
         .doc(Provider.of<MyProvider>(context, listen: false).company_id)
         .collection("chance");
 
+
+
+    var n =  await FirebaseFirestore.instance
+        .collection("number")
+        .doc("aLOUXiw8hVsNqdzEsjF5").get().then((value) { num=value.data()["num"];});
+    num=num+1;
+
+    FirebaseFirestore.instance
+        .collection("number")
+        .doc("aLOUXiw8hVsNqdzEsjF5").update({"num":num});
+
+
+
     stan.title = d["title"];
     stan.skillNum = d["skillNum"];
-    stan.salary = d["salary"];
     stan.workTime = d["workTime"];
     stan.langNum = _filters;
-    stan.level = d["level"];
-    stan.level == "خبير" ? stan.expir = d["expir"] : stan.expir = "";
+    stan.specialties = d["specialties"];
     stan.gender = d["gender"];
     stan.degree = d["degree"];
-
+    stan.describsion = d["describsion"];
     stan.Vacancies = d["Vacancies"];
-    DateTime date = DateTime.now();
-    stan.dateOfPublication = Jiffy(date).fromNow();
     v.add({
+      "quiz": 0,
       "id": "",
       "title": stan.title,
-      "salary": stan.salary,
+      "specialties": stan.specialties,
+      "skillNum": stan.skillNum,
+      "Presenting_A_Job": [],
       "workTime": stan.workTime,
       "langNum": stan.langNum,
-      "skillNum": stan.skillNum,
-      "expir": stan.expir,
+      "describsion": stan.describsion,
       "gender": stan.gender,
       "degree": stan.degree,
-      "level": stan.level,
       "Vacancies": stan.Vacancies,
-      "dateOfPublication": Jiffy(date).fromNow(),
-      "list": ""
+      "date_publication": {
+        'hour': DateTime.now().hour,
+        'day': DateTime.now().day,
+        'month': DateTime.now().month,
+        'year': DateTime.now().year
+      },
+      "list": "",
+      "chanceId": 2,
+      "num":num
     });
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => ShowingData()));
+
+    await v.where("num",isEqualTo:num).get().then((value) {
+      if (value != null) {
+        value.docs.forEach((element) {
+          v.doc(element.id).update({"id": element.id});
+          id_chance = element.id;
+        });
+      }
+    });
+
+    await users.get().then((value) {
+      value.docs.forEach((element) {
+        setState(() {
+          for (int i = 0; i < follow.length; i++) {
+            if (element.id == follow.elementAt(i)) {
+              users_noti = FirebaseFirestore.instance
+                  .collection("users")
+                  .doc(follow.elementAt(i))
+                  .collection("notifcation");
+              users_noti.add({
+                "id": id_chance,
+                "id_company": u,
+                "title": 'فرصه ',
+                "body": "تم نشر فرصه من قبل الشركه  ${name_comp} ",
+                'date_publication': {
+                  'day': DateTime.now().day,
+                  'month': DateTime.now().month,
+                  'year': DateTime.now().year,
+                },
+                'num': 2,
+              });
+              my_lis.add(element.data()['token']);
+            }
+          }
+        });
+      });
+    });
+
+    for (int i = 0; i < my_lis.length; i++)
+      sendMessage("فرصه", "تم نشر فرصه من قبل الشركه  ${name_comp} ", i, u,
+          id_chance, "2");
   }
 
   Widget getStep() {
@@ -259,30 +391,22 @@ class _ChanceTState extends State<ChanceT> {
           ],
         ),
       ),
-      SizedBox(
-        width: 300,
-        child: Row(
+      Form(
+        autovalidateMode: AutovalidateMode.always,
+        key: k8,
+        child: Column(
           children: [
-            Icon(Icons.person),
+            Text("الوصف"),
             SizedBox(
-              width: 10,
+              height: 100,
             ),
-            Text("العمر :"),
             SizedBox(
-              width: 10,
-            ),
-            z("age", "العمر", ["أقل من 20", "20 - 25", "25 - 30", "30 - 35", "35 - 40", "40 - 45", "45 - 50", "أكبر من 50", "لا يهم"])
+                width: 300,
+                child: x("describsion", "الوصف:", ".......",
+                    Icon(Icons.wb_incandescent_outlined), k8, _index)),
           ],
         ),
       ),
-      // Form(
-      //   autovalidateMode: AutovalidateMode.always,
-      //   key: k2,
-      //   child: SizedBox(
-      //       width: 300,
-      //       child:
-      //       x("age", "العمر:", ".......", Icon(Icons.person), k2, _index)),
-      // ),
       SizedBox(
         width: 300,
         child: Row(
@@ -291,46 +415,15 @@ class _ChanceTState extends State<ChanceT> {
             SizedBox(
               width: 10,
             ),
-            Text("عدد ساعات العمل :"),
+            Text("عدد ساعات التدريب :"),
             SizedBox(
               width: 10,
             ),
-            z("workTime", "عدد ساعات العمل", ["3 - 5", "5 - 8", "8 -10", "10 -12","غير ذلك"])
+            z("workTime", "عدد ساعات التدريب",
+                ["أقل من ساعتين", "أكثر من ساعتين"])
           ],
         ),
       ),
-      // Form(
-      //   autovalidateMode: AutovalidateMode.always,
-      //   key: k3,
-      //   child: SizedBox(
-      //       width: 300,
-      //       child: x("workTime", "عدد ساعات العمل:", ".......",
-      //           Icon(Icons.alarm_on_sharp), k3, _index)),
-      // ),
-      SizedBox(
-        width: 300,
-        child: Row(
-          children: [
-            Icon(Icons.money),
-            SizedBox(
-              width: 10,
-            ),
-            Text("الراتب :"),
-            SizedBox(
-              width: 10,
-            ),
-            z("salary", "الراتب", ["أقل من 100000", "100000 - 300000", "300000 - 500000", "500000 - 700000", "700000 - 1000000", "1000000 - 1500000", "1500000 - 2000000", "أكبر من ذلك"])
-          ],
-        ),
-      ),
-      // Form(
-      //   autovalidateMode: AutovalidateMode.always,
-      //   key: k4,
-      //   child: SizedBox(
-      //       width: 300,
-      //       child: x(
-      //           "salary", "الراتب:", ".......", Icon(Icons.money), k4, _index)),
-      // ),
       Form(
         autovalidateMode: AutovalidateMode.always,
         key: k6,
@@ -341,16 +434,38 @@ class _ChanceTState extends State<ChanceT> {
       ),
       SizedBox(
         width: 300,
-        child:chipList(),
+        child: chipList(),
       ),
-      // Form(
-      //   autovalidateMode: AutovalidateMode.always,
-      //   key: k7,
-      //   child: SizedBox(
-      //       width: 300,
-      //       child: x("langNum", "اللغات:", ".......", Icon(Icons.language), k7,
-      //           _index)),
-      // ),
+      SizedBox(
+        width: 300,
+        child: Row(
+          children: [
+            Icon(Icons.star_purple500_outlined),
+            SizedBox(
+              width: 10,
+            ),
+            Text("التخصص المستهدف :"),
+            SizedBox(
+              width: 10,
+            ),
+            z("specialties", "التخصص المستهدف", [
+              'تكنولوجيا المعلومات',
+              'العلوم طبيعية',
+              'التعليم',
+              'الترجمة',
+              'تصيم غرافيكي وتحريك',
+              "سكرتاريا",
+              "صحافة",
+              "ادارة مشاريع",
+              "المحاسبة",
+              "الكيمياء والمخابر",
+              "الطب",
+              "الصيدلة",
+              "مجالات مختلفة"
+            ])
+          ],
+        ),
+      ),
       SizedBox(
         width: 300,
         child: Row(
@@ -375,38 +490,21 @@ class _ChanceTState extends State<ChanceT> {
             SizedBox(
               width: 10,
             ),
-            Text("المستوى لبعلمي :"),
+            Text("المستوى العلمي :"),
             SizedBox(
               width: 10,
             ),
-            z("degree", "شهادة",
-                ["لا يهم", "اعدادي", "ثانوي", "جامعي", "ماستر", "دوكتورا"])
+            z("degree", "شهادة", [
+              'تعليم ابتدائي',
+              'تعليم اعدادي',
+              'تعليم ثانوي',
+              'شهادة جامعية',
+              'شهادة دبلوم',
+              'شهادة ماجستير',
+              'شهادة دكتوراه',
+              'لا يهم'
+            ])
           ],
-        ),
-      ),
-      Form(
-        autovalidateMode: AutovalidateMode.always,
-        key: k5,
-        child: SizedBox(
-          width: 300,
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Icon(Icons.local_florist),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text("المستوى الوظيفي :"),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  z("level", "المستوى", ["مبتدأ", "متمرس", "خبير"])
-                ],
-              ),
-              q(d["level"], k5, _index),
-            ],
-          ),
         ),
       ),
       SizedBox(
@@ -423,10 +521,10 @@ class _ChanceTState extends State<ChanceT> {
                   setState(() {
                     d["Vacancies"] >= 30
                         ? Fluttertoast.showToast(
-                        msg: "العدد كبير جدا",
-                        backgroundColor: Colors.black54,
-                        textColor: Colors.white,
-                        toastLength: Toast.LENGTH_LONG)
+                            msg: "العدد كبير جدا",
+                            backgroundColor: Colors.black54,
+                            textColor: Colors.white,
+                            toastLength: Toast.LENGTH_LONG)
                         : d["Vacancies"]++;
                   });
                 },
@@ -448,10 +546,10 @@ class _ChanceTState extends State<ChanceT> {
                   setState(() {
                     d["Vacancies"] <= 1
                         ? Fluttertoast.showToast(
-                        msg: "لا يمكن ان يكون العدد اقل من 1",
-                        backgroundColor: Colors.black54,
-                        textColor: Colors.white,
-                        toastLength: Toast.LENGTH_LONG)
+                            msg: "لا يمكن ان يكون العدد اقل من 1",
+                            backgroundColor: Colors.black54,
+                            textColor: Colors.white,
+                            toastLength: Toast.LENGTH_LONG)
                         : d["Vacancies"]--;
                   });
                 },
@@ -464,12 +562,6 @@ class _ChanceTState extends State<ChanceT> {
         child: Column(
           children: [
             IconButton(icon: Icon(Icons.add), onPressed: uplod),
-            IconButton(
-                icon: Icon(Icons.logout),
-                onPressed: () {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => ShowingData()));
-                }),
           ],
         ),
       ),
@@ -477,46 +569,26 @@ class _ChanceTState extends State<ChanceT> {
     return aa[_index];
   }
 
-  bool _animate = false;
-  bool _defaultInteractions = true;
-  double _arcRatio = 0.5;
-  charts.ArcLabelPosition _arcLabelPosition = charts.ArcLabelPosition.auto;
-  charts.BehaviorPosition _titlePosition = charts.BehaviorPosition.bottom;
-  charts.BehaviorPosition _legendPosition = charts.BehaviorPosition.start;
-
-  // Data to render.
-  List<_CostsData> data = [
-    _CostsData('العنوان', 10),
-    _CostsData('العمر', 10),
-    _CostsData('الساعات', 10),
-    _CostsData('الراتب', 10),
-    _CostsData('المهارات', 10),
-    _CostsData('اللغات', 10),
-    _CostsData('المستوى', 10),
-  ];
-
-  @override
   Widget build(BuildContext context) {
     final _colorPalettes =
-    charts.MaterialPalette.getOrderedPalettes(this.data.length);
+        charts.MaterialPalette.getOrderedPalettes(this.data.length);
     return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(80.0),
-          child: AppBar(
-            title: Center(
-              child: Text(" "),
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(
-                bottom: Radius.circular(60.0),
+        textDirection: TextDirection.rtl,
+        child: Scaffold(
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(120.0),
+            child: AppBar(
+              title: Center(
+                child: Text(" "),
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(60.0),
+                ),
               ),
             ),
           ),
-        ),
-        body: Stack(
-          children: [
+          body: Stack(children: [
             Opacity(
               opacity: 0.4,
               child: Container(
@@ -525,7 +597,7 @@ class _ChanceTState extends State<ChanceT> {
                         image: new AssetImage("images/55.jpeg"),
                         fit: BoxFit.cover,
                         colorFilter: ColorFilter.mode(
-                            Color(0xFF5C6000), BlendMode.overlay))),
+                            Color(0x290C3BC0), BlendMode.overlay))),
               ),
             ),
             ListView(
@@ -558,7 +630,7 @@ class _ChanceTState extends State<ChanceT> {
                         data: this.data,
                         // Set a label accessor to control the text of the arc label.
                         labelAccessorFn: (_CostsData row, _) =>
-                        '${row.category}: ${row.cost}',
+                            '${row.category}: ${row.cost}',
                       ),
                     ],
                     animate: this._animate,
@@ -570,12 +642,6 @@ class _ChanceTState extends State<ChanceT> {
                       ],
                     ),
                     behaviors: [
-                      // Add title.
-                      // charts.ChartTitle(
-                      //   'Dummy costs breakup',
-                      //   behaviorPosition: this._titlePosition,
-                      // ),
-                      // Add legend. ("Datum" means the "X-axis" of each data point.)
                       charts.DatumLegend(
                         position: this._legendPosition,
                         desiredMaxRows: 4,
@@ -583,58 +649,10 @@ class _ChanceTState extends State<ChanceT> {
                     ],
                   ),
                 ),
-
-                //..._controlWidgets(),
               ],
-            ),
-          ],
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterTop,
-        floatingActionButton: Row(
-          children: [
-            SizedBox(
-              width: 30,
-            ),
-            FloatingActionButton(
-              child: Icon(
-                Icons.shopping_bag_outlined,
-                color: Colors.indigo[300],
-                size: 30,
-              ),
-              backgroundColor: Colors.white,
-              onPressed: () {Navigator.push(context,
-                  new MaterialPageRoute(builder: (context) => new AddJop()));},
-            ),
-            SizedBox(
-              width: 70,
-            ),
-            FloatingActionButton(
-              child: Icon(
-                Icons.attribution_outlined,
-                color: Colors.indigo[300],
-                size: 30,
-              ),
-              backgroundColor: Colors.white,
-              onPressed: () {Navigator.push(context,
-                  new MaterialPageRoute(builder: (context) => new ChanceT()));},
-            ),
-            SizedBox(
-              width: 70,
-            ),
-            FloatingActionButton(
-              child: Icon(
-                Icons.volunteer_activism,
-                color: Colors.indigo[300],
-                size: 30,
-              ),
-              backgroundColor: Colors.white,
-              onPressed: () {Navigator.push(context,
-                  new MaterialPageRoute(builder: (context) => new ChanceV()));},
-            ),
-          ],
-        ),
-      ),
-    );
+            )
+          ]),
+        ));
   }
 
   edit(int i) {
@@ -655,22 +673,23 @@ class _ChanceTState extends State<ChanceT> {
         chip_desgin('الصينية', "CH"),
         chip_desgin('الألمانية', "AL"),
         chip_desgin('يابانية', "JA"),
-        chip_desgin('غير ذلك', "h"),
-
       ],
     );
   }
 
-  var _filters = [''];
-
-  chip_desgin(lan1,lan){
+  chip_desgin(lan1, lan) {
     return FilterChip(
       backgroundColor: Colors.purple,
       avatar: CircleAvatar(
         backgroundColor: Colors.cyan,
-        child: Text(lan.toUpperCase(),style: TextStyle(color: Colors.white),),
+        child: Text(
+          lan.toUpperCase(),
+          style: TextStyle(color: Colors.white),
+        ),
       ),
-      label: Text(lan1,),
+      label: Text(
+        lan1,
+      ),
       selected: _filters.contains(lan1),
       selectedColor: Colors.purpleAccent,
       onSelected: (bool selected) {
@@ -686,8 +705,9 @@ class _ChanceTState extends State<ChanceT> {
       },
     );
   }
-
 }
+
+class Fireba {}
 
 class _CostsData {
   final String category;
@@ -695,4 +715,3 @@ class _CostsData {
 
   _CostsData(this.category, this.cost);
 }
-
