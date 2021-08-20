@@ -3,7 +3,7 @@ import 'package:b/screen/My_profile.dart';
 import 'package:b/chanceScreen/chance.dart';
 import 'package:b/screen/edit.dart';
 import 'package:b/screen/job_screen.dart';
-import 'package:b/screen/login.dart';
+import 'package:b/enter/login.dart';
 import 'package:b/postSecreen/post.dart';
 import 'package:b/screen/savedUser.dart';
 import 'package:b/screen/users.dart';
@@ -47,8 +47,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Navigation Basics',
-      theme: ThemeData.light().copyWith(
-          primaryColor: Colors.indigo[300], accentColor: Colors.indigo[300]),
+      theme: ThemeData.light(). copyWith(primaryColor: Colors.red[900], accentColor: Colors.blueGrey),
+    //  copyWith(primaryColor: Colors.indigo[300], accentColor: Colors.indigo[300]),
       debugShowCheckedModeBanner: false,
       home: towRoute(),
     );
@@ -152,8 +152,8 @@ class _FirstRouteState extends State<FirstRoute> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData.light().copyWith(
-          primaryColor: Colors.indigo[300], accentColor: Colors.indigo[300]),
+      theme: ThemeData.light(). copyWith(primaryColor: Colors.red[900], accentColor: Colors.grey[300]),
+
       debugShowCheckedModeBanner: false,
       home: Directionality(
         textDirection: TextDirection.rtl,
@@ -181,8 +181,8 @@ class _FirstRouteState extends State<FirstRoute> {
           ),
           bottomNavigationBar: CurvedNavigationBar(
             index: _currentIndex,
-            color: Colors.indigo[300],
-            buttonBackgroundColor: Colors.indigo[300],
+            color:Theme.of(context).primaryColor ,
+            buttonBackgroundColor: Theme.of(context).primaryColor,
             backgroundColor: Colors.white,
             animationDuration: Duration(seconds: 1),
             animationCurve: Curves.bounceOut,

@@ -304,6 +304,7 @@ class _ChanceVState extends State<ChanceV> {
       "langNum": stan.langNum,
       "skillNum": stan.skillNum,
       "describsion": stan.describsion,
+      "accepted":[],
       "Vacancies": stan.Vacancies,
       "date_publication": {
         'hour': DateTime.now().hour,

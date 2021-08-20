@@ -320,6 +320,7 @@ class _ChanceTState extends State<ChanceT> {
       "gender": stan.gender,
       "degree": stan.degree,
       "Vacancies": stan.Vacancies,
+      "accepted":[],
       "date_publication": {
         'hour': DateTime.now().hour,
         'day': DateTime.now().day,

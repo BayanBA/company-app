@@ -15,7 +15,6 @@ class InitialAcceptance extends StatefulWidget {
 class _InitialAcceptanceState extends State<InitialAcceptance> {
   var list = new List();
 
-  //var listOfDate = new List();
   var map = new Map();
   CollectionReference comp;
 
@@ -39,7 +38,6 @@ class _InitialAcceptanceState extends State<InitialAcceptance> {
       value.docs.forEach((element) {
         setState(() {
           list.add(element.data());
-          //listOfDate.add(element.data()["dateOfPublication"]);
           map[element.data()["title"]] = element.data()["accepted"];
         });
       });
@@ -57,7 +55,6 @@ class _InitialAcceptanceState extends State<InitialAcceptance> {
         itemBuilder: (context, i) {
           return Dismissible(
             onDismissed: (direction) async {
-              // await comp.doc(lis[i]["id"]).delete();
             },
             key: UniqueKey(),
             child: Card(

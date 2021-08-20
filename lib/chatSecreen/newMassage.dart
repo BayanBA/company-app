@@ -46,11 +46,17 @@ class _NewMassageState extends State<NewMassage> {
         .doc(Provider.of<MyProvider>(context, listen: false).user_id)
         .collection("chat").get().then((value){
           value.docs.forEach((element) {
-            if(element.data()["comp_id"]==Provider.of<MyProvider>(context, listen: false).company_id)
+            if(element.data()["comp_id"]==Provider.of<MyProvider>(context, listen: false).company_id){
+              FirebaseFirestore.instance
+                  .collection("users")
+                  .doc(Provider.of<MyProvider>(context, listen: false).user_id)
+                  .collection("chat").doc(element.id).update({"help":2});
               FirebaseFirestore.instance
                   .collection("users")
                   .doc(Provider.of<MyProvider>(context, listen: false).user_id)
                   .collection("chat").doc(element.id).collection("chats").add({"text":enterdMassage,"date":Timestamp.now(),"num":1});
+            }
+
           });
     });
         

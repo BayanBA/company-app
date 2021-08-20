@@ -98,6 +98,7 @@ class JobScreen {
       'region': d["region"],
       'city': d["city"],
       'followers':[],
+      "all_accepted":[],
       'specialization': d["spe"],
       'email_advance': user.email,
       'description': d["des"],

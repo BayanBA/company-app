@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../stand.dart';
-
+import 'applicantsDetals.dart';
 
 class Acceptable extends StatefulWidget {
   @override
@@ -13,7 +13,8 @@ class Acceptable extends StatefulWidget {
 
 class _AcceptableState extends State<Acceptable> {
   List user = new List();
-
+  var items_id;
+  var item;
   int num = 0;
 
   getData() async {
@@ -26,8 +27,9 @@ class _AcceptableState extends State<Acceptable> {
               .contains(element.id)) user.add(element.data());
         });
       });
+      num = 1;
     });
-    num = 1;
+
   }
 
   @override
@@ -40,7 +42,7 @@ class _AcceptableState extends State<Acceptable> {
   Widget build(BuildContext context) {
     return Directionality(
         textDirection: TextDirection.rtl,
-        child:Scaffold(
+        child: Scaffold(
             appBar: PreferredSize(
               preferredSize: Size.fromHeight(80.0),
               child: AppBar(
@@ -67,47 +69,59 @@ class _AcceptableState extends State<Acceptable> {
                 ),
               ),
               user.isEmpty
-                  ? num == 0
-                  ? CircularProgressIndicator()
-                  : Center(
-                child: Column(
-                  children: [
-                    Text("لم يتم قبول أحد بعد"),
-                    InkWell(child: Text("تفقد المنشور"),onTap: (){
-                      Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (context) {
-                        return Detals();
-                      }));
-                    },)
-                  ],
-                ),
-
-              )
+                 ? num == 0
+                      ? CircularProgressIndicator()
+                      : Center(
+                          child: Column(
+                            children: [
+                              Text("لم يتم قبول أحد بعد"),
+                              InkWell(
+                                child: Text("تفقد المنشور"),
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                      MaterialPageRoute(builder: (context) {
+                                    return Detals();
+                                  }));
+                                },
+                              )
+                            ],
+                          ),
+                        )
                   : Column(children: [
-                Center(
-                  child: Card(
-                    child: Text(
-                        Provider.of<MyProvider>(context, listen: false)
-                            .chanceName),
-                    borderOnForeground: true,
-                    color: Colors.lightGreen,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                      itemCount: user.length,
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          child: Text(user.elementAt(index)["firstname"] +
-                              user.elementAt(index)["endname"]),
-                          onTap: () {},
-                        );
-                      }),
-                ),
-              ])
+                      Center(
+                        child: Card(
+                          child: Text(
+                              Provider.of<MyProvider>(context, listen: false)
+                                  .chanceName),
+                          borderOnForeground: true,
+                          color: Colors.lightGreen,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: ListView.builder(
+                            itemCount: user.length,
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                child: Text(user.elementAt(index)["firstname"] +
+                                    user.elementAt(index)["endname"]),
+                                onTap: () {
+                                  items_id=new List();
+                                   items_id.add(user.elementAt(index)["id"]);
+                                  item=new List();
+                                  item.add(user.elementAt(index));
+                                  Navigator.of(context)
+                                      .push(MaterialPageRoute(builder: (context) {
+                                    return ApplicantsDetals(item,items_id);
+
+                                  }));
+                                },
+                              );
+                            }),
+                      ),
+                    ])
             ])));
   }
 }

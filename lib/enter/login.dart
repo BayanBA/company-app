@@ -1,5 +1,5 @@
 import 'package:b/main.dart';
-import 'package:b/screen/signup.dart';
+import 'package:b/enter/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 

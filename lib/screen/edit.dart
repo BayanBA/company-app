@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:b/screen/login.dart';
+import 'package:b/enter/login.dart';
 import 'package:b/screen/myuser.dart';
 import 'package:path/path.dart';
 import 'package:firebase_auth/firebase_auth.dart';

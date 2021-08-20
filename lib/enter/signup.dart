@@ -1,11 +1,7 @@
-import 'package:b/screen/login.dart';
-import 'package:b/stand.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:b/enter/login.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../main.dart';
-import 'job_screen.dart';
+import '../screen/job_screen.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -26,11 +22,9 @@ class _SignUpState extends State<SignUp> {
           labelText: name,
           fillColor: Colors.white,
           filled: true,
-
           border: myinputborder(),
           enabledBorder: myinputborder(),
           focusedBorder: myfocusborder(),
-          //icon: Icon,
         ),
         validator: (val) {
           if (val.isEmpty) return 'Please enter valid  number';
@@ -67,7 +61,6 @@ class _SignUpState extends State<SignUp> {
         setState(() {
           jobScreen.d[v] = valu;
           print("batoolzy");
-          // jobScreen.j234=jobScreen.d['region'];
           if (v == "region")
             jobScreen.d['city'] = kk[jobScreen.d['region']][0];
           else if (v == "city") jobScreen.d['city'] = valu;
@@ -85,9 +78,7 @@ class _SignUpState extends State<SignUp> {
   }
 
   OutlineInputBorder myinputborder() {
-    //return type is OutlineInputBorder
     return OutlineInputBorder(
-        //Outline border type for TextFeild
         borderRadius: BorderRadius.all(Radius.circular(200)),
         borderSide: BorderSide(
           color: Colors.black,
@@ -118,7 +109,6 @@ class _SignUpState extends State<SignUp> {
                 children: [
                   Container(
                       child: Align(
-                    // alignment: Alignment.center,
                     child: SizedBox(
                       height: 1780,
                       width: 400,

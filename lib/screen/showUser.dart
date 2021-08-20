@@ -1,8 +1,11 @@
+import 'package:b/chatSecreen/chat.dart';
 import 'package:b/screen/My_profile.dart';
 import 'package:b/screen/savedUser.dart';
 import 'package:b/screen/users.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 import '../stand.dart';
@@ -18,785 +21,512 @@ class show_detals extends StatefulWidget {
 }
 
 class _show_detalsState extends State<show_detals> {
+  int i = 0;
+
+  setData() async {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(item_id.elementAt(0))
+        .collection("chat")
+        .get()
+        .then((value) {
+      value.docs.forEach((element) {
+        if (element.data()["comp_id"] ==
+            Provider.of<MyProvider>(context, listen: false).company_id) i = 1;
+      });
+      if (i == 0)
+        FirebaseFirestore.instance
+            .collection("users")
+            .doc(item_id.elementAt(0))
+            .collection("chat")
+            .add({
+          "comp_id": Provider.of<MyProvider>(context, listen: false).company_id,
+          "help": 1
+        });
+      FirebaseFirestore.instance
+          .collection("users")
+          .doc(item_id.elementAt(0))
+          .collection("chat")
+          .where("comp_id",
+              isEqualTo:
+                  Provider.of<MyProvider>(context, listen: false).company_id)
+          .get()
+          .then((value) {
+        value.docs.forEach((element) {
+          Provider.of<MyProvider>(context, listen: false)
+              .setDocUser(element.id);
+          Provider.of<MyProvider>(context, listen: false)
+              .setUserId(item_id.elementAt(0));
+        });
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    setData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-            appBar: PreferredSize(
-              preferredSize: Size.fromHeight(80.0),
-              child: AppBar(
-                title: Center(
-                  child: Text(" "),
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(20.0),
-                  ),
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(80.0),
+            child: AppBar(
+              title: Center(
+                child: Text(" "),
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(20.0),
                 ),
               ),
             ),
-            body: Column(children: [
-              Container(
-                height: 100.0,
-                width: MediaQuery.of(context).size.width,
-                color: Colors.amber[50],
-                child: Material(
-                  borderRadius:
-                      BorderRadius.only(bottomRight: Radius.circular(50.0)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      InkWell(
-                          child: Column(
-                            children: [
-                              Container(
-                                  margin: EdgeInsets.only(top: 20),
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(color: Colors.pink)),
-                                  child: Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Icon(
-                                      Icons.trending_up,
-                                      size: 30,
+          ),
+          body: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Container(
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [Colors.redAccent, Colors.pinkAccent])),
+                    child: Container(
+                      width: double.infinity,
+                      height: 350.0,
+                      child: Center(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            CircleAvatar(
+                              backgroundImage: AssetImage("images/bb.jpg"),
+                              radius: 50.0,
+                            ),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            Text(
+                              "${widget.items.elementAt(0)['firstname']}" +
+                                  " " +
+                                  "${widget.items.elementAt(0)['endname']}",
+                              style: TextStyle(
+                                fontSize: 22.0,
+                                color: Colors.white,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            Card(
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 20.0, vertical: 5.0),
+                              clipBehavior: Clip.antiAlias,
+                              color: Colors.white,
+                              elevation: 5.0,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8.0, vertical: 22.0),
+                                child: Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Column(
+                                        children: <Widget>[
+                                          Text(
+                                            "المتابعين",
+                                            style: TextStyle(
+                                              color: Colors.redAccent,
+                                              fontSize: 22.0,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 5.0,
+                                          ),
+                                          Text(
+                                            "${widget.items.elementAt(0)['num_follow'].length}" +
+                                                " " +
+                                                "شخص",
+                                            style: TextStyle(
+                                              fontSize: 20.0,
+                                              color: Colors.pinkAccent,
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
-                                  )),
-                              Text("للمراسله",
-                                  style: TextStyle(color: Colors.black))
-                            ],
-                          ),
-                          onTap: () {}),
-                      InkWell(
-                          child: Column(
-                            children: [
-                              Container(
-                                  margin: EdgeInsets.only(top: 20),
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(color: Colors.grey)),
-                                  child: Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Icon(
-                                      Icons.favorite_border,
-                                      size: 30,
+                                    Expanded(
+                                      child: Column(
+                                        children: <Widget>[
+                                          Text(
+                                            "الخبرة",
+                                            style: TextStyle(
+                                              color: Colors.redAccent,
+                                              fontSize: 22.0,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 5.0,
+                                          ),
+                                          Text(
+                                            "${widget.items.elementAt(0)['experience_year']}" +
+                                                " " +
+                                                "سنوات",
+                                            style: TextStyle(
+                                              fontSize: 20.0,
+                                              color: Colors.pinkAccent,
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
-                                  )),
-                              Text("للحفظ",
-                                  style: TextStyle(color: Colors.black))
-                            ],
-                          ),
-                          onTap: () {
-                            var v = FirebaseFirestore.instance
-                                .collection("companies")
-                                .doc(Provider.of<MyProvider>(context,
-                                        listen: false)
-                                    .company_id)
-                                .collection("favorite");
-                            v.add({
-                              'id': widget.items_id.elementAt(0),
-                            });
-                          })
-                    ],
-                  ),
-                  color: Colors.teal[50],
-                ),
-              ),
-              Container(
-                height: 170.0,
-                width: MediaQuery.of(context).size.width,
-                //decoration: BoxDecoration(border:Border.all(color:Colors.black)),
-
-                color: Colors.black,
-                child: Material(
-                  //  border:Border.all(color:Colors.black)
-                  borderRadius:
-                      BorderRadius.only(bottomRight: Radius.circular(50.0)),
-
-                  child: Container(
-                    margin: EdgeInsets.only(top: 20, right: 10),
+                                    Expanded(
+                                      child: Column(
+                                        children: <Widget>[
+                                          Text(
+                                            "مراسلة",
+                                            style: TextStyle(
+                                              color: Colors.redAccent,
+                                              fontSize: 22.0,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 5.0,
+                                          ),
+                                          InkWell(
+                                            child: Text(
+                                              "اضغط هنا",
+                                              style: TextStyle(
+                                                fontSize: 20.0,
+                                                color: Colors.pinkAccent,
+                                              ),
+                                            ),
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  new MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          Chat()));
+                                            },
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    )),
+                Container(
+                  width: double.infinity,
+                  child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(children: [
-                          Text(
-                            "الاسم: ",
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            "${widget.items.elementAt(0)['firstname']}",
-                            style: TextStyle(fontSize: 20, color: Colors.black),
-                          ),
-                          Text(
-                            " " + "${widget.items.elementAt(0)['endname']}",
-                            style: TextStyle(fontSize: 20, color: Colors.black),
-                          ),
-                        ]),
-                        Row(children: [
-                          Text(
-                            "الايميل: ",
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            "${widget.items.elementAt(0)['gmail']}",
-                            style: TextStyle(fontSize: 20, color: Colors.black),
-                          ),
-                        ]),
-                        Row(children: [
-                          Text(
-                            "الهاتف: ",
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            " " + "${widget.items.elementAt(0)['phone']}",
-                            style: TextStyle(fontSize: 20, color: Colors.black),
-                          ),
-                        ]),
+                      children: <Widget>[
                         Row(
                           children: [
                             Text(
-                              "الميلاد والجنس:  ",
+                              "الجنس و تاريخ الميلاد:",
                               style: TextStyle(
-                                  fontSize: 20,
+                                  color: Colors.redAccent,
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 28.0),
+                            ),
+                            Flexible(
+                              child: Text(
+                                "   " +
+                                    "${widget.items.elementAt(0)['gender']}" +
+                                    " \n " +
+                                    "${widget.items.elementAt(0)['date']['month']}" +
+                                    "/" +
+                                    "${widget.items.elementAt(0)['date']['day']}" +
+                                    "/" +
+                                    "${widget.items.elementAt(0)['date']['year']}",
+                                style: TextStyle(
+                                  fontSize: 22.0,
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w300,
                                   color: Colors.black,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              " " +
-                                  "${widget.items.elementAt(0)['date']['month']}",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.black),
-                            ),
-                            Text(
-                              "/" +
-                                  "${widget.items.elementAt(0)['date']['day']}",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.black),
-                            ),
-                            Text(
-                              "/" +
-                                  "${widget.items.elementAt(0)['date']['year']}",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.black),
-                            ),
-                            Text(
-                              "${widget.items.elementAt(0)['gender']}",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.black),
+                                  letterSpacing: 2.0,
+                                ),
+                              ),
                             ),
                           ],
                         ),
-
-                        ///7777
-                      ],
-                    ),
-                  ),
-                  color: Colors.amber[50],
-                ),
-
-                //   constraints: BoxConstraints.expand(),
-                //   decoration: BoxDecoration(
-                //       image: DecorationImage(
-                //           image: new AssetImage("images/55.jpeg"),
-                //           fit: BoxFit.cover)),
-                //   child: Stack(alignment: Alignment.topCenter, children: <
-                //       Widget>[
-                //     // Positioned(
-                //     //   top: -100,
-                //     //   left: -100,
-                //     //   child: InkWell(
-                //     //       onTap: () => Navigator.push(
-                //     //           context,
-                //     //           new MaterialPageRoute(
-                //     //               builder: (context) => new show_user())),
-                //     //       child: CircleAvatar(
-                //     //           radius: 100,
-                //     //           backgroundImage: AssetImage("images/22.png"))),
-                //     // ),
-                //     // Positioned(
-                //     //     top: -20,
-                //     //     left: -20,
-                //     //     child: IconButton(
-                //     //       onPressed: () {
-                //     //         // Navigator.push(context,
-                //     //         //     new MaterialPageRoute(builder: (context) => new show_user()));
-                //     //
-                //     //         return showDialog(
-                //     //           builder: (context) => AlertDialog(
-                //     //             title: Text(
-                //     //                 '     ....ماذا تريد قبل المغادره....    '),
-                //     //             actions: <Widget>[
-                //     //               FlatButton(
-                //     //                   child: Text('الحفظ'),
-                //     //                   onPressed: () {
-                //     //                     Navigator.push(
-                //     //                         context,
-                //     //                         new MaterialPageRoute(
-                //     //                             builder: (context) =>
-                //     //                             new saves(widget.items
-                //     //                                 .elementAt(0)[
-                //     //                             'firstname'])));
-                //     //                     print(
-                //     //                         "____________________");
-                //     //                     print(
-                //     //                         "${widget.items.elementAt(0)['firstname']}");
-                //     //                   }),
-                //     //               FlatButton(
-                //     //                 child: Text('المراسله '),
-                //     //                 onPressed: () =>
-                //     //                     Navigator.pop(context, true),
-                //     //               ),
-                //     //               FlatButton(
-                //     //                 child: Text(' رجوع'),
-                //     //                 onPressed: () => Navigator.pushReplacement(context,
-                //     //                     new MaterialPageRoute(builder: (context) => new HomePage()))
-                //     //               ),
-                //     //             ],
-                //     //           ),
-                //     //           context: context,
-                //     //         );
-                //     //       },
-                //     //       icon: Icon(Icons.arrow_forward),
-                //     //       iconSize: 100,
-                //     //       color: Colors.white.withOpacity(0.4),
-                //     //     )),
-                //     Positioned(
-                //       top: 20,
-                //       left: 80,
-                //       child: Container(
-                //         height: 10,
-                //         width: 350,
-                //         margin: EdgeInsets.all(20),
-                //         child: Container(
-                //           child: Row(
-                //             crossAxisAlignment: CrossAxisAlignment.start,
-                //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //     Positioned(
-                //         top: 50,
-                //         child: Card(
-                //           child: Container(
-                //             height: 200,
-                //             width: 350,
-                //             margin: EdgeInsets.all(20),
-                //             child: Container(
-                //               child: Column(
-                //                 crossAxisAlignment: CrossAxisAlignment.start,
-                //                 mainAxisAlignment:
-                //                 MainAxisAlignment.spaceEvenly,
-                //                 children: [
-                //                   Row(children: [
-                //                     Text(
-                //                       "${widget.items.elementAt(0)['firstname']}",
-                //                       style: TextStyle(
-                //                           fontSize: 20, color: Colors.black),
-                //                     ),
-                //                     Text(
-                //                       " " +
-                //                           "${widget.items.elementAt(0)['endname']}",
-                //                       style: TextStyle(
-                //                           fontSize: 20, color: Colors.black),
-                //                     ),
-                //                   ]),
-                //                   Row(children: [
-                //                     Text(
-                //                       "${widget.items.elementAt(0)['gender']}",
-                //                       style: TextStyle(
-                //                           fontSize: 20, color: Colors.black),
-                //                     ),
-                //                     Text(
-                //                       " " +
-                //                           "${widget.items.elementAt(0)['date']['month']}",
-                //                       style: TextStyle(
-                //                           fontSize: 20, color: Colors.black),
-                //                     ),
-                //                     Text(
-                //                       "/" +
-                //                           "${widget.items.elementAt(0)['date']['day']}",
-                //                       style: TextStyle(
-                //                           fontSize: 20, color: Colors.black),
-                //                     ),
-                //                     Text(
-                //                       "/" +
-                //                           "${widget.items.elementAt(0)['date']['year']}",
-                //                       style: TextStyle(
-                //                           fontSize: 20, color: Colors.black),
-                //                     ),
-                //                   ]),
-                //                   Row(children: [
-                //                     Text(
-                //                       "${widget.items.elementAt(0)['Nationality']}",
-                //                       style: TextStyle(
-                //                           fontSize: 20, color: Colors.black),
-                //                     ),
-                //                     Text(
-                //                       " , " +
-                //                           "${widget.items.elementAt(0)['originalhome']}",
-                //                       style: TextStyle(
-                //                           fontSize: 20, color: Colors.black),
-                //                     ),
-                //                     Text(
-                //                       ",  " +
-                //                           "${widget.items.elementAt(0)['placerecident']}",
-                //                       style: TextStyle(
-                //                           fontSize: 20, color: Colors.black),
-                //                     ),
-                //                   ]),
-                //                 ],
-                //               ),
-                //             ),
-                //           ),
-                //           elevation: 8,
-                //           color: Colors.white70.withOpacity(0.6),
-                //           shadowColor: Colors.green,
-                //           shape: BeveledRectangleBorder(
-                //               borderRadius: BorderRadius.circular(15)),
-                //         )),
-                //     Positioned(
-                //         top: 340,
-                //         child: Card(
-                //           child: Container(
-                //             height: 200,
-                //             width: 350,
-                //             margin: EdgeInsets.all(20),
-                //             child: Container(
-                //               child: Column(
-                //                 crossAxisAlignment: CrossAxisAlignment.start,
-                //                 mainAxisAlignment:
-                //                 MainAxisAlignment.spaceEvenly,
-                //                 children: [
-                //                   Text(
-                //                     "${widget.items.elementAt(0)['skill']}",
-                //                     style: TextStyle(
-                //                         fontSize: 20, color: Colors.black),
-                //                   ),
-                //                   Row(children: [
-                //                     Text(
-                //                       "${widget.items.elementAt(0)['work_field'][0]}",
-                //                       style: TextStyle(
-                //                           fontSize: 20, color: Colors.black),
-                //                     ),
-                //                     // Text(
-                //                     //   ", " +
-                //                     //       "${widget.items.elementAt(0)['work_field']}",
-                //                     //   style: TextStyle(
-                //                     //       fontSize: 20, color: Colors.black),
-                //                     // ),
-                //                     // Text(
-                //                     //   " ," +
-                //                     //       "${widget.items.elementAt(0)['work_field'][2]}",
-                //                     //   style: TextStyle(
-                //                     //       fontSize: 20, color: Colors.black),
-                //                     // ),
-                //                   ]),
-                //                   Text(
-                //                     "${widget.items.elementAt(0)['scientific_level']}",
-                //                     style: TextStyle(
-                //                         fontSize: 20, color: Colors.black),
-                //                   ),
-                //                   Text(
-                //                     "${widget.items.elementAt(0)['type_work']}",
-                //                     style: TextStyle(
-                //                         fontSize: 20, color: Colors.black),
-                //                   ),
-                //                 ],
-                //               ),
-                //             ),
-                //           ),
-                //           elevation: 8,
-                //           color: Colors.white70.withOpacity(0.6),
-                //           shadowColor: Colors.green,
-                //           shape: BeveledRectangleBorder(
-                //               borderRadius: BorderRadius.circular(15)),
-                //         ))
-                //   ])
-                //
-                //
-                // )
-              ),
-              Container(
-                height: 5.0,
-                width: MediaQuery.of(context).size.width,
-                color: Colors.amber[50],
-                child: Material(
-                  borderRadius:
-                      BorderRadius.only(bottomRight: Radius.circular(50.0)),
-                  color: Colors.black,
-                ),
-              ),
-              Container(
-                height: 250.0,
-                width: MediaQuery.of(context).size.width,
-                //decoration: BoxDecoration(border:Border.all(color:Colors.black)),
-
-                color: Colors.black,
-                child: Material(
-                  //  border:Border.all(color:Colors.black)
-                  borderRadius:
-                      BorderRadius.only(bottomRight: Radius.circular(50.0)),
-                  child: Container(
-                    margin: EdgeInsets.only(top: 10, right: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              "الموطن و مكان العمل:  ",
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              " , " +
-                                  "${widget.items.elementAt(0)['originalhome']}",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.black),
-                            ),
-                            Text(
-                              ",  " +
-                                  "${widget.items.elementAt(0)['worksite']}",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.black),
-                            ),
-                          ],
+                        SizedBox(
+                          height: 10.0,
                         ),
                         Row(
                           children: [
                             Text(
-                              "المهارات:  ",
+                              "المستوى العلمي:",
                               style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
+                                  color: Colors.redAccent,
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 28.0),
                             ),
-                            Text(
-                              "${widget.items.elementAt(0)['skill']}",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.black),
+                            Flexible(
+                              child: Text(
+                                "   " +
+                                    "${widget.items.elementAt(0)['scientific_level']}",
+                                style: TextStyle(
+                                  fontSize: 22.0,
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w300,
+                                  color: Colors.black,
+                                  letterSpacing: 2.0,
+                                ),
+                              ),
                             ),
                           ],
+                        ),
+                        SizedBox(
+                          height: 10.0,
                         ),
                         Row(
                           children: [
                             Text(
-                              "المستوى العلمي:  ",
+                              "اللغات:",
                               style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
+                                  color: Colors.redAccent,
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 28.0),
                             ),
-                            Text(
-                              " , " +
-                                  "${widget.items.elementAt(0)['scientific_level']}",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.black),
+                            Flexible(
+                              child: Text(
+                                "   " +
+                                    "${widget.items.elementAt(0)['language']}",
+                                style: TextStyle(
+                                  fontSize: 22.0,
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w300,
+                                  color: Colors.black,
+                                  letterSpacing: 2.0,
+                                ),
+                              ),
                             ),
                           ],
+                        ),
+                        SizedBox(
+                          height: 10.0,
                         ),
                         Row(
                           children: [
                             Text(
-                              "الاعمال السابقه:  ",
+                              "المهارات:",
                               style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
+                                  color: Colors.redAccent,
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 28.0),
                             ),
-                            Text(
-                              " , " +
-                                  "${widget.items.elementAt(0)['work_field']}",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.black),
+                            Flexible(
+                              child: Text(
+                                "   " + "${widget.items.elementAt(0)['skill']}",
+                                style: TextStyle(
+                                  fontSize: 22.0,
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w300,
+                                  color: Colors.black,
+                                  letterSpacing: 2.0,
+                                ),
+                              ),
                             ),
                           ],
+                        ),
+                        SizedBox(
+                          height: 10.0,
                         ),
                         Row(
                           children: [
                             Text(
-                              "اللغات:  ",
+                              "الأعمال السابقة:",
                               style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
+                                  color: Colors.redAccent,
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 28.0),
                             ),
-                            Text(
-                              " , " +
-                                  "${widget.items.elementAt(0)['language']}",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.black),
+                            Flexible(
+                              child: Text(
+                                "   " +
+                                    "${widget.items.elementAt(0)['work_field']}",
+                                style: TextStyle(
+                                  fontSize: 22.0,
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w300,
+                                  color: Colors.black,
+                                  letterSpacing: 2.0,
+                                ),
+                              ),
                             ),
                           ],
+                        ),
+                        SizedBox(
+                          height: 10.0,
                         ),
                         Row(
                           children: [
                             Text(
-                              "عدد سنوات الخبره",
+                              "الموطن و مكان العمل:",
                               style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
+                                  color: Colors.redAccent,
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 28.0),
                             ),
-                            Text(
-                              " , " +
-                                  "${widget.items.elementAt(0)['experience_year']}",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.black),
+                            Flexible(
+                              child: Text(
+                                "   " +
+                                    "${widget.items.elementAt(0)['originalhome']}" +
+                                    " - " +
+                                    "${widget.items.elementAt(0)['worksite']}",
+                                style: TextStyle(
+                                  fontSize: 22.0,
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w300,
+                                  color: Colors.black,
+                                  letterSpacing: 2.0,
+                                ),
+                              ),
                             ),
                           ],
+                        ),
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              "الهاتف:",
+                              style: TextStyle(
+                                  color: Colors.redAccent,
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 28.0),
+                            ),
+                            Flexible(
+                              child: Text(
+                                "   " + "${widget.items.elementAt(0)['phone']}",
+                                style: TextStyle(
+                                  fontSize: 22.0,
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w300,
+                                  color: Colors.black,
+                                  letterSpacing: 2.0,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        Text(
+                          "الايميل:",
+                          style: TextStyle(
+                              color: Colors.redAccent,
+                              fontStyle: FontStyle.normal,
+                              fontSize: 28.0),
+                        ),
+                        SizedBox(
+                          height: 2.0,
+                        ),
+                        Text(
+                          "${widget.items.elementAt(0)['gmail']}",
+                          style: TextStyle(
+                            fontSize: 22.0,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.w300,
+                            color: Colors.black,
+                            letterSpacing: 2.0,
+                          ),
                         ),
                       ],
                     ),
                   ),
-                  color: Colors.amber[50],
                 ),
-
-                //   constraints: BoxConstraints.expand(),
-                //   decoration: BoxDecoration(
-                //       image: DecorationImage(
-                //           image: new AssetImage("images/55.jpeg"),
-                //           fit: BoxFit.cover)),
-                //   child: Stack(alignment: Alignment.topCenter, children: <
-                //       Widget>[
-                //     // Positioned(
-                //     //   top: -100,
-                //     //   left: -100,
-                //     //   child: InkWell(
-                //     //       onTap: () => Navigator.push(
-                //     //           context,
-                //     //           new MaterialPageRoute(
-                //     //               builder: (context) => new show_user())),
-                //     //       child: CircleAvatar(
-                //     //           radius: 100,
-                //     //           backgroundImage: AssetImage("images/22.png"))),
-                //     // ),
-                //     // Positioned(
-                //     //     top: -20,
-                //     //     left: -20,
-                //     //     child: IconButton(
-                //     //       onPressed: () {
-                //     //         // Navigator.push(context,
-                //     //         //     new MaterialPageRoute(builder: (context) => new show_user()));
-                //     //
-                //     //         return showDialog(
-                //     //           builder: (context) => AlertDialog(
-                //     //             title: Text(
-                //     //                 '     ....ماذا تريد قبل المغادره....    '),
-                //     //             actions: <Widget>[
-                //     //               FlatButton(
-                //     //                   child: Text('الحفظ'),
-                //     //                   onPressed: () {
-                //     //                     Navigator.push(
-                //     //                         context,
-                //     //                         new MaterialPageRoute(
-                //     //                             builder: (context) =>
-                //     //                             new saves(widget.items
-                //     //                                 .elementAt(0)[
-                //     //                             'firstname'])));
-                //     //                     print(
-                //     //                         "____________________");
-                //     //                     print(
-                //     //                         "${widget.items.elementAt(0)['firstname']}");
-                //     //                   }),
-                //     //               FlatButton(
-                //     //                 child: Text('المراسله '),
-                //     //                 onPressed: () =>
-                //     //                     Navigator.pop(context, true),
-                //     //               ),
-                //     //               FlatButton(
-                //     //                 child: Text(' رجوع'),
-                //     //                 onPressed: () => Navigator.pushReplacement(context,
-                //     //                     new MaterialPageRoute(builder: (context) => new HomePage()))
-                //     //               ),
-                //     //             ],
-                //     //           ),
-                //     //           context: context,
-                //     //         );
-                //     //       },
-                //     //       icon: Icon(Icons.arrow_forward),
-                //     //       iconSize: 100,
-                //     //       color: Colors.white.withOpacity(0.4),
-                //     //     )),
-                //     Positioned(
-                //       top: 20,
-                //       left: 80,
-                //       child: Container(
-                //         height: 10,
-                //         width: 350,
-                //         margin: EdgeInsets.all(20),
-                //         child: Container(
-                //           child: Row(
-                //             crossAxisAlignment: CrossAxisAlignment.start,
-                //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //     Positioned(
-                //         top: 50,
-                //         child: Card(
-                //           child: Container(
-                //             height: 200,
-                //             width: 350,
-                //             margin: EdgeInsets.all(20),
-                //             child: Container(
-                //               child: Column(
-                //                 crossAxisAlignment: CrossAxisAlignment.start,
-                //                 mainAxisAlignment:
-                //                 MainAxisAlignment.spaceEvenly,
-                //                 children: [
-                //                   Row(children: [
-                //                     Text(
-                //                       "${widget.items.elementAt(0)['firstname']}",
-                //                       style: TextStyle(
-                //                           fontSize: 20, color: Colors.black),
-                //                     ),
-                //                     Text(
-                //                       " " +
-                //                           "${widget.items.elementAt(0)['endname']}",
-                //                       style: TextStyle(
-                //                           fontSize: 20, color: Colors.black),
-                //                     ),
-                //                   ]),
-                //                   Row(children: [
-                //                     Text(
-                //                       "${widget.items.elementAt(0)['gender']}",
-                //                       style: TextStyle(
-                //                           fontSize: 20, color: Colors.black),
-                //                     ),
-                //                     Text(
-                //                       " " +
-                //                           "${widget.items.elementAt(0)['date']['month']}",
-                //                       style: TextStyle(
-                //                           fontSize: 20, color: Colors.black),
-                //                     ),
-                //                     Text(
-                //                       "/" +
-                //                           "${widget.items.elementAt(0)['date']['day']}",
-                //                       style: TextStyle(
-                //                           fontSize: 20, color: Colors.black),
-                //                     ),
-                //                     Text(
-                //                       "/" +
-                //                           "${widget.items.elementAt(0)['date']['year']}",
-                //                       style: TextStyle(
-                //                           fontSize: 20, color: Colors.black),
-                //                     ),
-                //                   ]),
-                //                   Row(children: [
-                //                     Text(
-                //                       "${widget.items.elementAt(0)['Nationality']}",
-                //                       style: TextStyle(
-                //                           fontSize: 20, color: Colors.black),
-                //                     ),
-                //                     Text(
-                //                       " , " +
-                //                           "${widget.items.elementAt(0)['originalhome']}",
-                //                       style: TextStyle(
-                //                           fontSize: 20, color: Colors.black),
-                //                     ),
-                //                     Text(
-                //                       ",  " +
-                //                           "${widget.items.elementAt(0)['placerecident']}",
-                //                       style: TextStyle(
-                //                           fontSize: 20, color: Colors.black),
-                //                     ),
-                //                   ]),
-                //                 ],
-                //               ),
-                //             ),
-                //           ),
-                //           elevation: 8,
-                //           color: Colors.white70.withOpacity(0.6),
-                //           shadowColor: Colors.green,
-                //           shape: BeveledRectangleBorder(
-                //               borderRadius: BorderRadius.circular(15)),
-                //         )),
-                //     Positioned(
-                //         top: 340,
-                //         child: Card(
-                //           child: Container(
-                //             height: 200,
-                //             width: 350,
-                //             margin: EdgeInsets.all(20),
-                //             child: Container(
-                //               child: Column(
-                //                 crossAxisAlignment: CrossAxisAlignment.start,
-                //                 mainAxisAlignment:
-                //                 MainAxisAlignment.spaceEvenly,
-                //                 children: [
-                //                   Text(
-                //                     "${widget.items.elementAt(0)['skill']}",
-                //                     style: TextStyle(
-                //                         fontSize: 20, color: Colors.black),
-                //                   ),
-                //                   Row(children: [
-                //                     Text(
-                //                       "${widget.items.elementAt(0)['work_field'][0]}",
-                //                       style: TextStyle(
-                //                           fontSize: 20, color: Colors.black),
-                //                     ),
-                //                     // Text(
-                //                     //   ", " +
-                //                     //       "${widget.items.elementAt(0)['work_field']}",
-                //                     //   style: TextStyle(
-                //                     //       fontSize: 20, color: Colors.black),
-                //                     // ),
-                //                     // Text(
-                //                     //   " ," +
-                //                     //       "${widget.items.elementAt(0)['work_field'][2]}",
-                //                     //   style: TextStyle(
-                //                     //       fontSize: 20, color: Colors.black),
-                //                     // ),
-                //                   ]),
-                //                   Text(
-                //                     "${widget.items.elementAt(0)['scientific_level']}",
-                //                     style: TextStyle(
-                //                         fontSize: 20, color: Colors.black),
-                //                   ),
-                //                   Text(
-                //                     "${widget.items.elementAt(0)['type_work']}",
-                //                     style: TextStyle(
-                //                         fontSize: 20, color: Colors.black),
-                //                   ),
-                //                 ],
-                //               ),
-                //             ),
-                //           ),
-                //           elevation: 8,
-                //           color: Colors.white70.withOpacity(0.6),
-                //           shadowColor: Colors.green,
-                //           shape: BeveledRectangleBorder(
-                //               borderRadius: BorderRadius.circular(15)),
-                //         ))
-                //   ])
-                //
-                //
-                // )
-              ),
-              Container(
-                height: 5.0,
-                width: MediaQuery.of(context).size.width,
-                color: Colors.amber[50],
-                child: Material(
-                  borderRadius:
-                      BorderRadius.only(bottomRight: Radius.circular(50.0)),
-                  color: Colors.black,
+                SizedBox(
+                  height: 20.0,
                 ),
-              ),
-            ])));
+                Container(
+                  width: 300.00,
+                  child: RaisedButton(
+                      onPressed: () async {
+                        var n = new List();
+                        n = widget.items.elementAt(0)['num_follow'];
+                        if (!n.contains(
+                            Provider.of<MyProvider>(context, listen: false)
+                                .company_id)) {
+                          await FirebaseFirestore.instance
+                              .collection("companies")
+                              .doc(Provider.of<MyProvider>(context,
+                                      listen: false)
+                                  .company_id)
+                              .collection("favorite")
+                              .add({
+                            'id': widget.items_id.elementAt(0),
+                          });
+                          n.add(Provider.of<MyProvider>(context, listen: false)
+                              .company_id);
+                          Fluttertoast.showToast(
+                              msg: "تمت المتابعة",
+                              backgroundColor: Colors.black54,
+                              textColor: Colors.white,
+                              toastLength: Toast.LENGTH_SHORT);
+                          await FirebaseFirestore.instance
+                              .collection("users")
+                              .doc(widget.items_id.elementAt(0))
+                              .update({"num_follow": n});
+                          setState(() {
+                            print("OOOOOOOOOOOOOOOOOOOOOOOOOO");
+                            print(widget.items.elementAt(0)['num_follow']);
+                          });
+                        } else {
+                          Fluttertoast.showToast(
+                              msg: "تمت متابعته مسبقاً",
+                              backgroundColor: Colors.black54,
+                              textColor: Colors.white,
+                              toastLength: Toast.LENGTH_SHORT);
+                        }
+                      },
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(80.0)),
+                      elevation: 0.0,
+                      padding: EdgeInsets.all(0.0),
+                      child: Ink(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.centerRight,
+                              end: Alignment.centerLeft,
+                              colors: [Colors.redAccent, Colors.pinkAccent]),
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        child: Container(
+                          constraints:
+                              BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
+                          alignment: Alignment.center,
+                          child: Text(
+                            "متابعة",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 26.0,
+                                fontWeight: FontWeight.w300),
+                          ),
+                        ),
+                      )),
+                ),
+              ],
+            ),
+          ),
+        ));
   }
 }

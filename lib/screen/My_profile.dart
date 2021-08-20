@@ -1,9 +1,10 @@
 import 'dart:convert';
 
 import 'package:b/chanceScreen/chance.dart';
-import 'package:b/employeeSecreen/saved.dart';
 import 'package:b/postSecreen/viewPost.dart';
 import 'package:b/chanceScreen/view.dart';
+import 'package:b/screen/employbottom.dart';
+import 'package:b/screen/savedUser.dart';
 import 'package:b/screen/showUser.dart';
 import 'package:b/screen/users.dart';
 import 'package:b/stand.dart';
@@ -15,6 +16,7 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
 import '../jobs.dart';
+import 'notification.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -37,14 +39,97 @@ class _HomePageState extends State<HomePage> {
 
     await t.where("email_advance", isEqualTo: userr.email).get().then((value) {
       value.docs.forEach((element) {
+        Provider.of<MyProvider>(context, listen: false).setCompId(element.id);
         setState(() {
-          Provider.of<MyProvider>(context, listen: false).setCompId(element.id);
           homePageData = element.data();
           u = element.id;
         });
       });
     });
   }
+
+  var counter = 0;
+  var my = new List();
+
+  ss() async {
+    var v = FirebaseFirestore.instance
+        .collection("companies")
+        .doc(u)
+        .collection("notification");
+
+    await v.get().then((value) {
+      value.docs.forEach((element) {
+        setState(() {
+          if (DateTime.now().year.toString() ==
+                  element.data()["date_publication"]['year'].toString() &&
+              DateTime.now().month.toString() ==
+                  (element.data()["date_publication"]['month'].toString())) {
+            if (DateTime.now().day.toInt() >=
+                    element.data()["date_publication"]['day'] &&
+                element.data()['date_publication']['day'] >
+                    (DateTime.now().day.toInt() - 7)) my.add(element.data());
+          }
+        });
+      });
+    });
+  }
+
+  kk() async {
+    await ss();
+  }
+
+  //  dd() {
+  //    var v = FirebaseFirestore.instance
+  //        .collection("number")
+  //   kk();
+  //   if(my.length>)
+  //   // return new Stack(
+  //   //   children: <Widget>[
+  //   //     Container(
+  //   //       margin: EdgeInsets.only(top: 10),
+  //   //       child: IconButton(
+  //   //           icon: Icon(Icons.notifications),
+  //   //           iconSize: 40,
+  //   //           color: Colors.yellow,
+  //   //           onPressed: () {
+  //   //             setState(() {
+  //   //               counter = 0;
+  //   //
+  //   //               Navigator.push(
+  //   //                   context,
+  //   //                   new MaterialPageRoute(
+  //   //                       builder: (context) => notifcation()));
+  //   //             });
+  //   //           }),
+  //   //     ),
+  //   //     counter != 0
+  //   //         ? new Positioned(
+  //   //             right: 11,
+  //   //             top: 15,
+  //   //             child: new Container(
+  //   //               // padding: EdgeInsets.all(2),
+  //   //               decoration: new BoxDecoration(
+  //   //                 color: Colors.red,
+  //   //                 borderRadius: BorderRadius.circular(20),
+  //   //               ),
+  //   //               constraints: BoxConstraints(
+  //   //                 minWidth: 20,
+  //   //                 minHeight: 20,
+  //   //               ),
+  //   //               child: Text(
+  //   //                 '$counter',
+  //   //                 style: TextStyle(
+  //   //                   color: Colors.white,
+  //   //                   fontSize: 15,
+  //   //                 ),
+  //   //                 textAlign: TextAlign.center,
+  //   //               ),
+  //   //             ),
+  //   //           )
+  //   //         : new Container()
+  //   //   ],
+  //   // );
+  // }
 
   @override
   void initState() {
@@ -61,12 +146,7 @@ class _HomePageState extends State<HomePage> {
     String ui;
     var user = FirebaseFirestore.instance.collection("users");
     var lis = new List();
-    print("))))))))))))))8888888888888888888888)))))))))))))))))))))))))))))");
-
     await FirebaseMessaging.onMessageOpenedApp.listen((message) async {
-      print(message.data['user_Id']);
-      print(")))))))))))))))))))))))))))))))))))))))))))");
-      print(message.data['user_Id']);
       ui = message.data['user_Id'];
       await user.get().then((value) {
         value.docs.forEach((element) {
@@ -75,11 +155,21 @@ class _HomePageState extends State<HomePage> {
           });
         });
       });
-      // Navigator.push(context,
-      //     new MaterialPageRoute(builder: (context) => show_detals(lis, ui)));
+      Navigator.push(context,
+          new MaterialPageRoute(builder: (context) => show_detals(lis, ui)));
     });
   }
+  Widget getimage() {
 
+    return CircleAvatar(
+      backgroundColor: Theme.of(context).accentColor,
+      radius: 150,
+      backgroundImage:  homePageData['link_image'] =='not'?
+      AssetImage("images/bb.jpg")
+          :  NetworkImage(homePageData['link_image'])
+    );
+    //});
+  }
   @override
   Widget build(BuildContext context) {
     nnn();
@@ -90,12 +180,13 @@ class _HomePageState extends State<HomePage> {
             appBar: PreferredSize(
               preferredSize: Size.fromHeight(120.0),
               child: AppBar(
+                actions: [],
                 title: Center(
                   child: Text(" "),
                 ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.vertical(
-                    bottom: Radius.circular(60.0),
+                    bottom: Radius.circular(70.0),
                   ),
                 ),
               ),
@@ -104,52 +195,32 @@ class _HomePageState extends State<HomePage> {
               Positioned(
                 top: 40,
                 left: 50,
-                child: CircleAvatar(
-                    radius: 150,
-                    backgroundImage:
-                        // homePageData['link_image'] ==null?
-                        AssetImage("images/bb.jpg")
-                    // :NetworkImage(homePageData['link_image']) ,
+                child:
+                    getimage(),
 
-                    ),
+
+
               ),
-
               Positioned(
                 top: 250,
                 left: -300,
                 child: CircleAvatar(
                   radius: 500,
-                  backgroundColor: Colors.teal[50].withOpacity(0.5),
+                  backgroundColor:
+                      Theme.of(context).accentColor.withOpacity(0.5),
                 ),
               ),
-              // ),
-              //   Opacity(
-              //   opacity: 0.4,
-              //   child: Container(
-              //     decoration: BoxDecoration(
-              //         image: DecorationImage(
-              //             image: new AssetImage("images/55.jpeg"),
-              //             fit: BoxFit.cover,
-              //             colorFilter: ColorFilter.mode(
-              //                 Color(0xFF5C6BC0), BlendMode.overlay))),
-              //   ),
-              // ),
-
               homePageData.isEmpty
-                  ? CircularProgressIndicator()
+                  ? Center(child: CircularProgressIndicator())
                   : ListView(children: [
                       SizedBox(
                         height: 250,
                       ),
 
-                      // Padding(
-                      // padding: const EdgeInsets.all(50.0),
 
-                      // child:
                       Container(
                         margin: EdgeInsets.only(right: 20, top: 90),
                         child: Column(
-                          // crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(children: <Widget>[
                               _prefixIcon(Icons.account_balance),
@@ -160,7 +231,8 @@ class _HomePageState extends State<HomePage> {
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 20.0,
-                                          color: Colors.blue)),
+                                          color:
+                                              Theme.of(context).primaryColor)),
                                   SizedBox(height: 1),
                                   Text("     " + homePageData['description'],
                                       style: TextStyle(
@@ -179,7 +251,8 @@ class _HomePageState extends State<HomePage> {
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 20.0,
-                                          color: Colors.blue)),
+                                          color:
+                                              Theme.of(context).primaryColor)),
                                   SizedBox(height: 1),
                                   Text("     " + homePageData['company'],
                                       style: TextStyle(
@@ -197,9 +270,9 @@ class _HomePageState extends State<HomePage> {
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerTop,
             floatingActionButton: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(4.0),
                 child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       SizedBox(
                         width: 20,
@@ -207,8 +280,8 @@ class _HomePageState extends State<HomePage> {
                       FloatingActionButton(
                         heroTag: "tag1",
                         child: Icon(
-                          Icons.account_balance,
-                          color: Colors.indigo[300],
+                          Icons.wallet_travel_outlined,
+                          color: Theme.of(context).primaryColor,
                           size: 30,
                         ),
                         backgroundColor: Colors.white,
@@ -220,13 +293,13 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                       SizedBox(
-                        width: 40,
+                        width: 20,
                       ),
                       FloatingActionButton(
                         heroTag: "tag2",
                         child: Icon(
                           Icons.padding,
-                          color: Colors.indigo[300],
+                          color: Theme.of(context).primaryColor,
                           size: 30,
                         ),
                         backgroundColor: Colors.white,
@@ -238,31 +311,31 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                       SizedBox(
-                        width: 40,
+                        width: 20,
                       ),
                       FloatingActionButton(
                         heroTag: "tag3",
                         child: Icon(
-                          Icons.account_circle_rounded,
-                          color: Colors.indigo[300],
-                          size: 30,
+                          Icons.face,
+                          color: Theme.of(context).primaryColor,
+                          size: 35,
                         ),
                         backgroundColor: Colors.white,
                         onPressed: () {
                           Navigator.push(
                               context,
                               new MaterialPageRoute(
-                                  builder: (context) => show_user()));
+                                  builder: (context) => navigator()));
                         },
                       ),
                       SizedBox(
-                        width: 40,
+                        width: 20,
                       ),
                       FloatingActionButton(
                         heroTag: "tag4",
                         child: Icon(
-                          Icons.favorite,
-                          color: Colors.indigo[300],
+                          Icons.favorite_border,
+                          color: Theme.of(context).primaryColor,
                           size: 30,
                         ),
                         backgroundColor: Colors.white,
@@ -271,6 +344,25 @@ class _HomePageState extends State<HomePage> {
                               context,
                               new MaterialPageRoute(
                                   builder: (context) => saves()));
+                        },
+                      ),
+                      SizedBox(
+                        width: 22,
+                      ),
+                      FloatingActionButton(
+                        heroTag: "tag5",
+                        child: Icon(
+                          //notifications_on_outlined
+                          Icons.notifications_none,
+                          color: Theme.of(context).primaryColor,
+                          size: 30,
+                        ),
+                        backgroundColor: Colors.white,
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (context) => notifcation()));
                         },
                       ),
                       SizedBox(
@@ -312,7 +404,7 @@ class _HomePageState extends State<HomePage> {
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20.0,
-                  color: Colors.deepPurple)),
+                  color: Theme.of(context).primaryColor)),
           SizedBox(height: 1),
           Text("     " + position.size_company,
               style: TextStyle(
@@ -334,7 +426,7 @@ class _HomePageState extends State<HomePage> {
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20.0,
-                  color: Colors.deepPurple)),
+                  color: Theme.of(context).primaryColor)),
           SizedBox(height: 1),
           Text("     " + position.description,
               style: TextStyle(
@@ -406,7 +498,7 @@ class _HomePageState extends State<HomePage> {
           child: Icon(
             iconData,
             size: 25,
-            color: Colors.blue,
+            color: Theme.of(context).primaryColor,
           )),
     );
   }

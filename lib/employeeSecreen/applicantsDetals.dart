@@ -22,6 +22,7 @@ class ApplicantsDetals extends StatefulWidget {
 class _ApplicantsDetalsState extends State<ApplicantsDetals> {
 
   var base=new List();
+  var base1=new List();
   var v;
 
   getData()async{
@@ -128,11 +129,17 @@ class _ApplicantsDetalsState extends State<ApplicantsDetals> {
                                   style: TextStyle(color: Colors.black))
                             ],
                           ),
-                          onTap: () {
+                          onTap: ()async {
                             base.add(widget.items_id.elementAt(0));
-                            v.doc(Provider.of<MyProvider>(context,listen: false).data["id"]).update({
+                            await v.doc(Provider.of<MyProvider>(context,listen: false).data["id"]).update({
                               'accepted': base,
                             });
+                            await FirebaseFirestore.instance.collection("companies").doc(Provider.of<MyProvider>(context,listen: false).company_id).get().then((value){
+                              base1=value.data()["all_accepted"];
+                            });
+                            if(!base1.contains(widget.items_id.elementAt(0)))
+                                base1.add(widget.items_id.elementAt(0));
+                            await FirebaseFirestore.instance.collection("companies").doc(Provider.of<MyProvider>(context,listen: false).company_id).update({"all_accepted":base1});
                           })
                     ],
                   ),
