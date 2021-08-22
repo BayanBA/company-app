@@ -487,8 +487,6 @@ class _show_detalsState extends State<show_detals> {
                               .doc(widget.items_id.elementAt(0))
                               .update({"num_follow": n});
                           setState(() {
-                            print("OOOOOOOOOOOOOOOOOOOOOOOOOO");
-                            print(widget.items.elementAt(0)['num_follow']);
                           });
                         } else {
                           Fluttertoast.showToast(

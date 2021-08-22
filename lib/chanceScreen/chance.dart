@@ -18,10 +18,10 @@ import 'package:charts_flutter/flutter.dart' as charts;
 
 class AddJop extends StatefulWidget {
   @override
-  _AddJopState createState() => _AddJopState();
+  AddJopState createState() => AddJopState();
 }
 
-class _AddJopState extends State<AddJop> {
+class AddJopState extends State<AddJop> {
   GlobalKey<FormState> k1 = new GlobalKey<FormState>();
   GlobalKey<FormState> k2 = new GlobalKey<FormState>();
   GlobalKey<FormState> k3 = new GlobalKey<FormState>();
@@ -54,17 +54,16 @@ class _AddJopState extends State<AddJop> {
   charts.BehaviorPosition _legendPosition = charts.BehaviorPosition.start;
   var _filters = new List();
   List<_CostsData> data = [
-    _CostsData('العنوان', 10),
-    _CostsData('الوصف', 10),
-    _CostsData('الساعات', 10),
-    _CostsData('الراتب', 10),
-    _CostsData('المهارات', 10),
-    _CostsData('اللغات', 10),
-    _CostsData('التخصص', 10),
-    _CostsData('الجنس', 10),
-    _CostsData('المستوى العلمي', 10),
-    _CostsData('المستوى الوظيفي', 10),
-    _CostsData('الشواغر', 10),
+    _CostsData('العنوان', 0),
+    _CostsData('الوصف', 0),
+    _CostsData('المهارات', 0),
+    _CostsData('المستوى الوظيفي', 0),
+    _CostsData('المستوى العلمي', 0),
+    _CostsData('التخصص', 0),
+    _CostsData('الجنس', 0),
+    _CostsData('الساعات', 0),
+    _CostsData('الراتب', 0),
+    _CostsData('الشواغر', 0),
   ];
 
   void initState() {
@@ -112,7 +111,8 @@ class _AddJopState extends State<AddJop> {
     });
   }
 
-  sendMessage(String title, String body, int i, String u, String c, String num) async {
+  sendMessage(
+      String title, String body, int i, String u, String c, String num) async {
     var serverToken =
         "AAAAUnOn5ZE:APA91bGSkIL6DLpOfbulM_K3Yp5W1mlcp8F0IWu2mcKWloc4eQcF8C230XaHhXBfBYphuyp2P92dc_Js19rBEuU6UqPBGYOSjJfXsBJVmIu9TsLe44jaSOLDAovPTspwePb1gw7-1GNZ";
     await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
@@ -165,16 +165,16 @@ class _AddJopState extends State<AddJop> {
                   Icons.wb_incandescent_outlined,
                 ),
                 Icon(
-                  Icons.alarm_on_sharp,
-                ),
-                Icon(
-                  Icons.money,
-                ),
-                Icon(
                   Icons.account_tree,
                 ),
                 Icon(
-                  Icons.language,
+                  Icons.translate,
+                ),
+                Icon(
+                  Icons.local_florist,
+                ),
+                Icon(
+                  Icons.perm_contact_cal_outlined,
                 ),
                 Icon(
                   Icons.star_purple500_outlined,
@@ -183,10 +183,10 @@ class _AddJopState extends State<AddJop> {
                   Icons.wc,
                 ),
                 Icon(
-                  Icons.edit,
+                  Icons.alarm_on_sharp,
                 ),
                 Icon(
-                  Icons.local_florist,
+                  Icons.money,
                 ),
                 Icon(Icons.people_alt),
                 Icon(Icons.logout),
@@ -238,7 +238,7 @@ class _AddJopState extends State<AddJop> {
       validator: (valu) {
         if (valu.isEmpty) {
           return "هذا الحقل مطلوب";
-        } else if (valu.length < 5) {
+        } else if (valu.length < 2) {
           return "الكلمة قصيرة جدا";
         } else
           return null;
@@ -247,6 +247,7 @@ class _AddJopState extends State<AddJop> {
       onChanged: (v) {
         setState(() {
           d[bbb] = v;
+          drow(k, i);
         });
       },
       onSaved: (valu) {
@@ -255,17 +256,23 @@ class _AddJopState extends State<AddJop> {
       onEditingComplete: () {
         _index++;
         drow(k, i);
+        FocusScope.of(context).unfocus();
       },
     );
   }
 
   drow(var k, int i) {
     var kk = k.currentState;
-    if (kk.validate()) edit(i);
+    if (kk.validate())
+      edit(i);
+    else
+      data[i].cost = 0;
   }
 
-  Widget z(var v, String name, List<dynamic> l,int i) {
+  Widget z(var v, String name, List<dynamic> l, int i) {
     return DropdownButton(
+      dropdownColor: Theme.of(context).accentColor,
+      menuMaxHeight: 300,
       hint: Text(name),
       items: l
           .map((e) => DropdownMenuItem(
@@ -277,9 +284,10 @@ class _AddJopState extends State<AddJop> {
         setState(() {
           d[v] = valu;
         });
-      },onTap:() {
-        edit(i);
-    },
+      },
+      onTap: () {
+        edit(i - 1);
+      },
       value: d[v],
     );
   }
@@ -288,33 +296,42 @@ class _AddJopState extends State<AddJop> {
     if (name == "خبير")
       return SizedBox(
         width: 300,
-        child: Row(
+        child: Column(
           children: [
-            Icon(Icons.auto_awesome),
-            SizedBox(
-              width: 10,
+            Row(
+              children: [
+                SizedBox(
+                  width: 10,
+                ),
+                Icon(Icons.auto_awesome),
+                SizedBox(
+                  width: 10,
+                ),
+                Text("عدد سنوات الخبرة:"),
+                SizedBox(
+                  width: 10,
+                ),
+              ],
             ),
-            Text("عدد سنوات الخبرة:"),
-            SizedBox(
-              width: 10,
-            ),
-          DropdownButton(
-            hint: Text("عدد سنوات الخبرة"),
-            items: ['1', '2', '3', '4', '5', '6', '7', '8', 'اكثر من 8']
-                .map((e) => DropdownMenuItem(
-              child: Text("$e"),
-              value: e,
-            ))
-                .toList(),
-            onChanged: (valu) {
-              setState(() {
-                d["expir"] = valu;
-              });
-            },onTap:() {
-            edit( i);
-          },
-            value: d["expir"],
-          )
+            DropdownButton(
+              menuMaxHeight: 300,
+              hint: Text("عدد سنوات الخبرة"),
+              items: ['1', '2', '3', '4', '5', '6', '7', '8', 'اكثر من 8']
+                  .map((e) => DropdownMenuItem(
+                        child: Text("$e"),
+                        value: e,
+                      ))
+                  .toList(),
+              onChanged: (valu) {
+                setState(() {
+                  d["expir"] = valu;
+                });
+              },
+              onTap: () {
+                edit(i);
+              },
+              value: d["expir"],
+            )
           ],
         ),
       );
@@ -324,115 +341,178 @@ class _AddJopState extends State<AddJop> {
   var num;
 
   void uplod() async {
-    my_lis = new List();
-    CollectionReference users = FirebaseFirestore.instance.collection("users");
-
-    var v = FirebaseFirestore.instance
-        .collection("companies")
-        .doc(Provider.of<MyProvider>(context, listen: false).company_id)
-        .collection("chance");
-
-    var n = await FirebaseFirestore.instance
-        .collection("number")
-        .doc("aLOUXiw8hVsNqdzEsjF5")
-        .get()
-        .then((value) {
-      num = value.data()["num"];
-    });
-    num = num + 1;
-
-    FirebaseFirestore.instance
-        .collection("number")
-        .doc("aLOUXiw8hVsNqdzEsjF5")
-        .update({"num": num});
-
-    stan.title = d["title"];
-    stan.skillNum = d["skillNum"];
-    stan.salary = d["salary"];
-    stan.workTime = d["workTime"];
-    stan.langNum = _filters;
-    stan.specialties = d["specialties"];
-    stan.level = d["level"];
-    stan.level == "خبير" ? stan.expir = d["expir"] : stan.expir = "";
-    stan.gender = d["gender"];
-    stan.degree = d["degree"];
-    stan.describsion = d["describsion"];
-    stan.Vacancies = d["Vacancies"];
-    DateTime date = DateTime.now();
-    v.add({
-      "id": "",
-      "Q": Provider.of<MyProvider>(context, listen: false).Q,
-      "A": Provider.of<MyProvider>(context, listen: false).A,
-      "Z": Provider.of<MyProvider>(context, listen: false).Z,
-      "quiz": Provider.of<MyProvider>(context, listen: false).quiz,
-      "title": stan.title,
-      "Presenting_A_Job": [],
-      "salary": stan.salary,
-      "workTime": stan.workTime,
-      "specialties": stan.specialties,
-      "langNum": stan.langNum,
-      "skillNum": stan.skillNum,
-      "describsion": stan.describsion,
-      "expir": stan.expir,
-      "gender": stan.gender,
-      "degree": stan.degree,
-      "level": stan.level,
-      "accepted":[],
-      "Vacancies": stan.Vacancies,
-      "date_publication": {
-        'hour': DateTime.now().hour,
-        'day': DateTime.now().day,
-        'month': DateTime.now().month,
-        'year': DateTime.now().year
-      },
-      "list": "",
-      "chanceId": 0,
-      "num": num
-    });
-
-    await v.where("num", isEqualTo: num).get().then((value) {
-      if (value != null) {
-        value.docs.forEach((element) {
-          v.doc(element.id).update({"id": element.id});
-          id_chance = element.id;
-        });
+    var t = 15;
+    for (int j = 0; j < data.length; j++) {
+      if (data[j].cost != 100) {
+        t = j;
+        break;
       }
-    });
+    }
+    if (_filters.isEmpty) {
+      Fluttertoast.showToast(
+          msg: "تحقق من القيم المدخلة",
+          backgroundColor: Colors.black54,
+          textColor: Colors.white,
+          toastLength: Toast.LENGTH_SHORT);
+      setState(() {
+        _index = 3;
+      });
+    }
+    else if (t != 15) {
+      Fluttertoast.showToast(
+          msg: "تحقق من القيم المدخلة",
+          backgroundColor: Colors.black54,
+          textColor: Colors.white,
+          toastLength: Toast.LENGTH_SHORT);
+      setState(() {
+        if(t<3)
+          _index = t;
+        else
+          _index = t+1;
 
-    await users.get().then((value) {
-      value.docs.forEach((element) {
-        setState(() {
-          for (int i = 0; i < follow.length; i++) {
-            if (element.id == follow.elementAt(i)) {
-              users_noti = FirebaseFirestore.instance
-                  .collection("users")
-                  .doc(follow.elementAt(i))
-                  .collection("notifcation");
-              users_noti.add({
-                "id": id_chance,
-                "id_company": u,
-                "title": 'فرصه ',
-                "body": "تم نشر فرصه من قبل الشركه  ${name_comp} ",
-                'date_publication': {
-                  'day': DateTime.now().day,
-                  'month': DateTime.now().month,
-                  'year': DateTime.now().year,
-                },
-                'num': 2,
-              });
-              my_lis.add(element.data()['token']);
+      });
+    } else {
+      Fluttertoast.showToast(
+          msg: "تم نشر الفرصة",
+          backgroundColor: Colors.black54,
+          textColor: Colors.white,
+          toastLength: Toast.LENGTH_SHORT);
+      my_lis = new List();
+      CollectionReference users =
+          FirebaseFirestore.instance.collection("users");
+
+      var v = FirebaseFirestore.instance
+          .collection("companies")
+          .doc(Provider.of<MyProvider>(context, listen: false).company_id)
+          .collection("chance");
+
+      var n = await FirebaseFirestore.instance
+          .collection("number")
+          .doc("aLOUXiw8hVsNqdzEsjF5")
+          .get()
+          .then((value) {
+        num = value.data()["num"];
+      });
+      num = num + 1;
+
+      FirebaseFirestore.instance
+          .collection("number")
+          .doc("aLOUXiw8hVsNqdzEsjF5")
+          .update({"num": num});
+
+      stan.title = d["title"];
+      stan.skillNum = d["skillNum"];
+      stan.salary = d["salary"];
+      stan.workTime = d["workTime"];
+      stan.langNum = _filters;
+      stan.specialties = d["specialties"];
+      stan.level = d["level"];
+      stan.level == "خبير" ? stan.expir = d["expir"] : stan.expir = "";
+      stan.gender = d["gender"];
+      stan.degree = d["degree"];
+      stan.describsion = d["describsion"];
+      stan.Vacancies = d["Vacancies"];
+      DateTime date = DateTime.now();
+      v.add({
+        "id": "",
+        "Q": Provider.of<MyProvider>(context, listen: false).Q,
+        "A": Provider.of<MyProvider>(context, listen: false).A,
+        "Z": Provider.of<MyProvider>(context, listen: false).Z,
+        "quiz": Provider.of<MyProvider>(context, listen: false).quiz,
+        "title": stan.title,
+        "Presenting_A_Job": [],
+        "salary": stan.salary,
+        "workTime": stan.workTime,
+        "specialties": stan.specialties,
+        "langNum": stan.langNum,
+        "skillNum": stan.skillNum,
+        "describsion": stan.describsion,
+        "expir": stan.expir,
+        "gender": stan.gender,
+        "degree": stan.degree,
+        "level": stan.level,
+        "accepted": [],
+        "Vacancies": stan.Vacancies,
+        "date":Timestamp.now(),
+        "date_publication": {
+          'hour': DateTime.now().hour,
+          'day': DateTime.now().day,
+          'month': DateTime.now().month,
+          'year': DateTime.now().year
+        },
+        "list": "",
+        "chanceId": 0,
+        "num": num
+      });
+
+      await v.where("num", isEqualTo: num).get().then((value) {
+        if (value != null) {
+          value.docs.forEach((element) {
+            v.doc(element.id).update({"id": element.id});
+            id_chance = element.id;
+          });
+        }
+      });
+
+      await users.get().then((value) {
+        value.docs.forEach((element) {
+          setState(() {
+            for (int i = 0; i < follow.length; i++) {
+              if (element.id == follow.elementAt(i)) {
+                users_noti = FirebaseFirestore.instance
+                    .collection("users")
+                    .doc(follow.elementAt(i))
+                    .collection("notifcation");
+                users_noti.add({
+                  "id": id_chance,
+                  "id_company": u,
+                  "title": 'فرصه ',
+                  "body": "تم نشر فرصه من قبل الشركه  ${name_comp} ",
+                  'date_publication': {
+                    'day': DateTime.now().day,
+                    'month': DateTime.now().month,
+                    'year': DateTime.now().year,
+                  },
+                  'num': 2,
+                });
+                my_lis.add(element.data()['token']);
+              }
             }
-          }
+          });
         });
       });
-    });
 
-    for (int i = 0; i < my_lis.length; i++)
-      sendMessage("فرصه", "تم نشر فرصه من قبل الشركه  ${name_comp} ", i, u,
-          id_chance, "2");
+      for (int i = 0; i < my_lis.length; i++)
+        sendMessage("فرصه", "تم نشر فرصه من قبل الشركه  ${name_comp} ", i, u,
+            id_chance, "2");
+
+      d = {
+        "id": "",
+        "title": "",
+        "quiz": false,
+        "salary": "أقل من 100000",
+        "workTime": "دوام جزئي",
+        "specialties": "الترجمة",
+        "langNum": [],
+        "skillNum": "",
+        "quizList": [],
+        "describsion": "",
+        "expir": "1",
+        "quizNum": 5,
+        "gender": "لا يهم",
+        "degree": "لا يهم",
+        "level": "مبتدأ",
+        "Vacancies": 1,
+        "date_publication": "",
+      };
+      for (int j = 0; j < data.length; j++) {
+        data[j].cost = 0;
+      }
+      _filters=new List();
+    }
   }
 
-  var help=1;
+  var help = 1;
 
   Widget getStep() {
     aa = [
@@ -468,129 +548,30 @@ class _AddJopState extends State<AddJop> {
           ],
         ),
       ),
-      SizedBox(
-        width: 300,
-        child: Row(
-          children: [
-            Icon(Icons.alarm_on_sharp),
-            SizedBox(
-              width: 10,
-            ),
-            Text("عدد ساعات العمل :"),
-            SizedBox(
-              width: 10,
-            ),
-            z("workTime", "عدد ساعات العمل", ["دوام جزئي", "دوام كامل"],_index)
-          ],
-        ),
-      ),
-      SizedBox(
-        width: 300,
-        child: Row(
-          children: [
-            Icon(Icons.money),
-            SizedBox(
-              width: 10,
-            ),
-            Text("الراتب :"),
-            SizedBox(
-              width: 10,
-            ),
-            z("salary", "الراتب", [
-              "أقل من 100000",
-              "100000 - 300000",
-              "300000 - 500000",
-              "500000 - 700000",
-              "700000 - 1000000",
-              "1000000 - 1500000",
-              "1500000 - 2000000",
-              "أكبر من 2000000"
-            ],_index)
-          ],
-        ),
-      ),
       Form(
         autovalidateMode: AutovalidateMode.always,
         key: k6,
-        child: SizedBox(
+        child: Column(
+          children: [
+            Text("المهارات المطلوبة"),
+            SizedBox(
+              height: 100,
+            ),
+            SizedBox(
+                width: 300,
+                child: x("skillNum", "المهارات :", ".......",
+                    Icon(Icons.account_tree), k6, _index)),
+          ],
+        ),
+      ),
+      Column(
+        children: [
+          Text("اللغات المطلوبة"),
+          SizedBox(
             width: 300,
-            child: x("skillNum", "المهارات:", ".......",
-                Icon(Icons.account_tree), k6, _index)),
-      ),
-      SizedBox(
-        width: 300,
-        child: chipList(_index),
-      ),
-      SizedBox(
-        width: 300,
-        child: Row(
-          children: [
-            Icon(Icons.star_purple500_outlined),
-            SizedBox(
-              width: 10,
-            ),
-            Text("التخصص المطلوب :"),
-            SizedBox(
-              width: 10,
-            ),
-            z("specialties", "التخصص المطلوب", [
-              'تكنولوجيا المعلومات',
-              'العلوم طبيعية',
-              'التعليم',
-              'الترجمة',
-              'تصيم غرافيكي وتحريك',
-              "سكرتاريا",
-              "صحافة",
-              "ادارة مشاريع",
-              "المحاسبة",
-              "الكيمياء والمخابر",
-              "الطب",
-              "الصيدلة",
-              "مجالات مختلفة"
-            ],_index)
-          ],
-        ),
-      ),
-      SizedBox(
-        width: 300,
-        child: Row(
-          children: [
-            Icon(Icons.wc),
-            SizedBox(
-              width: 10,
-            ),
-            Text("الجنس :"),
-            SizedBox(
-              width: 10,
-            ),
-            z("gender", "الجنس", ["ذكر", "أنثى", "لا يهم"],_index)
-          ],
-        ),
-      ),
-      SizedBox(
-        width: 300,
-        child: Row(
-          children: [
-            Icon(Icons.edit),
-            SizedBox(
-              width: 10,
-            ),
-            Text("المستوى لبعلمي :"),
-            SizedBox(
-              width: 10,
-            ),
-            z("degree", "شهادة", [
-              'تعليم ابتدائي',
-              'تعليم اعدادي',
-              'تعليم ثانوي',
-              'شهادة جامعية',
-              'شهادة دبلوم',
-              'شهادة ماجستير',
-              'شهادة دكتوراه',
-              'لا يهم'
-            ],_index)
-          ],
-        ),
+            child: chipList(),
+          ),
+        ],
       ),
       Form(
         autovalidateMode: AutovalidateMode.always,
@@ -599,17 +580,24 @@ class _AddJopState extends State<AddJop> {
           width: 300,
           child: Column(
             children: [
-              Row(
+              Column(
                 children: [
-                  Icon(Icons.local_florist),
-                  SizedBox(
-                    width: 10,
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Icon(Icons.local_florist),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text("المستوى الوظيفي المطلوب:"),
+                    ],
                   ),
-                  Text("المستوى الوظيفي :"),
                   SizedBox(
-                    width: 10,
+                    height: 20,
                   ),
-                  z("level", "المستوى", ["مبتدأ", "متمرس", "خبير"],_index)
+                  z("level", "المستوى", ["مبتدأ", "متمرس", "خبير"], _index)
                 ],
               ),
               q(d["level"], k5, _index),
@@ -621,6 +609,169 @@ class _AddJopState extends State<AddJop> {
         width: 300,
         child: Column(
           children: [
+            Row(
+              children: [
+                SizedBox(
+                  width: 10,
+                ),
+                Icon(Icons.perm_contact_cal_outlined),
+                SizedBox(
+                  width: 10,
+                ),
+                Text("المستوى العلمي المطلوب :"),
+                SizedBox(
+                  width: 10,
+                ),
+              ],
+            ),
+            z(
+                "degree",
+                "شهادة",
+                [
+                  'تعليم ابتدائي',
+                  'تعليم اعدادي',
+                  'تعليم ثانوي',
+                  'شهادة جامعية',
+                  'شهادة دبلوم',
+                  'شهادة ماجستير',
+                  'شهادة دكتوراه',
+                  'لا يهم'
+                ],
+                _index)
+          ],
+        ),
+      ),
+      SizedBox(
+        width: 300,
+        child: Column(
+          children: [
+            Row(
+              children: [
+                SizedBox(
+                  width: 10,
+                ),
+                Icon(Icons.star_purple500_outlined),
+                SizedBox(
+                  width: 10,
+                ),
+                Text("التخصص المطلوب :"),
+                SizedBox(
+                  width: 10,
+                ),
+              ],
+            ),
+            z(
+                "specialties",
+                "التخصص المطلوب",
+                [
+                  'تكنولوجيا المعلومات',
+                  'العلوم طبيعية',
+                  'التعليم',
+                  'الترجمة',
+                  'تصيم غرافيكي وتحريك',
+                  "سكرتاريا",
+                  "صحافة",
+                  "ادارة مشاريع",
+                  "المحاسبة",
+                  "الكيمياء والمخابر",
+                  "الطب",
+                  "الصيدلة",
+                  "مجالات مختلفة"
+                ],
+                _index)
+          ],
+        ),
+      ),
+      SizedBox(
+        width: 300,
+        child: Column(
+          children: [
+            Row(
+              children: [
+                SizedBox(
+                  width: 10,
+                ),
+                Icon(Icons.wc),
+                SizedBox(
+                  width: 10,
+                ),
+                Text("الجنس :"),
+                SizedBox(
+                  width: 10,
+                ),
+              ],
+            ),
+            z("gender", "الجنس", ["ذكر", "أنثى", "لا يهم"], _index)
+          ],
+        ),
+      ),
+      SizedBox(
+        width: 300,
+        child: Column(
+          children: [
+            Row(
+              children: [
+                SizedBox(
+                  width: 10,
+                ),
+                Icon(Icons.alarm_on_sharp),
+                SizedBox(
+                  width: 10,
+                ),
+                Text("عدد ساعات العمل :"),
+                SizedBox(
+                  width: 10,
+                ),
+              ],
+            ),
+            z("workTime", "عدد ساعات العمل", ["دوام جزئي", "دوام كامل"], _index)
+          ],
+        ),
+      ),
+      SizedBox(
+        width: 300,
+        child: Column(
+          children: [
+            Row(
+              children: [
+                SizedBox(
+                  width: 10,
+                ),
+                Icon(Icons.money),
+                SizedBox(
+                  width: 10,
+                ),
+                Text("الراتب :"),
+                SizedBox(
+                  width: 10,
+                ),
+              ],
+            ),
+            z(
+                "salary",
+                "الراتب",
+                [
+                  "أقل من 100000",
+                  "100000 - 300000",
+                  "300000 - 500000",
+                  "500000 - 700000",
+                  "700000 - 1000000",
+                  "1000000 - 1500000",
+                  "1500000 - 2000000",
+                  "أكبر من 2000000"
+                ],
+                _index)
+          ],
+        ),
+      ),
+      SizedBox(
+        width: 300,
+        child: Column(
+          children: [
+            Text("عدد المظفين المطلوب"),
+            SizedBox(
+              height: 10,
+            ),
             Row(
               children: [
                 SizedBox(
@@ -676,10 +827,13 @@ class _AddJopState extends State<AddJop> {
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
                   child: InkWell(
-                    child: Text("تأكيد",style:TextStyle(fontSize: 40),),
-                    onTap: (){
-                      d["Vacancies"]=help;
-                      edit(_index);
+                    child: Text(
+                      "تأكيد",
+                      style: TextStyle(fontSize: 40),
+                    ),
+                    onTap: () {
+                      d["Vacancies"] = help;
+                      edit(_index - 1);
                     },
                   ),
                 ),
@@ -692,25 +846,88 @@ class _AddJopState extends State<AddJop> {
         width: 300,
         child: Column(
           children: [
-            IconButton(icon: Icon(Icons.add), onPressed: uplod),
-            IconButton(
-                icon: Icon(Icons.post_add),
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => QuestionAnswer()));
-                }),
-            IconButton(
-                icon: Icon(Icons.dangerous),
-                onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => TrueFalse()));
-                }),
-            IconButton(
-                icon: Icon(Icons.logout),
-                onPressed: () {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => ShowingData()));
-                }),
+            Row(
+              children: [
+                SizedBox(
+                  width: 10,
+                ),
+                Flexible(
+                    child: Text("هل تريد انشاء اختبار من نوع اختيار من متعدد")),
+                SizedBox(
+                  width: 10,
+                ),
+                IconButton(
+                    icon: Icon(Icons.post_add),
+                    onPressed: () {
+                      if (Provider.of<MyProvider>(context, listen: false)
+                              .qtype ==
+                          0) {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => QuestionAnswer()));
+                      } else if (Provider.of<MyProvider>(context, listen: false)
+                              .qtype ==
+                          1) {
+                        return Fluttertoast.showToast(
+                            msg: "لقد قمت بانشاء الاختبار بالفعل",
+                            backgroundColor: Colors.black54,
+                            textColor: Colors.white,
+                            toastLength: Toast.LENGTH_SHORT);
+                      } else {
+                        return Fluttertoast.showToast(
+                            msg: "لا يمكنك انشاء نوعين من الاختبارات",
+                            backgroundColor: Colors.black54,
+                            textColor: Colors.white,
+                            toastLength: Toast.LENGTH_SHORT);
+                      }
+                    }),
+              ],
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: 10,
+                ),
+                Flexible(child: Text("أم تريد انشاء اختبار من نوع صح  أو غلط")),
+                SizedBox(
+                  width: 10,
+                ),
+                IconButton(
+                    icon: Icon(Icons.file_download_done),
+                    onPressed: () {
+                      if (Provider.of<MyProvider>(context, listen: false)
+                              .qtype ==
+                          0) {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => TrueFalse()));
+                      } else if (Provider.of<MyProvider>(context, listen: false)
+                              .qtype ==
+                          2) {
+                        return Fluttertoast.showToast(
+                            msg: "لقد قمت بانشاء الاختبار بالفعل",
+                            backgroundColor: Colors.black54,
+                            textColor: Colors.white,
+                            toastLength: Toast.LENGTH_SHORT);
+                      } else {
+                        return Fluttertoast.showToast(
+                            msg: "لا يمكنك انشاء نوعين من الاختبارات",
+                            backgroundColor: Colors.black54,
+                            textColor: Colors.white,
+                            toastLength: Toast.LENGTH_SHORT);
+                      }
+                    }),
+              ],
+            ),
+            InkWell(
+              child: Text("انشر الفرصة"),
+              onTap: () {
+                return Fluttertoast.showToast(
+                    msg: "انقر نقراً مزدوجاً للتأكيد",
+                    backgroundColor: Colors.black54,
+                    textColor: Colors.white,
+                    toastLength: Toast.LENGTH_SHORT);
+              },
+              onDoubleTap: uplod,
+            )
           ],
         ),
       ),
@@ -856,8 +1073,8 @@ class _AddJopState extends State<AddJop> {
     });
   }
 
-  chipList(int i) {
-    var b= Wrap(
+  chipList() {
+    return Wrap(
       spacing: 6.0,
       runSpacing: 6.0,
       children: <Widget>[
@@ -870,15 +1087,6 @@ class _AddJopState extends State<AddJop> {
         chip_desgin('يابانية', "JA"),
       ],
     );
-    if(_filters.isNotEmpty)
-      edit(i);
-    else
-      {
-        setState(() {
-          data[i].cost = 10;
-        });
-      }
-    return b;
   }
 
   chip_desgin(lan1, lan) {

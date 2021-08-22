@@ -192,6 +192,13 @@ class _PostUpdateState extends State<PostUpdate> {
     v.doc(data["id"]).update({
       "myPost": data["myPost"],
       "title": data["title"],
+      "date":Timestamp.now(),
+      'date_publication': {
+        'day': DateTime.now().day,
+        'month': DateTime.now().month,
+        'year': DateTime.now().year,
+        'hour': DateTime.now().hour,
+      }
     });
 
     await users.get().then((value) {
@@ -212,6 +219,7 @@ class _PostUpdateState extends State<PostUpdate> {
                   'day': DateTime.now().day,
                   'month': DateTime.now().month,
                   'year': DateTime.now().year,
+                  'hour': DateTime.now().hour,
                 },
                 'num': 1,
               });

@@ -2,6 +2,7 @@ import 'package:b/chanceScreen/chance.dart';
 import 'package:b/stand.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class TrueFalse extends StatefulWidget {
@@ -89,34 +90,68 @@ class _TrueFalseState extends State<TrueFalse> {
                     },
                   ),
                 ),
-                FloatingActionButton(
-                  heroTag: "btn2",
-                  child: Icon(Icons.add),
-                  backgroundColor: Colors.green,
-                  foregroundColor: Colors.white,
-                  onPressed: () {
-                    setState(() {
-                      data.add("");
-                      answer.add("1");
-                      keymap.add(new GlobalKey<FormState>());
-                      keymap1.add(new GlobalKey<FormState>());
-                      keymap1.add(new GlobalKey<FormState>());
-                    });
-                  },
-                ),
-                FloatingActionButton(
-                  heroTag: "btn1",
-                  child: Icon(Icons.save),
-                  backgroundColor: Colors.teal,
-                  foregroundColor: Colors.white,
-                  onPressed: () {
-                    setState(() {
-                      Provider.of<MyProvider>(context, listen: false)
-                          .setListTF(data, answer);
-                      Navigator.of(context).pop(
-                          MaterialPageRoute(builder: (context) => AddJop()));
-                    });
-                  },
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 8.0, bottom: 8, right: 100),
+                  child: Row(
+                    children: [
+                      FloatingActionButton(
+                        heroTag: "btn2",
+                        child: Icon(Icons.add),
+                        backgroundColor: Colors.green,
+                        foregroundColor: Colors.white,
+                        onPressed: () {
+                          setState(() {
+                            data.add("");
+                            answer.add("1");
+                            keymap.add(new GlobalKey<FormState>());
+                            keymap1.add(new GlobalKey<FormState>());
+                            keymap1.add(new GlobalKey<FormState>());
+                          });
+                        },
+                      ),
+                      SizedBox(
+                        width: 50,
+                      ),
+                      FloatingActionButton(
+                        heroTag: "btn1",
+                        child: Text("حفظ"),
+                        backgroundColor: Colors.teal,
+                        foregroundColor: Colors.white,
+                        onPressed: () {
+                          var e = 0;
+                          for (int i = 0; i < keymap.length; i++) {
+                            var kk = keymap.elementAt(i).currentState;
+                            if (!kk.validate()) {
+                              e = 1;
+                              Fluttertoast.showToast(
+                                  msg: "تحقق من القيم المدخلة",
+                                  backgroundColor: Colors.black54,
+                                  textColor: Colors.white,
+                                  toastLength: Toast.LENGTH_SHORT);
+                              break;
+                            }
+                          }
+
+                          if (e != 1) {
+                            Fluttertoast.showToast(
+                                msg: "تم انشاء الاختبار",
+                                backgroundColor: Colors.black54,
+                                textColor: Colors.white,
+                                toastLength: Toast.LENGTH_SHORT);
+                            setState(() {
+                              Provider.of<MyProvider>(context, listen: false)
+                                  .setQtype(2);
+                              Provider.of<MyProvider>(context, listen: false)
+                                  .setListTF(data, answer);
+                              Navigator.of(context).pop(MaterialPageRoute(
+                                  builder: (context) => AddJop()));
+                            });
+                          }
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ],
             )));

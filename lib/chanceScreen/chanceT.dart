@@ -18,12 +18,12 @@ import 'package:charts_flutter/flutter.dart' as charts;
 
 import 'chance.dart';
 
-class ChanceT extends StatefulWidget {
+class ChanceT extends StatefulWidget  {
   @override
-  _ChanceTState createState() => _ChanceTState();
+  ChanceTState createState() => ChanceTState();
 }
 
-class _ChanceTState extends State<ChanceT> {
+class ChanceTState extends  State<ChanceT>{
   GlobalKey<FormState> k1 = new GlobalKey<FormState>();
   GlobalKey<FormState> k2 = new GlobalKey<FormState>();
   GlobalKey<FormState> k3 = new GlobalKey<FormState>();
@@ -39,6 +39,8 @@ class _ChanceTState extends State<ChanceT> {
   String name_comp;
   var follow = new List();
   var my_lis = new List();
+  var _filters=new List();
+
 
   var aa = new List();
   Stander stan = new Stander();
@@ -54,16 +56,18 @@ class _ChanceTState extends State<ChanceT> {
   charts.ArcLabelPosition _arcLabelPosition = charts.ArcLabelPosition.auto;
   charts.BehaviorPosition _titlePosition = charts.BehaviorPosition.bottom;
   charts.BehaviorPosition _legendPosition = charts.BehaviorPosition.start;
-  var _filters = [''];
-  List<_CostsData> data = [
-    _CostsData('العنوان', 10),
-    _CostsData('الوصف', 10),
-    _CostsData('الساعات', 10),
-    _CostsData('الراتب', 10),
-    _CostsData('المهارات', 10),
-    _CostsData('اللغات', 10),
-    _CostsData('المستوى', 10),
+
+  List<_CostsData> data1 = [
+    _CostsData('العنوان', 0),
+    _CostsData('الوصف', 0),
+    _CostsData('المهارات', 0),
+    _CostsData('المستوى العلمي', 0),
+    _CostsData('التخصص', 0),
+    _CostsData('الجنس', 0),
+    _CostsData('الساعات', 0),
+    _CostsData('الشواغر', 0),
   ];
+
 
   void initState() {
     getdata1();
@@ -90,6 +94,7 @@ class _ChanceTState extends State<ChanceT> {
     "workTime": "أقل من ساعتين"
   };
 
+  @override
   getdata1() async {
     CollectionReference t = FirebaseFirestore.instance.collection("companies");
     CollectionReference users = FirebaseFirestore.instance.collection("users");
@@ -109,6 +114,7 @@ class _ChanceTState extends State<ChanceT> {
       token = value;
     });
   }
+
 
   sendMessage(String title, String body, int i, String u, String c, String num) async {
     var serverToken =
@@ -133,6 +139,7 @@ class _ChanceTState extends State<ChanceT> {
           'to': await my_lis[i],
         }));
   }
+
 
   des() {
     return Row(
@@ -163,13 +170,13 @@ class _ChanceTState extends State<ChanceT> {
                   Icons.wb_incandescent_outlined,
                 ),
                 Icon(
-                  Icons.alarm_on_sharp,
-                ),
-                Icon(
                   Icons.account_tree,
                 ),
                 Icon(
-                  Icons.language,
+                  Icons.translate,
+                ),
+                Icon(
+                  Icons.perm_contact_cal_outlined,
                 ),
                 Icon(
                   Icons.star_purple500_outlined,
@@ -178,7 +185,7 @@ class _ChanceTState extends State<ChanceT> {
                   Icons.wc,
                 ),
                 Icon(
-                  Icons.edit,
+                  Icons.alarm_on_sharp,
                 ),
                 Icon(Icons.people_alt),
                 Icon(Icons.logout),
@@ -230,7 +237,7 @@ class _ChanceTState extends State<ChanceT> {
       validator: (valu) {
         if (valu.isEmpty) {
           return "هذا الحقل مطلوب";
-        } else if (valu.length < 5) {
+        } else if (valu.length < 2) {
           return "الكلمة قصيرة جدا";
         } else
           return null;
@@ -239,6 +246,7 @@ class _ChanceTState extends State<ChanceT> {
       onChanged: (v) {
         setState(() {
           d[bbb] = v;
+          drow(k, i);
         });
       },
       onSaved: (valu) {
@@ -247,17 +255,23 @@ class _ChanceTState extends State<ChanceT> {
       onEditingComplete: () {
         _index++;
         drow(k, i);
+        FocusScope.of(context).unfocus();
       },
     );
   }
 
   drow(var k, int i) {
     var kk = k.currentState;
-    if (kk.validate()) edit(i);
+    if (kk.validate())
+      edit(i);
+    else
+      data1[i].cost = 0;
   }
 
-  Widget z(var v, String name, List<dynamic> l) {
+  Widget z(var v, String name, List<dynamic> l, int i) {
     return DropdownButton(
+      dropdownColor: Theme.of(context).accentColor,
+      menuMaxHeight: 300,
       hint: Text(name),
       items: l
           .map((e) => DropdownMenuItem(
@@ -270,6 +284,9 @@ class _ChanceTState extends State<ChanceT> {
           d[v] = valu;
         });
       },
+      onTap: () {
+        edit(i - 1);
+      },
       value: d[v],
     );
   }
@@ -277,102 +294,171 @@ class _ChanceTState extends State<ChanceT> {
   var num;
 
   void uplod() async {
-    my_lis = new List();
-    CollectionReference users = FirebaseFirestore.instance.collection("users");
-
-    var v = FirebaseFirestore.instance
-        .collection("companies")
-        .doc(Provider.of<MyProvider>(context, listen: false).company_id)
-        .collection("chance");
-
-
-
-    var n =  await FirebaseFirestore.instance
-        .collection("number")
-        .doc("aLOUXiw8hVsNqdzEsjF5").get().then((value) { num=value.data()["num"];});
-    num=num+1;
-
-    FirebaseFirestore.instance
-        .collection("number")
-        .doc("aLOUXiw8hVsNqdzEsjF5").update({"num":num});
-
-
-
-    stan.title = d["title"];
-    stan.skillNum = d["skillNum"];
-    stan.workTime = d["workTime"];
-    stan.langNum = _filters;
-    stan.specialties = d["specialties"];
-    stan.gender = d["gender"];
-    stan.degree = d["degree"];
-    stan.describsion = d["describsion"];
-    stan.Vacancies = d["Vacancies"];
-    v.add({
-      "quiz": 0,
-      "id": "",
-      "title": stan.title,
-      "specialties": stan.specialties,
-      "skillNum": stan.skillNum,
-      "Presenting_A_Job": [],
-      "workTime": stan.workTime,
-      "langNum": stan.langNum,
-      "describsion": stan.describsion,
-      "gender": stan.gender,
-      "degree": stan.degree,
-      "Vacancies": stan.Vacancies,
-      "accepted":[],
-      "date_publication": {
-        'hour': DateTime.now().hour,
-        'day': DateTime.now().day,
-        'month': DateTime.now().month,
-        'year': DateTime.now().year
-      },
-      "list": "",
-      "chanceId": 2,
-      "num":num
-    });
-
-    await v.where("num",isEqualTo:num).get().then((value) {
-      if (value != null) {
-        value.docs.forEach((element) {
-          v.doc(element.id).update({"id": element.id});
-          id_chance = element.id;
-        });
+    var t = 15;
+    for (int j = 0; j < data1.length; j++) {
+      if (data1[j].cost != 100) {
+        t = j;
+        break;
       }
-    });
+    }
+    if (_filters.isEmpty) {
+      Fluttertoast.showToast(
+          msg: "تحقق من القيم المدخلة",
+          backgroundColor: Colors.black54,
+          textColor: Colors.white,
+          toastLength: Toast.LENGTH_SHORT);
+      setState(() {
+        _index = 3;
+      });
+    }
+    else if (t != 15) {
+      Fluttertoast.showToast(
+          msg: "تحقق من القيم المدخلة",
+          backgroundColor: Colors.black54,
+          textColor: Colors.white,
+          toastLength: Toast.LENGTH_SHORT);
+      setState(() {
+        if(t<3)
+        _index = t;
+        else
+          _index = t+1;
 
-    await users.get().then((value) {
-      value.docs.forEach((element) {
-        setState(() {
-          for (int i = 0; i < follow.length; i++) {
-            if (element.id == follow.elementAt(i)) {
-              users_noti = FirebaseFirestore.instance
-                  .collection("users")
-                  .doc(follow.elementAt(i))
-                  .collection("notifcation");
-              users_noti.add({
-                "id": id_chance,
-                "id_company": u,
-                "title": 'فرصه ',
-                "body": "تم نشر فرصه من قبل الشركه  ${name_comp} ",
-                'date_publication': {
-                  'day': DateTime.now().day,
-                  'month': DateTime.now().month,
-                  'year': DateTime.now().year,
-                },
-                'num': 2,
-              });
-              my_lis.add(element.data()['token']);
+      });
+    } else {
+      Fluttertoast.showToast(
+          msg: "تم نشر الفرصة",
+          backgroundColor: Colors.black54,
+          textColor: Colors.white,
+          toastLength: Toast.LENGTH_SHORT);
+
+      my_lis = new List();
+      CollectionReference users =
+          FirebaseFirestore.instance.collection("users");
+
+      var v = FirebaseFirestore.instance
+          .collection("companies")
+          .doc(Provider.of<MyProvider>(context, listen: false).company_id)
+          .collection("chance");
+
+      var n = await FirebaseFirestore.instance
+          .collection("number")
+          .doc("aLOUXiw8hVsNqdzEsjF5")
+          .get()
+          .then((value) {
+        num = value.data()["num"];
+      });
+      num = num + 1;
+
+      FirebaseFirestore.instance
+          .collection("number")
+          .doc("aLOUXiw8hVsNqdzEsjF5")
+          .update({"num": num});
+
+      stan.title = d["title"];
+      stan.skillNum = d["skillNum"];
+      stan.workTime = d["workTime"];
+      stan.langNum = _filters;
+      stan.specialties = d["specialties"];
+      stan.gender = d["gender"];
+      stan.degree = d["degree"];
+      stan.describsion = d["describsion"];
+      stan.Vacancies = d["Vacancies"];
+      v.add({
+        "quiz": 0,
+        "id": "",
+        "title": stan.title,
+        "specialties": stan.specialties,
+        "skillNum": stan.skillNum,
+        "Presenting_A_Job": [],
+        "workTime": stan.workTime,
+        "langNum": stan.langNum,
+        "describsion": stan.describsion,
+        "gender": stan.gender,
+        "degree": stan.degree,
+        "Vacancies": stan.Vacancies,
+        "accepted": [],
+        "date":Timestamp.now(),
+        "date_publication": {
+          'hour': DateTime.now().hour,
+          'day': DateTime.now().day,
+          'month': DateTime.now().month,
+          'year': DateTime.now().year
+        },
+        "list": "",
+        "chanceId": 2,
+        "num": num
+      });
+
+      await v.where("num", isEqualTo: num).get().then((value) {
+        if (value != null) {
+          value.docs.forEach((element) {
+            v.doc(element.id).update({"id": element.id});
+            id_chance = element.id;
+          });
+        }
+      });
+
+      await users.get().then((value) {
+        value.docs.forEach((element) {
+          setState(() {
+            for (int i = 0; i < follow.length; i++) {
+              if (element.id == follow.elementAt(i)) {
+                users_noti = FirebaseFirestore.instance
+                    .collection("users")
+                    .doc(follow.elementAt(i))
+                    .collection("notifcation");
+                users_noti.add({
+                  "id": id_chance,
+                  "id_company": u,
+                  "title": 'فرصه ',
+                  "body": "تم نشر فرصه من قبل الشركه  ${name_comp} ",
+                  'date_publication': {
+                    'day': DateTime.now().day,
+                    'month': DateTime.now().month,
+                    'year': DateTime.now().year,
+                  },
+                  'num': 2,
+                });
+                my_lis.add(element.data()['token']);
+              }
             }
-          }
+          });
         });
       });
-    });
 
-    for (int i = 0; i < my_lis.length; i++)
-      sendMessage("فرصه", "تم نشر فرصه من قبل الشركه  ${name_comp} ", i, u,
-          id_chance, "2");
+      for (int i = 0; i < my_lis.length; i++)
+        sendMessage("فرصه", "تم نشر فرصه من قبل الشركه  ${name_comp} ", i, u,
+            id_chance, "2");
+
+      d = {
+        "id": "",
+        "title": "",
+        "quiz": false,
+        "salary": "أقل من 100000",
+        "workTime": "أقل من ساعتين",
+        "specialties": "الترجمة",
+        "langNum": [],
+        "skillNum": "",
+        "quizList": [],
+        "describsion": "",
+        "expir": "1",
+        "quizNum": 5,
+        "gender": "لا يهم",
+        "degree": "لا يهم",
+        "level": "مبتدأ",
+        "Vacancies": 1,
+        "date_publication": "",
+      };
+      for (int j = 0; j < data1.length; j++) {
+        data1[j].cost = 0;
+      }
+      _filters=new List();
+
+    }
   }
+
+  var help = 1;
+
 
   Widget getStep() {
     aa = [
@@ -408,153 +494,64 @@ class _ChanceTState extends State<ChanceT> {
           ],
         ),
       ),
-      SizedBox(
-        width: 300,
-        child: Row(
-          children: [
-            Icon(Icons.alarm_on_sharp),
-            SizedBox(
-              width: 10,
-            ),
-            Text("عدد ساعات التدريب :"),
-            SizedBox(
-              width: 10,
-            ),
-            z("workTime", "عدد ساعات التدريب",
-                ["أقل من ساعتين", "أكثر من ساعتين"])
-          ],
-        ),
-      ),
       Form(
         autovalidateMode: AutovalidateMode.always,
         key: k6,
-        child: SizedBox(
+        child: Column(
+          children: [
+            Text("المهارات المطلوبة"),
+            SizedBox(
+              height: 100,
+            ),
+            SizedBox(
+                width: 300,
+                child: x("skillNum", "المهارات :", ".......",
+                    Icon(Icons.account_tree), k6, _index)),
+          ],
+        ),
+      ),
+      Column(
+        children: [
+          Text("اللغات المطلوبة"),
+          SizedBox(
             width: 300,
-            child: x("skillNum", "المهارات:", ".......",
-                Icon(Icons.account_tree), k6, _index)),
+            child: chipList(),
+          ),
+        ],
       ),
       SizedBox(
         width: 300,
-        child: chipList(),
-      ),
-      SizedBox(
-        width: 300,
-        child: Row(
+        child: Column(
           children: [
-            Icon(Icons.star_purple500_outlined),
-            SizedBox(
-              width: 10,
+            Row(
+              children: [
+                SizedBox(
+                  width: 10,
+                ),
+                Icon(Icons.perm_contact_cal_outlined),
+                SizedBox(
+                  width: 10,
+                ),
+                Text("المستوى العلمي المطلوب :"),
+                SizedBox(
+                  width: 10,
+                ),
+              ],
             ),
-            Text("التخصص المستهدف :"),
-            SizedBox(
-              width: 10,
-            ),
-            z("specialties", "التخصص المستهدف", [
-              'تكنولوجيا المعلومات',
-              'العلوم طبيعية',
-              'التعليم',
-              'الترجمة',
-              'تصيم غرافيكي وتحريك',
-              "سكرتاريا",
-              "صحافة",
-              "ادارة مشاريع",
-              "المحاسبة",
-              "الكيمياء والمخابر",
-              "الطب",
-              "الصيدلة",
-              "مجالات مختلفة"
-            ])
-          ],
-        ),
-      ),
-      SizedBox(
-        width: 300,
-        child: Row(
-          children: [
-            Icon(Icons.wc),
-            SizedBox(
-              width: 10,
-            ),
-            Text("الجنس :"),
-            SizedBox(
-              width: 10,
-            ),
-            z("gender", "الجنس", ["ذكر", "أنثى", "لا يهم"])
-          ],
-        ),
-      ),
-      SizedBox(
-        width: 300,
-        child: Row(
-          children: [
-            Icon(Icons.edit),
-            SizedBox(
-              width: 10,
-            ),
-            Text("المستوى العلمي :"),
-            SizedBox(
-              width: 10,
-            ),
-            z("degree", "شهادة", [
-              'تعليم ابتدائي',
-              'تعليم اعدادي',
-              'تعليم ثانوي',
-              'شهادة جامعية',
-              'شهادة دبلوم',
-              'شهادة ماجستير',
-              'شهادة دكتوراه',
-              'لا يهم'
-            ])
-          ],
-        ),
-      ),
-      SizedBox(
-        width: 300,
-        child: Row(
-          children: [
-            SizedBox(
-              width: 10,
-            ),
-            IconButton(
-                color: Colors.amber,
-                iconSize: 50,
-                onPressed: () {
-                  setState(() {
-                    d["Vacancies"] >= 30
-                        ? Fluttertoast.showToast(
-                            msg: "العدد كبير جدا",
-                            backgroundColor: Colors.black54,
-                            textColor: Colors.white,
-                            toastLength: Toast.LENGTH_LONG)
-                        : d["Vacancies"]++;
-                  });
-                },
-                icon: Icon(Icons.add)),
-            SizedBox(
-              width: 30,
-            ),
-            Text(
-              "${d["Vacancies"]}",
-              style: TextStyle(fontSize: 50),
-            ),
-            SizedBox(
-              width: 30,
-            ),
-            IconButton(
-                color: Colors.amber,
-                iconSize: 50,
-                onPressed: () {
-                  setState(() {
-                    d["Vacancies"] <= 1
-                        ? Fluttertoast.showToast(
-                            msg: "لا يمكن ان يكون العدد اقل من 1",
-                            backgroundColor: Colors.black54,
-                            textColor: Colors.white,
-                            toastLength: Toast.LENGTH_LONG)
-                        : d["Vacancies"]--;
-                  });
-                },
-                icon: Icon(Icons.minimize_outlined)),
+            z(
+                "degree",
+                "شهادة",
+                [
+                  'تعليم ابتدائي',
+                  'تعليم اعدادي',
+                  'تعليم ثانوي',
+                  'شهادة جامعية',
+                  'شهادة دبلوم',
+                  'شهادة ماجستير',
+                  'شهادة دكتوراه',
+                  'لا يهم'
+                ],
+                _index)
           ],
         ),
       ),
@@ -562,17 +559,188 @@ class _ChanceTState extends State<ChanceT> {
         width: 300,
         child: Column(
           children: [
-            IconButton(icon: Icon(Icons.add), onPressed: uplod),
+            Row(
+              children: [
+                SizedBox(
+                  width: 10,
+                ),
+                Icon(Icons.star_purple500_outlined),
+                SizedBox(
+                  width: 10,
+                ),
+                Text("التخصص المطلوب :"),
+                SizedBox(
+                  width: 10,
+                ),
+              ],
+            ),
+            z(
+                "specialties",
+                "التخصص المطلوب",
+                [
+                  'تكنولوجيا المعلومات',
+                  'العلوم طبيعية',
+                  'التعليم',
+                  'الترجمة',
+                  'تصيم غرافيكي وتحريك',
+                  "سكرتاريا",
+                  "صحافة",
+                  "ادارة مشاريع",
+                  "المحاسبة",
+                  "الكيمياء والمخابر",
+                  "الطب",
+                  "الصيدلة",
+                  "مجالات مختلفة"
+                ],
+                _index)
           ],
         ),
       ),
+      SizedBox(
+        width: 300,
+        child: Column(
+          children: [
+            Row(
+              children: [
+                SizedBox(
+                  width: 10,
+                ),
+                Icon(Icons.wc),
+                SizedBox(
+                  width: 10,
+                ),
+                Text("الجنس :"),
+                SizedBox(
+                  width: 10,
+                ),
+              ],
+            ),
+            z("gender", "الجنس", ["ذكر", "أنثى", "لا يهم"], _index)
+          ],
+        ),
+      ),
+      SizedBox(
+        width: 300,
+        child: Column(
+          children: [
+            Row(
+              children: [
+                SizedBox(
+                  width: 10,
+                ),
+                Icon(Icons.alarm_on_sharp),
+                SizedBox(
+                  width: 10,
+                ),
+                Text("عدد ساعات العمل :"),
+                SizedBox(
+                  width: 10,
+                ),
+              ],
+            ),
+            z("workTime", "عدد ساعات العمل", ["أقل من ساعتين", "أكثر من ساعتين"], _index)
+          ],
+        ),
+      ),
+      SizedBox(
+        width: 300,
+        child: Column(
+          children: [
+            Text("عدد المظفين المطلوب"),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: 10,
+                ),
+                IconButton(
+                    color: Colors.amber,
+                    iconSize: 50,
+                    onPressed: () {
+                      setState(() {
+                        help >= 30
+                            ? Fluttertoast.showToast(
+                                msg: "العدد كبير جدا",
+                                backgroundColor: Colors.black54,
+                                textColor: Colors.white,
+                                toastLength: Toast.LENGTH_SHORT)
+                            : help++;
+                      });
+                    },
+                    icon: Icon(Icons.add)),
+                SizedBox(
+                  width: 30,
+                ),
+                Text(
+                  "${help}",
+                  style: TextStyle(fontSize: 50),
+                ),
+                SizedBox(
+                  width: 30,
+                ),
+                IconButton(
+                    color: Colors.amber,
+                    iconSize: 50,
+                    onPressed: () {
+                      setState(() {
+                        help <= 1
+                            ? Fluttertoast.showToast(
+                                msg: "لا يمكن ان يكون العدد اقل من 1",
+                                backgroundColor: Colors.black54,
+                                textColor: Colors.white,
+                                toastLength: Toast.LENGTH_SHORT)
+                            : help--;
+                      });
+                    },
+                    icon: Icon(Icons.minimize_outlined)),
+              ],
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: 85,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: InkWell(
+                    child: Text(
+                      "تأكيد",
+                      style: TextStyle(fontSize: 40),
+                    ),
+                    onTap: () {
+                      d["Vacancies"] = help;
+                      edit(_index - 1);
+                    },
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+      SizedBox(
+          width: 300,
+          child: InkWell(
+            child: Text("انشر الفرصة"),
+            onTap: () {
+              return Fluttertoast.showToast(
+                  msg: "انقر نقراً مزدوجاً للتأكيد",
+                  backgroundColor: Colors.black54,
+                  textColor: Colors.white,
+                  toastLength: Toast.LENGTH_SHORT);
+            },
+            onDoubleTap: uplod,
+          )),
     ];
     return aa[_index];
   }
 
+  @override
   Widget build(BuildContext context) {
     final _colorPalettes =
-        charts.MaterialPalette.getOrderedPalettes(this.data.length);
+        charts.MaterialPalette.getOrderedPalettes(this.data1.length);
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
@@ -628,7 +796,7 @@ class _ChanceTState extends State<ChanceT> {
                         colorFn: (_, idx) => _colorPalettes[idx].shadeDefault,
                         domainFn: (_CostsData sales, _) => sales.category,
                         measureFn: (_CostsData sales, _) => sales.cost,
-                        data: this.data,
+                        data: this.data1,
                         // Set a label accessor to control the text of the arc label.
                         labelAccessorFn: (_CostsData row, _) =>
                             '${row.category}: ${row.cost}',
@@ -658,7 +826,7 @@ class _ChanceTState extends State<ChanceT> {
 
   edit(int i) {
     setState(() {
-      data[i].cost = 100;
+      data1[i].cost = 100;
     });
   }
 
@@ -698,17 +866,13 @@ class _ChanceTState extends State<ChanceT> {
           if (selected) {
             _filters.add(lan1);
           } else {
-            _filters.removeWhere((String name) {
-              return name == lan1;
-            });
+            _filters.remove(lan1);
           }
         });
       },
     );
   }
 }
-
-class Fireba {}
 
 class _CostsData {
   final String category;

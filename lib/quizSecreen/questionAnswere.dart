@@ -1,6 +1,7 @@
 import 'package:b/chanceScreen/chance.dart';
 import 'package:b/stand.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class QuestionAnswer extends StatefulWidget {
@@ -65,38 +66,83 @@ class _QuestionAnswerState extends State<QuestionAnswer> {
                     },
                   ),
                 ),
-                FloatingActionButton(
-                  heroTag: "btn22",
-                  child: Icon(Icons.add),
-                  backgroundColor: Colors.green,
-                  foregroundColor: Colors.white,
-                  onPressed: () {
-                    setState(() {
-                      data.add("");
-                      answer.add("");
-                      answer1.add("");
-                      answer1.add("");
-                      answer1.add("");
-                      keymap.add(new GlobalKey<FormState>());
-                      keymap1.add(new GlobalKey<FormState>());
-                      keymap1.add(new GlobalKey<FormState>());
-                      keymap1.add(new GlobalKey<FormState>());
-                    });
-                  },
-                ),
-                FloatingActionButton(
-                  heroTag: "btn11",
-                  child: Icon(Icons.save),
-                  backgroundColor: Colors.teal,
-                  foregroundColor: Colors.white,
-                  onPressed: () {
-                    setState(() {
-                      Provider.of<MyProvider>(context, listen: false)
-                          .setListQA(data, answer,answer1);
-                      Navigator.of(context).pop(
-                          MaterialPageRoute(builder: (context) => AddJop()));
-                    });
-                  },
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0,bottom: 8,right: 100),
+                  child: Row(
+                    children: [
+                      FloatingActionButton(
+                        heroTag: "btn22",
+                        child: Icon(Icons.add),
+                        backgroundColor: Colors.green,
+                        foregroundColor: Colors.white,
+                        onPressed: () {
+                          setState(() {
+                            data.add("");
+                            answer.add("");
+                            answer1.add("");
+                            answer1.add("");
+                            answer1.add("");
+                            keymap.add(new GlobalKey<FormState>());
+                            keymap1.add(new GlobalKey<FormState>());
+                            keymap1.add(new GlobalKey<FormState>());
+                            keymap1.add(new GlobalKey<FormState>());
+                          });
+                        },
+                      ),
+                      SizedBox(
+                        width: 50,
+                      ),
+                      FloatingActionButton(
+                        heroTag: "btn11",
+                        child: Text("حفظ"),
+                        backgroundColor: Colors.teal,
+                        foregroundColor: Colors.white,
+                        onPressed: () {
+                          var e = 0;
+                          var f = 0;
+                          for (int i = 0; i < keymap.length; i++) {
+                            var kk = keymap.elementAt(i).currentState;
+                            if (!kk.validate()) {
+                              e = 1;
+                              Fluttertoast.showToast(
+                                  msg: "تحقق من القيم المدخلة",
+                                  backgroundColor: Colors.black54,
+                                  textColor: Colors.white,
+                                  toastLength: Toast.LENGTH_SHORT);
+                              break;
+                            }
+                          }
+                          for (int i = 0; i < keymap1.length; i++) {
+                            var kk = keymap1.elementAt(i).currentState;
+                            if (!kk.validate()) {
+                              f = 1;
+                              Fluttertoast.showToast(
+                                  msg: "تحقق من القيم المدخلة",
+                                  backgroundColor: Colors.black54,
+                                  textColor: Colors.white,
+                                  toastLength: Toast.LENGTH_SHORT);
+                              break;
+                            }
+                          }
+                          if (e != 1 && f != 1) {
+                            Fluttertoast.showToast(
+                                msg: "تم انشاء الاختبار",
+                                backgroundColor: Colors.black54,
+                                textColor: Colors.white,
+                                toastLength: Toast.LENGTH_SHORT);
+                            setState(() {
+                              Provider.of<MyProvider>(context, listen: false)
+                                  .setQtype(1);
+                              Provider.of<MyProvider>(context, listen: false)
+                                  .setListQA(data, answer, answer1);
+                              Navigator.of(context).pop(MaterialPageRoute(
+                                  builder: (context) => AddJop()));
+                            });
+                          }
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ],
             )));
@@ -151,7 +197,7 @@ class _QuestionAnswerState extends State<QuestionAnswer> {
         validator: (valu) {
           if (valu.isEmpty) {
             return "هذا الحقل مطلوب";
-          } else if (valu.length < 5) {
+          } else if (valu.length < 2) {
             return "الكلمة قصيرة جدا";
           } else
             return null;
@@ -202,7 +248,7 @@ class _QuestionAnswerState extends State<QuestionAnswer> {
         validator: (valu) {
           if (valu.isEmpty) {
             return "هذا الحقل مطلوب";
-          } else if (valu.length < 5) {
+          } else if (valu.length < 2) {
             return "الكلمة قصيرة جدا";
           } else
             return null;

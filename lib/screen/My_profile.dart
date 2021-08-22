@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:b/chanceScreen/chance.dart';
+import 'package:b/postSecreen/postDetals.dart';
 import 'package:b/postSecreen/viewPost.dart';
 import 'package:b/chanceScreen/view.dart';
 import 'package:b/screen/employbottom.dart';
@@ -11,6 +12,7 @@ import 'package:b/stand.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
@@ -24,122 +26,43 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String link_image;
-  jobs jobk;
   var userr;
   var token;
   var follow = new List();
+  var batool1;
+  var aseel = 0;
   String u;
-  var my_lis = new List();
   Map<String, dynamic> homePageData = new Map<String, dynamic>();
 
   getdata1() async {
     CollectionReference t = FirebaseFirestore.instance.collection("companies");
     userr = await FirebaseAuth.instance.currentUser;
-
     await t.where("email_advance", isEqualTo: userr.email).get().then((value) {
       value.docs.forEach((element) {
         Provider.of<MyProvider>(context, listen: false).setCompId(element.id);
         setState(() {
-          homePageData = element.data();
           u = element.id;
-        });
-      });
-    });
-  }
-
-  var counter = 0;
-  var my = new List();
-
-  ss() async {
-    var v = FirebaseFirestore.instance
-        .collection("companies")
-        .doc(u)
-        .collection("notification");
-
-    await v.get().then((value) {
-      value.docs.forEach((element) {
-        setState(() {
-          if (DateTime.now().year.toString() ==
-                  element.data()["date_publication"]['year'].toString() &&
-              DateTime.now().month.toString() ==
-                  (element.data()["date_publication"]['month'].toString())) {
-            if (DateTime.now().day.toInt() >=
-                    element.data()["date_publication"]['day'] &&
-                element.data()['date_publication']['day'] >
-                    (DateTime.now().day.toInt() - 7)) my.add(element.data());
-          }
+          homePageData = element.data();
+          batool1.add(element.data());
         });
       });
     });
   }
 
   kk() async {
-    await ss();
+    await FirebaseMessaging.onMessage.listen((event) async {
+      setState(() {
+        aseel = 1;
+      });
+    });
   }
 
-  //  dd() {
-  //    var v = FirebaseFirestore.instance
-  //        .collection("number")
-  //   kk();
-  //   if(my.length>)
-  //   // return new Stack(
-  //   //   children: <Widget>[
-  //   //     Container(
-  //   //       margin: EdgeInsets.only(top: 10),
-  //   //       child: IconButton(
-  //   //           icon: Icon(Icons.notifications),
-  //   //           iconSize: 40,
-  //   //           color: Colors.yellow,
-  //   //           onPressed: () {
-  //   //             setState(() {
-  //   //               counter = 0;
-  //   //
-  //   //               Navigator.push(
-  //   //                   context,
-  //   //                   new MaterialPageRoute(
-  //   //                       builder: (context) => notifcation()));
-  //   //             });
-  //   //           }),
-  //   //     ),
-  //   //     counter != 0
-  //   //         ? new Positioned(
-  //   //             right: 11,
-  //   //             top: 15,
-  //   //             child: new Container(
-  //   //               // padding: EdgeInsets.all(2),
-  //   //               decoration: new BoxDecoration(
-  //   //                 color: Colors.red,
-  //   //                 borderRadius: BorderRadius.circular(20),
-  //   //               ),
-  //   //               constraints: BoxConstraints(
-  //   //                 minWidth: 20,
-  //   //                 minHeight: 20,
-  //   //               ),
-  //   //               child: Text(
-  //   //                 '$counter',
-  //   //                 style: TextStyle(
-  //   //                   color: Colors.white,
-  //   //                   fontSize: 15,
-  //   //                 ),
-  //   //                 textAlign: TextAlign.center,
-  //   //               ),
-  //   //             ),
-  //   //           )
-  //   //         : new Container()
-  //   //   ],
-  //   // );
-  // }
-
-  @override
   void initState() {
+    batool1 = new List();
+    kk();
+    //getdata1();
     getmessage();
-
     super.initState();
-  }
-
-  nnn() async {
-    await getdata1();
   }
 
   getmessage() async {
@@ -155,30 +78,29 @@ class _HomePageState extends State<HomePage> {
           });
         });
       });
-      Navigator.push(context,
-          new MaterialPageRoute(builder: (context) => show_detals(lis, ui)));
+      if (message.data['num'] == 1)
+        Navigator.push(context,
+            new MaterialPageRoute(builder: (context) => show_detals(lis, ui)));
+      else if (message.data['num'] == 2) {
+        Provider.of<MyProvider>(context, listen: false)
+            .setData({'id': message.data['post_Id']});
+        Navigator.push(
+            context, new MaterialPageRoute(builder: (context) => PostDetals()));
+      }
     });
   }
-  Widget getimage() {
 
-    return CircleAvatar(
-      backgroundColor: Theme.of(context).accentColor,
-      radius: 150,
-      backgroundImage:  homePageData['link_image'] =='not'?
-      AssetImage("images/bb.jpg")
-          :  NetworkImage(homePageData['link_image'])
-    );
-    //});
+  nn() async {
+    await getdata1();
   }
-  @override
-  Widget build(BuildContext context) {
-    nnn();
 
+  Widget build(BuildContext context) {
+    nn();
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
             appBar: PreferredSize(
-              preferredSize: Size.fromHeight(120.0),
+              preferredSize: Size.fromHeight(100.0),
               child: AppBar(
                 actions: [],
                 title: Center(
@@ -191,88 +113,213 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            body: Stack(children: [
-              Positioned(
-                top: 40,
-                left: 50,
-                child:
-                    getimage(),
-
-
-
-              ),
-              Positioned(
-                top: 250,
-                left: -300,
-                child: CircleAvatar(
-                  radius: 500,
-                  backgroundColor:
-                      Theme.of(context).accentColor.withOpacity(0.5),
+            body: Stack(alignment: Alignment.center, children: [
+              Opacity(
+                opacity: 0.4,
+                child: Container(
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: new AssetImage("images/55.jpeg"),
+                          fit: BoxFit.cover,
+                          colorFilter: ColorFilter.mode(
+                              Color(0xFFB71C1C), BlendMode.overlay))),
                 ),
               ),
-              homePageData.isEmpty
+
+              batool1.isEmpty
                   ? Center(child: CircularProgressIndicator())
-                  : ListView(children: [
-                      SizedBox(
-                        height: 250,
-                      ),
+                  : ListView(
+                children: [
+                  Padding(
+                    // ListView.builder(
+                    //         itemCount: batool1.length,
+                    //         itemBuilder: (context, index) {
+                    // return
 
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                              child: CircleAvatar(
+                                backgroundColor:
+                                Theme.of(context).accentColor,
+                                radius: 150,
+                                backgroundImage: homePageData['link_image'] ==
+                                    "not"
+                                //batool1[index]['link_image'] == "not"
+                                    ? AssetImage("images/55.jpeg")
+                                    : NetworkImage(
+                                  homePageData['link_image'],
 
-                      Container(
-                        margin: EdgeInsets.only(right: 20, top: 90),
-                        child: Column(
-                          children: [
-                            Row(children: <Widget>[
-                              _prefixIcon(Icons.account_balance),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text('   الوصف العام:',
+                                  // batool1[index]['link_image']
+                                ),
+                              )),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 22, right: 22),
+                            height: 100,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                                color: Theme.of(context).primaryColor,
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(50.0),
+                                    bottomRight: Radius.circular(50.0))),
+                            child: Container(
+                                margin:
+                                EdgeInsets.only(left: 20, right: 20),
+                                padding:
+                                EdgeInsets.only(left: 20, bottom: 10),
+                                height: 100,
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(50.0),
+                                        bottomRight:
+                                        Radius.circular(50.0))),
+                                child: ListView(
+                                  children: [
+                                    Row(children: [
+                                      _prefixIcon(
+                                          Icons.perm_contact_cal_sharp),
+                                      Text('   اسم الشركه : ',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20.0,
+                                              color: Theme.of(context)
+                                                  .primaryColor)),
+                                      Flexible(
+                                        child: Text(
+                                            "     " +
+                                                homePageData['company'],
+                                            //batool1[index]['company'],
+                                            style: TextStyle(
+                                                fontWeight:
+                                                FontWeight.normal,
+                                                fontSize: 18.0,
+                                                color: Colors.black)),
+                                      ),
+                                    ]),
+                                  ],
+                                )
+                              // Flexible(
+
+                              // //SizedBox(height: 10),
+
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 22, right: 22),
+                            height: 100,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                                color: Theme.of(context).primaryColor,
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(50.0),
+                                    bottomRight: Radius.circular(50.0))),
+                            child: Container(
+                                padding:
+                                EdgeInsets.only(left: 20, bottom: 10),
+                                height: 100,
+                                margin:
+                                EdgeInsets.only(left: 20, right: 20),
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(50.0),
+                                        bottomRight:
+                                        Radius.circular(50.0))),
+                                child: ListView(children: [
+                                  Row(children: <Widget>[
+                                    _prefixIcon(Icons.account_balance),
+
+                                    Text('   الوصف العام:',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20.0,
+                                            color: Theme.of(context)
+                                                .primaryColor)),
+                                    //SizedBox(height: 10),
+                                    Flexible(
+                                      child: Text(
+                                          "     " +
+                                              homePageData['description'],
+                                          // batool1[index]['description'],
+                                          style: TextStyle(
+                                              fontWeight:
+                                              FontWeight.normal,
+                                              fontSize: 18.0,
+                                              color: Colors.black)),
+                                    ),
+                                  ]),
+                                ])),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 22, right: 22),
+                            height: 100,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                                color: Theme.of(context).primaryColor,
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(50.0),
+                                    bottomRight: Radius.circular(50.0))),
+                            child: Container(
+                                margin:
+                                EdgeInsets.only(left: 20, right: 20),
+                                height: 100,
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(50.0),
+                                        bottomRight:
+                                        Radius.circular(50.0))),
+                                child: Row(children: <Widget>[
+                                  _prefixIcon(
+                                      Icons.add_location_alt_rounded),
+
+                                  Text('   موقع الشركه:',
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 20.0,
-                                          color:
-                                              Theme.of(context).primaryColor)),
-                                  SizedBox(height: 1),
-                                  Text("     " + homePageData['description'],
+                                          color: Theme.of(context)
+                                              .primaryColor)),
+                                  // SizedBox(height: 10),
+                                  Text("     " + homePageData['region'],
+                                      //batool1[index]['region'],
                                       style: TextStyle(
                                           fontWeight: FontWeight.normal,
                                           fontSize: 18.0,
-                                          color: Colors.black))
-                                ],
-                              )
-                            ]),
-                            Row(children: <Widget>[
-                              _prefixIcon(Icons.account_circle_sharp),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text('   اسم الشركه:  ',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20.0,
-                                          color:
-                                              Theme.of(context).primaryColor)),
-                                  SizedBox(height: 1),
-                                  Text("     " + homePageData['company'],
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 18.0,
-                                          color: Colors.black))
-                                ],
-                              )
-                            ]),
-                          ],
-                        ),
-                      ),
-                    ]),
+                                          color: Colors.black)),
+                                ])),
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                        ],
+                      ))
+                ],
+              ),
+              // }),
             ]),
             floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerTop,
+            FloatingActionButtonLocation.centerTop,
             floatingActionButton: Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: Row(
-                    //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       SizedBox(
                         width: 20,
@@ -374,24 +421,24 @@ class _HomePageState extends State<HomePage> {
   _formUI(position) {
     return new Container(
         child: Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(30.0),
-      ),
-      color: Colors.black.withOpacity(0.009999),
-      shadowColor: Colors.blueAccent.withOpacity(0.09),
-      semanticContainer: true,
-      borderOnForeground: true,
-      elevation: 50,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          SizedBox(height: 20.0),
-          _company(position),
-          SizedBox(height: 12.0),
-          _description(position),
-        ],
-      ),
-    ));
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+          color: Colors.black.withOpacity(0.009999),
+          shadowColor: Colors.blueAccent.withOpacity(0.09),
+          semanticContainer: true,
+          borderOnForeground: true,
+          elevation: 50,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              SizedBox(height: 20.0),
+              _company(position),
+              SizedBox(height: 12.0),
+              _description(position),
+            ],
+          ),
+        ));
   }
 
   _size(position) {
@@ -425,8 +472,8 @@ class _HomePageState extends State<HomePage> {
           Text('   الوصف العام:',
               style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 20.0,
-                  color: Theme.of(context).primaryColor)),
+                  fontSize: 30.0,
+                  color: Colors.black)),
           SizedBox(height: 1),
           Text("     " + position.description,
               style: TextStyle(
@@ -488,17 +535,17 @@ class _HomePageState extends State<HomePage> {
       child: Container(
           padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
           margin: const EdgeInsets.only(right: 8.0),
-          decoration: BoxDecoration(
-              color: Colors.brown.withOpacity(0.2),
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30.0),
-                  bottomLeft: Radius.circular(30.0),
-                  topRight: Radius.circular(30.0),
-                  bottomRight: Radius.circular(10.0))),
+          // decoration: BoxDecoration(
+          //     color: Colors.brown.withOpacity(0.2),
+          //     borderRadius: BorderRadius.only(
+          //         topLeft: Radius.circular(30.0),
+          //         bottomLeft: Radius.circular(30.0),
+          //         topRight: Radius.circular(30.0),
+          //         bottomRight: Radius.circular(10.0))),
           child: Icon(
             iconData,
-            size: 25,
-            color: Theme.of(context).primaryColor,
+            size: 30,
+            color: Colors.black,
           )),
     );
   }

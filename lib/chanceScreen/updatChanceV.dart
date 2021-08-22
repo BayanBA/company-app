@@ -34,11 +34,12 @@ class _UpdatDataState extends State<UpdatDataV> {
   Map<String, dynamic> d;
 
   var data11;
-  var _filters;
+  var _filters=new List();
 
   editData() async {
     data11 = Provider.of<MyProvider>(context, listen: false).data;
     d = data11;
+    _filters=d["langNum"];
   }
 
   String u;
@@ -141,13 +142,13 @@ class _UpdatDataState extends State<UpdatDataV> {
                   Icons.wb_incandescent_outlined,
                 ),
                 Icon(
-                  Icons.alarm_on_sharp,
-                ),
-                Icon(
                   Icons.account_tree,
                 ),
                 Icon(
-                  Icons.language,
+                  Icons.translate,
+                ),
+                Icon(
+                  Icons.alarm_on_sharp,
                 ),
                 Icon(Icons.people_alt),
                 Icon(Icons.logout),
@@ -199,7 +200,7 @@ class _UpdatDataState extends State<UpdatDataV> {
       validator: (valu) {
         if (valu.isEmpty) {
           return "هذا الحقل مطلوب";
-        } else if (valu.length < 5) {
+        } else if (valu.length < 2) {
           return "الكلمة قصيرة جدا";
         } else
           return null;
@@ -208,6 +209,7 @@ class _UpdatDataState extends State<UpdatDataV> {
       onChanged: (v) {
         setState(() {
           d[bbb] = v;
+          drow(k, i);
         });
       },
       onSaved: (valu) {
@@ -216,17 +218,23 @@ class _UpdatDataState extends State<UpdatDataV> {
       onEditingComplete: () {
         _index++;
         drow(k, i);
+        FocusScope.of(context).unfocus();
       },
     );
   }
 
   drow(var k, int i) {
     var kk = k.currentState;
-    if (kk.validate()) edit(i);
+    if (kk.validate())
+      edit(i);
+    else
+      data[i].cost = 0;
   }
 
-  Widget z(var v, String name, List<dynamic> l) {
+  Widget z(var v, String name, List<dynamic> l, int i) {
     return DropdownButton(
+      dropdownColor: Theme.of(context).accentColor,
+      menuMaxHeight: 300,
       hint: Text(name),
       items: l
           .map((e) => DropdownMenuItem(
@@ -239,75 +247,138 @@ class _UpdatDataState extends State<UpdatDataV> {
           d[v] = valu;
         });
       },
+      onTap: () {
+        edit(i - 1);
+      },
       value: d[v],
     );
   }
 
-
   void uplod() async {
-    var users_noti;
-    CollectionReference users = FirebaseFirestore.instance.collection("users");
 
-    var v = FirebaseFirestore.instance
-        .collection("companies")
-        .doc(Provider.of<MyProvider>(context, listen: false).company_id)
-        .collection("chance");
+    var t = 15;
+    for (int j = 0; j < data.length; j++) {
+      if (data[j].cost != 100) {
+        t = j;
+        break;
+      }
+    }
+    if (_filters.isEmpty) {
+      Fluttertoast.showToast(
+          msg: "تحقق من القيم المدخلة",
+          backgroundColor: Colors.black54,
+          textColor: Colors.white,
+          toastLength: Toast.LENGTH_SHORT);
+      setState(() {
+        _index = 3;
+      });
+    }
+    else if (t != 15) {
+      Fluttertoast.showToast(
+          msg: "تحقق من القيم المدخلة",
+          backgroundColor: Colors.black54,
+          textColor: Colors.white,
+          toastLength: Toast.LENGTH_SHORT);
+      setState(() {
+        if(t<3)
+          _index = t;
+        else
+          _index = t+1;
 
-    stan.title = d["title"];
-    stan.skillNum = d["skillNum"];
-    stan.workTime = d["workTime"];
-    stan.langNum = _filters;
-    stan.describsion = d["describsion"];
-    stan.Vacancies = d["Vacancies"];
+      });
+    } else {
+      Fluttertoast.showToast(
+          msg: "تم تعديل الفرصة",
+          backgroundColor: Colors.black54,
+          textColor: Colors.white,
+          toastLength: Toast.LENGTH_SHORT);
 
-    v.doc(d["id"]).update({
 
-      "title": stan.title,
-      "workTime": stan.workTime,
-      "langNum": stan.langNum,
-      "skillNum": stan.skillNum,
-      "describsion": stan.describsion,
-      "Vacancies": stan.Vacancies,
-      "date_publication": {
-        'day': DateTime.now().day,
-        'month': DateTime.now().month,
-        'year': DateTime.now().year,
-      },
-    });
-    Provider.of<MyProvider>(context, listen: false).data = d;
-    Navigator.of(context).pop();
-    await users.get().then((value) {
-      value.docs.forEach((element) {
-        setState(() {
-          for (int i = 0; i < follow.length; i++) {
-            if (element.id == follow.elementAt(i)) {
-              users_noti = FirebaseFirestore.instance
-                  .collection("users")
-                  .doc(follow.elementAt(i))
-                  .collection("notifcation");
-              users_noti.add({
-                "id": d['id'],
-                "id_company": u,
-                "title": 'فرصه',
-                "body": "تم تعديل فرصه من قبل الشركه  ${name_comp} ",
-                'date_publication': {
-                  'day': DateTime.now().day,
-                  'month': DateTime.now().month,
-                  'year': DateTime.now().year,
-                },
-                'num': 2,
-              });
-              my_lis.add(element.data()['token']);
+      var users_noti;
+      CollectionReference users = FirebaseFirestore.instance.collection(
+          "users");
+
+      var v = FirebaseFirestore.instance
+          .collection("companies")
+          .doc(Provider
+          .of<MyProvider>(context, listen: false)
+          .company_id)
+          .collection("chance");
+
+      stan.title = d["title"];
+      stan.skillNum = d["skillNum"];
+      stan.workTime = d["workTime"];
+      stan.langNum = _filters;
+      stan.describsion = d["describsion"];
+      stan.Vacancies = d["Vacancies"];
+
+      v.doc(d["id"]).update({
+
+        "title": stan.title,
+        "workTime": stan.workTime,
+        "langNum": stan.langNum,
+        "skillNum": stan.skillNum,
+        "describsion": stan.describsion,
+        "Vacancies": stan.Vacancies,
+        "date":Timestamp.now(),
+        "date_publication": {
+          'day': DateTime
+              .now()
+              .day,
+          'hour': DateTime.now().hour,
+          'month': DateTime
+              .now()
+              .month,
+          'year': DateTime
+              .now()
+              .year,
+        },
+      });
+      Provider
+          .of<MyProvider>(context, listen: false)
+          .data = d;
+      Navigator.of(context).pop();
+      await users.get().then((value) {
+        value.docs.forEach((element) {
+          setState(() {
+            for (int i = 0; i < follow.length; i++) {
+              if (element.id == follow.elementAt(i)) {
+                users_noti = FirebaseFirestore.instance
+                    .collection("users")
+                    .doc(follow.elementAt(i))
+                    .collection("notifcation");
+                users_noti.add({
+                  "id": d['id'],
+                  "id_company": u,
+                  "title": 'فرصه',
+                  "body": "تم تعديل فرصه من قبل الشركه  ${name_comp} ",
+                  'date_publication': {
+                    'day': DateTime
+                        .now()
+                        .day,
+                    'month': DateTime
+                        .now()
+                        .month,
+                    'year': DateTime
+                        .now()
+                        .year,
+                  },
+                  'num': 2,
+                });
+                my_lis.add(element.data()['token']);
+              }
             }
-          }
+          });
         });
       });
-    });
 
-    for (int i = 0; i < my_lis.length; i++)
-      sendMessage("فرصه", "تم تعديل فرصه من قبل الشركه  ${name_comp} ", i, u,
-          d['id'], "2");
+      for (int i = 0; i < my_lis.length; i++)
+        sendMessage("فرصه", "تم تعديل فرصه من قبل الشركه  ${name_comp} ", i, u,
+            d['id'], "2");
+    }
   }
+
+  var help = 1;
 
   Widget getStep() {
     aa = [
@@ -343,81 +414,51 @@ class _UpdatDataState extends State<UpdatDataV> {
           ],
         ),
       ),
-      SizedBox(
-        width: 300,
-        child: Row(
-          children: [
-            Icon(Icons.alarm_on_sharp),
-            SizedBox(
-              width: 10,
-            ),
-            Text("عدد ساعات العمل :"),
-            SizedBox(
-              width: 10,
-            ),
-            z("workTime", "عدد ساعات العمل", ["دوام جزئي", "دوام كامل","حسب الرغبة"])
-          ],
-        ),
-      ),
       Form(
         autovalidateMode: AutovalidateMode.always,
         key: k6,
-        child: SizedBox(
-            width: 300,
-            child: x("skillNum", "المهارات:", ".......",
-                Icon(Icons.account_tree), k6, _index)),
-      ),
-      SizedBox(
-        width: 300,
-        child: chipList(),
-      ),
-      SizedBox(
-        width: 300,
-        child: Row(
+        child: Column(
           children: [
+            Text("المهارات المطلوبة"),
             SizedBox(
-              width: 10,
-            ),
-            IconButton(
-                color: Colors.amber,
-                iconSize: 50,
-                onPressed: () {
-                  setState(() {
-                    d["Vacancies"] >= 30
-                        ? Fluttertoast.showToast(
-                        msg: "العدد كبير جدا",
-                        backgroundColor: Colors.black54,
-                        textColor: Colors.white,
-                        toastLength: Toast.LENGTH_LONG)
-                        : d["Vacancies"]++;
-                  });
-                },
-                icon: Icon(Icons.add)),
-            SizedBox(
-              width: 30,
-            ),
-            Text(
-              "${d["Vacancies"]}",
-              style: TextStyle(fontSize: 50),
+              height: 100,
             ),
             SizedBox(
-              width: 30,
+                width: 300,
+                child: x("skillNum", "المهارات :", ".......",
+                    Icon(Icons.account_tree), k6, _index)),
+          ],
+        ),
+      ),
+      Column(
+        children: [
+          Text("اللغات المطلوبة"),
+          SizedBox(
+            width: 300,
+            child: chipList(),
+          ),
+        ],
+      ),
+      SizedBox(
+        width: 300,
+        child: Column(
+          children: [
+            Row(
+              children: [
+                SizedBox(
+                  width: 10,
+                ),
+                Icon(Icons.alarm_on_sharp),
+                SizedBox(
+                  width: 10,
+                ),
+                Text("عدد ساعات العمل :"),
+                SizedBox(
+                  width: 10,
+                ),
+              ],
             ),
-            IconButton(
-                color: Colors.amber,
-                iconSize: 50,
-                onPressed: () {
-                  setState(() {
-                    d["Vacancies"] <= 1
-                        ? Fluttertoast.showToast(
-                        msg: "لا يمكن ان يكون العدد اقل من 1",
-                        backgroundColor: Colors.black54,
-                        textColor: Colors.white,
-                        toastLength: Toast.LENGTH_LONG)
-                        : d["Vacancies"]--;
-                  });
-                },
-                icon: Icon(Icons.minimize_outlined)),
+            z("workTime", "عدد ساعات العمل", ["دوام جزئي", "دوام كامل"], _index)
           ],
         ),
       ),
@@ -425,10 +466,93 @@ class _UpdatDataState extends State<UpdatDataV> {
         width: 300,
         child: Column(
           children: [
-            IconButton(icon: Icon(Icons.add), onPressed: uplod),
+            Text("عدد المظفين المطلوب"),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: 10,
+                ),
+                IconButton(
+                    color: Colors.amber,
+                    iconSize: 50,
+                    onPressed: () {
+                      setState(() {
+                        help >= 30
+                            ? Fluttertoast.showToast(
+                            msg: "العدد كبير جدا",
+                            backgroundColor: Colors.black54,
+                            textColor: Colors.white,
+                            toastLength: Toast.LENGTH_SHORT)
+                            : help++;
+                      });
+                    },
+                    icon: Icon(Icons.add)),
+                SizedBox(
+                  width: 30,
+                ),
+                Text(
+                  "${help}",
+                  style: TextStyle(fontSize: 50),
+                ),
+                SizedBox(
+                  width: 30,
+                ),
+                IconButton(
+                    color: Colors.amber,
+                    iconSize: 50,
+                    onPressed: () {
+                      setState(() {
+                        help <= 1
+                            ? Fluttertoast.showToast(
+                            msg: "لا يمكن ان يكون العدد اقل من 1",
+                            backgroundColor: Colors.black54,
+                            textColor: Colors.white,
+                            toastLength: Toast.LENGTH_SHORT)
+                            : help--;
+                      });
+                    },
+                    icon: Icon(Icons.minimize_outlined)),
+              ],
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: 85,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: InkWell(
+                    child: Text(
+                      "تأكيد",
+                      style: TextStyle(fontSize: 40),
+                    ),
+                    onTap: () {
+                      d["Vacancies"] = help;
+                      edit(_index - 1);
+                    },
+                  ),
+                ),
+              ],
+            )
           ],
         ),
       ),
+      SizedBox(
+          width: 300,
+          child: InkWell(
+            child: Text("تعديل الفرصة"),
+            onTap: () {
+              return Fluttertoast.showToast(
+                  msg: "انقر نقراً مزدوجاً للتأكيد",
+                  backgroundColor: Colors.black54,
+                  textColor: Colors.white,
+                  toastLength: Toast.LENGTH_SHORT);
+            },
+            onDoubleTap: uplod,
+          )),
     ];
     return aa[_index];
   }
@@ -442,108 +566,98 @@ class _UpdatDataState extends State<UpdatDataV> {
 
   // Data to render.
   List<_CostsData> data = [
-    _CostsData('العنوان', 10),
-    _CostsData('الوصف', 10),
-    _CostsData('الساعات', 10),
-    _CostsData('الراتب', 10),
-    _CostsData('المهارات', 10),
-    _CostsData('اللغات', 10),
-    _CostsData('المستوى', 10),
+    _CostsData('العنوان', 100),
+    _CostsData('الوصف', 100),
+    _CostsData('المهارات', 100),
+    _CostsData('الساعات', 100),
+    _CostsData('الشواغر', 100),
   ];
 
   @override
   Widget build(BuildContext context) {
-    _filters = d["langNum"];
     final _colorPalettes =
     charts.MaterialPalette.getOrderedPalettes(this.data.length);
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-            appBar: PreferredSize(
-              preferredSize: Size.fromHeight(100.0),
-              child: AppBar(
-                title: Center(
-                  child: Text(" "),
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(
-                    bottom: Radius.circular(60.0),
-                  ),
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(120.0),
+            child: AppBar(
+              title: Center(
+                child: Text(" "),
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(60.0),
                 ),
               ),
             ),
-            body: Stack(children: [
-              Opacity(
-                opacity: 0.4,
-                child: Container(
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: new AssetImage("images/55.jpeg"),
-                          fit: BoxFit.cover,
-                          colorFilter: ColorFilter.mode(
-                              Color(0xFF5C6BC0), BlendMode.overlay))),
-                ),
+          ),
+          body: Stack(children: [
+            Opacity(
+              opacity: 0.4,
+              child: Container(
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: new AssetImage("images/55.jpeg"),
+                        fit: BoxFit.cover,
+                        colorFilter: ColorFilter.mode(
+                            Color(0x3A5CAB20), BlendMode.overlay))),
               ),
-              ListView(
-                padding: const EdgeInsets.all(8),
-                children: <Widget>[
-                  Container(
-                    height: 400,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(15.8),
-                          topLeft: Radius.circular(15.8)),
-                    ),
-                    child: des(),
+            ),
+            ListView(
+              padding: const EdgeInsets.all(8),
+              children: <Widget>[
+                Container(
+                  height: 400,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(15.8),
+                        topLeft: Radius.circular(15.8)),
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(15.8),
-                          bottomRight: Radius.circular(15.8)),
-                      //color: Colors.black12
-                    ),
-                    height: 300,
-                    child: charts.PieChart(
-                      [
-                        charts.Series<_CostsData, String>(
-                          id: 'Sales-1',
-                          colorFn: (_, idx) => _colorPalettes[idx].shadeDefault,
-                          domainFn: (_CostsData sales, _) => sales.category,
-                          measureFn: (_CostsData sales, _) => sales.cost,
-                          data: this.data,
-                          // Set a label accessor to control the text of the arc label.
-                          labelAccessorFn: (_CostsData row, _) =>
-                          '${row.category}: ${row.cost}',
-                        ),
-                      ],
-                      animate: this._animate,
-                      defaultRenderer: new charts.ArcRendererConfig(
-                        arcRatio: this._arcRatio,
-                        arcRendererDecorators: [
-                          charts.ArcLabelDecorator(
-                              labelPosition: this._arcLabelPosition)
-                        ],
+                  child: des(),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(15.8),
+                        bottomRight: Radius.circular(15.8)),
+                    //color: Colors.black12
+                  ),
+                  height: 300,
+                  child: charts.PieChart(
+                    [
+                      charts.Series<_CostsData, String>(
+                        id: 'Sales-1',
+                        colorFn: (_, idx) => _colorPalettes[idx].shadeDefault,
+                        domainFn: (_CostsData sales, _) => sales.category,
+                        measureFn: (_CostsData sales, _) => sales.cost,
+                        data: this.data,
+                        // Set a label accessor to control the text of the arc label.
+                        labelAccessorFn: (_CostsData row, _) =>
+                        '${row.category}: ${row.cost}',
                       ),
-                      behaviors: [
-                        // Add title.
-                        // charts.ChartTitle(
-                        //   'Dummy costs breakup',
-                        //   behaviorPosition: this._titlePosition,
-                        // ),
-                        // Add legend. ("Datum" means the "X-axis" of each data point.)
-                        charts.DatumLegend(
-                          position: this._legendPosition,
-                          desiredMaxRows: 4,
-                        ),
+                    ],
+                    animate: this._animate,
+                    defaultRenderer: new charts.ArcRendererConfig(
+                      arcRatio: this._arcRatio,
+                      arcRendererDecorators: [
+                        charts.ArcLabelDecorator(
+                            labelPosition: this._arcLabelPosition)
                       ],
                     ),
+                    behaviors: [
+                      charts.DatumLegend(
+                        position: this._legendPosition,
+                        desiredMaxRows: 4,
+                      ),
+                    ],
                   ),
-
-                  //..._controlWidgets(),
-                ],
-              )
-            ])));
+                ),
+              ],
+            )
+          ]),
+        ));
   }
 
   edit(int i) {
@@ -564,7 +678,6 @@ class _UpdatDataState extends State<UpdatDataV> {
         chip_desgin('الصينية', "CH"),
         chip_desgin('الألمانية', "AL"),
         chip_desgin('يابانية', "JA"),
-        chip_desgin('غير ذلك', "h"),
       ],
     );
   }
@@ -589,9 +702,7 @@ class _UpdatDataState extends State<UpdatDataV> {
           if (selected) {
             _filters.add(lan1);
           } else {
-            _filters.removeWhere((String name) {
-              return name == lan1;
-            });
+            _filters.remove(lan1);
           }
         });
       },

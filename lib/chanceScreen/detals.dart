@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:b/employeeSecreen/applicants.dart';
 import 'package:b/chanceScreen/updatChanceT.dart';

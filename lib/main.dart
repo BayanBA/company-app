@@ -18,6 +18,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 import 'employeeSecreen/Initial_acceptance.dart';
+import 'hhhh.dart';
 
 List<String> nn = new List();
 Map<String, List> kk = new Map();
@@ -28,7 +29,8 @@ List<dynamic> koko = [
   AddJop(),
   Post(),
   HomePage(),
-  InitialAcceptance(),
+  //InitialAcceptance(),
+  AnimSliderWidget(),
   JobScreenEdit(),
 ];
 Map<String, dynamic> homePageData = new Map<String, dynamic>();
@@ -47,7 +49,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Navigation Basics',
-      theme: ThemeData.light(). copyWith(primaryColor: Colors.red[900], accentColor: Colors.blueGrey),
+      theme: ThemeData.light(). copyWith(primaryColor: Colors.lightGreen[800], accentColor: Colors.blueGrey),
     //  copyWith(primaryColor: Colors.indigo[300], accentColor: Colors.indigo[300]),
       debugShowCheckedModeBanner: false,
       home: towRoute(),
@@ -152,7 +154,7 @@ class _FirstRouteState extends State<FirstRoute> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData.light(). copyWith(primaryColor: Colors.red[900], accentColor: Colors.grey[300]),
+      theme: ThemeData.light(). copyWith(primaryColor: Colors.lightGreen[800], accentColor: Colors.grey[800],cardColor: Colors.grey[100]),
 
       debugShowCheckedModeBanner: false,
       home: Directionality(

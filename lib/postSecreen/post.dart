@@ -17,8 +17,8 @@ class Post extends StatefulWidget {
 }
 
 class _PostState extends State<Post> {
-  var save;
   var title;
+  var sav;
   var users_noti;
   GlobalKey<FormState> ff = new GlobalKey<FormState>();
   GlobalKey<FormState> ff1 = new GlobalKey<FormState>();
@@ -58,8 +58,6 @@ class _PostState extends State<Post> {
     });
 
     await t.doc(u).update({'token': token}).then((value) {});
-
-    // await t.doc(u).update({'token': token}).then((value) {});
   }
 
   sendMessage(String title, String body, int i, String u, String c) async {
@@ -88,11 +86,12 @@ class _PostState extends State<Post> {
 
   @override
   Widget build(BuildContext context) {
+
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
             appBar: PreferredSize(
-              preferredSize: Size.fromHeight(120.0),
+              preferredSize: Size.fromHeight(90.0),
               child: AppBar(
                 title: Center(
                   child: Text(" "),
@@ -113,7 +112,7 @@ class _PostState extends State<Post> {
                           image: new AssetImage("images/55.jpeg"),
                           fit: BoxFit.cover,
                           colorFilter: ColorFilter.mode(
-                              Color(0xFF5C6BC0), BlendMode.overlay))),
+                              Color(0xFF212121), BlendMode.overlay))),
                 ),
               ),
               ListView(children: [
@@ -122,6 +121,31 @@ class _PostState extends State<Post> {
                   child: Form(
                     key: ff1,
                     child: Container(
+                      margin: EdgeInsets.only(left: 22, right: 22),
+                      height: 100,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).accentColor,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(50.0),
+                              topRight: Radius.circular(50.0),
+                              bottomLeft:Radius.circular(50.0) ,
+                              bottomRight: Radius.circular(50.0))),
+                      child: Container(
+                          margin:
+                          EdgeInsets.only(left: 20, right: 20,top:8,bottom: 8),
+                          padding:
+                          EdgeInsets.only(left: 20, bottom: 10,right: 20),
+                          height: 100,
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(50.0),
+                                  topRight: Radius.circular(50.0),
+                                  bottomLeft:Radius.circular(50.0) ,
+                                  bottomRight:
+                                  Radius.circular(50.0))),
                       child: TextFormField(
                         initialValue: title,
                         onSaved: (val) {
@@ -130,43 +154,67 @@ class _PostState extends State<Post> {
                         onChanged: (val) {
                           title = val;
                         },
+                        onEditingComplete: (){
+                          FocusScope.of(context).unfocus();
+                        },
                         decoration: InputDecoration(
-                          fillColor: Colors.teal[50],
-                          filled: true,
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(style: BorderStyle.solid),
-                          ),
+
                           hintText: 'العنوان',
                         ),
                       ),
                     ),
                   ),
-                ),
+                ),),
                 Padding(
                     padding: EdgeInsets.all(10),
                     child: Form(
                       key: ff,
                       child: Container(
+                        margin: EdgeInsets.only(left: 22, right: 22),
+                        height: 500,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).accentColor,
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(50.0),
+                                topRight: Radius.circular(50.0),
+                                bottomLeft:Radius.circular(50.0) ,
+                                bottomRight: Radius.circular(50.0))),
+                        child: Container(
+                          margin:
+                          EdgeInsets.only(left: 20, right: 20,top:10,bottom: 5),
+                          padding:
+                          EdgeInsets.only(left: 20, bottom: 10,right: 30,top: 20),
+                          height: 100,
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(50.0),
+                                  topRight: Radius.circular(50.0),
+                                  bottomLeft:Radius.circular(50.0) ,
+                                  bottomRight:
+                                  Radius.circular(50.0))),
                         child: TextFormField(
-                          initialValue: save,
+                          initialValue: sav,
                           onSaved: (val) {
-                            save = val;
+                            sav = val;
                           },
                           onChanged: (val) {
-                            save = val;
+                            sav = val;
                           },
+                          onEditingComplete: (){
+                            FocusScope.of(context).unfocus();
+                          },
+                          keyboardType: TextInputType.text,
                           decoration: InputDecoration(
-                            fillColor: Colors.teal[50],
-                            filled: true,
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(style: BorderStyle.solid),
-                            ),
+
                             hintText: 'المنشور',
                           ),
                           maxLines: 30,
                         ),
                       ),
-                    )),
+                    ))),
                 FloatingActionButton(
                   onPressed: () {
                     addpost(context);
@@ -178,28 +226,47 @@ class _PostState extends State<Post> {
             ])));
   }
 
+  var num;
   saving() async {
     my_lis = new List();
-    var v = FirebaseFirestore.instance
+    var v = await FirebaseFirestore.instance
         .collection("companies")
         .doc(Provider.of<MyProvider>(context, listen: false).company_id)
         .collection("Post");
+
+    var n = await FirebaseFirestore.instance
+        .collection("number")
+        .doc("aLOUXiw8hVsNqdzEsjF5")
+        .get()
+        .then((value) {
+      num = value.data()["num"];
+    });
+    num = num + 1;
+
+    await FirebaseFirestore.instance
+        .collection("number")
+        .doc("aLOUXiw8hVsNqdzEsjF5")
+        .update({"num": num});
+
     v.add({
-      "myPost": save,
+      "myPost": sav,
       "id": "",
       "title": title,
+      "num": num,
+      "date":Timestamp.now(),
       'date_publication': {
         'day': DateTime.now().day,
         'month': DateTime.now().month,
-        'year': DateTime.now().year
+        'year': DateTime.now().year,
+        'hour': DateTime.now().hour,
       }
     });
 
-    await v.get().then((value) {
+    await v.where("num", isEqualTo: num).get().then((value) {
       if (value != null) {
         value.docs.forEach((element) {
           v.doc(element.id).update({"id": element.id});
-          if (element.data()["title"] == title) id_post = element.id;
+          id_post = element.id;
         });
       }
     });
@@ -222,6 +289,7 @@ class _PostState extends State<Post> {
                   'day': DateTime.now().day,
                   'month': DateTime.now().month,
                   'year': DateTime.now().year,
+                  'hour': DateTime.now().hour,
                 },
                 'num': 1,
               });
@@ -234,6 +302,8 @@ class _PostState extends State<Post> {
     for (int i = 0; i < my_lis.length; i++)
       sendMessage(
           "بوست", "تم نشر بوست من قبل الشركه  ${name_comp}", i, u, id_post);
+
+
   }
 
   addpost(context) {
@@ -287,10 +357,9 @@ class _PostState extends State<Post> {
                     ),
                     onPressed: () {
                       saving();
-                      Navigator.pushReplacement(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (context) => ShowingPost()));
+                      setState(() {
+                       Navigator.of(context).pop();
+                      });
                     },
                     child: Text(
                       '  نعم',

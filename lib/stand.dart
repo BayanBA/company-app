@@ -49,6 +49,7 @@ class MyProvider with ChangeNotifier{
   List<String> Z=[""];
   int page = 0;
   int quiz=0;
+  int qtype=0;
 
   setListQA(var qu,var ans,var ans11){
     Q=qu;
@@ -67,6 +68,11 @@ class MyProvider with ChangeNotifier{
 
   setPage(int num){
     page=num;
+    notifyListeners();
+  }
+
+  setQtype(int num){
+    qtype=num;
     notifyListeners();
   }
 
