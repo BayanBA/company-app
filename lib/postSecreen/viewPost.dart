@@ -235,7 +235,12 @@ class _ShowingPostState extends State<ShowingPost> with SingleTickerProviderStat
                                 //BoxConstraints(maxWidth: 100.0, minHeight: 50.0),
                                 alignment: Alignment.center,
                                 child:
-                                 InkWell(onTap: (){Navigator.of(context).push(
+                                 InkWell(onTap: (){
+                                   setState(() {
+                                     Provider.of<MyProvider>(context, listen: false)
+                                         .data = lis[currentPage].data();
+                                   });
+                                   Navigator.of(context).push(
                                      MaterialPageRoute(builder: (context) {
                                        return PostUpdate();
                                      }));},child: Text("تعديل",style: TextStyle(

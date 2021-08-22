@@ -334,6 +334,7 @@ class _UpdatDataState extends State<UpdatDataT> {
         "gender": stan.gender,
         "degree": stan.degree,
         "Vacancies": stan.Vacancies,
+        "date":Timestamp.now(),
         "date_publication": {
           'day': DateTime
               .now()

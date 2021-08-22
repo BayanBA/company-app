@@ -18,7 +18,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 import 'employeeSecreen/Initial_acceptance.dart';
-import 'hhhh.dart';
 
 List<String> nn = new List();
 Map<String, List> kk = new Map();
@@ -29,8 +28,7 @@ List<dynamic> koko = [
   AddJop(),
   Post(),
   HomePage(),
-  //InitialAcceptance(),
-  AnimSliderWidget(),
+  InitialAcceptance(),
   JobScreenEdit(),
 ];
 Map<String, dynamic> homePageData = new Map<String, dynamic>();

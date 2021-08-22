@@ -14,8 +14,26 @@ class ShowingData extends StatefulWidget {
   _ShowingDataState createState() => _ShowingDataState();
 }
 
+var list=new List();
+
 class _ShowingDataState extends State<ShowingData> {
-  // var lis;
+
+  getdata()async{
+   await FirebaseFirestore.instance
+        .collection("companies")
+        .doc(Provider.of<MyProvider>(context, listen: false)
+        .company_id)
+        .collection("chance").get().then((value){
+          value.docs.forEach((element) {
+            list.add(element.data()["title"]);
+          });
+    });
+  }
+  void initState() {
+    getdata();
+    super.initState();
+  }
+
 
   CollectionReference comp;
 
@@ -185,6 +203,20 @@ class _ShowingDataState extends State<ShowingData> {
             appBar: PreferredSize(
               preferredSize: Size.fromHeight(100.0),
               child: AppBar(
+                actions: [
+                  IconButton(
+                    tooltip: 'Search',
+                    icon: const Icon(Icons.search),
+                    onPressed: () async {
+                      await showSearch(
+                          context: context,
+                          delegate: datasearch(list)
+
+                      );
+                    }
+
+    ),
+                ],
                 title: Center(
                   child: Text(" "),
                 ),

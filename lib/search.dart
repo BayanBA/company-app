@@ -17,22 +17,11 @@ class datasearch extends SearchDelegate<String> {
 
       });
     });
-    DocumentReference d =FirebaseFirestore.instance.collection("companies").doc(Provider.of<MyProvider>(context, listen: false).company_id).collection("chance").doc(u);
 
-    await d.get().then((value) {
-      String k1 = value.data()['title'];
-      String k2 = value.data()['age'];
-
-      data_save = new List();
-      data_save.add(k1);
-      data_save.add(k2);
-
-    });
   }
 
 
   List<dynamic> list=new List();
-  List<String> data_save;
 
   datasearch(this.list);
 
@@ -66,10 +55,9 @@ class datasearch extends SearchDelegate<String> {
 
     return Container(child:Column(children:<Widget> [
 
-      Text(data_save[0]),
+      Text(bayan["title"]),
       SizedBox(height: 20,),
-
-      Text(data_save[1]),
+      Text("data_save[1]"),
       SizedBox(height: 20,),
     ],));
   }
