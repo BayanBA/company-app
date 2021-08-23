@@ -44,6 +44,27 @@ class _ChatState extends State<Chat> {
   //     }
   //   });
   // }
+  var t;
+  getdata()async{
+    Provider.of<MyProvider>(context, listen: false).chat==1?
+    await FirebaseFirestore.instance
+        .collection("oner")
+        .doc("DPi7T09bNPJGI0lBRqx4")
+        .collection("chat").get().then((value){
+          value.docs.forEach((element) {
+            if(element.data()["comp_id"]== Provider.of<MyProvider>(context, listen: false).company_id){
+            Provider.of<MyProvider>(context, listen: false).setDocUser(element.id);
+            print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
+            print(Provider.of<MyProvider>(context, listen: false).docUser);}
+          });
+    }):t=0;
+  }
+
+  @override
+  void initState() {
+   getdata();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

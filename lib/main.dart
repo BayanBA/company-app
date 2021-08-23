@@ -18,6 +18,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 import 'employeeSecreen/Initial_acceptance.dart';
+import 'oner_companies.dart';
 
 List<String> nn = new List();
 Map<String, List> kk = new Map();
@@ -28,7 +29,8 @@ List<dynamic> koko = [
   AddJop(),
   Post(),
   HomePage(),
-  InitialAcceptance(),
+  OnerCompanies(),
+  //InitialAcceptance(),
   JobScreenEdit(),
 ];
 Map<String, dynamic> homePageData = new Map<String, dynamic>();
@@ -153,7 +155,6 @@ class _FirstRouteState extends State<FirstRoute> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData.light(). copyWith(primaryColor: Colors.lightGreen[800], accentColor: Colors.grey[800],cardColor: Colors.grey[100]),
-
       debugShowCheckedModeBanner: false,
       home: Directionality(
         textDirection: TextDirection.rtl,

@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:b/chatSecreen/chat.dart';
 import 'package:b/enter/login.dart';
 import 'package:path/path.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,8 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'dart:io';
 import '../main.dart';
+import '../stand.dart';
 
 class JobScreenEdit extends StatefulWidget {
   State<StatefulWidget> createState() => new _JobsScreenEditState();
@@ -18,7 +21,7 @@ class JobScreenEdit extends StatefulWidget {
 class _JobsScreenEditState extends State<JobScreenEdit> {
   var dym;
   dynamic image;
-  File file=null;
+  File file = null;
   var url;
   var urlk;
   var imagepicker = ImagePicker();
@@ -49,14 +52,14 @@ class _JobsScreenEditState extends State<JobScreenEdit> {
                 InkWell(
                   onTap: () async {
                     var picked =
-                    await imagepicker.getImage(source: ImageSource.gallery);
+                        await imagepicker.getImage(source: ImageSource.gallery);
                     if (picked != null) {
                       file = File(picked.path);
 
-
                       var rand = Random().nextInt(100000);
                       var imagename = "$rand" + basename(picked.path);
-                      Reference ref = FirebaseStorage.instance.ref("images/$imagename");
+                      Reference ref =
+                          FirebaseStorage.instance.ref("images/$imagename");
                       setState(() {
                         image = file;
                       });
@@ -102,13 +105,13 @@ class _JobsScreenEditState extends State<JobScreenEdit> {
                 InkWell(
                   onTap: () async {
                     var picked =
-                    await imagepicker.getImage(source: ImageSource.camera);
+                        await imagepicker.getImage(source: ImageSource.camera);
                     if (picked != null) {
                       file = File(picked.path);
                       var rand = Random().nextInt(100000);
                       var imagename = "$rand" + basename(picked.path);
                       Reference ref =
-                      FirebaseStorage.instance.ref("images/$imagename");
+                          FirebaseStorage.instance.ref("images/$imagename");
                       setState(() {
                         image = file;
                       });
@@ -129,7 +132,6 @@ class _JobsScreenEditState extends State<JobScreenEdit> {
                           });
                         });
                       });
-
 
                       //Navigator.of(context).pop();
                     }
@@ -166,15 +168,15 @@ class _JobsScreenEditState extends State<JobScreenEdit> {
       ),
       items: l
           .map((e) => DropdownMenuItem(
-        child: Text(
-          "$e",
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 20,
-          ),
-        ),
-        value: e,
-      ))
+                child: Text(
+                  "$e",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                  ),
+                ),
+                value: e,
+              ))
           .toList(),
       onChanged: (valu) {
         setState(() {
@@ -248,9 +250,8 @@ class _JobsScreenEditState extends State<JobScreenEdit> {
                       Text(
                         "هل انت متاكد من حذف الحساب",
                         style: TextStyle(
-                            color:  Theme.of(context).primaryColor,
-                            fontStyle: FontStyle.italic
-                        ),
+                            color: Theme.of(context).primaryColor,
+                            fontStyle: FontStyle.italic),
                       ),
                     ],
                   )),
@@ -317,7 +318,7 @@ class _JobsScreenEditState extends State<JobScreenEdit> {
                       Text(
                         "هل انت متاكد من تسجيل الخروج",
                         style: TextStyle(
-                            color:  Theme.of(context).primaryColor,
+                            color: Theme.of(context).primaryColor,
                             fontStyle: FontStyle.italic),
                       ),
                     ],
@@ -383,7 +384,6 @@ class _JobsScreenEditState extends State<JobScreenEdit> {
                     children: [
                       Text(
                         "هل انت متأكد من التعديلات",
-
                         style: TextStyle(
                             color: Theme.of(context).primaryColor,
                             fontStyle: FontStyle.italic),
@@ -428,9 +428,7 @@ class _JobsScreenEditState extends State<JobScreenEdit> {
                       print(finsh);
                       setState(() {
                         share(context);
-
                       });
-
                     },
                     child: Text(
                       '  نعم',
@@ -460,32 +458,75 @@ class _JobsScreenEditState extends State<JobScreenEdit> {
         ));
   }
 
-
-  Widget fill_text(String name, Icon, keyboardType, String v) {
-    return TextFormField(
-        initialValue: homePageData[v],
-        keyboardType: keyboardType,
-        onSaved: (val) {
-          homePageData[v] = val;
-        },
-        decoration: InputDecoration(
-          labelText:name,
-          prefixIcon: Icon,
-          fillColor: Colors.white,
-          filled: true,
-
-          border: myinputborder(),
-          //normal border
-          enabledBorder: myinputborder(),
-          //enabled border
-          focusedBorder:
-          myfocusborder(), //focused border
-        ),
-
-
+  Widget fill_text(String name, Icon, keyboardType, String v,context) {
+    return
+      // TextFormField(
+      //   initialValue: homePageData[v],
+      //   keyboardType: keyboardType,
+      //   onSaved: (val) {
+      //     homePageData[v] = val;
+      //   },
+      //   decoration: InputDecoration(
+      //     labelText: name,
+      //     prefixIcon: Icon,
+      //     fillColor: Colors.white,
+      //     filled: true,
+      //
+      //     border: myinputborder(),
+      //     //normal border
+      //     enabledBorder: myinputborder(),
+      //     //enabled border
+      //     focusedBorder: myfocusborder(), //focused border
+      //   ),
+      //   validator: _validateName);
 
 
-        validator: _validateName);
+
+
+
+    TextFormField(
+      initialValue: homePageData[v],
+      decoration: InputDecoration(
+        focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: BorderSide(
+              color: Colors.lightGreen,
+              width: 2,
+            )),
+        enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: BorderSide(
+              color: Colors.deepPurple,
+              width: 2,
+            )),
+        errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: BorderSide(
+              color: Colors.pink,
+              width: 2,
+            )),
+        contentPadding: EdgeInsets.all(15),
+        labelText: name,
+        labelStyle: TextStyle(fontSize: 20,color:Colors.white ),
+        prefixIcon: Icon,
+        fillColor: Colors.black26,
+            filled: true
+      ),
+      validator: _validateName,
+      keyboardType: TextInputType.text,
+
+      onSaved: (val) {
+        homePageData[v] = val;
+      },
+      onEditingComplete: () {
+        FocusScope.of(context).unfocus();
+      },
+    );
+
+
+
+
+
   }
 
   var finsh = 0;
@@ -557,362 +598,362 @@ class _JobsScreenEditState extends State<JobScreenEdit> {
               homePageData.isEmpty
                   ? CircularProgressIndicator()
                   : ListView(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.all(4.0),
-                        child: Row(
+                      children: [
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment:
-                          MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            CustomPaint(
-                              // painter: ArcPainter(type: PaintType.right),
-                              child: IconButton(
-                                  icon: Icon(
-                                    Icons.add_a_photo_sharp,
-                                    size: 52,
-                                  ),
-                                  color: Colors.black,
-                                  onPressed: () {
-                                    showBottomSheet(context);
-                                  }),
-                            )
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(4.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  CustomPaint(
+                                    // painter: ArcPainter(type: PaintType.right),
+                                    child: IconButton(
+                                        icon: Icon(
+                                          Icons.add_a_photo_sharp,
+                                          size: 52,
+                                        ),
+                                        color: Colors.black,
+                                        onPressed: () {
+                                          showBottomSheet(context);
+                                        }),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.center,
+                              child: SizedBox(
+                                height: 300,
+                                width: 300,
+                                child: Stack(
+                                  alignment: Alignment.center,
+                                  children: <Widget>[
+                                    Positioned(
+                                      height: 100,
+                                      width: 100,
+                                      top: 10,
+                                      right: 10,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            color: Color(0xffFE7227),
+                                            shape: BoxShape.circle,
+                                            gradient: LinearGradient(
+                                                colors: [
+                                                  Color(0xffFE7227),
+                                                  Color(0xffFEA120)
+                                                ],
+                                                begin: Alignment.bottomCenter,
+                                                end: Alignment.topCenter),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: Color(0xffFE7227),
+                                                  offset: Offset(0, 10),
+                                                  blurRadius: 20)
+                                            ]),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      height: 100,
+                                      width: 100,
+                                      bottom: 10,
+                                      left: 10,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            gradient: LinearGradient(
+                                                colors: [
+                                                  Color(0xffB767FC),
+                                                  Color(0xffD765FB)
+                                                ],
+                                                begin: Alignment.bottomCenter,
+                                                end: Alignment.topCenter),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: Color(0xffB767FC),
+                                                  offset: Offset(0, 10),
+                                                  blurRadius: 20)
+                                            ]),
+                                      ),
+                                    ),
+                                    Container(
+                                        height: 200,
+                                        width: 200,
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          gradient: LinearGradient(
+                                              end: Alignment.topCenter,
+                                              begin: Alignment.bottomCenter,
+                                              colors: [
+                                                Color(0xff3DD92E),
+                                                Color(0xff8BFB6B)
+                                              ]),
+                                          boxShadow: [
+                                            BoxShadow(
+                                                offset: Offset(0, 30),
+                                                color: Color(0xFF3DD92E)
+                                                    .withAlpha(100),
+                                                blurRadius: 40)
+                                          ],
+                                        ),
+                                        child: InkWell(
+                                            //showBottomSheet(context),
+                                            child: CircleAvatar(
+                                                radius: 100,
+                                                backgroundImage: file != null
+                                                    ? FileImage(image)
+                                                    : NetworkImage(homePageData[
+                                                        'link_image'])
+                                                // homePageData['link_image']
+
+                                                ))),
+                                    Positioned(
+                                      height: 35,
+                                      width: 35,
+                                      top: 40,
+                                      left: 40,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            gradient: LinearGradient(
+                                                colors: [
+                                                  Color(0xff0894FF),
+                                                  Color(0xff05BFFA)
+                                                ],
+                                                begin: Alignment.bottomCenter,
+                                                end: Alignment.topCenter),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: Color(0xff0894FF),
+                                                  offset: Offset(0, 5),
+                                                  blurRadius: 10)
+                                            ]),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      height: 15,
+                                      width: 15,
+                                      bottom: 40,
+                                      right: 40,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Color(0xffFF3443),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: Color(0xffFF3443),
+                                                  offset: Offset(0, 2),
+                                                  blurRadius: 5)
+                                            ]),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      height: 15,
+                                      width: 15,
+                                      bottom: 40,
+                                      right: 40,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Color(0xffFF3443),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: Color(0xffFF3443),
+                                                  offset: Offset(0, 2),
+                                                  blurRadius: 5)
+                                            ]),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      height: 50,
+                                      width: 30,
+                                      bottom: 5,
+                                      left: 170,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.black,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: Colors.black12,
+                                                  offset: Offset(0, 10),
+                                                  blurRadius: 10)
+                                            ]),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                           ],
                         ),
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: SizedBox(
-                          height: 300,
-                          width: 300,
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: <Widget>[
-                              Positioned(
-                                height: 100,
-                                width: 100,
-                                top: 10,
-                                right: 10,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Color(0xffFE7227),
-                                      shape: BoxShape.circle,
-                                      gradient: LinearGradient(
-                                          colors: [
-                                            Color(0xffFE7227),
-                                            Color(0xffFEA120)
-                                          ],
-                                          begin: Alignment.bottomCenter,
-                                          end: Alignment.topCenter),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Color(0xffFE7227),
-                                            offset: Offset(0, 10),
-                                            blurRadius: 20)
-                                      ]),
-                                ),
+                        Center(
+                          child: Form(
+                            key: formstate,
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                  top: 30, left: 15, bottom: 10, right: 15),
+                              child: Column(
+                                children: [
+                                  fill_text(
+                                      'اسم الشركه',
+                                      Icon(
+                                        Icons.perm_contact_cal_sharp,
+                                        color: Colors.black,
+                                      ),
+                                      TextInputType.name,
+                                      "company",context),
+                                  // SizedBox(height: 240.0),
+                                  // Container(
+                                  //   width: 300,
+                                  //   child: SizedBox(
+                                  //     width: 300,
+                                  //     child: Column(
+                                  //       children: [
+                                  //         Row(
+                                  //           children: [
+                                  //             Icon(
+                                  //               Icons.add_location_alt_rounded,
+                                  //               color: Colors.black,
+                                  //             ),
+                                  //             SizedBox(
+                                  //               width: 10,
+                                  //             ),
+                                  //             Text(
+                                  //               "المقر الرئيسي * :",
+                                  //               style: TextStyle(
+                                  //                   color: Colors.black87,
+                                  //                   fontSize: 20),
+                                  //             ),
+                                  //             SizedBox(
+                                  //               width: 10,
+                                  //             ),
+                                  //             z("region", "المدينه", nn),
+                                  //           ],
+                                  //         ),
+                                  //       ],
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                  // SizedBox(height: 240.0),
+                                  // Container(
+                                  //   width: 300,
+                                  //   child: SizedBox(
+                                  //     width: 300,
+                                  //     child: Column(
+                                  //       children: [
+                                  //         Row(
+                                  //           children: [
+                                  //             Icon(
+                                  //               Icons.add_location_alt_rounded,
+                                  //               color: Colors.black,
+                                  //             ),
+                                  //             SizedBox(
+                                  //               width: 10,
+                                  //             ),
+                                  //             Text(
+                                  //               "المدينه *:",
+                                  //               style: TextStyle(
+                                  //                   color: Colors.black87,
+                                  //                   fontSize: 20),
+                                  //             ),
+                                  //             SizedBox(
+                                  //               width: 10,
+                                  //             ),
+                                  //             z("city", "المدينه",
+                                  //                 kk[jobScreen.d['region']]),
+                                  //           ],
+                                  //         ),
+                                  //       ],
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                  SizedBox(height: 24.0),
+                                  fill_text(
+                                      'حجم الشركه',
+                                      Icon(
+                                        Icons.nature,
+                                        color: Colors.black,
+                                      ),
+                                      TextInputType.name,
+                                      "size_company",context),
+                                  SizedBox(height: 24.0),
+                                  fill_text(
+                                      'الوصف',
+                                      Icon(
+                                        Icons.add_chart,
+                                        color: Colors.black,
+                                      ),
+                                      TextInputType.name,
+                                      "description",context),
+                                  SizedBox(height: 24.0),
+                                  fill_text(
+                                      'التخصص',
+                                      Icon(
+                                        Icons.ac_unit_sharp,
+                                        color: Colors.black,
+                                      ),
+                                      TextInputType.name,
+                                      "specialization",context),
+                                  SizedBox(height: 24.0),
+                                  fill_text(
+                                      'الهاتف',
+                                      Icon(
+                                        Icons.phone,
+                                        color: Colors.black,
+                                      ),
+                                      TextInputType.phone,
+                                      "phone",context),
+                                  SizedBox(height: 24.0),
+                                  // Container(
+                                  //   child: Row(children: [
+                                  //     IconButton(
+                                  //       color: Colors.black,
+                                  //       icon: Icon(
+                                  //         Icons.edit,
+                                  //         size: 40,
+                                  //       ),
+                                  //       onPressed: () async =>
+                                  //           await edit_Alart(context),
+                                  //     ),
+                                  //     IconButton(
+                                  //         color: Colors.black,
+                                  //         icon: Icon(
+                                  //           Icons.delete,
+                                  //           size: 40,
+                                  //         ),
+                                  //
+                                  //     IconButton(
+                                  //         color: Colors.black,
+                                  //         icon: Icon(
+                                  //           Icons.exit_to_app,
+                                  //           size: 40,
+                                  //         ),
+                                  //         onPressed: () async {
+                                  //           await sign_out_Alart(context);
+                                  //         }),
+                                  //   ]),
+                                  // ),
+                                ],
                               ),
-                              Positioned(
-                                height: 100,
-                                width: 100,
-                                bottom: 10,
-                                left: 10,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      gradient: LinearGradient(
-                                          colors: [
-                                            Color(0xffB767FC),
-                                            Color(0xffD765FB)
-                                          ],
-                                          begin: Alignment.bottomCenter,
-                                          end: Alignment.topCenter),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Color(0xffB767FC),
-                                            offset: Offset(0, 10),
-                                            blurRadius: 20)
-                                      ]),
-                                ),
-                              ),
-                              Container(
-                                  height: 200,
-                                  width: 200,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    gradient: LinearGradient(
-                                        end: Alignment.topCenter,
-                                        begin: Alignment.bottomCenter,
-                                        colors: [
-                                          Color(0xff3DD92E),
-                                          Color(0xff8BFB6B)
-                                        ]),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          offset: Offset(0, 30),
-                                          color: Color(0xFF3DD92E)
-                                              .withAlpha(100),
-                                          blurRadius: 40)
-                                    ],
-                                  ),
-                                  child: InkWell(
-                                    //showBottomSheet(context),
-                                      child: CircleAvatar(
-                                          radius: 100,
-                                          backgroundImage:
-                                          file !=null? FileImage(image):NetworkImage(homePageData['link_image'])
-                                        // homePageData['link_image']
-
-
-                                      ))),
-                              Positioned(
-                                height: 35,
-                                width: 35,
-                                top: 40,
-                                left: 40,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      gradient: LinearGradient(
-                                          colors: [
-                                            Color(0xff0894FF),
-                                            Color(0xff05BFFA)
-                                          ],
-                                          begin: Alignment.bottomCenter,
-                                          end: Alignment.topCenter),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Color(0xff0894FF),
-                                            offset: Offset(0, 5),
-                                            blurRadius: 10)
-                                      ]),
-                                ),
-                              ),
-                              Positioned(
-                                height: 15,
-                                width: 15,
-                                bottom: 40,
-                                right: 40,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Color(0xffFF3443),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Color(0xffFF3443),
-                                            offset: Offset(0, 2),
-                                            blurRadius: 5)
-                                      ]),
-                                ),
-                              ),
-                              Positioned(
-                                height: 15,
-                                width: 15,
-                                bottom: 40,
-                                right: 40,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Color(0xffFF3443),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Color(0xffFF3443),
-                                            offset: Offset(0, 2),
-                                            blurRadius: 5)
-                                      ]),
-                                ),
-                              ),
-                              Positioned(
-                                height: 50,
-                                width: 30,
-                                bottom: 5,
-                                left: 170,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.black,
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Colors.black12,
-                                            offset: Offset(0, 10),
-                                            blurRadius: 10)
-                                      ]),
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Center(
-                    child: Form(
-                      key: formstate,
-                      child: Container(
-                        margin: EdgeInsets.only(
-                            top: 30, left: 15, bottom: 10, right: 15),
-                        child: Column(
-                          children: [
-                            fill_text(
-                                'اسم الشركه',
-                                Icon(
-                                  Icons.perm_contact_cal_sharp,
-                                  color: Colors.black,
-                                ),
-                                TextInputType.name,
-                                "company"),
-                            // SizedBox(height: 240.0),
-                            // Container(
-                            //   width: 300,
-                            //   child: SizedBox(
-                            //     width: 300,
-                            //     child: Column(
-                            //       children: [
-                            //         Row(
-                            //           children: [
-                            //             Icon(
-                            //               Icons.add_location_alt_rounded,
-                            //               color: Colors.black,
-                            //             ),
-                            //             SizedBox(
-                            //               width: 10,
-                            //             ),
-                            //             Text(
-                            //               "المقر الرئيسي * :",
-                            //               style: TextStyle(
-                            //                   color: Colors.black87,
-                            //                   fontSize: 20),
-                            //             ),
-                            //             SizedBox(
-                            //               width: 10,
-                            //             ),
-                            //             z("region", "المدينه", nn),
-                            //           ],
-                            //         ),
-                            //       ],
-                            //     ),
-                            //   ),
-                            // ),
-                            // SizedBox(height: 240.0),
-                            // Container(
-                            //   width: 300,
-                            //   child: SizedBox(
-                            //     width: 300,
-                            //     child: Column(
-                            //       children: [
-                            //         Row(
-                            //           children: [
-                            //             Icon(
-                            //               Icons.add_location_alt_rounded,
-                            //               color: Colors.black,
-                            //             ),
-                            //             SizedBox(
-                            //               width: 10,
-                            //             ),
-                            //             Text(
-                            //               "المدينه *:",
-                            //               style: TextStyle(
-                            //                   color: Colors.black87,
-                            //                   fontSize: 20),
-                            //             ),
-                            //             SizedBox(
-                            //               width: 10,
-                            //             ),
-                            //             z("city", "المدينه",
-                            //                 kk[jobScreen.d['region']]),
-                            //           ],
-                            //         ),
-                            //       ],
-                            //     ),
-                            //   ),
-                            // ),
-                            SizedBox(height: 24.0),
-                            fill_text(
-                                'حجم الشركه',
-                                Icon(
-                                  Icons.nature,
-                                  color: Colors.black,
-                                ),
-                                TextInputType.name,
-                                "size_company"),
-                            SizedBox(height: 24.0),
-                            fill_text(
-                                'الوصف',
-                                Icon(
-                                  Icons.add_chart,
-                                  color: Colors.black,
-                                ),
-                                TextInputType.name,
-                                "description"),
-                            SizedBox(height: 24.0),
-                            fill_text(
-                                'التخصص',
-                                Icon(
-                                  Icons.ac_unit_sharp,
-                                  color: Colors.black,
-                                ),
-                                TextInputType.name,
-                                "specialization"),
-                            SizedBox(height: 24.0),
-                            fill_text(
-                                'الهاتف',
-                                Icon(
-                                  Icons.phone,
-                                  color: Colors.black,
-                                ),
-                                TextInputType.phone,
-                                "phone"),
-                            SizedBox(height: 24.0),
-                            // Container(
-                            //   child: Row(children: [
-                            //     IconButton(
-                            //       color: Colors.black,
-                            //       icon: Icon(
-                            //         Icons.edit,
-                            //         size: 40,
-                            //       ),
-                            //       onPressed: () async =>
-                            //           await edit_Alart(context),
-                            //     ),
-                            //     IconButton(
-                            //         color: Colors.black,
-                            //         icon: Icon(
-                            //           Icons.delete,
-                            //           size: 40,
-                            //         ),
-                            //
-                            //     IconButton(
-                            //         color: Colors.black,
-                            //         icon: Icon(
-                            //           Icons.exit_to_app,
-                            //           size: 40,
-                            //         ),
-                            //         onPressed: () async {
-                            //           await sign_out_Alart(context);
-                            //         }),
-                            //   ]),
-                            // ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              )
+                      ],
+                    )
             ]),
-
             floatingActionButtonLocation:
-            FloatingActionButtonLocation.centerTop,
+                FloatingActionButtonLocation.centerTop,
             floatingActionButton: Padding(
                 padding: const EdgeInsets.all(4.0),
                 child:
 
-                //scrollDirection: Axis.horizontal,
-                Row(children: <Widget>[
+                    //scrollDirection: Axis.horizontal,
+                    Row(children: <Widget>[
                   SizedBox(
                     width: 40,
                   ),
@@ -925,9 +966,7 @@ class _JobsScreenEditState extends State<JobScreenEdit> {
                       size: 40,
                     ),
                     backgroundColor: Colors.white,
-
-                    onPressed: () async =>
-                    await edit_Alart(context),
+                    onPressed: () async => await edit_Alart(context),
                   ),
 
                   SizedBox(
@@ -944,7 +983,6 @@ class _JobsScreenEditState extends State<JobScreenEdit> {
                       onPressed: () async {
                         await deletAlart(context);
                       }),
-
 
                   SizedBox(
                     width: 60,
@@ -964,18 +1002,24 @@ class _JobsScreenEditState extends State<JobScreenEdit> {
                   SizedBox(
                     width: 40,
                   ),
+                      FloatingActionButton(
+                          heroTag: "tag66",
+                          child: Icon(
+                            Icons.mark_chat_read_outlined,
+                            color: Theme.of(context).primaryColor,
+                            size: 40,
+                          ),
+                          backgroundColor: Colors.white,
+                          onPressed: () async {
+                            Provider.of<MyProvider>(context, listen: false).setChat(1);
+                            Navigator.of(context).push(
+                                MaterialPageRoute(builder: (context) {
+                                  return Chat();
+                                }));
+                          }),
 
                   // ]),
-                ]))
-
-
-
-
-
-
-
-
-        ));
+                ]))));
   }
 
   String _validateName(String value) {

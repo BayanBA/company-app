@@ -114,15 +114,13 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             body: Stack(alignment: Alignment.center, children: [
-              Opacity(
-                opacity: 0.4,
-                child: Container(
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: new AssetImage("images/55.jpeg"),
-                          fit: BoxFit.cover,
-                          colorFilter: ColorFilter.mode(
-                              Color(0xFFB71C1C), BlendMode.overlay))),
+              Positioned(
+                top: 250,
+                left: -300,
+                child: CircleAvatar(
+                  radius: 500,
+                  backgroundColor:
+                  Theme.of(context).accentColor.withOpacity(0.1),
                 ),
               ),
 
@@ -130,17 +128,15 @@ class _HomePageState extends State<HomePage> {
                   ? Center(child: CircularProgressIndicator())
                   : ListView(
                 children: [
-                  Padding(
-                    // ListView.builder(
-                    //         itemCount: batool1.length,
-                    //         itemBuilder: (context, index) {
-                    // return
 
+
+
+                  Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
                         children: [
                           SizedBox(
-                            height: 20,
+                            height: 50,
                           ),
                           Container(
                               child: CircleAvatar(
@@ -149,39 +145,30 @@ class _HomePageState extends State<HomePage> {
                                 radius: 150,
                                 backgroundImage: homePageData['link_image'] ==
                                     "not"
-                                //batool1[index]['link_image'] == "not"
                                     ? AssetImage("images/55.jpeg")
                                     : NetworkImage(
                                   homePageData['link_image'],
 
-                                  // batool1[index]['link_image']
+
                                 ),
                               )),
+
+
                           SizedBox(
                             height: 20,
                           ),
-                          Container(
-                            margin: EdgeInsets.only(left: 22, right: 22),
-                            height: 100,
-                            width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
-                                color: Theme.of(context).primaryColor,
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(50.0),
-                                    bottomRight: Radius.circular(50.0))),
-                            child: Container(
+                          Column(children: [
+
+
+
+                            Container(
                                 margin:
                                 EdgeInsets.only(left: 20, right: 20),
                                 padding:
                                 EdgeInsets.only(left: 20, bottom: 10),
-                                height: 100,
+                                height: 50,
                                 width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(50.0),
-                                        bottomRight:
-                                        Radius.circular(50.0))),
+
                                 child: ListView(
                                   children: [
                                     Row(children: [
@@ -212,80 +199,15 @@ class _HomePageState extends State<HomePage> {
                               // //SizedBox(height: 10),
 
                             ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(left: 22, right: 22),
-                            height: 100,
-                            width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
-                                color: Theme.of(context).primaryColor,
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(50.0),
-                                    bottomRight: Radius.circular(50.0))),
-                            child: Container(
-                                padding:
-                                EdgeInsets.only(left: 20, bottom: 10),
-                                height: 100,
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Container(
                                 margin:
                                 EdgeInsets.only(left: 20, right: 20),
+                                height: 50,
                                 width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(50.0),
-                                        bottomRight:
-                                        Radius.circular(50.0))),
-                                child: ListView(children: [
-                                  Row(children: <Widget>[
-                                    _prefixIcon(Icons.account_balance),
 
-                                    Text('   الوصف العام:',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20.0,
-                                            color: Theme.of(context)
-                                                .primaryColor)),
-                                    //SizedBox(height: 10),
-                                    Flexible(
-                                      child: Text(
-                                          "     " +
-                                              homePageData['description'],
-                                          // batool1[index]['description'],
-                                          style: TextStyle(
-                                              fontWeight:
-                                              FontWeight.normal,
-                                              fontSize: 18.0,
-                                              color: Colors.black)),
-                                    ),
-                                  ]),
-                                ])),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(left: 22, right: 22),
-                            height: 100,
-                            width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
-                                color: Theme.of(context).primaryColor,
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(50.0),
-                                    bottomRight: Radius.circular(50.0))),
-                            child: Container(
-                                margin:
-                                EdgeInsets.only(left: 20, right: 20),
-                                height: 100,
-                                width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(50.0),
-                                        bottomRight:
-                                        Radius.circular(50.0))),
                                 child: Row(children: <Widget>[
                                   _prefixIcon(
                                       Icons.add_location_alt_rounded),
@@ -304,15 +226,62 @@ class _HomePageState extends State<HomePage> {
                                           fontSize: 18.0,
                                           color: Colors.black)),
                                 ])),
-                          ),
-                          SizedBox(
-                            height: 30,
-                          ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Container( margin:
+                            EdgeInsets.only(left: 20, right: 20),
+                                height: 50,
+                                width: MediaQuery.of(context).size.width,
+                                child:Row(children: [_prefixIcon(Icons.account_balance),
+
+                                  Text('   الوصف العام:',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20.0,
+                                          color: Theme.of(context)
+                                              .primaryColor)),
+                                  SizedBox(height: 10),],)),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+
+                                margin:
+                                EdgeInsets.only(left: 20, right: 40),
+                                height: MediaQuery.of(context).size.height,
+                                width: MediaQuery.of(context).size.width,
+
+                                padding:
+                                EdgeInsets.only(left: 20, bottom: 10),
+
+                                child: ListView(children: [
+                                  Row(
+                                      crossAxisAlignment :CrossAxisAlignment.start,
+                                      children: <Widget>[
+
+                                        Flexible(
+                                          child: Text(
+                                              "     " +
+                                                  homePageData['description'],
+                                              // batool1[index]['description'],
+                                              style: TextStyle(
+                                                  fontWeight:
+                                                  FontWeight.normal,
+                                                  fontSize: 18.0,
+                                                  color: Colors.black)),
+                                        ),
+                                      ]),
+                                ])),
+                            SizedBox(
+                              height: 30,
+                            ),
+                          ],)
                         ],
                       ))
                 ],
               ),
-              // }),
+
             ]),
             floatingActionButtonLocation:
             FloatingActionButtonLocation.centerTop,

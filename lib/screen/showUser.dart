@@ -94,7 +94,7 @@ class _show_detalsState extends State<show_detals> {
                         gradient: LinearGradient(
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
-                            colors: [Colors.redAccent, Colors.pinkAccent])),
+                            colors: [Theme.of(context).primaryColor, Colors.deepOrangeAccent])),
                     child: Container(
                       width: double.infinity,
                       height: 350.0,
@@ -115,7 +115,7 @@ class _show_detalsState extends State<show_detals> {
                                   " " +
                                   "${widget.items.elementAt(0)['endname']}",
                               style: TextStyle(
-                                fontSize: 22.0,
+                                fontSize: 30.0,
                                 color: Colors.white,
                               ),
                             ),
@@ -208,6 +208,9 @@ class _show_detalsState extends State<show_detals> {
                                               ),
                                             ),
                                             onTap: () {
+                                              Provider.of<MyProvider>(context,
+                                                      listen: false)
+                                                  .setChat(2);
                                               Navigator.push(
                                                   context,
                                                   new MaterialPageRoute(
@@ -459,7 +462,36 @@ class _show_detalsState extends State<show_detals> {
                 ),
                 Container(
                   width: 300.00,
-                  child: RaisedButton(
+                  child:Provider.of<MyProvider>(context, listen: false).user==1?RaisedButton(
+                      onPressed: () {
+
+                      },
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(80.0)),
+                      elevation: 0.0,
+                      padding: EdgeInsets.all(0.0),
+                      child: Ink(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.centerRight,
+                              end: Alignment.centerLeft,
+                              colors: [Theme.of(context).primaryColor, Colors.deepOrangeAccent]),
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        child: Container(
+                          constraints:
+                          BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
+                          alignment: Alignment.center,
+                          child: Text(
+                            "متابعة",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 26.0,
+                                fontWeight: FontWeight.w300),
+                          ),
+                        ),
+                      ))
+                      :RaisedButton(
                       onPressed: () async {
                         var n = new List();
                         n = widget.items.elementAt(0)['num_follow'];
@@ -486,8 +518,7 @@ class _show_detalsState extends State<show_detals> {
                               .collection("users")
                               .doc(widget.items_id.elementAt(0))
                               .update({"num_follow": n});
-                          setState(() {
-                          });
+                          setState(() {});
                         } else {
                           Fluttertoast.showToast(
                               msg: "تمت متابعته مسبقاً",
@@ -505,7 +536,7 @@ class _show_detalsState extends State<show_detals> {
                           gradient: LinearGradient(
                               begin: Alignment.centerRight,
                               end: Alignment.centerLeft,
-                              colors: [Colors.redAccent, Colors.pinkAccent]),
+                              colors: [Theme.of(context).primaryColor, Colors.deepOrangeAccent]),
                           borderRadius: BorderRadius.circular(30.0),
                         ),
                         child: Container(

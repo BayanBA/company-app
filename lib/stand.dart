@@ -47,9 +47,11 @@ class MyProvider with ChangeNotifier{
   List<String> Q=[""];
   List<String> A=[""];
   List<String> Z=[""];
+  int chat=0;
   int page = 0;
   int quiz=0;
   int qtype=0;
+  int user=0;
 
   setListQA(var qu,var ans,var ans11){
     Q=qu;
@@ -68,6 +70,16 @@ class MyProvider with ChangeNotifier{
 
   setPage(int num){
     page=num;
+    notifyListeners();
+  }
+
+  setUser(int num){
+    user=num;
+    notifyListeners();
+  }
+
+  setChat(int num){
+    chat=num;
     notifyListeners();
   }
 

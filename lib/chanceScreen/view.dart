@@ -249,10 +249,14 @@ class _ShowingDataState extends State<ShowingData> {
                         .orderBy("date", descending: true)
                         .snapshots(),
                     builder: (context, snapshot) {
-                      if (snapshot.data== null)
-                        return Center(
-                          child: Text("لم يتم نشر أي فرصة"),
-                        );
+
+
+                        if(snapshot.connectionState==ConnectionState.waiting)
+                        return CircularProgressIndicator();
+                        else if (snapshot.data== null)
+                      return Center(
+                      child: Text("لم يتم نشر أي فرصة"),
+                      );
                       else if (snapshot.hasData)
                         return done(snapshot.data.docs);
                       else

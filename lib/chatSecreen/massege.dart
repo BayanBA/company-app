@@ -9,7 +9,16 @@ class Massege extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: FirebaseFirestore.instance
+      stream:Provider.of<MyProvider>(context, listen: false).chat==1?
+      FirebaseFirestore.instance
+          .collection("oner")
+          .doc("DPi7T09bNPJGI0lBRqx4")
+          .collection("chat")
+          .doc(Provider.of<MyProvider>(context, listen: false).docUser)
+          .collection("chats")
+          .orderBy("date", descending: true)
+          .snapshots()
+          :FirebaseFirestore.instance
           .collection("users")
           .doc(Provider.of<MyProvider>(context, listen: false).user_id)
           .collection("chat")
@@ -18,35 +27,34 @@ class Massege extends StatelessWidget {
           .orderBy("date", descending: true)
           .snapshots(),
       builder: (ctx, snapshot) {
-        var doc = snapshot.data.docs;
         if (snapshot.connectionState == ConnectionState.waiting)
           return Center(child: CircularProgressIndicator());
-        if(snapshot.data == null) return CircularProgressIndicator();
-        if(!snapshot.hasData) {
-          return Center(child: CircularProgressIndicator());
-        }
-
+        //if(snapshot.data == null) return CircularProgressIndicator();
+        // if(!snapshot.hasData) {
+        //   return Center(child: CircularProgressIndicator());
+        // }
+        else if (snapshot.hasData)
         return ListView.builder(
               reverse: true,
-              itemCount: doc.length,
+              itemCount: snapshot.data.docs.length,
               itemBuilder: (ctx, index) {
                 return Row(
-                    mainAxisAlignment: doc[index]["num"] == 1
+                    mainAxisAlignment: snapshot.data.docs[index]["num"] == 1
                         ? MainAxisAlignment.start
                         : MainAxisAlignment.end,
                     children: [
                       Container(
                           decoration: BoxDecoration(
-                              color: doc[index]["num"] == 1
+                              color: snapshot.data.docs[index]["num"] == 1
                                   ? Colors.lightGreen
                                   : Colors.lightGreenAccent,
                               borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(14),
                                 topRight: Radius.circular(14),
-                                bottomLeft: doc[index]["num"] == 1
+                                bottomLeft: snapshot.data.docs[index]["num"] == 1
                                     ? Radius.circular(14)
                                     : Radius.circular(0),
-                                bottomRight: doc[index]["num"] == 1
+                                bottomRight: snapshot.data.docs[index]["num"] == 1
                                     ? Radius.circular(0)
                                     : Radius.circular(14),
                               )),
@@ -56,14 +64,14 @@ class Massege extends StatelessWidget {
                           margin:
                               EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                           child: Column(
-                            crossAxisAlignment: doc[index]["num"] == 1
+                            crossAxisAlignment: snapshot.data.docs[index]["num"] == 1
                                 ? CrossAxisAlignment.end
                                 : CrossAxisAlignment.start,
                             children: [
                               Text(
-                                doc[index]["text"],
+                                snapshot.data.docs[index]["text"],
                                 style: TextStyle(fontSize: 20),
-                                textAlign: doc[index]["num"] == 1
+                                textAlign: snapshot.data.docs[index]["num"] == 1
                                     ? TextAlign.end
                                     : TextAlign.start,
                               ),
@@ -71,6 +79,8 @@ class Massege extends StatelessWidget {
                           ))
                     ]);
               });
+        else
+          return CircularProgressIndicator();
       },
     );
   }

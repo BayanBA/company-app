@@ -38,10 +38,19 @@ class _NewMassageState extends State<NewMassage> {
     );
   }
 
-  sendMassage() {
+  sendMassage() async{
     FocusScope.of(context).unfocus();
 
-    FirebaseFirestore.instance
+    Provider.of<MyProvider>(context, listen: false).chat==1?
+    await FirebaseFirestore.instance
+        .collection("oner")
+        .doc("DPi7T09bNPJGI0lBRqx4")
+        .collection("chat")
+        .doc(Provider.of<MyProvider>(context, listen: false).docUser)
+        .collection("chats").add({"text":enterdMassage,"date":Timestamp.now(),"num":1})
+
+
+   : await FirebaseFirestore.instance
         .collection("users")
         .doc(Provider.of<MyProvider>(context, listen: false).user_id)
         .collection("chat").get().then((value){

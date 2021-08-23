@@ -125,51 +125,100 @@ class _PostUpdateState extends State<PostUpdate> {
                   child: Form(
                     key: ff1,
                     child: Container(
-                      child: TextFormField(
-                        initialValue: data["title"],
-                        onSaved: (val) {
-                          data["title"] = val;
-                        },
-                        onChanged: (val) {
-                          data["title"] = val;
-                        },
-                        decoration: InputDecoration(
-                          fillColor: Colors.teal[50],
-                          filled: true,
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(style: BorderStyle.solid),
+                      margin: EdgeInsets.only(left: 22, right: 22),
+                      height: 100,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).accentColor,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(50.0),
+                              topRight: Radius.circular(50.0),
+                              bottomLeft:Radius.circular(50.0) ,
+                              bottomRight: Radius.circular(50.0))),
+                      child: Container(
+                        margin:
+                        EdgeInsets.only(left: 20, right: 20,top:8,bottom: 8),
+                        padding:
+                        EdgeInsets.only(left: 20, bottom: 10,right: 20),
+                        height: 100,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(50.0),
+                                topRight: Radius.circular(50.0),
+                                bottomLeft:Radius.circular(50.0) ,
+                                bottomRight:
+                                Radius.circular(50.0))),
+                        child: TextFormField(
+                          initialValue: data["title"],
+                          onSaved: (val) {
+                            data["title"] = val;
+                          },
+                          onChanged: (val) {
+                            data["title"] = val;
+                          },
+                          onEditingComplete: (){
+                            FocusScope.of(context).unfocus();
+                          },
+                          decoration: InputDecoration(
+
+                            hintText: 'العنوان',
                           ),
-                          hintText: 'العنوان',
                         ),
                       ),
                     ),
-                  ),
-                ),
+                  ),),
                 Padding(
                     padding: EdgeInsets.all(10),
                     child: Form(
-                      key: ff,
-                      child: Container(
-                        child: TextFormField(
-                          initialValue: data["myPost"],
-                          onSaved: (val) {
-                            data["myPost"] = val;
-                          },
-                          onChanged: (val) {
-                            data["myPost"] = val;
-                          },
-                          decoration: InputDecoration(
-                            fillColor: Colors.teal[50],
-                            filled: true,
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(style: BorderStyle.solid),
+                        key: ff,
+                        child: Container(
+                          margin: EdgeInsets.only(left: 22, right: 22),
+                          height: 500,
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).accentColor,
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(50.0),
+                                  topRight: Radius.circular(50.0),
+                                  bottomLeft:Radius.circular(50.0) ,
+                                  bottomRight: Radius.circular(50.0))),
+                          child: Container(
+                            margin:
+                            EdgeInsets.only(left: 20, right: 20,top:10,bottom: 5),
+                            padding:
+                            EdgeInsets.only(left: 20, bottom: 10,right: 30,top: 20),
+                            height: 100,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(50.0),
+                                    topRight: Radius.circular(50.0),
+                                    bottomLeft:Radius.circular(50.0) ,
+                                    bottomRight:
+                                    Radius.circular(50.0))),
+                            child: TextFormField(
+                              initialValue: data["myPost"],
+                              onSaved: (val) {
+                                data["myPost"] = val;
+                              },
+                              onChanged: (val) {
+                                data["myPost"] = val;
+                              },
+                              onEditingComplete: (){
+                                FocusScope.of(context).unfocus();
+                              },
+                              keyboardType: TextInputType.text,
+                              decoration: InputDecoration(
+
+                                hintText: 'المنشور',
+                              ),
+                              maxLines: 30,
                             ),
-                            hintText: 'المنشور',
                           ),
-                          maxLines: 30,
-                        ),
-                      ),
-                    )),
+                        ))),
                 FloatingActionButton(
                   onPressed: () {
                     addpost(context);

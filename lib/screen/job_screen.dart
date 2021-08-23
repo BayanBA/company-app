@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:io';
 
 import '../chanceScreen/chance.dart';
@@ -93,11 +94,28 @@ class JobScreen {
     }
 
     var user = await FirebaseAuth.instance.currentUser;
-    await jobReference.add({
+
+    var num;
+    var n = await FirebaseFirestore.instance
+        .collection("number")
+        .doc("aLOUXiw8hVsNqdzEsjF5")
+        .get()
+        .then((value) {
+      num = value.data()["num"];
+    });
+    num = num + 1;
+
+    await FirebaseFirestore.instance
+        .collection("number")
+        .doc("aLOUXiw8hVsNqdzEsjF5")
+        .update({"num": num});
+
+    await FirebaseFirestore.instance.collection("oner").doc("DPi7T09bNPJGI0lBRqx4").collection("new_company").add({
       'company': d["company"],
       'region': d["region"],
       'city': d["city"],
       'followers':[],
+      "bayan":num,
       "all_accepted":[],
       'specialization': d["spe"],
       'email_advance': user.email,
@@ -107,8 +125,15 @@ class JobScreen {
       'link_image': "not",
     });
 
-    Navigator.push(context,
-        new MaterialPageRoute(builder: (context) => FirstRoute()));
+
+    Fluttertoast.showToast(
+        msg: "تم تسجيل طلبك بنجاح",
+        backgroundColor: Colors.black54,
+        textColor: Colors.white,
+        toastLength: Toast.LENGTH_LONG);
+
+    // Navigator.push(context,
+    //     new MaterialPageRoute(builder: (context) => FirstRoute()));
 
 
   }

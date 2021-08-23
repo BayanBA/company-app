@@ -14,6 +14,8 @@ class PostDetals extends StatefulWidget {
 
 class _PostDetalsState extends State<PostDetals> {
   var data = new Map<String, dynamic>();
+  GlobalKey<FormState> ff = new GlobalKey<FormState>();
+  GlobalKey<FormState> ff1 = new GlobalKey<FormState>();
   var comp;
 
   getData() async {
@@ -74,69 +76,107 @@ class _PostDetalsState extends State<PostDetals> {
               ),
               data.isEmpty
                   ? CircularProgressIndicator()
-                  : StreamBuilder(
-                      stream: comp.snapshots(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasError)
-                          return Text(("Errorrrrrrrrr"));
-                        else if (snapshot.connectionState ==
-                            ConnectionState.waiting)
-                          return CircularProgressIndicator();
-                        else
-                          return ListView(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.all(10),
-                                child: Center(
-                                  child: Text(
-                                    data["title"],
-                                    style: TextStyle(
-                                      fontSize: 25,
-                                    ),
-                                  ),
-                                ),
+                  : ListView(children: [
+                Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Form(
+                    key: ff1,
+                    child: Container(
+                      margin: EdgeInsets.only(left: 22, right: 22),
+                      height: 100,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).accentColor,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(50.0),
+                              topRight: Radius.circular(50.0),
+                              bottomLeft:Radius.circular(50.0) ,
+                              bottomRight: Radius.circular(50.0))),
+                      child: Container(
+                        margin:
+                        EdgeInsets.only(left: 20, right: 20,top:8,bottom: 8),
+                        padding:
+                        EdgeInsets.only(left: 20, bottom: 10,right: 20),
+                        height: 100,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(50.0),
+                                topRight: Radius.circular(50.0),
+                                bottomLeft:Radius.circular(50.0) ,
+                                bottomRight:
+                                Radius.circular(50.0))),
+                        child: TextFormField(
+                          initialValue: data["title"],
+                          onSaved: (val) {
+                            data["title"] = val;
+                          },
+                          onChanged: (val) {
+                            data["title"] = val;
+                          },
+                          onEditingComplete: (){
+                            FocusScope.of(context).unfocus();
+                          },
+                          decoration: InputDecoration(
+
+                            hintText: 'العنوان',
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),),
+                Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Form(
+                        key: ff,
+                        child: Container(
+                          margin: EdgeInsets.only(left: 22, right: 22),
+                          height: 500,
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).accentColor,
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(50.0),
+                                  topRight: Radius.circular(50.0),
+                                  bottomLeft:Radius.circular(50.0) ,
+                                  bottomRight: Radius.circular(50.0))),
+                          child: Container(
+                            margin:
+                            EdgeInsets.only(left: 20, right: 20,top:10,bottom: 5),
+                            padding:
+                            EdgeInsets.only(left: 20, bottom: 10,right: 30,top: 20),
+                            height: 100,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(50.0),
+                                    topRight: Radius.circular(50.0),
+                                    bottomLeft:Radius.circular(50.0) ,
+                                    bottomRight:
+                                    Radius.circular(50.0))),
+                            child: TextFormField(
+                              initialValue: data["myPost"],
+                              onSaved: (val) {
+                                data["myPost"] = val;
+                              },
+                              onChanged: (val) {
+                                data["myPost"] = val;
+                              },
+                              onEditingComplete: (){
+                                FocusScope.of(context).unfocus();
+                              },
+                              keyboardType: TextInputType.text,
+                              decoration: InputDecoration(
+
+                                hintText: 'المنشور',
                               ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(10),
-                                child: Card(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15.0),
-                                    ),
-                                    color: Colors.black38,
-                                    elevation: 10,
-                                    child: Padding(
-                                      padding: EdgeInsets.all(10),
-                                      child: Text(
-                                        data["myPost"],
-                                        style: TextStyle(
-                                          fontSize: 25,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    )),
-                              ),
-                              Center(
-                                child: IconButton(
-                                  icon: Icon(Icons.edit),
-                                  onPressed: () {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(builder: (context) {
-                                      return PostUpdate();
-                                    }));
-                                    setState(() {
-                                      data = Provider.of<MyProvider>(context,
-                                              listen: false)
-                                          .data;
-                                    });
-                                  },
-                                ),
-                              )
-                            ],
-                          );
-                      }),
+                              maxLines: 30,
+                            ),
+                          ),
+                        ))),
+              ])
             ])));
   }
 }
