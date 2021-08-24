@@ -1,7 +1,14 @@
+import 'dart:io';
+import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart';
 import 'package:b/enter/login.dart';
 import 'package:flutter/material.dart';
 import '../main.dart';
 import '../screen/job_screen.dart';
+import 'package:image_picker/image_picker.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -10,6 +17,14 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   JobScreen jobScreen = new JobScreen();
+  var dym;
+  dynamic image;
+  File file = null;
+  var url;
+  var urlk;
+  var imagepicker = ImagePicker();
+  var imagename;
+  String link_image;
 
   Widget fill_text(String b, String name, Icon, keyboardType) {
     return TextFormField(
@@ -87,6 +102,141 @@ class _SignUpState extends State<SignUp> {
           color: Colors.greenAccent,
           width: 3,
         ));
+  }
+
+  showBottomSheet(context) async {
+    var imagepicker = await ImagePicker();
+    return showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Directionality(
+              textDirection: TextDirection.rtl,
+              child: Container(
+                padding: EdgeInsets.all(20),
+                height: 240,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "اختر صوره للارسال",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    Divider(
+                      height: 2,
+                      color: Theme.of(context).primaryColor,
+                      thickness: 2,
+                    ),
+                    InkWell(
+                      onTap: () async {
+                        var picked = await imagepicker.getImage(
+                            source: ImageSource.gallery);
+                        if (picked != null) {
+                          file = File(picked.path);
+
+                          var rand = Random().nextInt(100000);
+                          var imagename = "$rand" + basename(picked.path);
+                          Reference ref =
+                              FirebaseStorage.instance.ref("images/$imagename");
+                          setState(() {
+                            image = file;
+                          });
+                          await ref.putFile(file);
+                          var urlk = await ref.getDownloadURL();
+
+                          // var user = FirebaseAuth.instance.currentUser;
+                          // await jobReference
+                          //     .where("email_advance", isEqualTo: user.email)
+                          //     .get()
+                          //     .then((value) {
+                          //   value.docs.forEach((element) {
+                          //     DocumentReference d = FirebaseFirestore.instance
+                          //         .collection("companies")
+                          //         .doc(element.id);
+                          //
+                          //     d.update({
+                          //       'link_image': urlk,
+                          //     });
+                          //});
+                          // });
+
+                          // Navigator.of(context).pop();
+                        }
+                      },
+                      child: Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.all(10),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.photo_outlined,
+                                color: Colors.teal[700],
+                                size: 30,
+                              ),
+                              SizedBox(width: 20),
+                              Text(
+                                "المعرض ",
+                                style: TextStyle(fontSize: 20),
+                              )
+                            ],
+                          )),
+                    ),
+                    InkWell(
+                      onTap: () async {
+                        var picked = await imagepicker.getImage(
+                            source: ImageSource.camera);
+                        if (picked != null) {
+                          file = File(picked.path);
+                          var rand = Random().nextInt(100000);
+                          var imagename = "$rand" + basename(picked.path);
+                          Reference ref =
+                              FirebaseStorage.instance.ref("images/$imagename");
+                          setState(() {
+                            image = file;
+                          });
+                          // await ref.putFile(file);
+                          // var url = await ref.getDownloadURL();
+                          // var user = FirebaseAuth.instance.currentUser;
+                          // await jobReference
+                          //     .where("email_advance", isEqualTo: user.email)
+                          //     .get()
+                          //     .then((value) {
+                          //   value.docs.forEach((element) {
+                          //     DocumentReference d = FirebaseFirestore.instance
+                          //         .collection("companies")
+                          //         .doc(element.id);
+                          //
+                          //     d.update({
+                          //       'link_image': url,
+                          //     });
+                          //   });
+                          // });
+
+                          //Navigator.of(context).pop();
+                        }
+                      },
+                      child: Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.all(10),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.camera,
+                                color: Colors.teal[700],
+                                size: 30,
+                              ),
+                              SizedBox(width: 20),
+                              Text(
+                                " الكاميرا",
+                                style: TextStyle(fontSize: 20),
+                              )
+                            ],
+                          )),
+                    ),
+                  ],
+                ),
+              ));
+        });
   }
 
   OutlineInputBorder myfocusborder() {
@@ -602,18 +752,101 @@ class _SignUpState extends State<SignUp> {
                               ),
                             ),
                             Positioned(
-                              top: 1580,
-                              child: Container(
-                                padding: const EdgeInsets.only(
-                                    left: 120.0, top: 60.0, right: 200),
-                                child: RaisedButton(
-                                    color: Colors.teal[700],
-                                    child: Text("انشاء حساب",
-                                        style: TextStyle(fontSize: 30)),
-                                    onPressed: () async {
-                                      await jobScreen.signupo(context);
-                                    }),
-                              ),
+                              top: 1660,
+                              child: Row(children: [
+                                //   Container(
+                                //   padding: const EdgeInsets.only(
+                                //       left: 120.0, top: 60.0, right: 200),
+                                //   child: RaisedButton(
+                                //       color: Colors.teal[700],
+                                //       child: Text("انشاء حساب",
+                                //           style: TextStyle(fontSize: 30)),
+                                //       onPressed: () async {
+                                //         await jobScreen.signupo(context);
+                                //       }),
+                                // ),
+
+                                SizedBox(
+                                  width: 20.0,
+                                ),
+                                Container(
+                                    width: 180.00,
+                                    child: RaisedButton(
+                                        onPressed: () async {
+                                          await jobScreen.signupo(context);
+                                        },
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(80.0)),
+                                        elevation: 0.0,
+                                        padding: EdgeInsets.all(0.0),
+                                        child: Ink(
+                                          decoration: BoxDecoration(
+                                            gradient: LinearGradient(
+                                                begin: Alignment.centerRight,
+                                                end: Alignment.centerLeft,
+                                                colors: [
+                                                  Colors.lime[400],
+                                                  Colors.teal[700]
+                                                ]),
+                                            borderRadius:
+                                                BorderRadius.circular(30.0),
+                                          ),
+                                          child: Container(
+                                            constraints: BoxConstraints(
+                                                maxWidth: 300.0,
+                                                minHeight: 50.0),
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              "انشاء حساب",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 26.0,
+                                                  fontWeight: FontWeight.w300),
+                                            ),
+                                          ),
+                                        ))),
+                                SizedBox(
+                                  width: 20.0,
+                                ),
+                                Container(
+                                  width: 180.00,
+                                  child: RaisedButton(
+                                      onPressed: () async {
+                                        showBottomSheet(context);
+                                      },
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(80.0)),
+                                      elevation: 0.0,
+                                      padding: EdgeInsets.all(0.0),
+                                      child: Ink(
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                              begin: Alignment.centerRight,
+                                              end: Alignment.centerLeft,
+                                              colors: [
+                                                Colors.lime[400],
+                                                Colors.teal[700]
+                                              ]),
+                                          borderRadius:
+                                              BorderRadius.circular(30.0),
+                                        ),
+                                        child: Container(
+                                          constraints: BoxConstraints(
+                                              maxWidth: 300.0, minHeight: 50.0),
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            "تحميل",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 26.0,
+                                                fontWeight: FontWeight.w300),
+                                          ),
+                                        ),
+                                      )),
+                                ),
+                              ]),
                             ),
                           ]),
                     ),

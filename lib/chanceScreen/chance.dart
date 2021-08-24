@@ -94,7 +94,7 @@ class AddJopState extends State<AddJop> {
   getdata1() async {
     CollectionReference t = FirebaseFirestore.instance.collection("companies");
     CollectionReference users = FirebaseFirestore.instance.collection("users");
-    userr = await FirebaseAuth.instance.currentUser;
+     userr = await FirebaseAuth.instance.currentUser;
 
     await t.where("email_advance", isEqualTo: userr.email).get().then((value) {
       value.docs.forEach((element) {
