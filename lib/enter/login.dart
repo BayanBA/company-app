@@ -19,22 +19,22 @@ class _LoginState extends State<Login> {
   signIn() async {
     formdata = formstate.currentState;
     //if (formdata.validate()) {
-      //formdata.save();
-      try {
-        UserCredential userCredential =
-            await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: myemail,
-          password: mypassword,
-        );
-        return userCredential;
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'user-not-found') {
-          print('No user found for that email.');
-        } else if (e.code == 'wrong-password') {
-          print('Wrong password provided for that user.');
-        }
+    //formdata.save();
+    try {
+      UserCredential userCredential =
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: myemail,
+        password: mypassword,
+      );
+      return userCredential;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
       }
-   // }
+    }
+    // }
   }
 
   @override
@@ -57,13 +57,13 @@ class _LoginState extends State<Login> {
                       child: Stack(
                         alignment: Alignment.topCenter,
                         children: <Widget>[
-                          Positioned(
-                            top: -150,
-                            child: CircleAvatar(
-                              radius: 110,
-                              backgroundColor: Colors.green,
-                            ),
-                          ),
+                          // Positioned(
+                          //   top: -150,
+                          //   child: CircleAvatar(
+                          //     radius: 110,
+                          //     backgroundColor: Colors.green,
+                          //   ),
+                          // ),
                           Positioned(
                             top: -140,
                             child: CircleAvatar(
@@ -75,7 +75,7 @@ class _LoginState extends State<Login> {
                           Positioned(
                             top: 60,
                             child: Card(
-                              color: Colors.teal[50],
+                              color: Colors.teal[700],
                               child: Container(
                                 height: 70,
                                 width: 380,
@@ -126,7 +126,7 @@ class _LoginState extends State<Login> {
                           Positioned(
                             top: 230,
                             child: Card(
-                              color: Colors.teal[50],
+                              color: Colors.teal[700],
                               child: Container(
                                 height: 70,
                                 width: 380,
@@ -177,34 +177,37 @@ class _LoginState extends State<Login> {
                                 children: [
                                   Text(
                                     "اذا لم يكن لديك حساب ",
-                                    style: TextStyle(fontSize: 20),
+                                    style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),
+
                                   ),
                                   InkWell(
                                     onTap: () {
                                       Navigator.of(context).pushReplacement(
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  new SignUp()));
+                                              new SignUp()));
                                     },
                                     child: Text(
                                       "اضغط هنا",
                                       style: TextStyle(
-                                          color: Colors.blue, fontSize: 20),
+                                          color: Colors.blue, fontSize: 25),
                                     ),
                                   )
                                 ],
                               )),
                           //batool.faiz.2000@gmail.com
                           //  19941994Abs
-                          new Container(
+                          Container(
+                            width: 900,
+                            height: 510,
+
                             padding: const EdgeInsets.only(
-                                left: 150.0, top: 450.0, right: 150),
+                                left: 100.0, top: 450.0, right: 100),
+
                             child: RaisedButton(
-                                child: Text(
-                                  "تسجيل دخول",
-                                  style: TextStyle(
-                                      fontSize: 15, color: Colors.black45),
-                                ),
+                                color: Colors.teal[700],
+                                child: Text("تسجيل الدخول",
+                                  style: TextStyle(fontSize: 20,color: Colors.white),),
                                 onPressed: () async {
                                   response = await signIn();
                                   if (response != null) {

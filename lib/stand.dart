@@ -39,11 +39,12 @@ class MyProvider with ChangeNotifier{
     "Vacancies": 1,
     "dateOfPublication": "",
   };
-  List data1=[""];
+  Map<String,dynamic> data1={};
   String chanceName="";
   String company_id="";
   String user_id="";
   String docUser="";
+
   List<String> Q=[""];
   List<String> A=[""];
   List<String> Z=[""];

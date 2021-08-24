@@ -46,8 +46,8 @@ class Massege extends StatelessWidget {
                       Container(
                           decoration: BoxDecoration(
                               color: snapshot.data.docs[index]["num"] == 1
-                                  ? Colors.lightGreen
-                                  : Colors.lightGreenAccent,
+                                  ? Colors.lightBlue[200]
+                                  : Colors.purple[400],
                               borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(14),
                                 topRight: Radius.circular(14),
@@ -85,23 +85,4 @@ class Massege extends StatelessWidget {
     );
   }
 
-// sendMassage(context) async{
-//   await FirebaseFirestore.instance
-//       .collection("users")
-//       .doc(Provider.of<MyProvider>(context, listen: false).user_id)
-//       .collection("chat")
-//       .get()
-//       .then((value) {
-//     value.docs.forEach((element) {
-//       if (element.data()["comp_id"] ==
-//           Provider.of<MyProvider>(context, listen: false).company_id)
-//         FirebaseFirestore.instance
-//             .collection("users")
-//             .doc(Provider.of<MyProvider>(context, listen: false).user_id)
-//             .collection("chat")
-//             .doc(element.id)
-//             .collection("chats");
-//     });
-//   });
-// }
 }

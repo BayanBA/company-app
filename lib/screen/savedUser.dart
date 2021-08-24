@@ -79,12 +79,12 @@ class _savesState extends State<saves> {
 
     return Directionality(textDirection: TextDirection.rtl, child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(100.0),
+          preferredSize: Size.fromHeight(90.0),
           child: AppBar(
             actions: [],
             title: Container(
-              margin: EdgeInsets.only(top:20,right: 60),
-              child: Text("الموظفون لدي",style: TextStyle(color: Theme.of(context).accentColor,fontSize: 30),),
+              margin: EdgeInsets.only(top:28,right: 70),
+              child: Text("المتابعون",style: TextStyle(color: Theme.of(context).accentColor,fontSize: 30),),
             ),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.vertical(
@@ -103,7 +103,7 @@ class _savesState extends State<saves> {
                         image: new AssetImage("images/55.jpeg"),
                         fit: BoxFit.cover,
                         colorFilter: ColorFilter.mode(
-                            Color(0xFFB71C1C), BlendMode.overlay))),
+                            Color(0xFF5C6BC0), BlendMode.overlay))),
               ),
             ),
             batool.isEmpty

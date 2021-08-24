@@ -75,22 +75,22 @@ class _show_userState extends State<show_user> {
           ),
         ),
         body:Stack(
-          children: [
-          Opacity(
-          opacity: 0.4,
-          child: Container(
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: new AssetImage("images/55.jpeg"),
-                    fit: BoxFit.cover,
-                    colorFilter: ColorFilter.mode(
-                        Color(0xFFB71C1C), BlendMode.overlay))),
-          ),
-        ), batool.isEmpty
-            ? Center(child: CircularProgressIndicator())
-            : StreamBuilder<QuerySnapshot>(
+            children: [
+              Opacity(
+                opacity: 0.4,
+                child: Container(
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: new AssetImage("images/55.jpeg"),
+                          fit: BoxFit.cover,
+                          colorFilter: ColorFilter.mode(
+                              Color(0xFFB71C1C), BlendMode.overlay))),
+                ),
+              ), batool.isEmpty
+                  ? Center(child: CircularProgressIndicator())
+                  : StreamBuilder<QuerySnapshot>(
                 stream:
-                    FirebaseFirestore.instance.collection('users').snapshots(),
+                FirebaseFirestore.instance.collection('users').snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     var doc = snapshot.data.docs;
@@ -109,7 +109,7 @@ class _show_userState extends State<show_user> {
                                       margin: EdgeInsets.all(20),
                                       child: Column(
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                           children: [
                                             Row(children: [
                                               Expanded(
@@ -117,17 +117,17 @@ class _show_userState extends State<show_user> {
                                                   child: Container(
                                                       child: Column(
                                                           children: <Widget>[
-                                                        getimage(index),
-                                                      ]))),
+                                                            getimage(index),
+                                                          ]))),
                                               Expanded(
                                                   flex: 2,
                                                   child: ListTile(
                                                     title: Text(
                                                       doc[index].data()[
-                                                              'firstname'] +
+                                                      'firstname'] +
                                                           "  " +
                                                           doc[index].data()[
-                                                              'endname'],
+                                                          'endname'],
                                                       style: TextStyle(
                                                         color: Theme.of(context)
                                                             .primaryColor,
@@ -136,10 +136,10 @@ class _show_userState extends State<show_user> {
                                                     ),
                                                     subtitle: Text(
                                                       doc[index].data()[
-                                                              'originalhome'] +
+                                                      'originalhome'] +
                                                           ", " +
                                                           doc[index].data()[
-                                                              'placerecident'],
+                                                          'placerecident'],
                                                       style: TextStyle(
                                                         color: Colors.black,
                                                         fontSize: 18.0,
@@ -153,17 +153,26 @@ class _show_userState extends State<show_user> {
                                   shape: BeveledRectangleBorder(
                                       borderRadius: BorderRadius.circular(25)),
                                 ),
-                                onTap: () {
+                                onTap: () async{
                                   item = new List();
                                   item_id = new List();
                                   item.add(doc[index].data());
                                   item_id.add(doc[index].id);
 
+                                  await FirebaseFirestore.instance.collection("users").doc(item_id.elementAt(0)).get().then((value) {
+                                    if(value.data()["num_follow"].contains(Provider.of<MyProvider>(context, listen: false).company_id))
+                                      Provider.of<MyProvider>(context, listen: false).setUser(3);
+                                    else
+                                      Provider.of<MyProvider>(context, listen: false).setUser(0);
+                                  });
+
+
+
                                   Navigator.push(
                                       context,
                                       new MaterialPageRoute(
                                           builder: (context) =>
-                                              new show_detals(item, item_id)));
+                                          new show_detals(item, item_id)));
                                 },
                               ),
                             ),

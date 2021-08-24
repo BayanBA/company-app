@@ -54,7 +54,7 @@ class JobScreen {
     "region": "سوريا",
     "city": "دمشق",
     "token":"",
-    "size": "",
+    "size": "أقل من 1000 موظف",
     "token":"",
     "des": "",
     "spe": "",
@@ -124,7 +124,6 @@ class JobScreen {
       'phone': d["phone"],
       'link_image': "not",
     });
-
 
     Fluttertoast.showToast(
         msg: "تم تسجيل طلبك بنجاح",

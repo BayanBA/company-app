@@ -1,4 +1,3 @@
-import 'package:b/employeeSecreen/applicantsDetals.dart';
 import 'package:b/screen/showUser.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -96,22 +95,23 @@ class _ApplicantsState extends State<Applicants> {
               ),
               Center(
                 child: lis.isEmpty
-                    ? data1["Presenting_A_Job"].isEmpty?Center(
-                  child: Text("لا يوجد متقدمين"),
-                ):CircularProgressIndicator()
+                    ? data1["Presenting_A_Job"].isEmpty
+                        ? Center(
+                            child: Text("لا يوجد متقدمين"),
+                          )
+                        : CircularProgressIndicator()
                     : StreamBuilder(
-                    stream: comp.snapshots(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasError)
-                        return Text(("Errorrrrrrrrr"));
-                      else if (snapshot.connectionState ==
-                          ConnectionState.waiting)
-                        return CircularProgressIndicator();
-                      else
-                        return A_user(context);
-                    }),
+                        stream: comp.snapshots(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasError)
+                            return Text(("Errorrrrrrrrr"));
+                          else if (snapshot.connectionState ==
+                              ConnectionState.waiting)
+                            return CircularProgressIndicator();
+                          else
+                            return A_user(context);
+                        }),
               )
-
             ])));
   }
 
@@ -181,11 +181,13 @@ class _ApplicantsState extends State<Applicants> {
                       item.add(lis[Sort_lis.elementAt(index)]);
                       item_id.add(Sort_lis.elementAt(index));
 
+                      Provider.of<MyProvider>(context, listen: false)
+                          .setUser(1);
                       Navigator.push(
                           context,
                           new MaterialPageRoute(
                               builder: (context) =>
-                                  new ApplicantsDetals(item, item_id)));
+                                  new show_detals(item, item_id)));
                     },
                   ),
                 ),

@@ -35,7 +35,7 @@ class _MyEmployState extends State<MyEmploy> {
         value.docs.forEach((element) {
           setState(() {
             if(bayan.contains(element.id))
-               batool.add(element.data());
+              batool.add(element.data());
           });
         });
       }
@@ -57,114 +57,115 @@ class _MyEmployState extends State<MyEmploy> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(100.0),
-        child: AppBar(
-          actions: [],
-          title: Container(
-            margin: EdgeInsets.only(top:20,right: 60),
-          child: Text("الموظفون لدي",style: TextStyle(color: Theme.of(context).accentColor,fontSize: 30),),
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(70.0),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(100.0),
+          child: AppBar(
+            actions: [],
+            title: Container(
+              margin: EdgeInsets.only(top:20,right: 60),
+              child: Text("الموظفون لدي",style: TextStyle(color: Theme.of(context).accentColor,fontSize: 30),),
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                bottom: Radius.circular(70.0),
+              ),
             ),
           ),
         ),
-      ),
-      body:Stack(
-        children: [
-          Opacity(
-            opacity: 0.4,
-            child: Container(
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: new AssetImage("images/55.jpeg"),
-                      fit: BoxFit.cover,
-                      colorFilter: ColorFilter.mode(
-                          Color(0xFFB71C1C), BlendMode.overlay))),
+        body:Stack(
+          children: [
+            Opacity(
+              opacity: 0.4,
+              child: Container(
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: new AssetImage("images/55.jpeg"),
+                        fit: BoxFit.cover,
+                        colorFilter: ColorFilter.mode(
+                            Color(0xFFB71C1C), BlendMode.overlay))),
+              ),
             ),
-          ),
-          batool.isEmpty
-              ? Center(child: CircularProgressIndicator())
-              : ListView.builder(
-              itemCount: batool.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: InkWell(
-                      child: Card(
-                        child: Container(
-                            margin: EdgeInsets.all(20),
-                            child: Column(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
-                                children: [
-                                  Row(children: [
-                                    Expanded(
-                                        flex: 1,
-                                        child: Container(
-                                            child:
-                                            Column(children: <Widget>[
-                                              getimage(index),
-                                            ]))),
-                                    Expanded(
-                                        flex: 2,
-                                        child: ListTile(
-                                          title: Text(
-                                            batool.elementAt(index)['firstname'] +
-                                                "  " +
-                                                batool.elementAt(index)['endname'],
-                                            style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                              fontSize: 25.0,
+            batool.isEmpty
+                ? Center(child: CircularProgressIndicator())
+                : ListView.builder(
+                itemCount: batool.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: InkWell(
+                        child: Card(
+                          child: Container(
+                              margin: EdgeInsets.all(20),
+                              child: Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    Row(children: [
+                                      Expanded(
+                                          flex: 1,
+                                          child: Container(
+                                              child:
+                                              Column(children: <Widget>[
+                                                getimage(index),
+                                              ]))),
+                                      Expanded(
+                                          flex: 2,
+                                          child: ListTile(
+                                            title: Text(
+                                              batool.elementAt(index)['firstname'] +
+                                                  "  " +
+                                                  batool.elementAt(index)['endname'],
+                                              style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                                fontSize: 25.0,
+                                              ),
                                             ),
-                                          ),
-                                          subtitle: Text(
-                                            batool.elementAt(index)[
-                                            'originalhome'] +
-                                                ", " +
-                                                batool.elementAt(index)[
-                                                'placerecident'],
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 18.0,
+                                            subtitle: Text(
+                                              batool.elementAt(index)[
+                                              'originalhome'] +
+                                                  ", " +
+                                                  batool.elementAt(index)[
+                                                  'placerecident'],
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 18.0,
+                                              ),
                                             ),
-                                          ),
-                                        ))
-                                  ])
-                                ])),
-                        elevation: 8,
-                        shadowColor: Colors.green,
-                        shape: BeveledRectangleBorder(
-                            borderRadius: BorderRadius.circular(25)),
-                      ),
-                      onTap: () {
-                        item = new List();
-                        item_id = new List();
-                        item.add(batool.elementAt(index));
-                        item_id.add(batool.elementAt(index)["id"]);
+                                          ))
+                                    ])
+                                  ])),
+                          elevation: 8,
+                          shadowColor: Colors.green,
+                          shape: BeveledRectangleBorder(
+                              borderRadius: BorderRadius.circular(25)),
+                        ),
+                        onTap: () {
+                          item = new List();
+                          item_id = new List();
+                          item.add(batool.elementAt(index));
+                          item_id.add(batool.elementAt(index)["id"]);
 
-                        Navigator.push(
-                            context,
-                            new MaterialPageRoute(
-                                builder: (context) =>
-                                new show_detals(item, item_id)));
-                      },
+                          Provider.of<MyProvider>(context, listen: false).setUser(2);
+                          Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (context) =>
+                                  new show_detals(item, item_id)));
+                        },
+                      ),
                     ),
-                  ),
-                );
-              }) ,
-        ],
-      )
+                  );
+                }) ,
+          ],
+        )
 
     );
 
-        }
+  }
 
 }

@@ -22,8 +22,22 @@ class show_detals extends StatefulWidget {
 
 class _show_detalsState extends State<show_detals> {
   int i = 0;
+  var base = new List();
+  var base1 = new List();
+  var v;
 
   setData() async {
+    v = await FirebaseFirestore.instance
+        .collection("companies")
+        .doc(Provider.of<MyProvider>(context, listen: false).company_id)
+        .collection("chance");
+    v
+        .doc(Provider.of<MyProvider>(context, listen: false).data["id"])
+        .get()
+        .then((value) async {
+      base = await value.data()["accepted"];
+    });
+
     await FirebaseFirestore.instance
         .collection("users")
         .doc(item_id.elementAt(0))
@@ -74,16 +88,16 @@ class _show_detalsState extends State<show_detals> {
         textDirection: TextDirection.rtl,
         child: Scaffold(
           appBar: PreferredSize(
-            preferredSize: Size.fromHeight(80.0),
+            preferredSize: Size.fromHeight(42.0),
             child: AppBar(
               title: Center(
                 child: Text(" "),
               ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(20.0),
-                ),
-              ),
+              // shape: RoundedRectangleBorder(
+              //   borderRadius: BorderRadius.only(
+              //     bottomRight: Radius.circular(20.0),
+              //   ),
+              // ),
             ),
           ),
           body: SingleChildScrollView(
@@ -94,18 +108,27 @@ class _show_detalsState extends State<show_detals> {
                         gradient: LinearGradient(
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
-                            colors: [Theme.of(context).primaryColor, Colors.deepOrangeAccent])),
+                            colors: [
+                          Theme.of(context).primaryColor,
+                          Colors.amber
+                        ])),
                     child: Container(
                       width: double.infinity,
-                      height: 350.0,
+                      height: 360.0,
                       child: Center(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             CircleAvatar(
-                              backgroundImage: AssetImage("images/bb.jpg"),
-                              radius: 50.0,
+                              backgroundColor: Theme.of(context).accentColor,
+                              backgroundImage: widget.items
+                                          .elementAt(0)['imageurl'] ==
+                                      "not"
+                                  ? AssetImage("images/55.jpeg")
+                                  : NetworkImage(
+                                      widget.items.elementAt(0)['imageurl']),
+                              radius: 60.0,
                             ),
                             SizedBox(
                               height: 10.0,
@@ -139,8 +162,8 @@ class _show_detalsState extends State<show_detals> {
                                           Text(
                                             "المتابعين",
                                             style: TextStyle(
-                                              color: Colors.redAccent,
-                                              fontSize: 22.0,
+                                              color: Colors.amber,
+                                              fontSize: 25.0,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -153,7 +176,7 @@ class _show_detalsState extends State<show_detals> {
                                                 "شخص",
                                             style: TextStyle(
                                               fontSize: 20.0,
-                                              color: Colors.pinkAccent,
+                                              color: Colors.black,
                                             ),
                                           )
                                         ],
@@ -165,8 +188,8 @@ class _show_detalsState extends State<show_detals> {
                                           Text(
                                             "الخبرة",
                                             style: TextStyle(
-                                              color: Colors.redAccent,
-                                              fontSize: 22.0,
+                                              color: Colors.amber,
+                                              fontSize: 25.0,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -179,7 +202,7 @@ class _show_detalsState extends State<show_detals> {
                                                 "سنوات",
                                             style: TextStyle(
                                               fontSize: 20.0,
-                                              color: Colors.pinkAccent,
+                                              color: Colors.black,
                                             ),
                                           )
                                         ],
@@ -191,8 +214,8 @@ class _show_detalsState extends State<show_detals> {
                                           Text(
                                             "مراسلة",
                                             style: TextStyle(
-                                              color: Colors.redAccent,
-                                              fontSize: 22.0,
+                                              color: Colors.amber,
+                                              fontSize: 25.0,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -204,7 +227,7 @@ class _show_detalsState extends State<show_detals> {
                                               "اضغط هنا",
                                               style: TextStyle(
                                                 fontSize: 20.0,
-                                                color: Colors.pinkAccent,
+                                                color: Colors.blue,
                                               ),
                                             ),
                                             onTap: () {
@@ -241,51 +264,19 @@ class _show_detalsState extends State<show_detals> {
                         Row(
                           children: [
                             Text(
-                              "الجنس و تاريخ الميلاد:",
-                              style: TextStyle(
-                                  color: Colors.redAccent,
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 28.0),
-                            ),
-                            Flexible(
-                              child: Text(
-                                "   " +
-                                    "${widget.items.elementAt(0)['gender']}" +
-                                    " \n " +
-                                    "${widget.items.elementAt(0)['date']['month']}" +
-                                    "/" +
-                                    "${widget.items.elementAt(0)['date']['day']}" +
-                                    "/" +
-                                    "${widget.items.elementAt(0)['date']['year']}",
-                                style: TextStyle(
-                                  fontSize: 22.0,
-                                  fontStyle: FontStyle.italic,
-                                  fontWeight: FontWeight.w300,
-                                  color: Colors.black,
-                                  letterSpacing: 2.0,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        Row(
-                          children: [
-                            Text(
                               "المستوى العلمي:",
                               style: TextStyle(
-                                  color: Colors.redAccent,
+                                  color: Theme.of(context).primaryColor,
                                   fontStyle: FontStyle.normal,
-                                  fontSize: 28.0),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.0),
                             ),
                             Flexible(
                               child: Text(
                                 "   " +
                                     "${widget.items.elementAt(0)['scientific_level']}",
                                 style: TextStyle(
-                                  fontSize: 22.0,
+                                  fontSize: 18.0,
                                   fontStyle: FontStyle.italic,
                                   fontWeight: FontWeight.w300,
                                   color: Colors.black,
@@ -296,49 +287,23 @@ class _show_detalsState extends State<show_detals> {
                           ],
                         ),
                         SizedBox(
-                          height: 10.0,
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              "اللغات:",
-                              style: TextStyle(
-                                  color: Colors.redAccent,
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 28.0),
-                            ),
-                            Flexible(
-                              child: Text(
-                                "   " +
-                                    "${widget.items.elementAt(0)['language']}",
-                                style: TextStyle(
-                                  fontSize: 22.0,
-                                  fontStyle: FontStyle.italic,
-                                  fontWeight: FontWeight.w300,
-                                  color: Colors.black,
-                                  letterSpacing: 2.0,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10.0,
+                          height: 9.0,
                         ),
                         Row(
                           children: [
                             Text(
                               "المهارات:",
                               style: TextStyle(
-                                  color: Colors.redAccent,
+                                  color: Theme.of(context).primaryColor,
                                   fontStyle: FontStyle.normal,
-                                  fontSize: 28.0),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.0),
                             ),
                             Flexible(
                               child: Text(
                                 "   " + "${widget.items.elementAt(0)['skill']}",
                                 style: TextStyle(
-                                  fontSize: 22.0,
+                                  fontSize: 18.0,
                                   fontStyle: FontStyle.italic,
                                   fontWeight: FontWeight.w300,
                                   color: Colors.black,
@@ -349,23 +314,24 @@ class _show_detalsState extends State<show_detals> {
                           ],
                         ),
                         SizedBox(
-                          height: 10.0,
+                          height: 9.0,
                         ),
                         Row(
                           children: [
                             Text(
                               "الأعمال السابقة:",
                               style: TextStyle(
-                                  color: Colors.redAccent,
+                                  color: Theme.of(context).primaryColor,
                                   fontStyle: FontStyle.normal,
-                                  fontSize: 28.0),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.0),
                             ),
                             Flexible(
                               child: Text(
                                 "   " +
                                     "${widget.items.elementAt(0)['work_field']}",
                                 style: TextStyle(
-                                  fontSize: 22.0,
+                                  fontSize: 18.0,
                                   fontStyle: FontStyle.italic,
                                   fontWeight: FontWeight.w300,
                                   color: Colors.black,
@@ -376,16 +342,45 @@ class _show_detalsState extends State<show_detals> {
                           ],
                         ),
                         SizedBox(
-                          height: 10.0,
+                          height: 9.0,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              "اللغات:",
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  fontStyle: FontStyle.normal,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.0),
+                            ),
+                            Flexible(
+                              child: Text(
+                                "   " +
+                                    "${widget.items.elementAt(0)['language']}",
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w300,
+                                  color: Colors.black,
+                                  letterSpacing: 2.0,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 9.0,
                         ),
                         Row(
                           children: [
                             Text(
                               "الموطن و مكان العمل:",
                               style: TextStyle(
-                                  color: Colors.redAccent,
+                                  color: Theme.of(context).primaryColor,
                                   fontStyle: FontStyle.normal,
-                                  fontSize: 28.0),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.0),
                             ),
                             Flexible(
                               child: Text(
@@ -394,7 +389,7 @@ class _show_detalsState extends State<show_detals> {
                                     " - " +
                                     "${widget.items.elementAt(0)['worksite']}",
                                 style: TextStyle(
-                                  fontSize: 22.0,
+                                  fontSize: 18.0,
                                   fontStyle: FontStyle.italic,
                                   fontWeight: FontWeight.w300,
                                   color: Colors.black,
@@ -405,22 +400,86 @@ class _show_detalsState extends State<show_detals> {
                           ],
                         ),
                         SizedBox(
-                          height: 10.0,
+                          height: 9.0,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              " تاريخ الميلاد:",
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  fontStyle: FontStyle.normal,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.0),
+                            ),
+                            Flexible(
+                              child: Text(
+                                " " +
+
+                                    // "${widget.items.elementAt(0)['gender']}" +" ,"+
+                                    "${widget.items.elementAt(0)['date']['month']}" +
+                                    "/" +
+                                    "${widget.items.elementAt(0)['date']['day']}" +
+                                    "/" +
+                                    "${widget.items.elementAt(0)['date']['year']}",
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w300,
+                                  color: Colors.black,
+                                  letterSpacing: 2.0,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 9.0,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              " الجنس:",
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  fontStyle: FontStyle.normal,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.0),
+                            ),
+                            Flexible(
+                              child: Text(
+                                "   " +
+                                    "${widget.items.elementAt(0)['gender']}" +
+                                    "",
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w300,
+                                  color: Colors.black,
+                                  letterSpacing: 2.0,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 9.0,
                         ),
                         Row(
                           children: [
                             Text(
                               "الهاتف:",
                               style: TextStyle(
-                                  color: Colors.redAccent,
+                                  color: Theme.of(context).primaryColor,
                                   fontStyle: FontStyle.normal,
-                                  fontSize: 28.0),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.0),
                             ),
                             Flexible(
                               child: Text(
                                 "   " + "${widget.items.elementAt(0)['phone']}",
                                 style: TextStyle(
-                                  fontSize: 22.0,
+                                  fontSize: 18.0,
                                   fontStyle: FontStyle.italic,
                                   fontWeight: FontWeight.w300,
                                   color: Colors.black,
@@ -431,127 +490,380 @@ class _show_detalsState extends State<show_detals> {
                           ],
                         ),
                         SizedBox(
-                          height: 10.0,
+                          height: 9.0,
                         ),
-                        Text(
-                          "الايميل:",
-                          style: TextStyle(
-                              color: Colors.redAccent,
-                              fontStyle: FontStyle.normal,
-                              fontSize: 28.0),
-                        ),
-                        SizedBox(
-                          height: 2.0,
-                        ),
-                        Text(
-                          "${widget.items.elementAt(0)['gmail']}",
-                          style: TextStyle(
-                            fontSize: 22.0,
-                            fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.w300,
-                            color: Colors.black,
-                            letterSpacing: 2.0,
-                          ),
-                        ),
+                        Row(
+                          children: [
+                            Text(
+                              "الايميل:",
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  fontStyle: FontStyle.normal,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.0),
+                            ),
+                            Flexible(
+                              child: Text(
+                                "  " + "${widget.items.elementAt(0)['gmail']}",
+                                style: TextStyle(
+                                  fontSize: 19.0,
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w300,
+                                  color: Colors.black,
+                                  letterSpacing: 2.0,
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
                       ],
                     ),
                   ),
                 ),
                 SizedBox(
-                  height: 20.0,
+                  height: 18.0,
                 ),
-                Container(
-                  width: 300.00,
-                  child:Provider.of<MyProvider>(context, listen: false).user==1?RaisedButton(
-                      onPressed: () {
+                Row(children: [
+                  SizedBox(
+                    width: 20.0,
+                  ),
+                  Container(
+                    width: 180.00,
+                    child: Provider.of<MyProvider>(context, listen: false)
+                                .user ==
+                            1
+                        ? RaisedButton(
+                            onPressed: () async {
+                              if (!base
+                                  .contains(widget.items_id.elementAt(0))) {
+                                base.add(widget.items_id.elementAt(0));
+                                await v
+                                    .doc(Provider.of<MyProvider>(context,
+                                            listen: false)
+                                        .data["id"])
+                                    .update({
+                                  'accepted': base,
+                                });
+                              }
 
-                      },
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(80.0)),
-                      elevation: 0.0,
-                      padding: EdgeInsets.all(0.0),
-                      child: Ink(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: Alignment.centerRight,
-                              end: Alignment.centerLeft,
-                              colors: [Theme.of(context).primaryColor, Colors.deepOrangeAccent]),
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                        child: Container(
-                          constraints:
-                          BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
-                          alignment: Alignment.center,
-                          child: Text(
-                            "متابعة",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 26.0,
-                                fontWeight: FontWeight.w300),
+                              await FirebaseFirestore.instance
+                                  .collection("companies")
+                                  .doc(Provider.of<MyProvider>(context,
+                                          listen: false)
+                                      .company_id)
+                                  .get()
+                                  .then((value) {
+                                base1 = value.data()["all_accepted"];
+                              });
+                              if (!base1.contains(widget.items_id.elementAt(0)))
+                                base1.add(widget.items_id.elementAt(0));
+                              await FirebaseFirestore.instance
+                                  .collection("companies")
+                                  .doc(Provider.of<MyProvider>(context,
+                                          listen: false)
+                                      .company_id)
+                                  .update({"all_accepted": base1});
+
+                              Provider.of<MyProvider>(context, listen: false)
+                                  .setUser(2);
+                              setState(() {});
+                            },
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(80.0)),
+                            elevation: 0.0,
+                            padding: EdgeInsets.all(0.0),
+                            child: Ink(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    begin: Alignment.centerRight,
+                                    end: Alignment.centerLeft,
+                                    colors: [
+                                      Theme.of(context).primaryColor,
+                                      Colors.amber
+                                    ]),
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
+                              child: Container(
+                                constraints: BoxConstraints(
+                                    maxWidth: 300.0, minHeight: 50.0),
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "قبول",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 26.0,
+                                      fontWeight: FontWeight.w300),
+                                ),
+                              ),
+                            ))
+                        : Provider.of<MyProvider>(context, listen: false)
+                                    .user ==
+                                2
+                            ? RaisedButton(
+                                onPressed: () async {
+                                  base.remove(widget.items_id.elementAt(0));
+                                  await v
+                                      .doc(Provider.of<MyProvider>(context,
+                                              listen: false)
+                                          .data["id"])
+                                      .update({
+                                    'accepted': base,
+                                  });
+                                  await FirebaseFirestore.instance
+                                      .collection("companies")
+                                      .doc(Provider.of<MyProvider>(context,
+                                              listen: false)
+                                          .company_id)
+                                      .get()
+                                      .then((value) {
+                                    base1 = value.data()["all_accepted"];
+                                  });
+                                  if (base1
+                                      .contains(widget.items_id.elementAt(0))) {
+                                    base1.remove(widget.items_id.elementAt(0));
+                                    await FirebaseFirestore.instance
+                                        .collection("companies")
+                                        .doc(Provider.of<MyProvider>(context,
+                                                listen: false)
+                                            .company_id)
+                                        .update({"all_accepted": base1});
+                                  }
+
+                                  Provider.of<MyProvider>(context,
+                                          listen: false)
+                                      .setUser(1);
+                                  setState(() {});
+                                },
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(80.0)),
+                                elevation: 0.0,
+                                padding: EdgeInsets.all(0.0),
+                                child: Ink(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                        begin: Alignment.centerRight,
+                                        end: Alignment.centerLeft,
+                                        colors: [
+                                          Theme.of(context).primaryColor,
+                                          Colors.amber
+                                        ]),
+                                    borderRadius: BorderRadius.circular(30.0),
+                                  ),
+                                  child: Container(
+                                    constraints: BoxConstraints(
+                                        maxWidth: 300.0, minHeight: 50.0),
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      "الغاء قبول",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 26.0,
+                                          fontWeight: FontWeight.w300),
+                                    ),
+                                  ),
+                                ))
+                            : Provider.of<MyProvider>(context, listen: false)
+                                        .user ==
+                                    3
+                                ? RaisedButton(
+                                    onPressed: () async {
+                                      var idd;
+                                      var n = new List();
+                                      n = widget.items
+                                          .elementAt(0)['num_follow'];
+                                      if (n.contains(Provider.of<MyProvider>(
+                                              context,
+                                              listen: false)
+                                          .company_id)) {
+                                        n.remove(Provider.of<MyProvider>(
+                                                context,
+                                                listen: false)
+                                            .company_id);
+                                        await FirebaseFirestore.instance
+                                            .collection("users")
+                                            .doc(widget.items_id.elementAt(0))
+                                            .update({"num_follow": n});
+                                        await FirebaseFirestore.instance
+                                            .collection("companies")
+                                            .doc(Provider.of<MyProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .company_id)
+                                            .collection("favorite")
+                                            .get()
+                                            .then((value) {
+                                          value.docs.forEach((element) {
+                                            if (element.data()["id"] ==
+                                                widget.items_id.elementAt(0))
+                                              idd = element.id;
+                                          });
+                                        });
+
+                                        await FirebaseFirestore.instance
+                                            .collection("companies")
+                                            .doc(Provider.of<MyProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .company_id)
+                                            .collection("favorite")
+                                            .doc(idd)
+                                            .delete();
+
+                                        Fluttertoast.showToast(
+                                            msg: "تم الغاء المتابعة",
+                                            backgroundColor: Colors.black54,
+                                            textColor: Colors.white,
+                                            toastLength: Toast.LENGTH_SHORT);
+                                        Provider.of<MyProvider>(context,
+                                                listen: false)
+                                            .setUser(0);
+                                        setState(() {});
+                                      }
+                                      // else {
+                                      //   Provider.of<MyProvider>(context, listen: false).setUser(0);
+                                      //   setState(() {
+                                      //   });
+                                      // }
+                                    },
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(80.0)),
+                                    elevation: 0.0,
+                                    padding: EdgeInsets.all(0.0),
+                                    child: Ink(
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                            begin: Alignment.centerRight,
+                                            end: Alignment.centerLeft,
+                                            colors: [
+                                              Theme.of(context).primaryColor,
+                                              Colors.amber
+                                            ]),
+                                        borderRadius:
+                                            BorderRadius.circular(30.0),
+                                      ),
+                                      child: Container(
+                                        constraints: BoxConstraints(
+                                            maxWidth: 300.0, minHeight: 50.0),
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          "الغاء متابعة",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 26.0,
+                                              fontWeight: FontWeight.w300),
+                                        ),
+                                      ),
+                                    ))
+                                : RaisedButton(
+                                    onPressed: () async {
+                                      var n = new List();
+                                      n = widget.items
+                                          .elementAt(0)['num_follow'];
+                                      if (!n.contains(Provider.of<MyProvider>(
+                                              context,
+                                              listen: false)
+                                          .company_id)) {
+                                        await FirebaseFirestore.instance
+                                            .collection("companies")
+                                            .doc(Provider.of<MyProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .company_id)
+                                            .collection("favorite")
+                                            .add({
+                                          'id': widget.items_id.elementAt(0),
+                                        });
+                                        n.add(Provider.of<MyProvider>(context,
+                                                listen: false)
+                                            .company_id);
+                                        Fluttertoast.showToast(
+                                            msg: "تمت المتابعة",
+                                            backgroundColor: Colors.black54,
+                                            textColor: Colors.white,
+                                            toastLength: Toast.LENGTH_SHORT);
+                                        await FirebaseFirestore.instance
+                                            .collection("users")
+                                            .doc(widget.items_id.elementAt(0))
+                                            .update({"num_follow": n});
+                                        setState(() {});
+                                      } else {
+                                        Provider.of<MyProvider>(context,
+                                                listen: false)
+                                            .setUser(3);
+                                        setState(() {});
+                                      }
+                                    },
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(80.0)),
+                                    elevation: 0.0,
+                                    padding: EdgeInsets.all(0.0),
+                                    child: Ink(
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                            begin: Alignment.centerRight,
+                                            end: Alignment.centerLeft,
+                                            colors: [
+                                              Theme.of(context).primaryColor,
+                                              Colors.amber
+                                            ]),
+                                        borderRadius:
+                                            BorderRadius.circular(30.0),
+                                      ),
+                                      child: Container(
+                                        constraints: BoxConstraints(
+                                            maxWidth: 300.0, minHeight: 50.0),
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          "متابعة",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 26.0,
+                                              fontWeight: FontWeight.w300),
+                                        ),
+                                      ),
+                                    )),
+                  ),
+                  SizedBox(
+                    width: 20.0,
+                  ),
+                  Container(
+                    width: 180.00,
+                    child: RaisedButton(
+                        onPressed: () async {},
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(80.0)),
+                        elevation: 0.0,
+                        padding: EdgeInsets.all(0.0),
+                        child: Ink(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.centerRight,
+                                end: Alignment.centerLeft,
+                                colors: [
+                                  Theme.of(context).primaryColor,
+                                  Colors.amber
+                                ]),
+                            borderRadius: BorderRadius.circular(30.0),
                           ),
-                        ),
-                      ))
-                      :RaisedButton(
-                      onPressed: () async {
-                        var n = new List();
-                        n = widget.items.elementAt(0)['num_follow'];
-                        if (!n.contains(
-                            Provider.of<MyProvider>(context, listen: false)
-                                .company_id)) {
-                          await FirebaseFirestore.instance
-                              .collection("companies")
-                              .doc(Provider.of<MyProvider>(context,
-                                      listen: false)
-                                  .company_id)
-                              .collection("favorite")
-                              .add({
-                            'id': widget.items_id.elementAt(0),
-                          });
-                          n.add(Provider.of<MyProvider>(context, listen: false)
-                              .company_id);
-                          Fluttertoast.showToast(
-                              msg: "تمت المتابعة",
-                              backgroundColor: Colors.black54,
-                              textColor: Colors.white,
-                              toastLength: Toast.LENGTH_SHORT);
-                          await FirebaseFirestore.instance
-                              .collection("users")
-                              .doc(widget.items_id.elementAt(0))
-                              .update({"num_follow": n});
-                          setState(() {});
-                        } else {
-                          Fluttertoast.showToast(
-                              msg: "تمت متابعته مسبقاً",
-                              backgroundColor: Colors.black54,
-                              textColor: Colors.white,
-                              toastLength: Toast.LENGTH_SHORT);
-                        }
-                      },
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(80.0)),
-                      elevation: 0.0,
-                      padding: EdgeInsets.all(0.0),
-                      child: Ink(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: Alignment.centerRight,
-                              end: Alignment.centerLeft,
-                              colors: [Theme.of(context).primaryColor, Colors.deepOrangeAccent]),
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                        child: Container(
-                          constraints:
-                              BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
-                          alignment: Alignment.center,
-                          child: Text(
-                            "متابعة",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 26.0,
-                                fontWeight: FontWeight.w300),
+                          child: Container(
+                            constraints: BoxConstraints(
+                                maxWidth: 300.0, minHeight: 50.0),
+                            alignment: Alignment.center,
+                            child: Text(
+                              "ابلاغ",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 26.0,
+                                  fontWeight: FontWeight.w300),
+                            ),
                           ),
-                        ),
-                      )),
+                        )),
+                  ),
+                ]),
+                SizedBox(
+                  height: 30.0,
                 ),
               ],
             ),

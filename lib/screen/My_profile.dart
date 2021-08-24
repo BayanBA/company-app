@@ -16,16 +16,32 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:radial_menu/radial_menu.dart';
 
-import '../jobs.dart';
+
 import 'notification.dart';
 
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
+const _title = 'Radial Menu Demo';
 
 class _HomePageState extends State<HomePage> {
+
+  List<RadialMenuEntry> radialMenuEntries = [
+    RadialMenuEntry(
+        //onTap: ,
+        icon: Icons.delete, text: 'للحذف', textColor: Colors.black, color: Colors.indigo,iconSize: 40),
+    RadialMenuEntry(
+        icon: Icons.mark_chat_read_outlined,
+        text: 'محادثه',
+        iconColor: Colors.lightBlue,
+        iconSize: 40,
+        textColor: Colors.black),
+    RadialMenuEntry(icon: Icons.exit_to_app, text: 'خروج', iconSize: 40),
+  //  RadialMenuEntry(icon: Icons.shopping_cart, text: 'Shop'),
+  ];
   var userr;
   var token;
   var follow = new List();
@@ -48,7 +64,227 @@ class _HomePageState extends State<HomePage> {
       });
     });
   }
-
+  // deletedata(context) async {
+  //   CollectionReference t = FirebaseFirestore.instance.collection("companies");
+  //   var user = FirebaseAuth.instance.currentUser;
+  //   await t.where("email_advance", isEqualTo: user.email).get().then((value) {
+  //     value.docs.forEach((element) {
+  //       setState(() {
+  //         DocumentReference d = FirebaseFirestore.instance
+  //             .collection("companies")
+  //             .doc(element.id);
+  //         d.delete();
+  //       });
+  //     });
+  //   });
+  //   await user.delete();
+  //   Navigator.push(
+  //       context, new MaterialPageRoute(builder: (context) => new Login()));
+  // }
+  //
+  // deletAlart(context) async {
+  //   await showDialog(
+  //       context: context,
+  //       builder: (context) {
+  //         return AlertDialog(
+  //             shape: BeveledRectangleBorder(
+  //                 borderRadius: BorderRadius.circular(10)),
+  //             title: Container(
+  //                 margin: EdgeInsets.only(right: 20),
+  //                 child: Column(
+  //                   children: [
+  //                     Text(
+  //                       "هل انت متاكد من حذف الحساب",
+  //                       style: TextStyle(
+  //                           color: Theme.of(context).primaryColor,
+  //                           fontStyle: FontStyle.italic),
+  //                     ),
+  //                   ],
+  //                 )),
+  //             content: Container(
+  //               height: 20,
+  //             ),
+  //             actions: <Widget>[
+  //               Container(
+  //                 margin: EdgeInsets.only(right: 30),
+  //                 child: ElevatedButton(
+  //                   style: ElevatedButton.styleFrom(
+  //                     primary: Theme.of(context).accentColor,
+  //                     onPrimary: Colors.black,
+  //                     shape: const BeveledRectangleBorder(
+  //                         borderRadius: BorderRadius.all(Radius.circular(3))),
+  //                   ),
+  //                   onPressed: () => setState(() {
+  //                     Navigator.of(context).pop();
+  //                   }),
+  //                   child: Text(
+  //                     "لا",
+  //                     style: TextStyle(color: Colors.black),
+  //                   ),
+  //                 ),
+  //               ),
+  //               Container(
+  //                 margin: EdgeInsets.only(right: 30),
+  //                 child: ElevatedButton(
+  //                   style: ElevatedButton.styleFrom(
+  //                     primary: Theme.of(context).accentColor,
+  //                     onPrimary: Colors.black,
+  //                     shape: const BeveledRectangleBorder(
+  //                         borderRadius: BorderRadius.all(Radius.circular(3))),
+  //                   ),
+  //                   onPressed: () => setState(() {
+  //                     deletedata(context);
+  //
+  //                     Navigator.push(
+  //                         context,
+  //                         new MaterialPageRoute(
+  //                             builder: (context) => new Login()));
+  //                   }),
+  //                   child: Text(
+  //                     '  نعم',
+  //                     style: TextStyle(color: Colors.black),
+  //                   ),
+  //                 ),
+  //               )
+  //             ]);
+  //       });
+  // }
+  //
+  // sign_out_Alart(context) {
+  //   showDialog(
+  //       context: context,
+  //       builder: (context) {
+  //         return AlertDialog(
+  //             shape: BeveledRectangleBorder(
+  //                 borderRadius: BorderRadius.circular(10)),
+  //             title: Container(
+  //                 margin: EdgeInsets.only(right: 20),
+  //                 child: Column(
+  //                   children: [
+  //                     Text(
+  //                       "هل انت متاكد من تسجيل الخروج",
+  //                       style: TextStyle(
+  //                           color: Theme.of(context).primaryColor,
+  //                           fontStyle: FontStyle.italic),
+  //                     ),
+  //                   ],
+  //                 )),
+  //             content: Container(
+  //               height: 20,
+  //             ),
+  //             actions: <Widget>[
+  //               Container(
+  //                 margin: EdgeInsets.only(right: 30),
+  //                 child: ElevatedButton(
+  //                   style: ElevatedButton.styleFrom(
+  //                     primary: Theme.of(context).accentColor,
+  //                     onPrimary: Colors.black,
+  //                     shape: const BeveledRectangleBorder(
+  //                         borderRadius: BorderRadius.all(Radius.circular(3))),
+  //                   ),
+  //                   onPressed: () => setState(() {
+  //                     Navigator.of(context).pop();
+  //                   }),
+  //                   child: Text(
+  //                     "لا",
+  //                     style: TextStyle(color: Colors.black),
+  //                   ),
+  //                 ),
+  //               ),
+  //               Container(
+  //                 margin: EdgeInsets.only(right: 30),
+  //                 child: ElevatedButton(
+  //                   style: ElevatedButton.styleFrom(
+  //                     primary: Theme.of(context).accentColor,
+  //                     onPrimary: Colors.black,
+  //                     shape: const BeveledRectangleBorder(
+  //                         borderRadius: BorderRadius.all(Radius.circular(3))),
+  //                   ),
+  //                   onPressed: () {
+  //                     //  await _signOut();
+  //                     Navigator.push(
+  //                         context,
+  //                         new MaterialPageRoute(
+  //                             builder: (context) => new Login()));
+  //                   },
+  //                   child: Text(
+  //                     '  نعم',
+  //                     style: TextStyle(color: Colors.black),
+  //                   ),
+  //                 ),
+  //               )
+  //             ]);
+  //       });
+  // }
+  //
+  // edit_Alart(context) {
+  //   showDialog(
+  //       context: context,
+  //       builder: (context) {
+  //         return AlertDialog(
+  //             shape: BeveledRectangleBorder(
+  //                 borderRadius: BorderRadius.circular(10)),
+  //             title: Container(
+  //                 margin: EdgeInsets.only(right: 20),
+  //                 child: Column(
+  //                   children: [
+  //                     Text(
+  //                       "هل انت متأكد من التعديلات",
+  //                       style: TextStyle(
+  //                           color: Theme.of(context).primaryColor,
+  //                           fontStyle: FontStyle.italic),
+  //                     ),
+  //                   ],
+  //                 )),
+  //             content: Container(
+  //               height: 20,
+  //             ),
+  //             actions: <Widget>[
+  //               Container(
+  //                 margin: EdgeInsets.only(right: 30),
+  //                 child: ElevatedButton(
+  //                   style: ElevatedButton.styleFrom(
+  //                     primary: Theme.of(context).accentColor,
+  //                     onPrimary: Colors.black,
+  //                     shape: const BeveledRectangleBorder(
+  //                         borderRadius: BorderRadius.all(Radius.circular(3))),
+  //                   ),
+  //                   onPressed: () => setState(() {
+  //                     Navigator.of(context).pop();
+  //                   }),
+  //                   child: Text(
+  //                     "لا",
+  //                     style: TextStyle(color: Colors.black),
+  //                   ),
+  //                 ),
+  //               ),
+  //               Container(
+  //                 margin: EdgeInsets.only(right: 30),
+  //                 child: ElevatedButton(
+  //                   style: ElevatedButton.styleFrom(
+  //                     primary: Theme.of(context).accentColor,
+  //                     onPrimary: Colors.black,
+  //                     shape: const BeveledRectangleBorder(
+  //                         borderRadius: BorderRadius.all(Radius.circular(3))),
+  //                   ),
+  //                   onPressed: () {
+  //                     Navigator.of(context).pop();
+  //
+  //                     print("((((((((((((((((((((((((((((((((((");
+  //                     print(finsh);
+  //                     setState(() {
+  //                       share(context);
+  //                     });
+  //                   },
+  //                   child: Text(
+  //                     '  نعم',
+  //                     style: TextStyle(color: Colors.black),
+  //                   ),
+  //                 ),
+  //               )
+  //             ]);
+  //       });
+  // }
   kk() async {
     await FirebaseMessaging.onMessage.listen((event) async {
       setState(() {
@@ -96,6 +332,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget build(BuildContext context) {
     nn();
+    double size = 200;
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
@@ -157,6 +394,9 @@ class _HomePageState extends State<HomePage> {
                           SizedBox(
                             height: 20,
                           ),
+
+                          // Container(height: 40),
+
                           Column(children: [
 
 
@@ -281,6 +521,15 @@ class _HomePageState extends State<HomePage> {
                       ))
                 ],
               ),
+              Positioned(
+                left:50,
+                top:200,child:Transform.translate(
+                  offset: Offset(-size / 2 + 40, 0),
+                  child: RadialMenu(color: Colors.black,
+                    size: size,
+                    entrySize: 120,
+                    entries: radialMenuEntries,
+                  )),),
 
             ]),
             floatingActionButtonLocation:
@@ -368,7 +617,6 @@ class _HomePageState extends State<HomePage> {
                       FloatingActionButton(
                         heroTag: "tag5",
                         child: Icon(
-                          //notifications_on_outlined
                           Icons.notifications_none,
                           color: Theme.of(context).primaryColor,
                           size: 30,

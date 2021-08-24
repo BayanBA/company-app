@@ -86,7 +86,6 @@ class _PostState extends State<Post> {
 
   @override
   Widget build(BuildContext context) {
-
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
@@ -115,76 +114,28 @@ class _PostState extends State<Post> {
                               Color(0xFF212121), BlendMode.overlay))),
                 ),
               ),
-              ListView(children: [
-                Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Form(
-                    key: ff1,
-                    child: Container(
-                      margin: EdgeInsets.only(left: 22, right: 22),
-                      height: 100,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).accentColor,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(50.0),
-                              topRight: Radius.circular(50.0),
-                              bottomLeft:Radius.circular(50.0) ,
-                              bottomRight: Radius.circular(50.0))),
-                      child: Container(
-                          margin:
-                          EdgeInsets.only(left: 20, right: 20,top:8,bottom: 8),
-                          padding:
-                          EdgeInsets.only(left: 20, bottom: 10,right: 20),
-                          height: 100,
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(50.0),
-                                  topRight: Radius.circular(50.0),
-                                  bottomLeft:Radius.circular(50.0) ,
-                                  bottomRight:
-                                  Radius.circular(50.0))),
-                      child: TextFormField(
-                        initialValue: title,
-                        onSaved: (val) {
-                          title = val;
-                        },
-                        onChanged: (val) {
-                          title = val;
-                        },
-                        onEditingComplete: (){
-                          FocusScope.of(context).unfocus();
-                        },
-                        decoration: InputDecoration(
-
-                          hintText: 'العنوان',
-                        ),
-                      ),
-                    ),
-                  ),
-                ),),
-                Padding(
+              Column(
+                children: [
+                  Padding(
                     padding: EdgeInsets.all(10),
                     child: Form(
-                      key: ff,
+                      key: ff1,
                       child: Container(
                         margin: EdgeInsets.only(left: 22, right: 22),
-                        height: 500,
+                        height: 100,
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
                             color: Theme.of(context).accentColor,
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(50.0),
                                 topRight: Radius.circular(50.0),
-                                bottomLeft:Radius.circular(50.0) ,
+                                bottomLeft: Radius.circular(50.0),
                                 bottomRight: Radius.circular(50.0))),
                         child: Container(
-                          margin:
-                          EdgeInsets.only(left: 20, right: 20,top:10,bottom: 5),
+                          margin: EdgeInsets.only(
+                              left: 20, right: 20, top: 8, bottom: 8),
                           padding:
-                          EdgeInsets.only(left: 20, bottom: 10,right: 30,top: 20),
+                              EdgeInsets.only(left: 20, bottom: 10, right: 20),
                           height: 100,
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
@@ -192,41 +143,119 @@ class _PostState extends State<Post> {
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(50.0),
                                   topRight: Radius.circular(50.0),
-                                  bottomLeft:Radius.circular(50.0) ,
-                                  bottomRight:
-                                  Radius.circular(50.0))),
-                        child: TextFormField(
-                          initialValue: sav,
-                          onSaved: (val) {
-                            sav = val;
-                          },
-                          onChanged: (val) {
-                            sav = val;
-                          },
-                          onEditingComplete: (){
-                            FocusScope.of(context).unfocus();
-                          },
-                          keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-
-                            hintText: 'المنشور',
+                                  bottomLeft: Radius.circular(50.0),
+                                  bottomRight: Radius.circular(50.0))),
+                          child: TextFormField(
+                            initialValue: title,
+                            onSaved: (val) {
+                              title = val;
+                            },
+                            onChanged: (val) {
+                              title = val;
+                            },
+                            onEditingComplete: () {
+                              FocusScope.of(context).unfocus();
+                            },
+                            decoration: InputDecoration(
+                              hintText: 'العنوان',
+                            ),
                           ),
-                          maxLines: 30,
                         ),
                       ),
-                    ))),
-                FloatingActionButton(
-                  onPressed: () {
-                    addpost(context);
-                  },
-                  child: const Icon(Icons.navigation),
-                  backgroundColor: Colors.deepPurpleAccent,
-                )
-              ])
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Form(
+                            key: ff,
+                            child: Container(
+                              margin: EdgeInsets.only(left: 22, right: 22),
+                              height: 500,
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                  color: Theme.of(context).accentColor,
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(50.0),
+                                      topRight: Radius.circular(50.0),
+                                      bottomLeft: Radius.circular(50.0),
+                                      bottomRight: Radius.circular(50.0))),
+                              child: Container(
+                                margin: EdgeInsets.only(
+                                    left: 20, right: 20, top: 10, bottom: 5),
+                                padding: EdgeInsets.only(
+                                    left: 20, bottom: 10, right: 30, top: 20),
+                                height: 100,
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(50.0),
+                                        topRight: Radius.circular(50.0),
+                                        bottomLeft: Radius.circular(50.0),
+                                        bottomRight: Radius.circular(50.0))),
+                                child: TextFormField(
+                                  initialValue: sav,
+                                  onSaved: (val) {
+                                    sav = val;
+                                  },
+                                  onChanged: (val) {
+                                    sav = val;
+                                  },
+                                  onEditingComplete: () {
+                                    FocusScope.of(context).unfocus();
+                                  },
+                                  keyboardType: TextInputType.text,
+                                  decoration: InputDecoration(
+                                    hintText: 'المنشور',
+                                  ),
+                                  maxLines: 30,
+                                ),
+                              ),
+                            ))),
+                  ),
+                  Container(
+                    width: 150,
+                    margin: EdgeInsets.only(top: 30),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.centerRight,
+                          end: Alignment.centerLeft,
+                          colors: [
+                            Theme.of(context).primaryColor,
+                            Theme.of(context).accentColor
+                          ]),
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    child: Container(
+                      width: 10,
+                      //constraints:
+                      //BoxConstraints(maxWidth: 100.0, minHeight: 50.0),
+                      alignment: Alignment.center,
+                      child: InkWell(
+                        onTap: () {
+                          addpost(context);
+                        },
+                        child: Text(
+                          "نشر",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 26.0,
+                              fontWeight: FontWeight.w300),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  )
+                ],
+              ),
             ])));
   }
 
   var num;
+
   saving() async {
     my_lis = new List();
     var v = await FirebaseFirestore.instance
@@ -253,7 +282,7 @@ class _PostState extends State<Post> {
       "id": "",
       "title": title,
       "num": num,
-      "date":Timestamp.now(),
+      "date": Timestamp.now(),
       'date_publication': {
         'day': DateTime.now().day,
         'month': DateTime.now().month,
@@ -302,8 +331,6 @@ class _PostState extends State<Post> {
     for (int i = 0; i < my_lis.length; i++)
       sendMessage(
           "بوست", "تم نشر بوست من قبل الشركه  ${name_comp}", i, u, id_post);
-
-
   }
 
   addpost(context) {
@@ -358,7 +385,7 @@ class _PostState extends State<Post> {
                     onPressed: () {
                       saving();
                       setState(() {
-                       Navigator.of(context).pop();
+                        Navigator.of(context).pop();
                       });
                     },
                     child: Text(

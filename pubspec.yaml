@@ -42,6 +42,7 @@ dependencies:
   charts_flutter:
   firebase_storage:
   firebase_database: "^6.0.0"
+  radial_menu:
 
   #flutter_swiper:
   #flutter_staggered_grid_view:

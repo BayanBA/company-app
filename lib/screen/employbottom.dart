@@ -43,7 +43,7 @@ class _navigatorState extends State<navigator> {
                 color: Colors.white,
               ),
               Icon(
-                Icons.post_add,
+                Icons.done,
                 color: Colors.white,
               ),
             ],

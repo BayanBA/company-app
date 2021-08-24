@@ -1,145 +1,223 @@
-
-import 'package:b/employeeSecreen/acceptable.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:b/chatSecreen/chat.dart';
+import 'package:b/enter/login.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../stand.dart';
 
-class InitialAcceptance extends StatefulWidget {
+class Setting1Widget extends StatefulWidget {
   @override
-  _InitialAcceptanceState createState() => _InitialAcceptanceState();
+  _Setting1WidgetState createState() => _Setting1WidgetState();
 }
 
-class _InitialAcceptanceState extends State<InitialAcceptance> {
-  var list = new List();
-
-  var map = new Map();
-  CollectionReference comp;
-
-  getdata() async {
-    CollectionReference t = FirebaseFirestore.instance.collection("companies");
-    var user = await FirebaseAuth.instance.currentUser;
-
-    await t.where("email_advance", isEqualTo: user.email).get().then((value) {
-      value.docs.forEach((element) {
-        setState(() {
-          Provider.of<MyProvider>(context, listen: false).setCompId(element.id);
-        });
-      });
-    });
-
-    comp = await FirebaseFirestore.instance
-        .collection("companies")
-        .doc(Provider.of<MyProvider>(context, listen: false).company_id)
-        .collection("chance");
-    comp.get().then((value) {
-      value.docs.forEach((element) {
-        setState(() {
-          list.add(element.data());
-          map[element.data()["title"]] = element.data()["accepted"];
-        });
-      });
-    });
-  }
-
-  @override
-  void initState() {
-    getdata();
-    super.initState();
-  }
-
-  Widget done() {
-    return ListView.separated(
-        itemBuilder: (context, i) {
-          return Dismissible(
-            onDismissed: (direction) async {
-            },
-            key: UniqueKey(),
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-              color: Colors.black38,
-              elevation: 10,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  ListTile(
-                    leading:
-                        Icon(Icons.apartment, size: 50, color: Colors.white),
-                    title: Text(list.elementAt(i)["title"],
-                        style: TextStyle(color: Colors.white)),
-                    subtitle: Text(
-                        list
-                                .elementAt(i)["date_publication"]['day']
-                                .toString() +
-                            "/" +
-                            list
-                                .elementAt(i)["date_publication"]['month']
-                                .toString() +
-                            "/" +
-                            list
-                                .elementAt(i)["date_publication"]['year']
-                                .toString(),
-                        style: TextStyle(color: Colors.white)),
-                  ),
-                  ButtonBar(
-                    children: <Widget>[
-                      InkWell(
-                        onTap: () {
-                          Provider.of<MyProvider>(context, listen: false)
-                              .data1 = map[list.elementAt(i)["title"]];
-                          Provider.of<MyProvider>(context, listen: false).data =
-                              list.elementAt(i);
-                          Provider.of<MyProvider>(context, listen: false)
-                              .setChanceName(list.elementAt(i)["title"]);
-                          Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) {
-                            return Acceptable();
-                          }));
-                        },
-                        child: Text(
-                          "تفاصيل",
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                          textAlign: TextAlign.right,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-        separatorBuilder: (context, i) {
-          return Divider(
-            height: 2,
-            color: Colors.amber,
-            thickness: 3,
-          );
-        },
-        itemCount: list.length);
-  }
-
+class _Setting1WidgetState extends State<Setting1Widget> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: list.isEmpty
-          ? CircularProgressIndicator()
-          : StreamBuilder(
-              stream: comp.snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasError)
-                  return Text(("Errorrrrrrrrr"));
-                else if (snapshot.connectionState == ConnectionState.waiting)
-                  return CircularProgressIndicator();
-                else
-                  return done();
-              }),
-    );
+    return Directionality(
+        textDirection: TextDirection.rtl,
+        child: Scaffold(
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(100.0),
+            child: AppBar(
+              title: Center(
+                child: Text(" "),
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(60.0),
+                ),
+              ),
+            ),
+          ),
+          body:
+          Stack(children: [
+            Opacity(
+              opacity: 0.4,
+              child: Container(
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: new AssetImage("images/55.jpeg"),
+                        fit: BoxFit.cover,
+                        colorFilter: ColorFilter.mode(
+                            Color(0xFF5C6BC0), BlendMode.overlay))),
+              ),
+            ),
+
+
+            ListView(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Text(
+                    "اعداداتي:",
+                    style: TextStyle(color: Colors.grey.shade700, fontSize: 30),
+                  ),
+                ),
+                Card(
+                  color: Theme.of(context).accentColor.withOpacity(0.3),
+                  elevation: 4.0,
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        height: 100,
+                        child: ListTile(
+                          leading: Icon(
+                            Icons.mark_chat_read_outlined,
+                            color: Colors.black,
+                            size: 30,
+                          ),
+                          title: Text(
+                            "    مراسله الاداره",
+                            style: TextStyle(fontSize: 20,color: Colors.black),
+                          ),
+                          trailing: IconButton(icon:Icon(Icons.arrow_right,size: 20,),onPressed: (){
+                            Provider.of<MyProvider>(context, listen: false).setChat(1);
+                                            Navigator.of(context).push(
+                                                MaterialPageRoute(builder: (context) {
+                                                  return Chat();
+                                                }));
+                          },),
+                        ),
+                      ),
+                      Divider(
+                        height: 2,
+                        color: Theme.of(context).primaryColor,
+                        thickness: 2,
+                      ),
+                      Container(
+                        height: 100,
+                        child: ListTile(
+                          leading: Icon(
+                            Icons.delete,
+                            color: Colors.black,
+
+                            size: 30,
+                          ),
+                          title: Text(
+                            " حذف الحساب ",
+                            style: TextStyle(fontSize: 20,color: Colors.black),
+                          ),
+                          trailing: Icon(Icons.arrow_right,size: 20,),
+                        ),
+                      ),
+                      Divider(
+                        height: 2,
+                        color: Theme.of(context).primaryColor,
+                        thickness: 2,
+                      ),
+
+                      Container(
+                        height: 100,
+                        child: ListTile(
+                          leading: Icon(
+                            Icons.exit_to_app,
+                            color: Colors.black,
+
+                            size: 30,
+                          ),
+                          title: Text(
+                            " تسجيل الخروج",
+                            style: TextStyle(fontSize: 20,color: Colors.black),
+                          ),
+                          trailing: IconButton(icon:Icon(Icons.arrow_right,size: 20,),onPressed: ()async{
+                            await sign_out_Alart(context);
+                          },),
+                        ),
+                      ),
+                      Divider(
+                        height: 2,
+                        color: Theme.of(context).primaryColor,
+                        thickness: 2,
+                      ),
+                      Container(
+                        height: 100,
+                        child: ListTile(
+                          leading: Icon(
+                            Icons.wb_sunny_outlined,
+                            color: Colors.black,
+
+                            size: 30,
+                          ),
+                          title: Text(
+                            " الوضع النهاري",
+                            style: TextStyle(fontSize: 20,color: Colors.black),
+                          ),
+                          trailing: Switch(value: true, onChanged: (v) {},activeColor: Theme.of(context).primaryColor,),
+                        ),
+                      ),
+
+                    ],
+                  ),
+                ),
+              ],
+            ),]),
+        ));
+  }
+
+  sign_out_Alart(context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+              shape: BeveledRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              title: Container(
+                  margin: EdgeInsets.only(right: 20),
+                  child: Column(
+                    children: [
+                      Text(
+                        "هل انت متاكد من تسجيل الخروج",
+                        style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontStyle: FontStyle.italic),
+                      ),
+                    ],
+                  )),
+              content: Container(
+                height: 20,
+              ),
+              actions: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(right: 30),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).accentColor,
+                      onPrimary: Colors.black,
+                      shape: const BeveledRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(3))),
+                    ),
+                    onPressed: () => setState(() {
+                      Navigator.of(context).pop();
+                    }),
+                    child: Text(
+                      "لا",
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(right: 30),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).accentColor,
+                      onPrimary: Colors.black,
+                      shape: const BeveledRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(3))),
+                    ),
+                    onPressed: () {
+                      //  await _signOut();
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (context) => new Login()));
+                    },
+                    child: Text(
+                      '  نعم',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                )
+              ]);
+        });
   }
 }

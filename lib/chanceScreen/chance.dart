@@ -489,6 +489,7 @@ class AddJopState extends State<AddJop> {
       d = {
         "id": "",
         "title": "",
+       // "Qtime":
         "quiz": false,
         "salary": "أقل من 100000",
         "workTime": "دوام جزئي",
@@ -497,6 +498,7 @@ class AddJopState extends State<AddJop> {
         "skillNum": "",
         "quizList": [],
         "describsion": "",
+        "quiz_result":{},
         "expir": "1",
         "quizNum": 5,
         "gender": "لا يهم",
@@ -509,6 +511,7 @@ class AddJopState extends State<AddJop> {
         data[j].cost = 0;
       }
       _filters=new List();
+      Provider.of<MyProvider>(context, listen: false).setQtype(0);
     }
   }
 
@@ -1032,7 +1035,7 @@ class AddJopState extends State<AddJop> {
                         heroTag: "tag11",
                         child: Icon(
                           Icons.track_changes,
-                          color: Colors.indigo[300],
+                          color: Theme.of(context).primaryColor,
                           size: 30,
                         ),
                         backgroundColor: Colors.white,
@@ -1050,7 +1053,7 @@ class AddJopState extends State<AddJop> {
                         heroTag: "tag22",
                         child: Icon(
                           Icons.verified_outlined,
-                          color: Colors.indigo[300],
+                          color:  Theme.of(context).primaryColor,
                           size: 30,
                         ),
                         backgroundColor: Colors.white,

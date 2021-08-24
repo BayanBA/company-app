@@ -1,10 +1,13 @@
 import 'package:b/chanceScreen/detals.dart';
+import 'package:b/chanceScreen/detalsT.dart';
+import 'package:b/chanceScreen/detalsV.dart';
+import 'package:b/screen/showUser.dart';
+import 'package:b/screen/users.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../stand.dart';
-import 'applicantsDetals.dart';
 
 class Acceptable extends StatefulWidget {
   @override
@@ -18,18 +21,16 @@ class _AcceptableState extends State<Acceptable> {
   int num = 0;
 
   getData() async {
-    CollectionReference t = FirebaseFirestore.instance.collection("users");
-    await t.get().then((value) {
+    await FirebaseFirestore.instance.collection("users").get().then((value) {
       value.docs.forEach((element) {
         setState(() {
           if (Provider.of<MyProvider>(context, listen: false)
-              .data1
+              .data1["accepted"]
               .contains(element.id)) user.add(element.data());
         });
       });
       num = 1;
     });
-
   }
 
   @override
@@ -69,7 +70,7 @@ class _AcceptableState extends State<Acceptable> {
                 ),
               ),
               user.isEmpty
-                 ? num == 0
+                  ? num == 0
                       ? CircularProgressIndicator()
                       : Center(
                           child: Column(
@@ -80,7 +81,17 @@ class _AcceptableState extends State<Acceptable> {
                                 onTap: () {
                                   Navigator.of(context).push(
                                       MaterialPageRoute(builder: (context) {
-                                    return Detals();
+                                    return Provider.of<MyProvider>(context,
+                                                    listen: false)
+                                                .data1["chanceId"] ==
+                                            0
+                                        ? Detals()
+                                        : Provider.of<MyProvider>(context,
+                                                        listen: false)
+                                                    .data1["chanceId"] ==
+                                                1
+                                            ? DetalsV()
+                                            : DetalsT();
                                   }));
                                 },
                               )
@@ -88,36 +99,74 @@ class _AcceptableState extends State<Acceptable> {
                           ),
                         )
                   : Column(children: [
-                      Center(
-                        child: Card(
-                          child: Text(
-                              Provider.of<MyProvider>(context, listen: false)
-                                  .chanceName),
-                          borderOnForeground: true,
-                          color: Colors.lightGreen,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                        ),
-                      ),
+
                       Expanded(
                         child: ListView.builder(
                             itemCount: user.length,
                             itemBuilder: (context, index) {
-                              return InkWell(
-                                child: Text(user.elementAt(index)["firstname"] +
-                                    user.elementAt(index)["endname"]),
-                                onTap: () {
-                                  items_id=new List();
-                                   items_id.add(user.elementAt(index)["id"]);
-                                  item=new List();
-                                  item.add(user.elementAt(index));
-                                  Navigator.of(context)
-                                      .push(MaterialPageRoute(builder: (context) {
-                                    return ApplicantsDetals(item,items_id);
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: GestureDetector(
+                                  child: InkWell(
+                                    child: Card(
+                                      child: Container(
+                                        margin: EdgeInsets.all(20),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(children: [
+                                              Text(
+                                                user.elementAt(
+                                                    index)['firstname'],
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: Colors.black),
+                                              ),
+                                              Text(
+                                                " " +
+                                                    user.elementAt(
+                                                        index)['endname'],
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: Colors.black),
+                                              ),
+                                            ]),
+                                            Row(children: [
+                                              Text("   " +
+                                                  user.elementAt(
+                                                      index)['gender']),
+                                              Text(" , " +
+                                                  user.elementAt(
+                                                      index)['originalhome']),
+                                            ]),
+                                          ],
+                                        ),
+                                      ),
+                                      elevation: 8,
+                                      shadowColor: Colors.green,
+                                      shape: BeveledRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15)),
+                                    ),
+                                    onTap: () {
+                                      item = new List();
+                                      item_id = new List();
+                                      item.add(user.elementAt(index));
+                                      item_id.add(user.elementAt(index)["id"]);
 
-                                  }));
-                                },
+                                      Provider.of<MyProvider>(context,
+                                              listen: false)
+                                          .setUser(2);
+                                      Navigator.push(
+                                          context,
+                                          new MaterialPageRoute(
+                                              builder: (context) =>
+                                                  new show_detals(
+                                                      item, item_id)));
+                                    },
+                                  ),
+                                ),
                               );
                             }),
                       ),
