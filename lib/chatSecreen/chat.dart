@@ -46,7 +46,8 @@ class _ChatState extends State<Chat> {
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-            appBar: PreferredSize(
+            appBar:
+            PreferredSize(
               preferredSize: Size.fromHeight(80.0),
               child: AppBar(
                 title: Center(

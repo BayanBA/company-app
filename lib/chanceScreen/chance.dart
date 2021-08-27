@@ -431,6 +431,7 @@ class AddJopState extends State<AddJop> {
         "gender": stan.gender,
         "degree": stan.degree,
         "level": stan.level,
+        "timeq":Provider.of<MyProvider>(context, listen: false).time,
         "accepted": [],
         "Vacancies": stan.Vacancies,
         "date":Timestamp.now(),

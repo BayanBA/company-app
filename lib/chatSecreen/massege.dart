@@ -34,7 +34,9 @@ class Massege extends StatelessWidget {
         //   return Center(child: CircularProgressIndicator());
         // }
         else if (snapshot.hasData)
-        return ListView.builder(
+        return
+
+          ListView.builder(
               reverse: true,
               itemCount: snapshot.data.docs.length,
               itemBuilder: (ctx, index) {
@@ -79,6 +81,9 @@ class Massege extends StatelessWidget {
                           ))
                     ]);
               });
+
+
+
         else
           return CircularProgressIndicator();
       },

@@ -20,6 +20,14 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   JobScreen jobScreen = new JobScreen();
 
+  var kk1 = {
+    "الامارات": ["دبي", "أبوظبي", "الشارقة", "عجمان", "الفجيرة"],
+    "السعوديه": ["الرياض", "جده", "مكه", "المدينه", "الدمام"],
+    "العراق": ["صنعاء", "بغداد", "اربيل", "بصرى", "الموصل"],
+    "سوريا": ["دمشق", "حلب", "حمص", "حماه", "ادلب"],
+    "فلسطين": ["حيفا", "يافا", "القدس", "الاقصى", "نابلس"],
+    "مصر": ["القاهره", "الصعيد", "اسوان", "اسيوط", "سيناء"]
+  };
 
   Widget fill_text(String b, String name, Icon, keyboardType) {
     return TextFormField(
@@ -98,7 +106,6 @@ class _SignUpState extends State<SignUp> {
           width: 3,
         ));
   }
-
 
   OutlineInputBorder myfocusborder() {
     return OutlineInputBorder(
@@ -221,7 +228,7 @@ class _SignUpState extends State<SignUp> {
                                 initialValue: jobScreen.d["password"],
                                 onSaved: (val) {
                                   jobScreen.mypassword = val;
-                                  jobScreen.d["password"]=val;
+                                  jobScreen.d["password"] = val;
                                 },
                                 decoration: InputDecoration(
                                   labelText: "  كلمه المرور *",
@@ -302,12 +309,6 @@ class _SignUpState extends State<SignUp> {
                     SizedBox(
                       height: 100,
                     ),
-
-
-
-
-
-
                     Positioned(
                       top: 620,
                       child: Container(
@@ -331,13 +332,19 @@ class _SignUpState extends State<SignUp> {
                                     Text(
                                       "المقر الرئيسي * :",
                                       style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 25),
+                                          color: Colors.white, fontSize: 25),
                                     ),
                                     SizedBox(
                                       width: 10,
                                     ),
-                                    z("region", "المدينه", ["السعوديه", "العراق", "سوريا", "فلسطين", "مصر", "الامارات"]),
+                                    z("region", "المدينه", [
+                                      "السعوديه",
+                                      "العراق",
+                                      "سوريا",
+                                      "فلسطين",
+                                      "مصر",
+                                      "الامارات"
+                                    ]),
                                   ],
                                 ),
                               ],
@@ -346,13 +353,6 @@ class _SignUpState extends State<SignUp> {
                         ),
                       ),
                     ),
-
-
-
-
-
-
-
                     Positioned(
                       top: 740,
                       child: Card(
@@ -372,46 +372,44 @@ class _SignUpState extends State<SignUp> {
                     SizedBox(
                       height: 100,
                     ),
-                    // Positioned(
-                    //   top: 780,
-                    //   child: Container(
-                    //     width: 300,
-                    //     child: Form(
-                    //       autovalidateMode: AutovalidateMode.always,
-                    //       key: jobScreen.formstate5,
-                    //       child: SizedBox(
-                    //         width: 300,
-                    //         child: Column(
-                    //           children: [
-                    //             Row(
-                    //               children: [
-                    //                 Icon(
-                    //                   Icons.add_location_alt_rounded,
-                    //                   color: Colors.white,
-                    //                 ),
-                    //                 SizedBox(
-                    //                   width: 10,
-                    //                 ),
-                    //                 Text(
-                    //                   "المدينه *:  ",
-                    //                   style: TextStyle(
-                    //                       color: Colors.white,
-                    //                       fontSize: 25),
-                    //                 ),
-                    //                 SizedBox(
-                    //                   width: 10,
-                    //                 ),
-                    //                 z("city", "المدينه",
-                    //                     kk[jobScreen.d['region']]),
-                    //               ],
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-
+                    Positioned(
+                      top: 780,
+                      child: Container(
+                        width: 300,
+                        child: Form(
+                          autovalidateMode: AutovalidateMode.always,
+                          key: jobScreen.formstate5,
+                          child: SizedBox(
+                            width: 300,
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.add_location_alt_rounded,
+                                      color: Colors.white,
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      "المدينه *:  ",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 25),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    z("city", "المدينه",
+                                        kk1[jobScreen.d['region']]),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                     Positioned(
                       top: 910,
                       child: Card(
@@ -442,8 +440,7 @@ class _SignUpState extends State<SignUp> {
                                   Text(
                                     "الحجم *:",
                                     style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20),
+                                        color: Colors.white, fontSize: 20),
                                   ),
                                   // SizedBox(
                                   //   width: 10,

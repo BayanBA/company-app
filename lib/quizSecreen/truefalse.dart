@@ -19,6 +19,11 @@ List<GlobalKey<FormState>> keymap1 = [
 ];
 
 class _TrueFalseState extends State<TrueFalse> {
+
+  var l=[10,20,30,40,50,60,70,80,90,100,120,150,200];
+  var tim=20;
+
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -39,6 +44,29 @@ class _TrueFalseState extends State<TrueFalse> {
             ),
             body: Column(
               children: [
+                SizedBox(
+                  width: 300,
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Icon(Icons.perm_contact_cal_outlined),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text("مدة الاختبار بالثواني:"),
+                          SizedBox(
+                            width: 10,
+                          ),
+                        ],
+                      ),
+                      z()
+                    ],
+                  ),
+                ),
                 Expanded(
                   child: ListView.builder(
                     itemCount: data.length,
@@ -134,6 +162,7 @@ class _TrueFalseState extends State<TrueFalse> {
                           }
 
                           if (e != 1) {
+                            Provider.of<MyProvider>(context, listen: false).settime(tim);
                             Fluttertoast.showToast(
                                 msg: "تم انشاء الاختبار",
                                 backgroundColor: Colors.black54,
@@ -155,6 +184,25 @@ class _TrueFalseState extends State<TrueFalse> {
                 ),
               ],
             )));
+  }
+
+  Widget z() {
+    return DropdownButton(
+      menuMaxHeight: 300,
+      hint: Text("وقت الاختبار"),
+      items: l
+          .map((e) => DropdownMenuItem(
+        child: Text("$e"),
+        value: e,
+      ))
+          .toList(),
+      onChanged: (valu) {
+        setState(() {
+          tim = valu;
+        });
+      },
+      value: tim,
+    );
   }
 
   Widget _buildItem(int index) {

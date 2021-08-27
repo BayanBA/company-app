@@ -47,6 +47,7 @@ class MyProvider with ChangeNotifier{
   String user_id="";
   String docUser="";
   String chanc_id="";
+  int time=20;
 
   List<String> Q=[""];
   List<String> A=[""];
@@ -74,6 +75,11 @@ class MyProvider with ChangeNotifier{
 
   setPage(int num){
     page=num;
+    notifyListeners();
+  }
+
+  settime(int num){
+    time=num;
     notifyListeners();
   }
 

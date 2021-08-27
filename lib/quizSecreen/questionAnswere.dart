@@ -9,6 +9,9 @@ class QuestionAnswer extends StatefulWidget {
   _QuestionAnswerState createState() => _QuestionAnswerState();
 }
 
+var l=[10,20,30,40,50,60,70,80,90,100,120,150,200];
+var tim=20;
+
 List<String> data = [""];
 List<String> answer = [""];
 List<String> answer1 = ["", "", ""];
@@ -40,6 +43,29 @@ class _QuestionAnswerState extends State<QuestionAnswer> {
             ),
             body: Column(
               children: [
+                SizedBox(
+                  width: 300,
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Icon(Icons.perm_contact_cal_outlined),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text("مدة الاختبار بالثواني:"),
+                          SizedBox(
+                            width: 10,
+                          ),
+                        ],
+                      ),
+                      z()
+                    ],
+                  ),
+                ),
                 Expanded(
                   child: ListView.builder(
                     itemCount: data.length,
@@ -125,6 +151,7 @@ class _QuestionAnswerState extends State<QuestionAnswer> {
                             }
                           }
                           if (e != 1 && f != 1) {
+                            Provider.of<MyProvider>(context, listen: false).settime(tim);
                             Fluttertoast.showToast(
                                 msg: "تم انشاء الاختبار",
                                 backgroundColor: Colors.black54,
@@ -146,6 +173,26 @@ class _QuestionAnswerState extends State<QuestionAnswer> {
                 ),
               ],
             )));
+  }
+
+
+  Widget z() {
+    return DropdownButton(
+      menuMaxHeight: 300,
+      hint: Text("وقت الاختبار"),
+      items: l
+          .map((e) => DropdownMenuItem(
+        child: Text("$e"),
+        value: e,
+      ))
+          .toList(),
+      onChanged: (valu) {
+        setState(() {
+          tim = valu;
+        });
+      },
+      value: tim,
+    );
   }
 
   Widget _buildItem(int index) {
