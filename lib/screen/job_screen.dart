@@ -1,9 +1,11 @@
 import 'dart:math';
 
+import 'package:b/enter/ph.dart';
 import 'package:b/main.dart';
 import 'package:b/screen/My_profile.dart';
 import 'package:b/postSecreen/post.dart';
 import 'package:b/chanceScreen/view.dart';
+import 'package:b/screen/wait.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +45,6 @@ class JobScreen {
   String urlk;
   List<String> data_save = new List();
 
-  // var image = ImagePicker();
   var imagename;
   int h = 0;
   List<String> text = new List();
@@ -59,6 +60,7 @@ class JobScreen {
     "des": "",
     "spe": "",
     "phone": "",
+    "image_url":"not"
   };
 
   String validateName(String value) {
@@ -77,62 +79,22 @@ class JobScreen {
     formdata7 = formstate7.currentState;
     formdata8 = formstate8.currentState;
     formdata9 = formstate9.currentState;
+    // if (formdata.validate() && formdata2.validate() && formdata3.validate() &&
+    //     formdata4.validate() && formdata5.validate() && formdata6.validate() &&
+    //     formdata7.validate() && formdata8.validate() && formdata9.validate()){
 
-    try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-              email: d["email"], password: d["password"]);
-      return await userCredential;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
-      }
-    } catch (e) {
-      print(e);
-    }
+      Navigator.pushReplacement(context,
+          new MaterialPageRoute(builder: (context) => Ph(d["company"],d["region"],d["city"],d["spe"],d["des"],d["size"],d["phone"])));
 
-    var user = await FirebaseAuth.instance.currentUser;
 
-    var num;
-    var n = await FirebaseFirestore.instance
-        .collection("number")
-        .doc("aLOUXiw8hVsNqdzEsjF5")
-        .get()
-        .then((value) {
-      num = value.data()["num"];
-    });
-    num = num + 1;
+ // }
+ //    else
+ //      Fluttertoast.showToast(
+ //          msg: "تحقق من لبقيم المدخلة",
+ //          backgroundColor: Colors.black54,
+ //          textColor: Colors.white,
+ //          toastLength: Toast.LENGTH_LONG);
 
-    await FirebaseFirestore.instance
-        .collection("number")
-        .doc("aLOUXiw8hVsNqdzEsjF5")
-        .update({"num": num});
-
-    await FirebaseFirestore.instance.collection("oner").doc("DPi7T09bNPJGI0lBRqx4").collection("new_company").add({
-      'company': d["company"],
-      'region': d["region"],
-      'city': d["city"],
-      'followers':[],
-      "bayan":num,
-      "all_accepted":[],
-      'specialization': d["spe"],
-      'email_advance': user.email,
-      'description': d["des"],
-      'size_company': d["size"],
-      'phone': d["phone"],
-      'link_image': "not",
-    });
-
-    Fluttertoast.showToast(
-        msg: "تم تسجيل طلبك بنجاح",
-        backgroundColor: Colors.black54,
-        textColor: Colors.white,
-        toastLength: Toast.LENGTH_LONG);
-
-    // Navigator.push(context,
-    //     new MaterialPageRoute(builder: (context) => FirstRoute()));
 
 
   }

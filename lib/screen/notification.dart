@@ -1,6 +1,11 @@
+import 'package:b/postSecreen/postDetals.dart';
+import 'package:b/screen/showUser.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../stand.dart';
 
 class notifcation extends StatefulWidget {
   @override
@@ -11,6 +16,8 @@ class _notifcationState extends State<notifcation> {
   var my = new List();
   var id = new List();
   var lis = new List();
+  var item=new List();
+  var items_id=new List();
   String u;
   var k = 0;
   var v;
@@ -20,7 +27,7 @@ class _notifcationState extends State<notifcation> {
 
   dd() async {
     CollectionReference ref =
-        FirebaseFirestore.instance.collection("companies");
+    FirebaseFirestore.instance.collection("companies");
     CollectionReference num = FirebaseFirestore.instance.collection("number");
 
     var userr = await FirebaseAuth.instance.currentUser;
@@ -42,21 +49,18 @@ class _notifcationState extends State<notifcation> {
       value.docs.forEach((element) {
         setState(() {
           if (DateTime.now().year.toString() ==
-                  element.data()["date_publication"]['year'].toString() &&
+              element.data()["date_publication"]['year'].toString() &&
               DateTime.now().month.toString() ==
                   (element.data()["date_publication"]['month'].toString())) {
             if (DateTime.now().day.toInt() >=
-                    element.data()["date_publication"]['day'] &&
+                element.data()["date_publication"]['day'] &&
                 element.data()['date_publication']['day'] >
                     (DateTime.now().day.toInt() - 7)) my.add(element.data());
           }
         });
       });
     });
-    FirebaseFirestore.instance
-        .collection("number")
-        .doc("d3HQjuf1TIcYsRGk3HVx")
-        .update({"length": my.length});
+
   }
 
   void initState() {
@@ -64,7 +68,7 @@ class _notifcationState extends State<notifcation> {
 
     super.initState();
   }
-
+  String h;
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -86,12 +90,12 @@ class _notifcationState extends State<notifcation> {
           body: my.isEmpty
               ? Center(child: CircularProgressIndicator())
               : ListView.builder(
-                  itemCount: my.length,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: GestureDetector(
+              itemCount: my.length,
+              itemBuilder: (context, index) {
+                return Column(
+                    children: [Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: GestureDetector(
                           child: InkWell(
                             child: Container(
 
@@ -117,7 +121,7 @@ class _notifcationState extends State<notifcation> {
                                                   ),
                                                 ),
                                                 leading:
-                                                    Column(children: <Widget>[
+                                                Column(children: <Widget>[
                                                   CircleAvatar(
                                                     backgroundColor:
                                                     Theme.of(context).accentColor,
@@ -136,23 +140,65 @@ class _notifcationState extends State<notifcation> {
 
                                     ])),
                           ),
-                          onTap: () {
-                            // Navigator.push(
-                            //     context,
-                            //     new MaterialPageRoute(
-                            //         builder: (context) =>
-                            //         new show_detals(
-                            //             item, item_id)));
-                          },
-                        ),
+                          onTap: () async{
+                            items_id=new List();
+                            item=new List();
+                            items_id.add(my[index]['user_Id']);
+                            if( my[index]['num']==1)
+                            {
+                              var user = FirebaseFirestore.instance.collection("users");
+                              await user.get().then((value) {
+                                value.docs.forEach((element) {
+                                  setState(() {
+                                    if (my[index]['user_Id'] == element.id )
+                                    {item.add(element.data());
+                                    print(item);}
+
+
+                                  });
+                                });
+                              });
+
+                              Navigator.push(
+                                  context,
+                                  new MaterialPageRoute(
+                                      builder: (context) =>
+                                      new show_detals(
+                                          item, items_id)));}
+                            else
+                            {
+                              var comp = FirebaseFirestore.instance
+                                  .collection("companies")
+                                  .doc(Provider.of<MyProvider>(context, listen: false).company_id)
+                                  .collection("Post");
+
+                              await comp.get().then((value) {
+                                if (value != null) {
+                                  value.docs.forEach((element) {
+                                    if (my[index]['post_Id'] == element.id )
+                                    {h=element.id;
+                                    }
+
+                                  });
+                                }
+                              });
+                              Navigator.push(
+                                  context,
+                                  new MaterialPageRoute(
+                                      builder: (context) =>
+                                      new PostDetals(
+                                          h)));}
+
+                          }
                       ),
-                        Divider(
-                          height: 2,
-                          color: Theme.of(context).primaryColor,
-                          thickness: 3,
-                        ),]
-                    );
-                  })),
+                    ),
+                      Divider(
+                        height: 2,
+                        color: Theme.of(context).primaryColor,
+                        thickness: 3,
+                      ),]
+                );
+              })),
     );
   }
 }

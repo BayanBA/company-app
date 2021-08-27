@@ -41,9 +41,12 @@ class MyProvider with ChangeNotifier{
   };
   Map<String,dynamic> data1={};
   String chanceName="";
+  String CompanyName="";
+  String compPhoto="";
   String company_id="";
   String user_id="";
   String docUser="";
+  String chanc_id="";
 
   List<String> Q=[""];
   List<String> A=[""];
@@ -88,6 +91,10 @@ class MyProvider with ChangeNotifier{
     qtype=num;
     notifyListeners();
   }
+  setchanc_id(var num){
+    chanc_id=num;
+    notifyListeners();
+  }
 
   setDAta1(String name,var val){
     data[name]=val;
@@ -96,6 +103,16 @@ class MyProvider with ChangeNotifier{
 
   setCompId(var val){
     company_id=val;
+    notifyListeners();
+  }
+
+  setCompanyName(var val){
+    CompanyName=val;
+    notifyListeners();
+  }
+
+  setcompPhoto(var val){
+    compPhoto=val;
     notifyListeners();
   }
 

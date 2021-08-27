@@ -1,43 +1,45 @@
-import 'package:b/chatSecreen/massege.dart';
-import 'package:b/chatSecreen/newMassage.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../stand.dart';
+import 'massegeO.dart';
+import 'newMassegeO.dart';
 
-class Chat extends StatefulWidget {
+
+class ChatO extends StatefulWidget {
+  var item;
+  ChatO(this.item);
+
   @override
-  _ChatState createState() => _ChatState();
+  _ChatOState createState() => _ChatOState();
 }
 
-class _ChatState extends State<Chat> {
+class _ChatOState extends State<ChatO> {
   GlobalKey<FormState> k1 = new GlobalKey<FormState>();
 
 
-  var t=0;
+
+  var iddd;
   getdata()async{
-    Provider.of<MyProvider>(context, listen: false).chat==1?
+
     await FirebaseFirestore.instance
         .collection("oner")
         .doc("DPi7T09bNPJGI0lBRqx4")
         .collection("chat").get().then((value){
-          value.docs.forEach((element) {
-            if(element.data()["comp_id"]== Provider.of<MyProvider>(context, listen: false).company_id){
-            Provider.of<MyProvider>(context, listen: false).setDocUser(element.id);
-            print(Provider.of<MyProvider>(context, listen: false).docUser);
-            t=1;
-            setState(() {
-
-            });
-            }
+      value.docs.forEach((element) {
+        if(element.data()["bayan"]==widget.item["bayan"]){
+          iddd= element.id;
+          setState(() {
           });
-    }):t=1;
+        }
+      });
+    });
   }
+
 
   @override
   void initState() {
-   getdata();
+    getdata();
     super.initState();
   }
 
@@ -71,13 +73,13 @@ class _ChatState extends State<Chat> {
                               Color(0xFF5C6BC0), BlendMode.overlay))),
                 ),
               ),
-              t==0?CircularProgressIndicator():
+              iddd==null?CircularProgressIndicator():
               Column(
                 children: [
-                  Expanded(child: Massege()),
+                  Expanded(child: MassegeO(iddd)),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 20,left: 5,right: 5),
-                    child: NewMassage(),
+                    child: NewMassageO(iddd),
                   ),
 
                 ],

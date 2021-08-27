@@ -157,7 +157,7 @@ class _AcceptableState extends State<Acceptable> {
 
                                       Provider.of<MyProvider>(context,
                                               listen: false)
-                                          .setUser(2);
+                                          .setUser(1);
                                       Navigator.push(
                                           context,
                                           new MaterialPageRoute(

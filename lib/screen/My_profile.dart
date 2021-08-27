@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:b/chanceScreen/chance.dart';
+import 'package:b/employeeSecreen/Initial_acceptance.dart';
 import 'package:b/postSecreen/postDetals.dart';
 import 'package:b/postSecreen/viewPost.dart';
 import 'package:b/chanceScreen/view.dart';
 import 'package:b/screen/employbottom.dart';
 import 'package:b/screen/savedUser.dart';
 import 'package:b/screen/showUser.dart';
-import 'package:b/screen/users.dart';
 import 'package:b/stand.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,8 +16,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
-import 'package:radial_menu/radial_menu.dart';
-
 
 import 'notification.dart';
 
@@ -25,23 +23,8 @@ class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
-const _title = 'Radial Menu Demo';
 
 class _HomePageState extends State<HomePage> {
-
-  List<RadialMenuEntry> radialMenuEntries = [
-    RadialMenuEntry(
-        //onTap: ,
-        icon: Icons.delete, text: 'للحذف', textColor: Colors.black, color: Colors.indigo,iconSize: 40),
-    RadialMenuEntry(
-        icon: Icons.mark_chat_read_outlined,
-        text: 'محادثه',
-        iconColor: Colors.lightBlue,
-        iconSize: 40,
-        textColor: Colors.black),
-    RadialMenuEntry(icon: Icons.exit_to_app, text: 'خروج', iconSize: 40),
-  //  RadialMenuEntry(icon: Icons.shopping_cart, text: 'Shop'),
-  ];
   var userr;
   var token;
   var follow = new List();
@@ -64,6 +47,7 @@ class _HomePageState extends State<HomePage> {
       });
     });
   }
+
   // deletedata(context) async {
   //   CollectionReference t = FirebaseFirestore.instance.collection("companies");
   //   var user = FirebaseAuth.instance.currentUser;
@@ -305,25 +289,57 @@ class _HomePageState extends State<HomePage> {
     String ui;
     var user = FirebaseFirestore.instance.collection("users");
     var lis = new List();
+
     await FirebaseMessaging.onMessageOpenedApp.listen((message) async {
       ui = message.data['user_Id'];
+
       await user.get().then((value) {
         value.docs.forEach((element) {
           setState(() {
-            if (message.data['user_Id'] == element.id) lis.add(element.data());
+            if (message.data['user_Id'] == element.id) {
+              lis.add(element.data());
+              print(lis);
+            }
           });
         });
       });
-      if (message.data['num'] == 1)
+      if (message.data['num'] == "1")
         Navigator.push(context,
             new MaterialPageRoute(builder: (context) => show_detals(lis, ui)));
-      else if (message.data['num'] == 2) {
-        Provider.of<MyProvider>(context, listen: false)
-            .setData({'id': message.data['post_Id']});
+      else {
+        print(message.data['post_Id']);
+
         Navigator.push(
-            context, new MaterialPageRoute(builder: (context) => PostDetals()));
+            context,
+            new MaterialPageRoute(
+                builder: (context) => PostDetals(message.data['post_Id'])));
       }
     });
+
+    // var message = await FirebaseMessaging.instance.getInitialMessage();
+    // ui = message.data['user_Id'];
+    // await user.get().then((value) {
+    //   value.docs.forEach((element) {
+    //     setState(() {
+    //
+    //       if (message.data['user_Id'] == element.id) {
+    //         lis.add(element.data());
+    //         print(lis);
+    //       }
+    //     });
+    //   });
+    // });
+    // if (message.data['num'] == "1")
+    //   Navigator.push(context,
+    //       new MaterialPageRoute(builder: (context) => show_detals(lis, ui)));
+    // else {
+    //   print(message.data['post_Id']);
+    //
+    //   Navigator.push(
+    //       context,
+    //       new MaterialPageRoute(
+    //           builder: (context) => PostDetals(message.data['post_Id'])));
+    // }
   }
 
   nn() async {
@@ -333,418 +349,330 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     nn();
     double size = 200;
-    return Directionality(
-        textDirection: TextDirection.rtl,
-        child: Scaffold(
-            appBar: PreferredSize(
-              preferredSize: Size.fromHeight(100.0),
-              child: AppBar(
-                actions: [],
-                title: Center(
-                  child: Text(" "),
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(
-                    bottom: Radius.circular(70.0),
+    return
+      // Consumer<ThemeNotifier>(
+      //     builder: (context, theme, _) => MaterialApp(
+      //         theme: theme.getTheme(),
+      //         home:
+      Directionality(
+          textDirection: TextDirection.rtl,
+          child: Scaffold(
+              appBar: PreferredSize(
+                preferredSize: Size.fromHeight(100.0),
+                child: AppBar(
+                  actions: [],
+                  title: Center(
+                    child: Text(" "),
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      bottom: Radius.circular(70.0),
+                    ),
                   ),
                 ),
               ),
-            ),
-            body: Stack(alignment: Alignment.center, children: [
-              Positioned(
-                top: 250,
-                left: -300,
-                child: CircleAvatar(
-                  radius: 500,
-                  backgroundColor:
-                  Theme.of(context).accentColor.withOpacity(0.1),
+              body:
+
+
+
+
+              Stack(alignment: Alignment.center, children: [
+                Positioned(
+                  top: 250,
+                  left: -300,
+                  child: CircleAvatar(
+                    radius: 500,
+                    backgroundColor:
+                    Theme.of(context).accentColor.withOpacity(0.1),
+                  ),
                 ),
-              ),
-
-              batool1.isEmpty
-                  ? Center(child: CircularProgressIndicator())
-                  : ListView(
-                children: [
-
-
-
-                  Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 50,
-                          ),
-                          Container(
-                              child: CircleAvatar(
-                                backgroundColor:
-                                Theme.of(context).accentColor,
-                                radius: 150,
-                                backgroundImage: homePageData['link_image'] ==
-                                    "not"
-                                    ? AssetImage("images/55.jpeg")
-                                    : NetworkImage(
-                                  homePageData['link_image'],
-
-
-                                ),
-                              )),
-
-
-                          SizedBox(
-                            height: 20,
-                          ),
-
-                          // Container(height: 40),
-
-                          Column(children: [
-
-
-
-                            Container(
-                                margin:
-                                EdgeInsets.only(left: 20, right: 20),
-                                padding:
-                                EdgeInsets.only(left: 20, bottom: 10),
-                                height: 50,
-                                width: MediaQuery.of(context).size.width,
-
-                                child: ListView(
-                                  children: [
-                                    Row(children: [
-                                      _prefixIcon(
-                                          Icons.perm_contact_cal_sharp),
-                                      Text('   اسم الشركه : ',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 20.0,
-                                              color: Theme.of(context)
-                                                  .primaryColor)),
-                                      Flexible(
-                                        child: Text(
-                                            "     " +
-                                                homePageData['company'],
-                                            //batool1[index]['company'],
-                                            style: TextStyle(
-                                                fontWeight:
-                                                FontWeight.normal,
-                                                fontSize: 18.0,
-                                                color: Colors.black)),
-                                      ),
-                                    ]),
-                                  ],
-                                )
-                              // Flexible(
-
-                              // //SizedBox(height: 10),
-
-                            ),
+                batool1.isEmpty
+                    ? Center(child: CircularProgressIndicator())
+                    : ListView(
+                  children: [
+                    Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
                             SizedBox(
-                              height: 10,
+                              height: 50,
                             ),
                             Container(
-                                margin:
-                                EdgeInsets.only(left: 20, right: 20),
-                                height: 50,
-                                width: MediaQuery.of(context).size.width,
+                                child: CircleAvatar(
+                                  backgroundColor:
+                                  Theme.of(context).accentColor,
+                                  radius: 150,
+                                  backgroundImage: homePageData[
+                                  'link_image'] ==
+                                      "not"
+                                      ? AssetImage("images/55.jpeg")
+                                      : NetworkImage(
+                                    homePageData['link_image'],
+                                  ),
+                                )),
 
-                                child: Row(children: <Widget>[
-                                  _prefixIcon(
-                                      Icons.add_location_alt_rounded),
-
-                                  Text('   موقع الشركه:',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20.0,
-                                          color: Theme.of(context)
-                                              .primaryColor)),
-                                  // SizedBox(height: 10),
-                                  Text("     " + homePageData['region'],
-                                      //batool1[index]['region'],
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 18.0,
-                                          color: Colors.black)),
-                                ])),
                             SizedBox(
-                              height: 10,
+                              height: 20,
                             ),
-                            Container( margin:
-                            EdgeInsets.only(left: 20, right: 20),
-                                height: 50,
-                                width: MediaQuery.of(context).size.width,
-                                child:Row(children: [_prefixIcon(Icons.account_balance),
 
-                                  Text('   الوصف العام:',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20.0,
-                                          color: Theme.of(context)
-                                              .primaryColor)),
-                                  SizedBox(height: 10),],)),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
+                            // Container(height: 40),
 
-                                margin:
-                                EdgeInsets.only(left: 20, right: 40),
-                                height: MediaQuery.of(context).size.height,
-                                width: MediaQuery.of(context).size.width,
-
-                                padding:
-                                EdgeInsets.only(left: 20, bottom: 10),
-
-                                child: ListView(children: [
-                                  Row(
-                                      crossAxisAlignment :CrossAxisAlignment.start,
-                                      children: <Widget>[
-
-                                        Flexible(
-                                          child: Text(
-                                              "     " +
-                                                  homePageData['description'],
-                                              // batool1[index]['description'],
+                            Column(
+                              children: [
+                                Container(
+                                    margin: EdgeInsets.only(
+                                        left: 20, right: 20),
+                                    padding: EdgeInsets.only(
+                                        left: 20, bottom: 10),
+                                    height: 50,
+                                    width: MediaQuery.of(context)
+                                        .size
+                                        .width,
+                                    child: ListView(
+                                      children: [
+                                        Row(children: [
+                                          _prefixIcon(Icons
+                                              .perm_contact_cal_sharp),
+                                          Text('   اسم الشركه : ',
                                               style: TextStyle(
                                                   fontWeight:
-                                                  FontWeight.normal,
-                                                  fontSize: 18.0,
-                                                  color: Colors.black)),
-                                        ),
-                                      ]),
-                                ])),
-                            SizedBox(
-                              height: 30,
-                            ),
-                          ],)
-                        ],
-                      ))
-                ],
-              ),
-              Positioned(
-                left:50,
-                top:200,child:Transform.translate(
-                  offset: Offset(-size / 2 + 40, 0),
-                  child: RadialMenu(color: Colors.black,
-                    size: size,
-                    entrySize: 120,
-                    entries: radialMenuEntries,
-                  )),),
+                                                  FontWeight
+                                                      .bold,
+                                                  fontSize: 20.0,
+                                                  color: Theme.of(
+                                                      context)
+                                                      .primaryColor)),
+                                          Flexible(
+                                            child: Text(
+                                                "     " +
+                                                    homePageData[
+                                                    'company'],
+                                                //batool1[index]['company'],
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                    FontWeight
+                                                        .normal,
+                                                    fontSize: 18.0,
+                                                    color: Colors
+                                                        .black)),
+                                          ),
+                                        ]),
+                                      ],
+                                    )
+                                  // Flexible(
 
-            ]),
-            floatingActionButtonLocation:
-            FloatingActionButtonLocation.centerTop,
-            floatingActionButton: Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Row(
-                  //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      SizedBox(
-                        width: 20,
-                      ),
-                      FloatingActionButton(
-                        heroTag: "tag1",
-                        child: Icon(
-                          Icons.wallet_travel_outlined,
-                          color: Theme.of(context).primaryColor,
-                          size: 30,
+                                  // //SizedBox(height: 10),
+
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Container(
+                                    margin: EdgeInsets.only(
+                                        left: 20, right: 20),
+                                    height: 50,
+                                    width: MediaQuery.of(context)
+                                        .size
+                                        .width,
+                                    child: Row(children: <Widget>[
+                                      _prefixIcon(Icons
+                                          .add_location_alt_rounded),
+
+                                      Text('   موقع الشركه:',
+                                          style: TextStyle(
+                                              fontWeight:
+                                              FontWeight.bold,
+                                              fontSize: 20.0,
+                                              color: Theme.of(
+                                                  context)
+                                                  .primaryColor)),
+                                      // SizedBox(height: 10),
+                                      Text(
+                                          "     " +
+                                              homePageData[
+                                              'region'],
+                                          //batool1[index]['region'],
+                                          style: TextStyle(
+                                              fontWeight:
+                                              FontWeight.normal,
+                                              fontSize: 18.0,
+                                              color: Colors.black)),
+                                    ])),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Container(
+                                    margin: EdgeInsets.only(
+                                        left: 20, right: 20),
+                                    height: 50,
+                                    width: MediaQuery.of(context)
+                                        .size
+                                        .width,
+                                    child: Row(
+                                      children: [
+                                        _prefixIcon(
+                                            Icons.account_balance),
+                                        Text('   الوصف العام:',
+                                            style: TextStyle(
+                                                fontWeight:
+                                                FontWeight.bold,
+                                                fontSize: 20.0,
+                                                color: Theme.of(
+                                                    context)
+                                                    .primaryColor)),
+                                        SizedBox(height: 10),
+                                      ],
+                                    )),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Container(
+                                    margin: EdgeInsets.only(
+                                        left: 20, right: 40),
+                                    height: MediaQuery.of(context)
+                                        .size
+                                        .height,
+                                    width: MediaQuery.of(context)
+                                        .size
+                                        .width,
+                                    padding: EdgeInsets.only(
+                                        left: 20, bottom: 10),
+                                    child: ListView(children: [
+                                      Row(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment
+                                              .start,
+                                          children: <Widget>[
+                                            Flexible(
+                                              child: Text(
+                                                  "     " +
+                                                      homePageData[
+                                                      'description'],
+                                                  // batool1[index]['description'],
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                      FontWeight
+                                                          .normal,
+                                                      fontSize:
+                                                      18.0,
+                                                      color: Colors
+                                                          .black)),
+                                            ),
+                                          ]),
+                                    ])),
+                                SizedBox(
+                                  height: 30,
+                                ),
+                              ],
+                            )
+                          ],
+                        ))
+                  ],
+                ),
+              ]),
+              floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerTop,
+              floatingActionButton: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Row(
+                    //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        SizedBox(
+                          width: 20,
                         ),
-                        backgroundColor: Colors.white,
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              new MaterialPageRoute(
-                                  builder: (context) => ShowingData()));
-                        },
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      FloatingActionButton(
-                        heroTag: "tag2",
-                        child: Icon(
-                          Icons.padding,
-                          color: Theme.of(context).primaryColor,
-                          size: 30,
+                        FloatingActionButton(
+                          heroTag: "tag1",
+                          child: Icon(
+                            Icons.wallet_travel_outlined,
+                            color: Theme.of(context).primaryColor,
+                            size: 30,
+                          ),
+                          backgroundColor: Colors.white,
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (context) => ShowingData()));
+                          },
                         ),
-                        backgroundColor: Colors.white,
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              new MaterialPageRoute(
-                                  builder: (context) => ShowingPost()));
-                        },
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      FloatingActionButton(
-                        heroTag: "tag3",
-                        child: Icon(
-                          Icons.face,
-                          color: Theme.of(context).primaryColor,
-                          size: 35,
+                        SizedBox(
+                          width: 20,
                         ),
-                        backgroundColor: Colors.white,
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              new MaterialPageRoute(
-                                  builder: (context) => navigator()));
-                        },
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      FloatingActionButton(
-                        heroTag: "tag4",
-                        child: Icon(
-                          Icons.favorite_border,
-                          color: Theme.of(context).primaryColor,
-                          size: 30,
+                        FloatingActionButton(
+                          heroTag: "tag2",
+                          child: Icon(
+                            Icons.padding,
+                            color: Theme.of(context).primaryColor,
+                            size: 30,
+                          ),
+                          backgroundColor: Colors.white,
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (context) => ShowingPost()));
+                          },
                         ),
-                        backgroundColor: Colors.white,
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              new MaterialPageRoute(
-                                  builder: (context) => saves()));
-                        },
-                      ),
-                      SizedBox(
-                        width: 22,
-                      ),
-                      FloatingActionButton(
-                        heroTag: "tag5",
-                        child: Icon(
-                          Icons.notifications_none,
-                          color: Theme.of(context).primaryColor,
-                          size: 30,
+                        SizedBox(
+                          width: 20,
                         ),
-                        backgroundColor: Colors.white,
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              new MaterialPageRoute(
-                                  builder: (context) => notifcation()));
-                        },
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                    ]))));
+                        FloatingActionButton(
+                          heroTag: "tag3",
+                          child: Icon(
+                            Icons.face,
+                            color: Theme.of(context).primaryColor,
+                            size: 35,
+                          ),
+                          backgroundColor: Colors.white,
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (context) => navigator()));
+                          },
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        FloatingActionButton(
+                          heroTag: "tag4",
+                          child: Icon(
+                            Icons.favorite_border,
+                            color: Theme.of(context).primaryColor,
+                            size: 30,
+                          ),
+                          backgroundColor: Colors.white,
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (context) => saves()));
+                          },
+                        ),
+                        SizedBox(
+                          width: 22,
+                        ),
+                        FloatingActionButton(
+                          heroTag: "tag5",
+                          child: Icon(
+                            Icons.notifications_none,
+                            color: Theme.of(context).primaryColor,
+                            size: 30,
+                          ),
+                          backgroundColor: Colors.white,
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (context) => notifcation()));
+                          },
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                      ]))));
   }
 
-  _formUI(position) {
-    return new Container(
-        child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30.0),
-          ),
-          color: Colors.black.withOpacity(0.009999),
-          shadowColor: Colors.blueAccent.withOpacity(0.09),
-          semanticContainer: true,
-          borderOnForeground: true,
-          elevation: 50,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(height: 20.0),
-              _company(position),
-              SizedBox(height: 12.0),
-              _description(position),
-            ],
-          ),
-        ));
-  }
-
-  _size(position) {
-    return Row(children: <Widget>[
-      _prefixIcon(Icons.accessibility_new),
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text('  حجم الشركه: ',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20.0,
-                  color: Theme.of(context).primaryColor)),
-          SizedBox(height: 1),
-          Text("     " + position.size_company,
-              style: TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 18.0,
-                  color: Colors.black))
-        ],
-      )
-    ]);
-  }
-
-  _description(position) {
-    return Row(children: <Widget>[
-      _prefixIcon(Icons.account_balance),
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text('   الوصف العام:',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30.0,
-                  color: Colors.black)),
-          SizedBox(height: 1),
-          Text("     " + position.description,
-              style: TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 18.0,
-                  color: Colors.black))
-        ],
-      )
-    ]);
-  }
-
-  _place(position) {
-    return Row(children: <Widget>[
-      _prefixIcon(Icons.add_location_alt),
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text('   المقر الرئيسي:',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20.0,
-                  color: Colors.deepPurple)),
-          SizedBox(height: 1),
-          Text("     " + position.region,
-              style: TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 18.0,
-                  color: Colors.black))
-        ],
-      )
-    ]);
-  }
-
-  _company(position) {
-    return Row(children: <Widget>[
-      _prefixIcon(Icons.account_circle_sharp),
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text('   اسم الشركه:  ',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20.0,
-                  color: Colors.deepPurple)),
-          SizedBox(height: 1),
-          Text("     " + position.company,
-              style: TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 18.0,
-                  color: Colors.black))
-        ],
-      )
-    ]);
-  }
 
   _prefixIcon(IconData iconData) {
     return ConstrainedBox(

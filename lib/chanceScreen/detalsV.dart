@@ -1,5 +1,8 @@
 import 'dart:async';
+import 'package:b/chanceScreen/view.dart';
 import 'package:b/employeeSecreen/acceptable.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:b/employeeSecreen/applicants.dart';
 import 'package:b/chanceScreen/updatChanceT.dart';
@@ -9,6 +12,8 @@ import 'package:b/chanceScreen/updatData.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class DetalsV extends StatefulWidget {
   @override
@@ -16,9 +21,215 @@ class DetalsV extends StatefulWidget {
 }
 
 class _DetalsState extends State<DetalsV> {
+
+  String y,k;
+  get_Token() async {
+    FirebaseFirestore.instance.collection("oner").doc("DPi7T09bNPJGI0lBRqx4").get().then((value) {
+      y= value.data()['token'];
+    });
+
+    CollectionReference t = FirebaseFirestore.instance.collection("companies");
+    var userr = await FirebaseAuth.instance.currentUser;
+
+    await t.where("email_advance", isEqualTo: userr.email).get().then((value) {
+      value.docs.forEach((element) {
+        setState(() {
+          k = element.data()['company'];
+
+        });
+      });
+    });
+
+  }
+  void initState() {
+    get_Token();
+    super.initState();
+  }
+
+  Delete_Chance()async{
+    var data = Provider.of<MyProvider>(context, listen: false).data;
+
+
+    await FirebaseFirestore.instance
+        .collection("companies")
+        .doc(Provider.of<MyProvider>(context, listen: false).company_id)
+        .collection("chance").doc(data['id']).delete();
+    delete_chance(data['id']);
+
+
+    sendMessage(  "حذف فرصه",
+        "  تم حذف فرصه  ${data['title']}  من قبل الشركه  ${k}",
+        Provider.of<MyProvider>(context, listen: false).company_id, data['title']);
+
+
+  }
+  alert_delete(context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+              shape: BeveledRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              title: Container(
+                  margin: EdgeInsets.only(right: 20),
+                  child: Column(
+                    children: [
+                      Text(
+                        "هل تريد حذف الفرصه ",
+                        style: TextStyle(
+                            color: Colors.black, fontStyle: FontStyle.italic),
+                      ),
+                    ],
+                  )),
+              content: Container(
+                height: 20,
+              ),
+              actions: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(right: 30),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.teal[50],
+                      onPrimary: Colors.black,
+                      shape: const BeveledRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(3))),
+                    ),
+                    onPressed: () => setState(() {
+                      Navigator.of(context).pop();
+
+                    }),
+                    child: Text(
+                      "لا",
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(right: 30),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.teal[50],
+                      onPrimary: Colors.black,
+                      shape: const BeveledRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(3))),
+                    ),
+                    onPressed: () async{
+                      await  Delete_Chance();
+
+                      Navigator.of(context).pop();
+
+
+                    },
+                    child: Text(
+                      '  نعم',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                )
+              ]);
+        });
+  }
+
+  delete_chance(var chance_id)async{
+
+    CollectionReference user = FirebaseFirestore.instance.collection('users');
+    CollectionReference company = FirebaseFirestore.instance.collection('companies');
+    ////////////delete from chance_saved
+    List user_Id = [];
+    await user.get().then((value) {
+      if(value.docs.isNotEmpty){
+        value.docs.forEach((element) {
+          user_Id.add(element.id);
+        });
+      }
+    });
+    for(int k = 0 ; k < user_Id.length ; k++) {
+      await user.doc(user_Id[k]).collection('chance_saved').get().then((value) async {
+        if (value.docs.isNotEmpty) {
+          for (int j = 0; j < value.docs.length; j++) {
+            if (value.docs[j].data()['chance_Id'] ==
+                chance_id) {
+              user.doc(user_Id[k]).collection('chance_saved')
+                  .where("chance_Id",
+                  isEqualTo:chance_id)
+                  .get()
+                  .then((value) {
+                value.docs.forEach((element) {
+                  user.doc(user_Id[k]).collection('chance_saved')
+                      .doc(element.id)
+                      .delete()
+                      .then((value) {
+                    print("Success!");
+                  });
+                });
+              });
+            }
+          }
+        }
+      });
+    }
+    /////////delete from notification
+    for(int k = 0 ; k < user_Id.length ; k++) {
+      await user.doc(user_Id[k]).collection('notifcation').get().then((value) async {
+        if (value.docs.isNotEmpty) {
+          for (int j = 0; j < value.docs.length; j++) {
+            if (value.docs[j].data()['id'] ==
+                chance_id) {
+              print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+              user.doc(user_Id[k]).collection('notifcation')
+                  .where("id",
+                  isEqualTo:chance_id)
+                  .get()
+                  .then((value) {
+                value.docs.forEach((element) {
+                  user.doc(user_Id[k]).collection('notifcation')
+                      .doc(element.id)
+                      .delete()
+                      .then((value) {
+                    print("Success!");
+                  });
+                });
+              });
+            }
+          }
+        }
+      });
+    }
+
+  }
+
+  sendMessage(String title, String body,  String u, String c) async {
+    var data = Provider.of<MyProvider>(context, listen: false).data;
+
+    var serverToken =
+        "AAAAUnOn5ZE:APA91bGSkIL6DLpOfbulM_K3Yp5W1mlcp8F0IWu2mcKWloc4eQcF8C230XaHhXBfBYphuyp2P92dc_Js19rBEuU6UqPBGYOSjJfXsBJVmIu9TsLe44jaSOLDAovPTspwePb1gw7-1GNZ";
+    await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': 'key=$serverToken',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'notification': {
+            'title': title.toString(),
+            'body': body.toString(),
+          },
+          'priority': 'high',
+          'data': <String, dynamic>{
+            'click_action': 'flutter notifcation_click',
+            // 'id_company': Provider.of<MyProvider>(context, listen: false).company_id,
+            'id': data["id"],
+            'num': "1",
+            'type': "3",
+          },
+          'to': await y,
+        }));
+  }
+
   @override
   Widget build(BuildContext context) {
     var data = Provider.of<MyProvider>(context, listen: false).data;
+    Provider.of<MyProvider>(context, listen: false).setchanc_id(data["id"]);
+
 
     Size size = MediaQuery.of(context).size;
     return Directionality(
@@ -60,18 +271,19 @@ class _DetalsState extends State<DetalsV> {
                     ),
                   ],
                 ),
+
                 Container(
                   margin: EdgeInsets.only(top: 70, right: 150),
                   child: CircleAvatar(
                       child: CircleAvatar(
                           child:
-                              Icon(Icons.apartment, size: 80, color: Colors.lime),
+                          Icon(Icons.apartment, size: 80, color: Colors.lime),
                           radius: 50,
                           backgroundColor: Colors.white),
                       radius: 60,
                       backgroundColor: Colors.black
-                      //Theme.of(context).primaryColor,
-                      ),
+                    //Theme.of(context).primaryColor,
+                  ),
                 ),
                 Positioned(
                   top: 150,
@@ -89,11 +301,8 @@ class _DetalsState extends State<DetalsV> {
                           onPressed: () {
                             Navigator.of(context)
                                 .push(MaterialPageRoute(builder: (context) {
-                              return data["chanceId"] == 0
-                                  ? UpdatData()
-                                  : data["chanceId"] == 1
-                                      ? UpdatDataV()
-                                      : UpdatDataT();
+                              return  UpdatDataV();
+
                             }));
                             setState(() {
                               data = Provider.of<MyProvider>(context, listen: false)
@@ -348,6 +557,9 @@ class _DetalsState extends State<DetalsV> {
                               ),
                             ),
                           ]),
+                          SizedBox(
+                            height: 20,
+                          ),
                           Divider(
                             height: 2,
                             color: Theme.of(context).primaryColor,
@@ -359,30 +571,108 @@ class _DetalsState extends State<DetalsV> {
                           Row(
                               children: [
 
-                                RaisedButton(
-                                    color:Theme.of(context).primaryColor,
-                                    child: Text("المتقدمين",
-                                        style: TextStyle(fontSize: 30)),
-                                    onPressed: ()  {
-                                      Navigator.of(context)
-                                          .push(MaterialPageRoute(builder: (context) {
-                                        return Applicants();
-                                      }));
+                                Container(
+                                  width: 110,
+                                  height:60,
+                                  child: RaisedButton(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(80.0)),
+                                      elevation: 0.0,
+                                      padding: EdgeInsets.all(0.0),
+                                      child: Ink(
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                              begin: Alignment.centerRight,
+                                              end: Alignment.centerLeft,
+                                              colors: [
+                                                Theme.of(context).primaryColor,
+                                                Colors.amber
+                                              ]),
+                                          borderRadius: BorderRadius.circular(30.0),
+                                        ),
+                                        child: Container(
+                                          constraints: BoxConstraints(
+                                              maxWidth: 300.0, minHeight: 50.0),
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            "المتقدمين",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 20.0,
+                                                fontWeight: FontWeight.w300),
+                                          ),
+                                        ),
+                                      ),
+                                      onPressed: ()  {
+                                        Navigator.of(context)
+                                            .push(MaterialPageRoute(builder: (context) {
+                                          return Applicants();
+                                        }));
 
-                                    }),
-                                SizedBox(width: 50,),
+                                      }),
+                                ),
+                                SizedBox(width: 25),
+                                CircleAvatar( radius: 40,
 
-                                RaisedButton(
-                                    color:Theme.of(context).primaryColor,
-                                    child: Text("المقبولين",
-                                      style: TextStyle(fontSize: 30),),
-                                    onPressed: () {
-                                       Provider.of<MyProvider>(context, listen: false).data1=data;
-                                      Navigator.of(context)
-                                          .push(MaterialPageRoute(builder: (context) {
-                                        return Acceptable();
-                                      }));
-                                    }),
+                                  backgroundColor: Theme.of(context).primaryColor,child: FlatButton(
+
+
+                                      child: Text("للحذف",style: TextStyle(fontSize: 18,color: Colors.white,fontWeight: FontWeight.bold),
+
+
+                                      ),
+
+                                      onPressed: () {
+                                        alert_delete(context);
+
+
+                                      }
+
+
+                                  ),),
+                                SizedBox(width: 25),
+                                Container(
+                                  width: 110,
+                                  height:60,
+                                  child: RaisedButton(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(80.0)),
+                                      elevation: 0.0,
+                                      padding: EdgeInsets.all(0.0),
+                                      child: Ink(
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                              begin: Alignment.centerRight,
+                                              end: Alignment.centerLeft,
+                                              colors: [
+                                                Theme.of(context).primaryColor,
+                                                Colors.amber
+                                              ]),
+                                          borderRadius: BorderRadius.circular(30.0),
+                                        ),
+                                        child: Container(
+                                          constraints: BoxConstraints(
+                                              maxWidth: 300.0, minHeight: 50.0),
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            "المقبولين",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 20.0,
+                                                fontWeight: FontWeight.w300),
+                                          ),
+                                        ),
+                                      ),
+                                      onPressed: () {
+
+                                        Provider.of<MyProvider>(context, listen: false).data1=data;
+                                        Navigator.of(context)
+                                            .push(MaterialPageRoute(builder: (context) {
+                                          return Acceptable();
+
+                                        }));
+                                      }),
+                                ),
                               ])
                         ],
                       ),

@@ -3,6 +3,7 @@ import 'package:b/screen/showUser.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 import '../stand.dart';
@@ -159,20 +160,28 @@ class _show_userState extends State<show_user> {
                                   item.add(doc[index].data());
                                   item_id.add(doc[index].id);
 
-                                  await FirebaseFirestore.instance.collection("users").doc(item_id.elementAt(0)).get().then((value) {
-                                    if(value.data()["num_follow"].contains(Provider.of<MyProvider>(context, listen: false).company_id))
-                                      Provider.of<MyProvider>(context, listen: false).setUser(3);
-                                    else
-                                      Provider.of<MyProvider>(context, listen: false).setUser(0);
-                                  });
+                                  // await FirebaseFirestore.instance.collection("users").doc(item_id.elementAt(0)).get().then((value) {
+                                  //   if(value.data()["num_follow"].contains(Provider.of<MyProvider>(context, listen: false).company_id))
+                                  //     Provider.of<MyProvider>(context, listen: false).setUser(3);
+                                  //   else
+                                  //     Provider.of<MyProvider>(context, listen: false).setUser(0);
+                                  // });
+                                  Provider.of<MyProvider>(context, listen: false).setUser(3);
 
+                                  if(doc[index].data()["privecy"]){
+                                    Navigator.push(
+                                        context,
+                                        new MaterialPageRoute(
+                                            builder: (context) =>
+                                            new show_detals(item, item_id)));
+                                  }
+                                  else
+                                    Fluttertoast.showToast(
+                                        msg: "لايمكن الدخول",
+                                        backgroundColor: Colors.black54,
+                                        textColor: Colors.white,
+                                        toastLength: Toast.LENGTH_SHORT);
 
-
-                                  Navigator.push(
-                                      context,
-                                      new MaterialPageRoute(
-                                          builder: (context) =>
-                                          new show_detals(item, item_id)));
                                 },
                               ),
                             ),

@@ -7,6 +7,7 @@ import 'package:b/enter/login.dart';
 import 'package:b/postSecreen/post.dart';
 import 'package:b/screen/savedUser.dart';
 import 'package:b/screen/users.dart';
+import 'package:b/screen/wait.dart';
 import 'package:b/stand.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -18,7 +19,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 import 'employeeSecreen/Initial_acceptance.dart';
-import 'oner_companies.dart';
+import 'oner/oner_companies.dart';
 
 List<String> nn = new List();
 Map<String, List> kk = new Map();
@@ -29,7 +30,8 @@ List<dynamic> koko = [
   AddJop(),
   Post(),
   HomePage(),
-  JobScreenEdit(),
+ // JobScreenEdit(),
+  OnerCompanies(),
   Setting1Widget(),
 ];
 Map<String, dynamic> homePageData = new Map<String, dynamic>();
@@ -48,7 +50,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Navigation Basics',
-      theme: ThemeData.light(). copyWith(primaryColor: Colors.teal[700], accentColor: Colors.blueGrey),
+      theme: ThemeData.light(). copyWith(primaryColor: Colors.red[900], accentColor: Colors.blueGrey),
     //  copyWith(primaryColor: Colors.indigo[300], accentColor: Colors.indigo[300]),
       debugShowCheckedModeBanner: false,
       home: towRoute(),
@@ -67,6 +69,15 @@ class _towRouteState extends State<towRoute> {
 
   @override
   getdata() async {
+   b=1;
+    await FirebaseFirestore.instance.collection("oner").doc("DPi7T09bNPJGI0lBRqx4").collection("new_company").get().then((value) {
+      value.docs.forEach((element) {
+        if(element.data()["email_advance"]==user.email)
+          b=element.data()["batool"];
+
+      });
+    });
+
     CollectionReference t =
         await FirebaseFirestore.instance.collection("location");
     await t.doc("Pju9ofIYjWDZF86czL75").get().then((value) {
@@ -79,7 +90,12 @@ class _towRouteState extends State<towRoute> {
     await getdata2();
   }
 
+  var b=1;
+
   getdata2() async {
+
+
+
     CollectionReference t =
         await FirebaseFirestore.instance.collection("location");
     await t.doc("zgmM6DkhtzXh1S4F4Atd").get().then((value) {
@@ -99,6 +115,8 @@ class _towRouteState extends State<towRoute> {
     nn2 = new List();
     getdata();
 
+
+
     user = FirebaseAuth.instance.currentUser;
     if (user == null)
       islogin = false;
@@ -106,12 +124,13 @@ class _towRouteState extends State<towRoute> {
       islogin = true;
     }
 
+
     Timer(
         Duration(seconds: 3),
-        () => Navigator.push(
+        () => Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => islogin == false ? Login() : FirstRoute(),
+                builder: (context) => islogin == false ? Login() :b==1? FirstRoute():Wait(),
               ),
             ));
   }
@@ -153,7 +172,7 @@ class _FirstRouteState extends State<FirstRoute> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData.light(). copyWith(primaryColor: Colors.teal[700], accentColor: Colors.lime[400],cardColor: Colors.grey[100]),
+      theme: ThemeData.light(). copyWith(primaryColor: Colors.red[900], accentColor: Colors.orangeAccent[200],cardColor: Colors.grey[100]),
       debugShowCheckedModeBanner: false,
       home: Directionality(
         textDirection: TextDirection.rtl,

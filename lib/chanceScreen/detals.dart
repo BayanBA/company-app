@@ -1,21 +1,240 @@
+import 'package:b/chanceScreen/view.dart';
+import 'package:b/employeeSecreen/acceptable.dart';
 import 'package:b/employeeSecreen/applicants.dart';
 import 'package:b/chanceScreen/updatChanceT.dart';
 import 'package:b/chanceScreen/updatChanceV.dart';
 import 'package:b/stand.dart';
 import 'package:b/chanceScreen/updatData.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 class Detals extends StatefulWidget {
   @override
   _DetalsState createState() => _DetalsState();
 }
 
 class _DetalsState extends State<Detals> {
+
+
+  String y,k;
+
+
+
+  delete_chance(var chance_id)async{
+
+    CollectionReference user = FirebaseFirestore.instance.collection('users');
+    CollectionReference company = FirebaseFirestore.instance.collection('companies');
+    ////////////delete from chance_saved
+    List user_Id = [];
+    await user.get().then((value) {
+      if(value.docs.isNotEmpty){
+        value.docs.forEach((element) {
+          user_Id.add(element.id);
+        });
+      }
+    });
+    for(int k = 0 ; k < user_Id.length ; k++) {
+      await user.doc(user_Id[k]).collection('chance_saved').get().then((value) async {
+        if (value.docs.isNotEmpty) {
+          for (int j = 0; j < value.docs.length; j++) {
+            if (value.docs[j].data()['chance_Id'] ==
+                chance_id) {
+              user.doc(user_Id[k]).collection('chance_saved')
+                  .where("chance_Id",
+                  isEqualTo:chance_id)
+                  .get()
+                  .then((value) {
+                value.docs.forEach((element) {
+                  user.doc(user_Id[k]).collection('chance_saved')
+                      .doc(element.id)
+                      .delete()
+                      .then((value) {
+                    print("Success!");
+                  });
+                });
+              });
+            }
+          }
+        }
+      });
+    }
+    /////////delete from notification
+    for(int k = 0 ; k < user_Id.length ; k++) {
+      await user.doc(user_Id[k]).collection('notifcation').get().then((value) async {
+        if (value.docs.isNotEmpty) {
+          for (int j = 0; j < value.docs.length; j++) {
+            if (value.docs[j].data()['id'] ==
+                chance_id) {
+              print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+              user.doc(user_Id[k]).collection('notifcation')
+                  .where("id",
+                  isEqualTo:chance_id)
+                  .get()
+                  .then((value) {
+                value.docs.forEach((element) {
+                  user.doc(user_Id[k]).collection('notifcation')
+                      .doc(element.id)
+                      .delete()
+                      .then((value) {
+                    print("Success!");
+                  });
+                });
+              });
+            }
+          }
+        }
+      });
+    }
+
+  }
+
+  get_Token() async {
+    FirebaseFirestore.instance.collection("oner").doc("DPi7T09bNPJGI0lBRqx4").get().then((value) {
+      y= value.data()['token'];
+    });
+
+    CollectionReference t = FirebaseFirestore.instance.collection("companies");
+    var userr = await FirebaseAuth.instance.currentUser;
+
+    await t.where("email_advance", isEqualTo: userr.email).get().then((value) {
+      value.docs.forEach((element) {
+        setState(() {
+          k = element.data()['company'];
+
+        });
+      });
+    });
+
+  }
+
+  void initState() {
+    get_Token();
+    super.initState();
+  }
+
+  Delete_Chance()async{
+    var data = Provider.of<MyProvider>(context, listen: false).data;
+
+
+    await FirebaseFirestore.instance
+        .collection("companies")
+        .doc(Provider.of<MyProvider>(context, listen: false).company_id)
+        .collection("chance").doc(data['id']).delete();
+
+    delete_chance(data['id']);
+
+
+    sendMessage(  "حذف فرصه",
+        "  تم حذف فرصه  ${data['title']}  من قبل الشركه  ${k}",
+        Provider.of<MyProvider>(context, listen: false).company_id, data['title']);
+
+
+  }
+
+  alert_delete(context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+              shape: BeveledRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              title: Container(
+                  margin: EdgeInsets.only(right: 20),
+                  child: Column(
+                    children: [
+                      Text(
+                        "هل تريد حذف الفرصه ",
+                        style: TextStyle(
+                            color: Colors.black, fontStyle: FontStyle.italic),
+                      ),
+                    ],
+                  )),
+              content: Container(
+                height: 20,
+              ),
+              actions: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(right: 30),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.teal[50],
+                      onPrimary: Colors.black,
+                      shape: const BeveledRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(3))),
+                    ),
+                    onPressed: () => setState(() {
+                      Navigator.of(context).pop();
+                    }),
+                    child: Text(
+                      "لا",
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(right: 30),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.teal[50],
+                      onPrimary: Colors.black,
+                      shape: const BeveledRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(3))),
+                    ),
+                    onPressed: ()async {
+                      await Delete_Chance();
+
+                      Navigator.of(context).pop();
+
+
+
+
+                    },
+                    child: Text(
+                      '  نعم',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                )
+              ]);
+        });
+  }
+
+  sendMessage(String title, String body,  String u, String c) async {
+    var data = Provider.of<MyProvider>(context, listen: false).data;
+
+    var serverToken =
+        "AAAAUnOn5ZE:APA91bGSkIL6DLpOfbulM_K3Yp5W1mlcp8F0IWu2mcKWloc4eQcF8C230XaHhXBfBYphuyp2P92dc_Js19rBEuU6UqPBGYOSjJfXsBJVmIu9TsLe44jaSOLDAovPTspwePb1gw7-1GNZ";
+    await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': 'key=$serverToken',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'notification': {
+            'title': title.toString(),
+            'body': body.toString(),
+          },
+          'priority': 'high',
+          'data': <String, dynamic>{
+            'click_action': 'flutter notifcation_click',
+            // 'id_company': Provider.of<MyProvider>(context, listen: false).company_id,
+            'id': data["id"],
+            'num': "1",
+            'type': "3",
+          },
+          'to': await y,
+        }));
+  }
+
   @override
   Widget build(BuildContext context) {
+
     var data = Provider.of<MyProvider>(context, listen: false).data;
+    Provider.of<MyProvider>(context, listen: false).setchanc_id(data["id"]);
     Size size = MediaQuery.of(context).size;
 
     return Directionality(
@@ -37,7 +256,6 @@ class _DetalsState extends State<Detals> {
                       ClipPath(
                         clipper: MyClipper(),
                         child: Container(
-                          //margin: EdgeInsets.only(bottom: kDefaultPadding * 2.5),
                           height: size.height * 0.2,
                           width: double.infinity,
                           decoration: BoxDecoration(
@@ -70,38 +288,47 @@ class _DetalsState extends State<Detals> {
                     ),
                   ),
                   Positioned(
-                    top: 150,
+                    top: 155,
                     left: 160,
-                    child: CircleAvatar(
-                        child: CircleAvatar(
-                          child: FloatingActionButton(
-                            heroTag: "tag30",
-                            child: Icon(
-                              Icons.edit,
-                              color: Theme.of(context).primaryColor,
-                              size: 30,
-                            ),
-                            backgroundColor: Colors.white,
-                            onPressed: () {
-                              Navigator.of(context)
-                                  .push(MaterialPageRoute(builder: (context) {
-                                return data["chanceId"] == 0
-                                    ? UpdatData()
-                                    : data["chanceId"] == 1
-                                    ? UpdatDataV()
-                                    : UpdatDataT();
-                              }));
-                              setState(() {
-                                data = Provider.of<MyProvider>(context,
-                                    listen: false)
-                                    .data;
-                              });
-                            },
+                    child:
+
+
+                    CircleAvatar(
+                        child:
+                        InkWell (child: CircleAvatar(
+
+
+                          child: Icon(
+                            Icons.edit,
+                            color: Theme.of(context).primaryColor,
+                            size: 30,
                           ),
+                          backgroundColor: Colors.white,
+
                         ),
+
+                          onTap: (){
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (context) {
+                              return data["chanceId"] == 0
+                                  ? UpdatData()
+                                  : data["chanceId"] == 1
+                                  ? UpdatDataV()
+                                  : UpdatDataT();
+                            }));
+                            setState(() {
+                              data = Provider.of<MyProvider>(context,
+                                  listen: false)
+                                  .data;
+                            });
+                          },),
                         radius: 25,
                         backgroundColor: Colors.black),
+
+
                   ),
+
+
                 ],
               ),
               Expanded(
@@ -505,7 +732,7 @@ class _DetalsState extends State<Detals> {
                               ),
                             ),
                             SizedBox(
-                              height: 10,
+                              height: 20,
                             ),
                             Divider(
                               height: 2,
@@ -513,9 +740,114 @@ class _DetalsState extends State<Detals> {
                               thickness: 2,
                             ),
                             SizedBox(
-                              height: 10,
+                              height: 20,
                             ),
+                            Row(
+                                children: [
 
+                                  Container(
+                                    width: 110,
+                                    height:60,
+                                    child: RaisedButton(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(80.0)),
+                                        elevation: 0.0,
+                                        padding: EdgeInsets.all(0.0),
+                                        child: Ink(
+                                          decoration: BoxDecoration(
+                                            gradient: LinearGradient(
+                                                begin: Alignment.centerRight,
+                                                end: Alignment.centerLeft,
+                                                colors: [
+                                                  Theme.of(context).primaryColor,
+                                                  Colors.amber
+                                                ]),
+                                            borderRadius: BorderRadius.circular(30.0),
+                                          ),
+                                          child: Container(
+                                            constraints: BoxConstraints(
+                                                maxWidth: 300.0, minHeight: 50.0),
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              "المتقدمين",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 20.0,
+                                                  fontWeight: FontWeight.w300),
+                                            ),
+                                          ),
+                                        ),
+
+                                        onPressed: ()  {
+                                          Navigator.of(context)
+                                              .push(MaterialPageRoute(builder: (context) {
+                                            return Applicants();
+                                          }));
+
+                                        }),
+                                  ),
+                                  SizedBox(width: 25),
+                                  CircleAvatar( radius: 40,
+
+                                    backgroundColor: Theme.of(context).primaryColor,child: FlatButton(
+
+
+                                        child: Text("للحذف",style: TextStyle(fontSize: 18,color: Colors.white,fontWeight: FontWeight.bold),
+
+
+                                        ),
+
+                                        onPressed: () {
+                                          alert_delete(context);
+
+                                        }
+
+
+                                    ),),
+                                  SizedBox(width: 25),
+                                  Container(
+                                    width: 110,
+                                    height:60,
+                                    child: RaisedButton(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(80.0)),
+                                        elevation: 0.0,
+                                        padding: EdgeInsets.all(0.0),
+                                        child: Ink(
+                                          decoration: BoxDecoration(
+                                            gradient: LinearGradient(
+                                                begin: Alignment.centerRight,
+                                                end: Alignment.centerLeft,
+                                                colors: [
+                                                  Theme.of(context).primaryColor,
+                                                  Colors.amber
+                                                ]),
+                                            borderRadius: BorderRadius.circular(30.0),
+                                          ),
+                                          child: Container(
+                                            constraints: BoxConstraints(
+                                                maxWidth: 300.0, minHeight: 50.0),
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              "المقبولين",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 20.0,
+                                                  fontWeight: FontWeight.w300),
+                                            ),
+                                          ),
+                                        ),
+                                        onPressed: () {
+
+                                          Provider.of<MyProvider>(context, listen: false).data1=data;
+                                          Navigator.of(context)
+                                              .push(MaterialPageRoute(builder: (context) {
+                                            return Acceptable();
+
+                                          }));
+                                        }),
+                                  ),
+                                ])
 
                           ],
                         ),
@@ -524,56 +856,14 @@ class _DetalsState extends State<Detals> {
                   ),
 
 
-                  // Padding(padding: EdgeInsets.all(10),
-                  //   child: TextButton(child:Text("${data["Presenting_A_Job"].length}") ,onPressed:(){
-                  //     Navigator.of(context)
-                  //         .push(MaterialPageRoute(builder: (context) {
-                  //       return Applicants();
-                  //
-                  //     }));
-                  //   })
-                  //   ,),
-                  // Padding(
-                  //   padding: EdgeInsets.all(10),
-                  //   child: Card(
-                  //     shape: RoundedRectangleBorder(
-                  //       borderRadius: BorderRadius.circular(15.0),
-                  //     ),
-                  //     color: Colors.black38,
-                  //     elevation: 10,
-                  //     child: Row(
-                  //       mainAxisSize: MainAxisSize.min,
-                  //       children: <Widget>[
-                  //         Text("${data["Vacancies"]}"),
-                  //         SizedBox(width: 70,),
-                  //         Text("${data["Presenting_A_Job"].length}"),
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
-                  // Center(
-                  //   child: IconButton(
-                  //     icon: Icon(Icons.edit),
-                  //     onPressed: () {
-                  //       Navigator.of(context)
-                  //           .push(MaterialPageRoute(builder: (context) {
-                  //         return data["chanceId"]==0? UpdatData():data["chanceId"]==1?UpdatDataV():UpdatDataT();
-                  //
-                  //       }));
-                  //       setState(() {
-                  //         data = Provider.of<MyProvider>(context,
-                  //             listen: false)
-                  //             .data;
-                  //       });
-                  //     },
-                  //   ),
-                  // ),
+
                 ],
                 ),
               )
             ]))
     );
   }
+
 }
 
 class MyClipper extends CustomClipper<Path> {

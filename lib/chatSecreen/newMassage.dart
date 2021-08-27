@@ -40,6 +40,7 @@ class _NewMassageState extends State<NewMassage> {
 
   sendMassage() async{
     FocusScope.of(context).unfocus();
+    control.clear();
 
     Provider.of<MyProvider>(context, listen: false).chat==1?
     await FirebaseFirestore.instance
@@ -70,6 +71,6 @@ class _NewMassageState extends State<NewMassage> {
     });
         
 
-    control.clear();
+
   }
 }
