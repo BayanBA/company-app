@@ -75,7 +75,7 @@ class _LoginState extends State<Login> {
                           Positioned(
                             top: 60,
                             child: Card(
-                              color: Colors.teal[700],
+                              color: Theme.of(context).primaryColor,
                               child: Container(
                                 height: 70,
                                 width: 380,
@@ -126,7 +126,7 @@ class _LoginState extends State<Login> {
                           Positioned(
                             top: 230,
                             child: Card(
-                              color: Colors.teal[700],
+                              color: Theme.of(context).primaryColor,
                               child: Container(
                                 height: 70,
                                 width: 380,
@@ -205,7 +205,7 @@ class _LoginState extends State<Login> {
                                 left: 100.0, top: 450.0, right: 100),
 
                             child: RaisedButton(
-                                color: Colors.teal[700],
+                                color: Theme.of(context).primaryColor,
                                 child: Text("تسجيل الدخول",
                                   style: TextStyle(fontSize: 20,color: Colors.white),),
                                 onPressed: () async {

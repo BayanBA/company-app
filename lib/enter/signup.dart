@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'dart:math';
-import 'package:b/screen/wait.dart';
+import 'package:b/enter/wait.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -138,7 +138,7 @@ class _SignUpState extends State<SignUp> {
                     Opacity(
                       opacity: 0.1,
                       child: Container(
-                        color: Colors.grey,
+                        color: Colors.grey[600],
                       ),
                     ),
                     Positioned(
@@ -151,7 +151,7 @@ class _SignUpState extends State<SignUp> {
                     Positioned(
                       top: 72,
                       child: Card(
-                        color: Colors.teal[700],
+                        color: Colors.grey[600],
                         child: Container(
                           height: 70,
                           width: 380,
@@ -159,7 +159,7 @@ class _SignUpState extends State<SignUp> {
                           margin: EdgeInsets.only(top: 50),
                         ),
                         elevation: 1,
-                        shadowColor: Colors.green,
+                        shadowColor: Colors.red,
                         shape: BeveledRectangleBorder(
                             borderRadius: BorderRadius.circular(5)),
                       ),
@@ -205,7 +205,7 @@ class _SignUpState extends State<SignUp> {
                     Positioned(
                       top: 230,
                       child: Card(
-                        color: Colors.teal[700],
+                        color: Colors.grey[600],
                         child: Container(
                           height: 70,
                           width: 380,
@@ -213,7 +213,7 @@ class _SignUpState extends State<SignUp> {
                           margin: EdgeInsets.only(top: 50),
                         ),
                         elevation: 1,
-                        shadowColor: Colors.green,
+                        shadowColor: Colors.red,
                         shape: BeveledRectangleBorder(
                             borderRadius: BorderRadius.circular(5)),
                       ),
@@ -261,7 +261,7 @@ class _SignUpState extends State<SignUp> {
                     Positioned(
                       top: 400,
                       child: Card(
-                        color: Colors.teal[700],
+                        color: Colors.grey[600],
                         child: Container(
                           height: 70,
                           width: 380,
@@ -269,7 +269,7 @@ class _SignUpState extends State<SignUp> {
                           margin: EdgeInsets.only(top: 50),
                         ),
                         elevation: 1,
-                        shadowColor: Colors.green,
+                        shadowColor: Colors.red,
                         shape: BeveledRectangleBorder(
                             borderRadius: BorderRadius.circular(5)),
                       ),
@@ -293,7 +293,7 @@ class _SignUpState extends State<SignUp> {
                     Positioned(
                       top: 570,
                       child: Card(
-                        color: Colors.teal[700],
+                        color: Colors.grey[600],
                         child: Container(
                           height: 70,
                           width: 380,
@@ -301,7 +301,7 @@ class _SignUpState extends State<SignUp> {
                           margin: EdgeInsets.only(top: 50),
                         ),
                         elevation: 1,
-                        shadowColor: Colors.green,
+                        shadowColor: Colors.red,
                         shape: BeveledRectangleBorder(
                             borderRadius: BorderRadius.circular(5)),
                       ),
@@ -356,7 +356,7 @@ class _SignUpState extends State<SignUp> {
                     Positioned(
                       top: 740,
                       child: Card(
-                        color: Colors.teal[700],
+                        color: Colors.grey[600],
                         child: Container(
                           height: 70,
                           width: 380,
@@ -364,7 +364,7 @@ class _SignUpState extends State<SignUp> {
                           margin: EdgeInsets.only(top: 50),
                         ),
                         elevation: 1,
-                        shadowColor: Colors.green,
+                        shadowColor: Colors.red,
                         shape: BeveledRectangleBorder(
                             borderRadius: BorderRadius.circular(5)),
                       ),
@@ -413,7 +413,7 @@ class _SignUpState extends State<SignUp> {
                     Positioned(
                       top: 910,
                       child: Card(
-                        color: Colors.teal[700],
+                        color: Colors.grey[600],
                         child: Container(
                           height: 70,
                           width: 380,
@@ -421,7 +421,7 @@ class _SignUpState extends State<SignUp> {
                           margin: EdgeInsets.only(top: 50),
                         ),
                         elevation: 1,
-                        shadowColor: Colors.green,
+                        shadowColor: Colors.red,
                         shape: BeveledRectangleBorder(
                             borderRadius: BorderRadius.circular(5)),
                       ),
@@ -469,7 +469,7 @@ class _SignUpState extends State<SignUp> {
                     Positioned(
                       top: 1080,
                       child: Card(
-                        color: Colors.teal[700],
+                        color: Colors.grey[600],
                         child: Container(
                           height: 70,
                           width: 380,
@@ -477,7 +477,7 @@ class _SignUpState extends State<SignUp> {
                           margin: EdgeInsets.only(top: 50),
                         ),
                         elevation: 1,
-                        shadowColor: Colors.green,
+                        shadowColor: Colors.red,
                         shape: BeveledRectangleBorder(
                             borderRadius: BorderRadius.circular(5)),
                       ),
@@ -502,7 +502,7 @@ class _SignUpState extends State<SignUp> {
                     Positioned(
                       top: 1250,
                       child: Card(
-                        color: Colors.teal[700],
+                        color: Colors.grey[600],
                         child: Container(
                           height: 70,
                           width: 380,
@@ -510,7 +510,7 @@ class _SignUpState extends State<SignUp> {
                           margin: EdgeInsets.only(top: 50),
                         ),
                         elevation: 1,
-                        shadowColor: Colors.green,
+                        shadowColor: Colors.red,
                         shape: BeveledRectangleBorder(
                             borderRadius: BorderRadius.circular(5)),
                       ),
@@ -528,7 +528,7 @@ class _SignUpState extends State<SignUp> {
                     Positioned(
                       top: 1420,
                       child: Card(
-                        color: Colors.teal[700],
+                        color: Colors.grey[600],
                         child: Container(
                           height: 70,
                           width: 380,
@@ -536,7 +536,7 @@ class _SignUpState extends State<SignUp> {
                           margin: EdgeInsets.only(top: 50),
                         ),
                         elevation: 1,
-                        shadowColor: Colors.green,
+                        shadowColor: Colors.red,
                         shape: BeveledRectangleBorder(
                             borderRadius: BorderRadius.circular(5)),
                       ),
@@ -628,8 +628,8 @@ class _SignUpState extends State<SignUp> {
                                         begin: Alignment.centerRight,
                                         end: Alignment.centerLeft,
                                         colors: [
-                                          Colors.lime[400],
-                                          Colors.teal[700]
+                                          Colors.red,
+                                          Colors.grey[600]
                                         ]),
                                     borderRadius: BorderRadius.circular(30.0),
                                   ),

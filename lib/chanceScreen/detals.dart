@@ -234,7 +234,7 @@ class _DetalsState extends State<Detals> {
   Widget build(BuildContext context) {
 
     var data = Provider.of<MyProvider>(context, listen: false).data;
-    Provider.of<MyProvider>(context, listen: false).setchanc_id(data["id"]);
+
     Size size = MediaQuery.of(context).size;
 
     return Directionality(
@@ -264,7 +264,7 @@ class _DetalsState extends State<Detals> {
                         ),
                       ),
                       SizedBox(
-                        height: 40,
+                        height: 70,
                       ),
                       Center(
                         child: Text(
@@ -310,11 +310,8 @@ class _DetalsState extends State<Detals> {
                           onTap: (){
                             Navigator.of(context)
                                 .push(MaterialPageRoute(builder: (context) {
-                              return data["chanceId"] == 0
-                                  ? UpdatData()
-                                  : data["chanceId"] == 1
-                                  ? UpdatDataV()
-                                  : UpdatDataT();
+                              return
+                                   UpdatData();
                             }));
                             setState(() {
                               data = Provider.of<MyProvider>(context,
@@ -779,6 +776,7 @@ class _DetalsState extends State<Detals> {
                                         ),
 
                                         onPressed: ()  {
+                                          Provider.of<MyProvider>(context, listen: false).setchanc_id(data["id"]);
                                           Navigator.of(context)
                                               .push(MaterialPageRoute(builder: (context) {
                                             return Applicants();
@@ -838,6 +836,7 @@ class _DetalsState extends State<Detals> {
                                           ),
                                         ),
                                         onPressed: () {
+                                          Provider.of<MyProvider>(context, listen: false).setchanc_id(data["id"]);
 
                                           Provider.of<MyProvider>(context, listen: false).data1=data;
                                           Navigator.of(context)

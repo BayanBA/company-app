@@ -7,7 +7,7 @@ import 'package:b/enter/login.dart';
 import 'package:b/postSecreen/post.dart';
 import 'package:b/screen/savedUser.dart';
 import 'package:b/screen/users.dart';
-import 'package:b/screen/wait.dart';
+import 'package:b/enter/wait.dart';
 import 'package:b/stand.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -30,8 +30,8 @@ List<dynamic> koko = [
   AddJop(),
   Post(),
   HomePage(),
- // JobScreenEdit(),
-  OnerCompanies(),
+  JobScreenEdit(),
+  //OnerCompanies(),
   Setting1Widget(),
 ];
 Map<String, dynamic> homePageData = new Map<String, dynamic>();

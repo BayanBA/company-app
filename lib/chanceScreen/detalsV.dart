@@ -228,7 +228,7 @@ class _DetalsState extends State<DetalsV> {
   @override
   Widget build(BuildContext context) {
     var data = Provider.of<MyProvider>(context, listen: false).data;
-    Provider.of<MyProvider>(context, listen: false).setchanc_id(data["id"]);
+
 
 
     Size size = MediaQuery.of(context).size;
@@ -261,7 +261,7 @@ class _DetalsState extends State<DetalsV> {
                       ),
                     ),
                     SizedBox(
-                      height: 40,
+                      height: 70,
                     ),
                     Center(
                       child: Text(
@@ -604,6 +604,7 @@ class _DetalsState extends State<DetalsV> {
                                         ),
                                       ),
                                       onPressed: ()  {
+                                        Provider.of<MyProvider>(context, listen: false).setchanc_id(data["id"]);
                                         Navigator.of(context)
                                             .push(MaterialPageRoute(builder: (context) {
                                           return Applicants();
@@ -664,7 +665,7 @@ class _DetalsState extends State<DetalsV> {
                                         ),
                                       ),
                                       onPressed: () {
-
+                                        Provider.of<MyProvider>(context, listen: false).setchanc_id(data["id"]);
                                         Provider.of<MyProvider>(context, listen: false).data1=data;
                                         Navigator.of(context)
                                             .push(MaterialPageRoute(builder: (context) {

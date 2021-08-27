@@ -311,6 +311,7 @@ class _UpdatDataState extends State<UpdatDataV> {
       stan.langNum = _filters;
       stan.describsion = d["describsion"];
       stan.Vacancies = d["Vacancies"];
+      Provider.of<MyProvider>(context, listen: false).setData(d);
 
       v.doc(d["id"]).update({
 

@@ -5,7 +5,7 @@ import 'package:b/main.dart';
 import 'package:b/screen/My_profile.dart';
 import 'package:b/postSecreen/post.dart';
 import 'package:b/chanceScreen/view.dart';
-import 'package:b/screen/wait.dart';
+import 'package:b/enter/wait.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

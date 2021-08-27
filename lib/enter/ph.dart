@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'dart:math';
-import 'package:b/screen/wait.dart';
+import 'package:b/enter/wait.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -57,143 +57,151 @@ class _PhState extends State<Ph> {
                             Color(0xFF5C6BC0), BlendMode.overlay))),
               ),
             ),
-            Column(
-              children: [
-                SizedBox(
-                  height: 40,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Container(
-                    child: Text("أدخل صورة لترخيص الشركة"+"\n"+"ثم اضغط تأكيد",style: TextStyle(fontSize: 30),),
+            Center(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 40,
                   ),
-                ),
-                Container(
-                  child:  InkWell(
-                      child: CircleAvatar(
-                          backgroundImage:
-                          photo != null ? FileImage(photo) : null,
-                          radius: 50,
-                          child: Icon(
-                            Icons.add,
-                            color: Colors.white,
-                          )),
-                      onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Column(children: [
-                                  InkWell(
-                                    child: Text("تحميل من المعرض "),
-                                    onTap: () async {
-                                      var picker = await imagepicker.getImage(
-                                          source: ImageSource.gallery);
-                                      if (picker != null) {
-                                        print("&&&&&&&&&&&&&&&&&");
-                                        file = File(picker.path);
-                                        print("&&&&&&&&&&&&&&&&&");
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Container(
+                      child: Text("أدخل صورة لترخيص الشركة"+"\n"+"ثم اضغط تأكيد",style: TextStyle(fontSize: 30),),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  Container(
+                    child:  InkWell(
+                        child: CircleAvatar(
+                            backgroundImage:
+                            photo != null ? FileImage(photo) : null,
+                            radius: 100,
+                            child: Icon(
+                              Icons.add,
+                              color: Colors.white,
+                            )),
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Column(children: [
+                                    InkWell(
+                                      child: Text("تحميل من المعرض "),
+                                      onTap: () async {
+                                        var picker = await imagepicker.getImage(
+                                            source: ImageSource.gallery);
+                                        if (picker != null) {
+                                          print("&&&&&&&&&&&&&&&&&");
+                                          file = File(picker.path);
+                                          print("&&&&&&&&&&&&&&&&&");
 
-                                        var nameImage = basename(picker.path);
-                                        var random = Random().nextInt(10000);
-                                        nameImage = "$random$nameImage";
-                                        refstorage = await FirebaseStorage.instance
-                                            .ref()
-                                            .child("photo")
-                                            .child("$nameImage");
-                                        setState(() {
-                                          photo = file;
-                                        });
-                                      }
-                                    },
-                                  )
+                                          var nameImage = basename(picker.path);
+                                          var random = Random().nextInt(10000);
+                                          nameImage = "$random$nameImage";
+                                          refstorage = await FirebaseStorage.instance
+                                              .ref()
+                                              .child("photo")
+                                              .child("$nameImage");
+                                          setState(() {
+                                            photo = file;
+                                          });
+                                        }
+                                      },
+                                    )
+                                  ]),
+                                );
+                              });
+                        }),
+                  ),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  Container(
+                    width: 180.00,
+                    child: RaisedButton(
+                        onPressed: () async {
+                          await refstorage.putFile(file);
+                          url = await refstorage.getDownloadURL();
+                          rr=url;
+                          var user = await FirebaseAuth.instance.currentUser;
+                          var num;
+
+                          var n = await FirebaseFirestore.instance
+                              .collection("number")
+                              .doc("aLOUXiw8hVsNqdzEsjF5")
+                              .get()
+                              .then((value) {
+                            num = value.data()["num"];
+                          });
+                          num = num + 1;
+
+                          await FirebaseFirestore.instance
+                              .collection("number")
+                              .doc("aLOUXiw8hVsNqdzEsjF5")
+                              .update({"num": num});
+
+
+                          await FirebaseFirestore.instance.collection("oner").doc(
+                              "DPi7T09bNPJGI0lBRqx4").collection("new_company").add({
+                            'company': widget.company,
+                            'region': widget.region,
+                            'city': widget.city,
+                            'followers': [],
+                            "bayan": num,
+                            "batool":0,
+                            "all_accepted":[],
+                            'specialization': widget.spe,
+                            'email_advance': user.email,
+                            'description': widget.des,
+                            'size_company': widget.size,
+                            'phone': widget.phone,
+                            'link_image': "not",
+                            "image_url":rr
+                          });
+
+                          Fluttertoast.showToast(
+                              msg: "تم تسجيل طلبك بنجاح",
+                              backgroundColor: Colors.black54,
+                              textColor: Colors.white,
+                              toastLength: Toast.LENGTH_LONG);
+                          Navigator.pushReplacement(context,
+                              new MaterialPageRoute(builder: (context) => Wait()));
+
+                        },
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(80.0)),
+                        elevation: 0.0,
+                        padding: EdgeInsets.all(0.0),
+                        child: Ink(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.centerRight,
+                                end: Alignment.centerLeft,
+                                colors: [
+                                  Colors.red,
+                                  Colors.orangeAccent
                                 ]),
-                              );
-                            });
-                      }),
-                ),
-                Container(
-                  width: 180.00,
-                  child: RaisedButton(
-                      onPressed: () async {
-                        await refstorage.putFile(file);
-                        url = await refstorage.getDownloadURL();
-                        rr=url;
-                        var user = await FirebaseAuth.instance.currentUser;
-                        var num;
-
-                        var n = await FirebaseFirestore.instance
-                            .collection("number")
-                            .doc("aLOUXiw8hVsNqdzEsjF5")
-                            .get()
-                            .then((value) {
-                          num = value.data()["num"];
-                        });
-                        num = num + 1;
-
-                        await FirebaseFirestore.instance
-                            .collection("number")
-                            .doc("aLOUXiw8hVsNqdzEsjF5")
-                            .update({"num": num});
-
-
-                        await FirebaseFirestore.instance.collection("oner").doc(
-                            "DPi7T09bNPJGI0lBRqx4").collection("new_company").add({
-                          'company': widget.company,
-                          'region': widget.region,
-                          'city': widget.city,
-                          'followers': [],
-                          "bayan": num,
-                          "batool":0,
-                          "all_accepted":[],
-                          'specialization': widget.spe,
-                          'email_advance': user.email,
-                          'description': widget.des,
-                          'size_company': widget.size,
-                          'phone': widget.phone,
-                          'link_image': "not",
-                          "image_url":rr
-                        });
-
-                        Fluttertoast.showToast(
-                            msg: "تم تسجيل طلبك بنجاح",
-                            backgroundColor: Colors.black54,
-                            textColor: Colors.white,
-                            toastLength: Toast.LENGTH_LONG);
-                        Navigator.pushReplacement(context,
-                            new MaterialPageRoute(builder: (context) => Wait()));
-
-                      },
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(80.0)),
-                      elevation: 0.0,
-                      padding: EdgeInsets.all(0.0),
-                      child: Ink(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: Alignment.centerRight,
-                              end: Alignment.centerLeft,
-                              colors: [
-                                Colors.lime[400],
-                                Colors.teal[700]
-                              ]),
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                        child: Container(
-                          constraints: BoxConstraints(
-                              maxWidth: 300.0, minHeight: 50.0),
-                          alignment: Alignment.center,
-                          child: Text(
-                            "تأكيد",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 26.0,
-                                fontWeight: FontWeight.w300),
+                            borderRadius: BorderRadius.circular(30.0),
                           ),
-                        ),
-                      )),
-                ),
-              ],
+                          child: Container(
+                            constraints: BoxConstraints(
+                                maxWidth: 300.0, minHeight: 50.0),
+                            alignment: Alignment.center,
+                            child: Text(
+                              "تأكيد",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 26.0,
+                                  fontWeight: FontWeight.w300),
+                            ),
+                          ),
+                        )),
+                  ),
+                ],
+              ),
             )
           ]),
         ));

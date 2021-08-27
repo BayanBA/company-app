@@ -222,6 +222,7 @@ class _show_detalsState extends State<show_detals> {
           'data': <String, dynamic>{
             'click_action': 'flutter notifcation_click',
             'id':  Provider.of<MyProvider>(context, listen: false).chanc_id,
+            'id_company': Provider.of<MyProvider>(context, listen: false).company_id,
             'num': "4",
           },
           'to': await token_user,

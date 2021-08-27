@@ -323,6 +323,8 @@ class _UpdatDataState extends State<UpdatDataT> {
       stan.describsion = d["describsion"];
       stan.Vacancies = d["Vacancies"];
 
+      Provider.of<MyProvider>(context, listen: false).setData(d);
+
       v.doc(d["id"]).update({
         "title": stan.title,
         "specialties": stan.specialties,

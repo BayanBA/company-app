@@ -231,7 +231,7 @@ class _DetalsState extends State<DetalsT> {
   @override
   Widget build(BuildContext context) {
     var data = Provider.of<MyProvider>(context, listen: false).data;
-    Provider.of<MyProvider>(context, listen: false).setchanc_id(data["id"]);
+
 
     Size size = MediaQuery.of(context).size;
     return Directionality(
@@ -268,7 +268,7 @@ class _DetalsState extends State<DetalsT> {
                     Center(
                       child: Text(
                         data["title"],
-                        style: TextStyle(fontSize: 35),
+                        style: TextStyle(fontSize: 70),
                       ),
                     ),
                   ],
@@ -704,6 +704,7 @@ class _DetalsState extends State<DetalsT> {
                                       // child: Text("المتقدمين",
                                       //     style: TextStyle(fontSize: 20)),
                                       onPressed: ()  {
+                                        Provider.of<MyProvider>(context, listen: false).setchanc_id(data["id"]);
                                         Navigator.of(context)
                                             .push(MaterialPageRoute(builder: (context) {
                                           return Applicants();
@@ -763,7 +764,7 @@ class _DetalsState extends State<DetalsT> {
                                         ),
                                       ),
                                       onPressed: () {
-
+                                        Provider.of<MyProvider>(context, listen: false).setchanc_id(data["id"]);
                                         Provider.of<MyProvider>(context, listen: false).data1=data;
                                         Navigator.of(context)
                                             .push(MaterialPageRoute(builder: (context) {

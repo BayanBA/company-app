@@ -428,6 +428,7 @@ class AddJopState extends State<AddJop> {
         "skillNum": stan.skillNum,
         "describsion": stan.describsion,
         "expir": stan.expir,
+        "quiz_result":{},
         "gender": stan.gender,
         "degree": stan.degree,
         "level": stan.level,

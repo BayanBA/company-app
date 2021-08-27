@@ -24,7 +24,6 @@ class ShowingPost extends StatefulWidget {
 class _ShowingPostState extends State<ShowingPost> {
   String y, k;
 
-
   var list = new List();
   var listData = new Map();
 
@@ -37,13 +36,10 @@ class _ShowingPostState extends State<ShowingPost> {
         .then((value) {
       value.docs.forEach((element) {
         list.add(element.data()["title"]);
-        listData[element.data()["title"]]=element.data();
+        listData[element.data()["title"]] = element.data();
       });
     });
   }
-
-
-
 
   get_Token() async {
     FirebaseFirestore.instance
@@ -145,7 +141,7 @@ class _ShowingPostState extends State<ShowingPost> {
                       Delete_Post(lis);
                       setState(() {
                         Navigator.of(context).pop();
-                        currentPage = currentPage + 1;
+                        //currentPage = currentPage + 1;
                         setState(() {});
 
                         // Navigator.of(context).pop();
@@ -165,34 +161,41 @@ class _ShowingPostState extends State<ShowingPost> {
         });
   }
 
-  delete_Post(var post_id)async{
+  delete_Post(var post_id) async {
     CollectionReference user = FirebaseFirestore.instance.collection('users');
-    CollectionReference company = FirebaseFirestore.instance.collection('companies');
+    CollectionReference company =
+        FirebaseFirestore.instance.collection('companies');
     ////////////delete from posts_saved
     List user_Id = [];
     await user.get().then((value) {
-      if(value.docs.isNotEmpty){
+      if (value.docs.isNotEmpty) {
         value.docs.forEach((element) {
           user_Id.add(element.id);
         });
       }
     });
-    for(int k = 0 ; k < user_Id.length ; k++) {
-      await user.doc(user_Id[k]).collection('posts_saved').get().then((value) async {
+    for (int k = 0; k < user_Id.length; k++) {
+      await user
+          .doc(user_Id[k])
+          .collection('posts_saved')
+          .get()
+          .then((value) async {
         if (value.docs.isNotEmpty) {
           for (int j = 0; j < value.docs.length; j++) {
             print('____________________________');
             print(value.docs[j].data()['post_Id']);
-            if (value.docs[j].data()['post_Id'] ==
-                post_id) {
+            if (value.docs[j].data()['post_Id'] == post_id) {
               print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
-              user.doc(user_Id[k]).collection('posts_saved')
-                  .where("post_Id",
-                  isEqualTo: post_id)
+              user
+                  .doc(user_Id[k])
+                  .collection('posts_saved')
+                  .where("post_Id", isEqualTo: post_id)
                   .get()
                   .then((value) {
                 value.docs.forEach((element) {
-                  user.doc(user_Id[k]).collection('posts_saved')
+                  user
+                      .doc(user_Id[k])
+                      .collection('posts_saved')
                       .doc(element.id)
                       .delete()
                       .then((value) {
@@ -207,20 +210,26 @@ class _ShowingPostState extends State<ShowingPost> {
     }
     print("**********************");
     /////////delete from notification
-    for(int k = 0 ; k < user_Id.length ; k++) {
-      await user.doc(user_Id[k]).collection('notifcation').get().then((value) async {
+    for (int k = 0; k < user_Id.length; k++) {
+      await user
+          .doc(user_Id[k])
+          .collection('notifcation')
+          .get()
+          .then((value) async {
         if (value.docs.isNotEmpty) {
           for (int j = 0; j < value.docs.length; j++) {
-            if (value.docs[j].data()['id'] ==
-                post_id) {
+            if (value.docs[j].data()['id'] == post_id) {
               print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-              user.doc(user_Id[k]).collection('notifcation')
-                  .where("id",
-                  isEqualTo:post_id)
+              user
+                  .doc(user_Id[k])
+                  .collection('notifcation')
+                  .where("id", isEqualTo: post_id)
                   .get()
                   .then((value) {
                 value.docs.forEach((element) {
-                  user.doc(user_Id[k]).collection('notifcation')
+                  user
+                      .doc(user_Id[k])
+                      .collection('notifcation')
                       .doc(element.id)
                       .delete()
                       .then((value) {
@@ -233,7 +242,6 @@ class _ShowingPostState extends State<ShowingPost> {
         }
       });
     }
-
   }
 
   sendMessage(
@@ -305,7 +313,7 @@ class _ShowingPostState extends State<ShowingPost> {
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-            appBar:  PreferredSize(
+            appBar: PreferredSize(
               preferredSize: Size.fromHeight(100.0),
               child: AppBar(
                 actions: [
@@ -314,7 +322,8 @@ class _ShowingPostState extends State<ShowingPost> {
                       icon: const Icon(Icons.search),
                       onPressed: () async {
                         await showSearch(
-                            context: context, delegate: datasearch(list,listData,2));
+                            context: context,
+                            delegate: datasearch(list, listData, 2));
                       }),
                 ],
                 title: Center(

@@ -378,6 +378,8 @@ class _UpdatDataState extends State<UpdatData> {
       stan.describsion = d["describsion"];
       stan.Vacancies = d["Vacancies"];
 
+      Provider.of<MyProvider>(context, listen: false).setData(d);
+
       v.doc(d["id"]).update({
         "title": stan.title,
         "salary": stan.salary,
@@ -976,53 +978,8 @@ class _UpdatDataState extends State<UpdatData> {
                 ],
               )
             ]),
-            floatingActionButtonLocation:
-            FloatingActionButtonLocation.centerTop,
-            floatingActionButton: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      SizedBox(
-                        width: 20,
-                      ),
-                      FloatingActionButton(
-                        heroTag: "tag11",
-                        child: Icon(
-                          Icons.track_changes,
-                          color: Colors.indigo[300],
-                          size: 30,
-                        ),
-                        backgroundColor: Colors.white,
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              new MaterialPageRoute(
-                                  builder: (context) => ChanceT()));
-                        },
-                      ),
-                      SizedBox(
-                        width: 40,
-                      ),
-                      FloatingActionButton(
-                        heroTag: "tag22",
-                        child: Icon(
-                          Icons.verified_outlined,
-                          color: Colors.indigo[300],
-                          size: 30,
-                        ),
-                        backgroundColor: Colors.white,
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              new MaterialPageRoute(
-                                  builder: (context) => ChanceV()));
-                        },
-                      ),
-                      SizedBox(
-                        width: 40,
-                      ),
-                    ]))));
+        )
+    );
   }
 
   edit(int i) {
