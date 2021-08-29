@@ -34,19 +34,20 @@ class _ShowingDataState extends State<ShowingData> {
     });
   }
 
-
   // void initState() {
   //   getdata();
   //   super.initState();
   // }
 
- // CollectionReference comp;
+  // CollectionReference comp;
 
-  del(lis)  {
+  del(lis) {
     FirebaseFirestore.instance
         .collection("companies")
         .doc(Provider.of<MyProvider>(context, listen: false).company_id)
-        .collection("chance").doc(lis["id"]).delete();
+        .collection("chance")
+        .doc(lis["id"])
+        .delete();
     return Padding(
       padding: const EdgeInsets.only(top: 20, right: 8, left: 8),
       child: Container(
@@ -86,8 +87,8 @@ class _ShowingDataState extends State<ShowingData> {
   Widget done(lis) {
     return ListView.builder(
         itemBuilder: (context, i) {
-
-          return lis.elementAt(i)["accepted"].length >= lis.elementAt(i)["Vacancies"]
+          return lis.elementAt(i)["accepted"].length >=
+                  lis.elementAt(i)["Vacancies"]
               ? del(lis[i])
               : Dismissible(
                   onDismissed: (direction) async {
@@ -183,7 +184,6 @@ class _ShowingDataState extends State<ShowingData> {
                         await showSearch(
                             context: context,
                             delegate: datasearch(list, listData, 1));
-                        // getdata();
                       }),
                 ],
                 title: Center(

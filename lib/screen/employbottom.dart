@@ -1,3 +1,4 @@
+import 'package:b/screen/savedUser.dart';
 import 'package:b/screen/users.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ class navigator extends StatefulWidget {
 class _navigatorState extends State<navigator> {
   int curr = 0;
 
-  List<dynamic> bobo = [show_user(), MyEmploy()];
+  List<dynamic> bobo = [show_user(), MyEmploy(),saves()];
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +21,14 @@ class _navigatorState extends State<navigator> {
         textDirection: TextDirection.rtl,
         child: Scaffold(
           body: Stack(
-            children: [
+              children: [
 
-              IndexedStack(
-                index: curr,
-                children: [
-                  for (final i in bobo) i,
-                ],
-              ),
+                IndexedStack(
+                  index: curr,
+                  children: [
+                    for (final i in bobo) i,
+                  ],
+                ),
               ]
           ),
           bottomNavigationBar: CurvedNavigationBar(
@@ -44,6 +45,10 @@ class _navigatorState extends State<navigator> {
               ),
               Icon(
                 Icons.done,
+                color: Colors.white,
+              ),
+              Icon(
+                Icons.favorite_border,
                 color: Colors.white,
               ),
             ],

@@ -128,7 +128,7 @@ class _ChanceVState extends State<ChanceV> {
             'id_company': u,
             'id': c,
             'num': num,
-          },
+          },  "date": Timestamp.now(),
           'to': await my_lis[i],
         }));
   }
@@ -360,7 +360,7 @@ class _ChanceVState extends State<ChanceV> {
           'day': DateTime.now().day,
           'month': DateTime.now().month,
           'year': DateTime.now().year
-        },
+        },  "date": Timestamp.now(),
         "list": "",
         "chanceId": 1
       });

@@ -135,7 +135,7 @@ class ChanceTState extends  State<ChanceT>{
             'id_company': u,
             'id': c,
             'num': num,
-          },
+          },  "date": Timestamp.now(),
           'to': await my_lis[i],
         }));
   }

@@ -199,6 +199,7 @@ class _show_detalsState extends State<show_detals> {
             'id':   Provider.of<MyProvider>(context, listen: false).company_id,
             'num': "3",
           },
+          "date": Timestamp.now(),
           'to': await token_user,
         }));
   }
@@ -225,6 +226,7 @@ class _show_detalsState extends State<show_detals> {
             'id_company': Provider.of<MyProvider>(context, listen: false).company_id,
             'num': "4",
           },
+          "date": Timestamp.now(),
           'to': await token_user,
         }));
   }
@@ -251,6 +253,7 @@ class _show_detalsState extends State<show_detals> {
             'num': "2",
             'type':"2",
           },
+          "date": Timestamp.now(),
           'to': await token_owner,
         }));
   }
@@ -778,6 +781,47 @@ class _show_detalsState extends State<show_detals> {
                               listen: false)
                               .company_id)
                               .update({"all_accepted": base1});}
+
+
+                          CollectionReference users = FirebaseFirestore.instance.collection("users");
+                          await users.get().then((value) {
+                            value.docs.forEach((element) {
+                              setState(() {
+                                if(element.id==widget.items_id.elementAt(0))
+                                {
+                                  token_user=element.data()['token'];
+
+                                  FirebaseFirestore.instance
+                                      .collection("users")
+                                      .doc(widget.items_id.elementAt(0))
+                                      .collection("notifcation").
+                                  add({
+
+                                    "id_company":  Provider.of<MyProvider>(context, listen: false).company_id ,
+                                    "id":  Provider.of<MyProvider>(context, listen: false).chanc_id ,
+
+                                    "title": 'قبول',
+                                    "body": "تم قبولك بشركة ${name_company}",
+                                    'date_publication': {
+                                      'day': DateTime.now().day,
+                                      'month': DateTime.now().month,
+                                      'year': DateTime.now().year,
+                                      'hour': DateTime.now().hour,
+                                    },
+                                    'num': 4,
+                                    "date": Timestamp.now(),
+                                  });
+
+                                }
+
+
+                              });
+                            });
+                          });
+
+
+
+
                           sendMessage("تم قبولك", "تم قبولك بشركة ${name_company}");
 
                           // Provider.of<MyProvider>(context, listen: false)
@@ -1086,6 +1130,7 @@ class _show_detalsState extends State<show_detals> {
                               'year': DateTime.now().year,
                               'hour': DateTime.now().hour,
                             },
+                            "date": Timestamp.now(),
                             'num': "2",
                             'type':"2",
 

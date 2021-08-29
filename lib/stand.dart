@@ -49,6 +49,17 @@ class MyProvider with ChangeNotifier{
   String chanc_id="";
   int time=20;
 
+  var dark=0;
+  var noti=0;
+  setDark(var val){
+    dark=val;
+    notifyListeners();
+  }
+  setNoti(var val){
+    noti=val;
+    notifyListeners();
+  }
+
   List<String> Q=[""];
   List<String> A=[""];
   List<String> Z=[""];

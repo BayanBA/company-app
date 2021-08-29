@@ -370,7 +370,7 @@ class _ShowingPostState extends State<ShowingPost> {
   }
 
   ff(lis) {
-    return Padding(
+    Padding(
       padding: EdgeInsets.all(10.0),
       child: Column(
         children: [

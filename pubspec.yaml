@@ -23,7 +23,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  flutter_launcher_icons: ^0.7.3
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -43,6 +43,7 @@ dependencies:
   firebase_storage:
   firebase_database: "^6.0.0"
   radial_menu:
+
 
   #flutter_swiper:
   #flutter_staggered_grid_view:
@@ -70,6 +71,13 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+
+flutter_icons:
+  image_path: "images/rr.png"
+  android: true
+  ios: true
+
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -88,6 +96,8 @@ flutter:
     - images/2.png
     - images/55.jpeg
     - images/bb.jpg
+    - images/ee.png
+    - images/rr.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

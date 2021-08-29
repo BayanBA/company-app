@@ -31,7 +31,9 @@ class _HomePageState extends State<HomePage> {
   var batool1;
   var aseel = 0;
   String u;
+
   Map<String, dynamic> homePageData = new Map<String, dynamic>();
+  CollectionReference t;
 
   getdata1() async {
     CollectionReference t = FirebaseFirestore.instance.collection("companies");
@@ -46,229 +48,30 @@ class _HomePageState extends State<HomePage> {
         });
       });
     });
+
+
+    // await FirebaseMessaging.instance.getToken().then((value) {
+    //       token = value;
+    // });
+    //
+    // await t.doc(u).update({'token': token});
+
+    Provider.of<MyProvider>(context, listen: false).noti == 1
+        ? await {
+      t.doc(u).update({'token': token}),
+      FirebaseMessaging.instance.getToken().then((value) {
+        token = value;
+      })
+    }
+        : await {
+      t.doc(u).update({'token': ""}).then((value) {}),
+      FirebaseMessaging.instance.getToken().then((value) {
+        token = "";
+      }),
+    };
   }
 
-  // deletedata(context) async {
-  //   CollectionReference t = FirebaseFirestore.instance.collection("companies");
-  //   var user = FirebaseAuth.instance.currentUser;
-  //   await t.where("email_advance", isEqualTo: user.email).get().then((value) {
-  //     value.docs.forEach((element) {
-  //       setState(() {
-  //         DocumentReference d = FirebaseFirestore.instance
-  //             .collection("companies")
-  //             .doc(element.id);
-  //         d.delete();
-  //       });
-  //     });
-  //   });
-  //   await user.delete();
-  //   Navigator.push(
-  //       context, new MaterialPageRoute(builder: (context) => new Login()));
-  // }
-  //
-  // deletAlart(context) async {
-  //   await showDialog(
-  //       context: context,
-  //       builder: (context) {
-  //         return AlertDialog(
-  //             shape: BeveledRectangleBorder(
-  //                 borderRadius: BorderRadius.circular(10)),
-  //             title: Container(
-  //                 margin: EdgeInsets.only(right: 20),
-  //                 child: Column(
-  //                   children: [
-  //                     Text(
-  //                       "هل انت متاكد من حذف الحساب",
-  //                       style: TextStyle(
-  //                           color: Theme.of(context).primaryColor,
-  //                           fontStyle: FontStyle.italic),
-  //                     ),
-  //                   ],
-  //                 )),
-  //             content: Container(
-  //               height: 20,
-  //             ),
-  //             actions: <Widget>[
-  //               Container(
-  //                 margin: EdgeInsets.only(right: 30),
-  //                 child: ElevatedButton(
-  //                   style: ElevatedButton.styleFrom(
-  //                     primary: Theme.of(context).accentColor,
-  //                     onPrimary: Colors.black,
-  //                     shape: const BeveledRectangleBorder(
-  //                         borderRadius: BorderRadius.all(Radius.circular(3))),
-  //                   ),
-  //                   onPressed: () => setState(() {
-  //                     Navigator.of(context).pop();
-  //                   }),
-  //                   child: Text(
-  //                     "لا",
-  //                     style: TextStyle(color: Colors.black),
-  //                   ),
-  //                 ),
-  //               ),
-  //               Container(
-  //                 margin: EdgeInsets.only(right: 30),
-  //                 child: ElevatedButton(
-  //                   style: ElevatedButton.styleFrom(
-  //                     primary: Theme.of(context).accentColor,
-  //                     onPrimary: Colors.black,
-  //                     shape: const BeveledRectangleBorder(
-  //                         borderRadius: BorderRadius.all(Radius.circular(3))),
-  //                   ),
-  //                   onPressed: () => setState(() {
-  //                     deletedata(context);
-  //
-  //                     Navigator.push(
-  //                         context,
-  //                         new MaterialPageRoute(
-  //                             builder: (context) => new Login()));
-  //                   }),
-  //                   child: Text(
-  //                     '  نعم',
-  //                     style: TextStyle(color: Colors.black),
-  //                   ),
-  //                 ),
-  //               )
-  //             ]);
-  //       });
-  // }
-  //
-  // sign_out_Alart(context) {
-  //   showDialog(
-  //       context: context,
-  //       builder: (context) {
-  //         return AlertDialog(
-  //             shape: BeveledRectangleBorder(
-  //                 borderRadius: BorderRadius.circular(10)),
-  //             title: Container(
-  //                 margin: EdgeInsets.only(right: 20),
-  //                 child: Column(
-  //                   children: [
-  //                     Text(
-  //                       "هل انت متاكد من تسجيل الخروج",
-  //                       style: TextStyle(
-  //                           color: Theme.of(context).primaryColor,
-  //                           fontStyle: FontStyle.italic),
-  //                     ),
-  //                   ],
-  //                 )),
-  //             content: Container(
-  //               height: 20,
-  //             ),
-  //             actions: <Widget>[
-  //               Container(
-  //                 margin: EdgeInsets.only(right: 30),
-  //                 child: ElevatedButton(
-  //                   style: ElevatedButton.styleFrom(
-  //                     primary: Theme.of(context).accentColor,
-  //                     onPrimary: Colors.black,
-  //                     shape: const BeveledRectangleBorder(
-  //                         borderRadius: BorderRadius.all(Radius.circular(3))),
-  //                   ),
-  //                   onPressed: () => setState(() {
-  //                     Navigator.of(context).pop();
-  //                   }),
-  //                   child: Text(
-  //                     "لا",
-  //                     style: TextStyle(color: Colors.black),
-  //                   ),
-  //                 ),
-  //               ),
-  //               Container(
-  //                 margin: EdgeInsets.only(right: 30),
-  //                 child: ElevatedButton(
-  //                   style: ElevatedButton.styleFrom(
-  //                     primary: Theme.of(context).accentColor,
-  //                     onPrimary: Colors.black,
-  //                     shape: const BeveledRectangleBorder(
-  //                         borderRadius: BorderRadius.all(Radius.circular(3))),
-  //                   ),
-  //                   onPressed: () {
-  //                     //  await _signOut();
-  //                     Navigator.push(
-  //                         context,
-  //                         new MaterialPageRoute(
-  //                             builder: (context) => new Login()));
-  //                   },
-  //                   child: Text(
-  //                     '  نعم',
-  //                     style: TextStyle(color: Colors.black),
-  //                   ),
-  //                 ),
-  //               )
-  //             ]);
-  //       });
-  // }
-  //
-  // edit_Alart(context) {
-  //   showDialog(
-  //       context: context,
-  //       builder: (context) {
-  //         return AlertDialog(
-  //             shape: BeveledRectangleBorder(
-  //                 borderRadius: BorderRadius.circular(10)),
-  //             title: Container(
-  //                 margin: EdgeInsets.only(right: 20),
-  //                 child: Column(
-  //                   children: [
-  //                     Text(
-  //                       "هل انت متأكد من التعديلات",
-  //                       style: TextStyle(
-  //                           color: Theme.of(context).primaryColor,
-  //                           fontStyle: FontStyle.italic),
-  //                     ),
-  //                   ],
-  //                 )),
-  //             content: Container(
-  //               height: 20,
-  //             ),
-  //             actions: <Widget>[
-  //               Container(
-  //                 margin: EdgeInsets.only(right: 30),
-  //                 child: ElevatedButton(
-  //                   style: ElevatedButton.styleFrom(
-  //                     primary: Theme.of(context).accentColor,
-  //                     onPrimary: Colors.black,
-  //                     shape: const BeveledRectangleBorder(
-  //                         borderRadius: BorderRadius.all(Radius.circular(3))),
-  //                   ),
-  //                   onPressed: () => setState(() {
-  //                     Navigator.of(context).pop();
-  //                   }),
-  //                   child: Text(
-  //                     "لا",
-  //                     style: TextStyle(color: Colors.black),
-  //                   ),
-  //                 ),
-  //               ),
-  //               Container(
-  //                 margin: EdgeInsets.only(right: 30),
-  //                 child: ElevatedButton(
-  //                   style: ElevatedButton.styleFrom(
-  //                     primary: Theme.of(context).accentColor,
-  //                     onPrimary: Colors.black,
-  //                     shape: const BeveledRectangleBorder(
-  //                         borderRadius: BorderRadius.all(Radius.circular(3))),
-  //                   ),
-  //                   onPressed: () {
-  //                     Navigator.of(context).pop();
-  //
-  //                     print("((((((((((((((((((((((((((((((((((");
-  //                     print(finsh);
-  //                     setState(() {
-  //                       share(context);
-  //                     });
-  //                   },
-  //                   child: Text(
-  //                     '  نعم',
-  //                     style: TextStyle(color: Colors.black),
-  //                   ),
-  //                 ),
-  //               )
-  //             ]);
-  //       });
-  // }
+
   kk() async {
     await FirebaseMessaging.onMessage.listen((event) async {
       setState(() {
@@ -316,35 +119,38 @@ class _HomePageState extends State<HomePage> {
       }
     });
 
-    // var message = await FirebaseMessaging.instance.getInitialMessage();
-    // ui = message.data['user_Id'];
-    // await user.get().then((value) {
-    //   value.docs.forEach((element) {
-    //     setState(() {
-    //
-    //       if (message.data['user_Id'] == element.id) {
-    //         lis.add(element.data());
-    //         print(lis);
-    //       }
-    //     });
-    //   });
-    // });
-    // if (message.data['num'] == "1")
-    //   Navigator.push(context,
-    //       new MaterialPageRoute(builder: (context) => show_detals(lis, ui)));
-    // else {
-    //   print(message.data['post_Id']);
-    //
-    //   Navigator.push(
-    //       context,
-    //       new MaterialPageRoute(
-    //           builder: (context) => PostDetals(message.data['post_Id'])));
-    // }
+    var message = await FirebaseMessaging.instance.getInitialMessage();
+    if (message != null) {
+      ui = message.data['user_Id'];
+      await user.get().then((value) {
+        value.docs.forEach((element) {
+          setState(() {
+            if (message.data['user_Id'] == element.id) {
+              lis.add(element.data());
+              print(lis);
+            }
+          });
+        });
+      });
+      if (message.data['num'] == "1")
+        Navigator.push(context,
+            new MaterialPageRoute(builder: (context) => show_detals(lis, ui)));
+      else {
+        print(message.data['post_Id']);
+
+        Navigator.push(
+            context,
+            new MaterialPageRoute(
+                builder: (context) => PostDetals(message.data['post_Id'])));
+      }
+    }
   }
 
   nn() async {
     await getdata1();
   }
+
+  bool isSwitched = false;
 
   Widget build(BuildContext context) {
     nn();
@@ -371,12 +177,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              body:
-
-
-
-
-              Stack(alignment: Alignment.center, children: [
+              body: Stack(alignment: Alignment.center, children: [
                 Positioned(
                   top: 250,
                   left: -300,
@@ -402,9 +203,8 @@ class _HomePageState extends State<HomePage> {
                                   backgroundColor:
                                   Theme.of(context).accentColor,
                                   radius: 150,
-                                  backgroundImage: homePageData[
-                                  'link_image'] ==
-                                      "not"
+                                  backgroundImage:
+                                  homePageData['link_image'] == "not"
                                       ? AssetImage("images/55.jpeg")
                                       : NetworkImage(
                                     homePageData['link_image'],
@@ -436,8 +236,7 @@ class _HomePageState extends State<HomePage> {
                                           Text('   اسم الشركه : ',
                                               style: TextStyle(
                                                   fontWeight:
-                                                  FontWeight
-                                                      .bold,
+                                                  FontWeight.bold,
                                                   fontSize: 20.0,
                                                   color: Theme.of(
                                                       context)
@@ -453,8 +252,8 @@ class _HomePageState extends State<HomePage> {
                                                     FontWeight
                                                         .normal,
                                                     fontSize: 18.0,
-                                                    color: Colors
-                                                        .black)),
+                                                    color:
+                                                    Colors.black)),
                                           ),
                                         ]),
                                       ],
@@ -483,14 +282,12 @@ class _HomePageState extends State<HomePage> {
                                               fontWeight:
                                               FontWeight.bold,
                                               fontSize: 20.0,
-                                              color: Theme.of(
-                                                  context)
+                                              color: Theme.of(context)
                                                   .primaryColor)),
                                       // SizedBox(height: 10),
                                       Text(
                                           "     " +
-                                              homePageData[
-                                              'region'],
+                                              homePageData['region'],
                                           //batool1[index]['region'],
                                           style: TextStyle(
                                               fontWeight:
@@ -517,8 +314,7 @@ class _HomePageState extends State<HomePage> {
                                                 fontWeight:
                                                 FontWeight.bold,
                                                 fontSize: 20.0,
-                                                color: Theme.of(
-                                                    context)
+                                                color: Theme.of(context)
                                                     .primaryColor)),
                                         SizedBox(height: 10),
                                       ],
@@ -540,8 +336,7 @@ class _HomePageState extends State<HomePage> {
                                     child: ListView(children: [
                                       Row(
                                           crossAxisAlignment:
-                                          CrossAxisAlignment
-                                              .start,
+                                          CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Flexible(
                                               child: Text(
@@ -553,8 +348,7 @@ class _HomePageState extends State<HomePage> {
                                                       fontWeight:
                                                       FontWeight
                                                           .normal,
-                                                      fontSize:
-                                                      18.0,
+                                                      fontSize: 18.0,
                                                       color: Colors
                                                           .black)),
                                             ),
@@ -578,7 +372,7 @@ class _HomePageState extends State<HomePage> {
                     //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         SizedBox(
-                          width: 20,
+                          width: 40,
                         ),
                         FloatingActionButton(
                           heroTag: "tag1",
@@ -596,7 +390,7 @@ class _HomePageState extends State<HomePage> {
                           },
                         ),
                         SizedBox(
-                          width: 20,
+                          width: 30,
                         ),
                         FloatingActionButton(
                           heroTag: "tag2",
@@ -614,7 +408,7 @@ class _HomePageState extends State<HomePage> {
                           },
                         ),
                         SizedBox(
-                          width: 20,
+                          width: 30,
                         ),
                         FloatingActionButton(
                           heroTag: "tag3",
@@ -632,25 +426,7 @@ class _HomePageState extends State<HomePage> {
                           },
                         ),
                         SizedBox(
-                          width: 20,
-                        ),
-                        FloatingActionButton(
-                          heroTag: "tag4",
-                          child: Icon(
-                            Icons.favorite_border,
-                            color: Theme.of(context).primaryColor,
-                            size: 30,
-                          ),
-                          backgroundColor: Colors.white,
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                new MaterialPageRoute(
-                                    builder: (context) => saves()));
-                          },
-                        ),
-                        SizedBox(
-                          width: 22,
+                          width: 28,
                         ),
                         FloatingActionButton(
                           heroTag: "tag5",
@@ -668,11 +444,10 @@ class _HomePageState extends State<HomePage> {
                           },
                         ),
                         SizedBox(
-                          width: 20,
+                          width: 25,
                         ),
                       ]))));
   }
-
 
   _prefixIcon(IconData iconData) {
     return ConstrainedBox(

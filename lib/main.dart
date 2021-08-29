@@ -50,8 +50,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Navigation Basics',
-      theme: ThemeData.light(). copyWith(primaryColor: Colors.red[900], accentColor: Colors.blueGrey),
-    //  copyWith(primaryColor: Colors.indigo[300], accentColor: Colors.indigo[300]),
+      theme: Provider.of<MyProvider>(context, listen: false).dark==0?
+      ThemeData.light(). copyWith(primaryColor: Colors.red[900], accentColor: Colors.orangeAccent[200],cardColor: Colors.grey[100]):
+      ThemeData.light(). copyWith(primaryColor: Colors.black, accentColor: Colors.tealAccent,cardColor: Colors.teal[50]),
       debugShowCheckedModeBanner: false,
       home: towRoute(),
     );
@@ -172,7 +173,9 @@ class _FirstRouteState extends State<FirstRoute> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData.light(). copyWith(primaryColor: Colors.red[900], accentColor: Colors.orangeAccent[200],cardColor: Colors.grey[100]),
+      theme: Provider.of<MyProvider>(context, listen: false).dark==0?
+      ThemeData.light(). copyWith(primaryColor: Colors.red[900], accentColor: Colors.orangeAccent[200],cardColor: Colors.grey[100]):
+      ThemeData.light(). copyWith(primaryColor: Colors.black, accentColor: Colors.tealAccent,cardColor: Colors.teal[50]),
       debugShowCheckedModeBanner: false,
       home: Directionality(
         textDirection: TextDirection.rtl,
@@ -200,8 +203,9 @@ class _FirstRouteState extends State<FirstRoute> {
           ),
           bottomNavigationBar: CurvedNavigationBar(
             index: _currentIndex,
-            color:Theme.of(context).primaryColor ,
-            buttonBackgroundColor: Theme.of(context).primaryColor,
+            color:Provider.of<MyProvider>(context, listen: false).dark==0?Theme.of(context).primaryColor:Colors.black ,
+
+            buttonBackgroundColor: Provider.of<MyProvider>(context, listen: false).dark==0?Theme.of(context).primaryColor:Colors.black ,
             backgroundColor: Colors.white,
             animationDuration: Duration(seconds: 1),
             animationCurve: Curves.bounceOut,

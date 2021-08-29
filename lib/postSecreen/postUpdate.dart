@@ -278,7 +278,8 @@ class _PostUpdateState extends State<PostUpdate> {
         'month': DateTime.now().month,
         'year': DateTime.now().year,
         'hour': DateTime.now().hour,
-      }
+      },
+      "date": Timestamp.now(),
     });
 
     await users.get().then((value) {

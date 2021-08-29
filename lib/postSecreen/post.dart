@@ -80,6 +80,7 @@ class _PostState extends State<Post> {
             'id': c,
             'num': "1",
           },
+          "date": Timestamp.now(),
           'to': await my_lis.elementAt(i),
         }));
   }
@@ -288,7 +289,8 @@ class _PostState extends State<Post> {
         'month': DateTime.now().month,
         'year': DateTime.now().year,
         'hour': DateTime.now().hour,
-      }
+      },
+      "date": Timestamp.now(),
     });
 
     await v.where("num", isEqualTo: num).get().then((value) {
